@@ -21,3 +21,7 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# CodeceptJS
+tests/ui_integration/output
+tests/ui_integration/screenshots/diff
