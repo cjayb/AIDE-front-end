@@ -1,9 +1,14 @@
+require("ts-node/register");
+
+// turn on headless mode when running with HEADLESS=true environment variable
+// HEADLESS=true npx codecept run
+
 exports.config = {
-  tests: './tests/*_test.js',
-  output: './output',
+  tests: "./tests/**_test.ts",
+  output: "./output",
   helpers: {
     Playwright: {
-      url: 'https://demoqa.com/automation-practice-form',
+      url: "https://demoqa.com/automation-practice-form",
       show: true,
       windowSize: "1920x1080",
       waitForTimeout: 3000,
@@ -13,41 +18,48 @@ exports.config = {
       keepBrowserState: true,
       waitForNavigation: "domcontentloaded",
       webkit: {
-          args: ["--no-sandbox", "--start-maximized", "--disable-popup-blocking", "--disable-setuid-sandbox"]
-      }
+        args: [
+          "--no-sandbox",
+          "--disable-popup-blocking",
+          "--disable-setuid-sandbox",
+        ],
+      },
     },
     PlaywrightHelper: {
-      require: "./helpers/playwright_helper.js"
+      require: "./helpers/PlaywrightHelper.ts",
     },
     Mochawesome: {
-      "uniqueScreenshotNames": "true",
-      "disableScreenshots" : "false"
+      uniqueScreenshotNames: "true",
+      disableScreenshots: "false",
     },
     ResembleHelper: {
       prepareBaseImage: false,
       require: "codeceptjs-resemblehelper",
-      screenshotFolder: "./tests/ui_integration/screenshots/current/",
-      baseFolder: "./tests/ui_integration/screenshots/base/",
-      diffFolder: "./tests/ui_integration/screenshots/diff/",
-    }
-  },
-  include: {
-    I: './steps_file.js',
-    ...require("./pages")
+      screenshotFolder: "./screenshots/current/",
+      baseFolder: "./screenshots/base/",
+      diffFolder: "./screenshots/diff/",
+    },
   },
   bootstrap: null,
   mocha: {
     reporterOptions: {
-      "reporter": "mochawesome",
-      "reportDir": "./tests/ui_integration/output",
-      "inlineAssets": true,
-      "reportFilename": "ui-integration-chrome"
-    }
+      reporter: "mochawesome",
+      reportDir: "output",
+      inlineAssets: true,
+      reportFilename: "ui-integration-webkit",
+    },
   },
-  name: 'CodeceptJS',
+  include: {
+    ...require("./pages"),
+    screenshotter: "./utils/screenshotter.ts",
+  },
+  name: "CodeceptJS",
   plugins: {
     pauseOnFail: {},
     retryFailedStep: {
+      enabled: false
+    },
+    autoDelay: {
       enabled: true
     },
     tryTo: {
@@ -59,7 +71,7 @@ exports.config = {
     customLocator: {
       enabled: true,
       strategy: "css",
-      attribute: "data-test-id"
+      attribute: "data-test"
     }
   }
-}
+};

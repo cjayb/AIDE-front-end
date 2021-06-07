@@ -7,10 +7,10 @@
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "tests:ui_chrome": "npx codeceptjs run --config tests/ui_integration/codecept.conf.js --grep E2E --invert --reporter mochawesome",
-    "tests:ui_firefox": "npx codeceptjs run --config tests/ui_integration/codecept.conf.firefox.js --grep E2E --invert --reporter mochawesome",
-    "tests:ui_webkit": "npx codeceptjs run --config tests/ui_integration/codecept.conf.webkit.js --grep E2E --invert --reporter mochawesome",
-    "tests:ui_headless": "npx codeceptjs run --config tests/ui_integration/codecept.conf.headless.js --grep E2E --invert --reporter mochawesome"
+    "tests:ui_chrome": "cd ./tests/ui_integration && npx codeceptjs run --config codecept.conf.js --grep E2E --invert --reporter mochawesome",
+    "tests:ui_firefox": "cd ./tests/ui_integration && npx codeceptjs run --config codecept.conf.firefox.js --grep E2E --invert --reporter mochawesome",
+    "tests:ui_webkit": "cd ./tests/ui_integration && npx codeceptjs run --config codecept.conf.webkit.js --grep E2E --invert --reporter mochawesome",
+    "tests:ui_headless": "cd ./tests/ui_integration && npx codeceptjs run --config codecept.conf.headless.js --grep E2E --invert --reporter mochawesome"
   },
   "dependencies": {
     "core-js": "^3.6.5",
@@ -48,6 +48,7 @@
     "codeceptjs": "^3.0.6",
     "codeceptjs-resemblehelper": "^1.9.3",
     "mochawesome": "^6.2.2",
-    "playwright": "^1.10.0"
+    "playwright": "^1.10.0",
+    "ts-node": "^9.0.0"
   }
 }
