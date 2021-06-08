@@ -4,74 +4,75 @@ require("ts-node/register");
 // HEADLESS=true npx codecept run
 
 exports.config = {
-  tests: "./tests/**_test.ts",
-  output: "./output",
-  helpers: {
-    Playwright: {
-      url: "https://demoqa.com/automation-practice-form",
-      show: true,
-      windowSize: "1920x1080",
-      waitForTimeout: 3000,
-      restart: false,
-      browser: "chromium",
-      keepCookies: true,
-      keepBrowserState: true,
-      waitForNavigation: "domcontentloaded",
-      chromium: {
-        args: [
-          "--no-sandbox",
-          "--disable-popup-blocking",
-          "--disable-setuid-sandbox",
-        ],
-      },
+    tests: "./tests/**_test.ts",
+    output: "./output",
+    helpers: {
+        Playwright: {
+            url: "https://demoqa.com/automation-practice-form",
+            show: true,
+            windowSize: "1920x1080",
+            waitForTimeout: 3000,
+            restart: false,
+            browser: "chromium",
+            keepCookies: true,
+            keepBrowserState: true,
+            waitForNavigation: "domcontentloaded",
+            chromium: {
+                args: [
+                    "--no-sandbox",
+                    "--disable-popup-blocking",
+                    "--disable-setuid-sandbox",
+                    "--disable-dev-shm-usage",
+                ],
+            },
+        },
+        PlaywrightHelper: {
+            require: "./helpers/PlaywrightHelper.ts",
+        },
+        Mochawesome: {
+            uniqueScreenshotNames: "true",
+            disableScreenshots: "false",
+        },
+        ResembleHelper: {
+            prepareBaseImage: false,
+            require: "codeceptjs-resemblehelper",
+            screenshotFolder: "./screenshots/current/",
+            baseFolder: "./screenshots/base/",
+            diffFolder: "./screenshots/diff/",
+        },
     },
-    PlaywrightHelper: {
-      require: "./helpers/PlaywrightHelper.ts",
+    bootstrap: null,
+    mocha: {
+        reporterOptions: {
+            reporter: "mochawesome",
+            reportDir: "output",
+            inlineAssets: true,
+            reportFilename: "ui-integration-chrome",
+        },
     },
-    Mochawesome: {
-      uniqueScreenshotNames: "true",
-      disableScreenshots: "false",
+    include: {
+        ...require("./pages"),
+        screenshotter: "./utils/screenshotter.ts",
     },
-    ResembleHelper: {
-      prepareBaseImage: false,
-      require: "codeceptjs-resemblehelper",
-      screenshotFolder: "./screenshots/current/",
-      baseFolder: "./screenshots/base/",
-      diffFolder: "./screenshots/diff/",
+    name: "CodeceptJS",
+    plugins: {
+        pauseOnFail: {},
+        retryFailedStep: {
+            enabled: false,
+        },
+        autoDelay: {
+            enabled: true,
+        },
+        tryTo: {
+            enabled: true,
+        },
+        screenshotOnFail: {
+            enabled: true,
+        },
+        customLocator: {
+            enabled: true,
+            strategy: "css",
+            attribute: "data-test",
+        },
     },
-  },
-  bootstrap: null,
-  mocha: {
-    reporterOptions: {
-      reporter: "mochawesome",
-      reportDir: "output",
-      inlineAssets: true,
-      reportFilename: "ui-integration-chrome",
-    },
-  },
-  include: {
-    ...require("./pages"),
-    screenshotter: "./utils/screenshotter.ts",
-  },
-  name: "CodeceptJS",
-  plugins: {
-    pauseOnFail: {},
-    retryFailedStep: {
-      enabled: false
-    },
-    autoDelay: {
-      enabled: true
-    },
-    tryTo: {
-      enabled: true
-    },
-    screenshotOnFail: {
-      enabled: true
-    },
-    customLocator: {
-      enabled: true,
-      strategy: "css",
-      attribute: "data-test"
-    }
-  }
 };

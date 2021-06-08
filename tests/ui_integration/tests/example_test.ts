@@ -6,5 +6,5 @@ Scenario(
         I.amOnPage("/");
         registrationPage.IEnterRegistrationDetails();
         screenshotter.TakePageScreenshotAndCompare("test1");
-    }
+    },
 );

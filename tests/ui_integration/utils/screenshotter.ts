@@ -4,8 +4,8 @@ const conf = require("../codecept.conf");
 
 export = {
     TakePageScreenshotAndCompare: async function (imageName: string) {
-        let baselineNotExists = !fs.existsSync(
-            conf.config.helpers.ResembleHelper.baseFolder + imageName + ".png"
+        const baselineNotExists = !fs.existsSync(
+            conf.config.helpers.ResembleHelper.baseFolder + imageName + ".png",
         );
 
         I.saveScreenshot(imageName + ".png", true);

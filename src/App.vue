@@ -1,52 +1,70 @@
 <template>
-  <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+    <v-app>
+        <!-- Sidebar -->
+        <v-navigation-drawer v-model="drawer" app>
+            <v-list-item>
+                <v-list-item-content>
+                    <v-list-item-title class="text-h6"> Application</v-list-item-title>
+                    <v-list-item-subtitle> Name or Logo </v-list-item-subtitle>
+                </v-list-item-content>
+            </v-list-item>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+            <v-divider></v-divider>
 
-      <v-spacer></v-spacer>
+            <v-list dense nav>
+                <v-list-item v-for="item in items" :key="item.title" link>
+                    <v-list-item-icon>
+                        <v-icon>{{ item.icon }}</v-icon>
+                    </v-list-item-icon>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
+                    <v-list-item-content>
+                        <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list>
+        </v-navigation-drawer>
 
-    <v-main>
-      <router-view />
-    </v-main>
-  </v-app>
+        <!-- TopBar -->
+        <v-app-bar app>
+            <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+
+            <v-toolbar-title>Page Title</v-toolbar-title>
+
+            <v-spacer></v-spacer>
+
+            <v-btn icon>
+                <v-icon>mdi-magnify</v-icon>
+            </v-btn>
+
+            <v-btn icon>
+                <v-icon>mdi-account-circle</v-icon>
+            </v-btn>
+
+            <v-btn icon>
+                <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+        </v-app-bar>
+
+        <!-- Main Content -->
+        <v-main>
+            <router-view />
+        </v-main>
+    </v-app>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "App",
+    name: "App",
 
-  data: () => ({
-    //
-  }),
+    data: () => ({
+        drawer: null,
+        items: [
+            { title: "Menu Item 1", icon: "mdi-view-dashboard" },
+            { title: "Menu Item 2", icon: "mdi-image" },
+            { title: "Menu Item 3", icon: "mdi-help-box" },
+        ],
+    }),
 });
 </script>

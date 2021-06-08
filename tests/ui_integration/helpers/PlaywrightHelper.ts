@@ -27,7 +27,7 @@ export = class PlaywrightHelper extends Helper {
                         "content-type": "application/json",
                         "access-control-allow-origin": "*",
                     },
-                })
+                }),
         );
     }
 
