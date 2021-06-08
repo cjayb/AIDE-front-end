@@ -18,7 +18,12 @@ exports.config = {
             keepBrowserState: true,
             waitForNavigation: "domcontentloaded",
             chromium: {
-                args: ["--no-sandbox", "--disable-popup-blocking", "--disable-setuid-sandbox"],
+                args: [
+                    "--no-sandbox",
+                    "--disable-popup-blocking",
+                    "--disable-setuid-sandbox",
+                    "--disable-dev-shm-usage",
+                ],
             },
         },
         PlaywrightHelper: {
