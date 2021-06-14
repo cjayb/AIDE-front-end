@@ -19,6 +19,8 @@ test-ui-headless:
     stage: test
     needs: [build-ui]
     image: mcr.microsoft.com/playwright:focal
+    before_script:
+        - npm ci
     script:
         - npm run tests:ui_headless
     after_script:
