@@ -20,7 +20,6 @@ test-ui-headless:
     needs: [build-ui]
     image: mcr.microsoft.com/playwright:focal
     script:
-        - apk add --no-cache python make g++
         - npm run tests:ui_headless
     after_script:
         - cp -r $CI_PROJECT_DIR/tests/ui_integration/output/ ci_artifacts/
