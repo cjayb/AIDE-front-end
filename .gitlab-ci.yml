@@ -4,6 +4,10 @@ stages:
     - build
     - test
 
+cache:
+    - paths:
+        - "/node_modules"
+
 build-ui:
     stage: build
     before_script:
@@ -15,8 +19,6 @@ test-ui-headless:
     stage: test
     needs: [build-ui]
     image: mcr.microsoft.com/playwright:focal
-    before_script:
-        - npm ci
     script:
         - npm run tests:ui_headless
     after_script:
@@ -42,5 +44,4 @@ sonarqube-check:
         - sonar-scanner
     allow_failure: true
     only:
-        - merge_requests
         - master # or the name of your main branch
