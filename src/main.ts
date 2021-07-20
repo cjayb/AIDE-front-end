@@ -6,6 +6,8 @@ import vuetify from "./plugins/vuetify";
 
 Vue.config.productionTip = false;
 
+Vue.prototype.$window = window;
+
 new Vue({
     router,
     store,

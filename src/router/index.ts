@@ -1,20 +1,24 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import Home from "../views/Home.vue";
-import Login from "../views/Login.vue";
+import AdminDashboard from "../views/AdminDashboard.vue";
+import ClinicalReview from "../views/ClinicalReview.vue";
 
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
     {
         path: "/",
-        name: "Home",
-        component: Home,
+        redirect: "/admin-dashboard",
     },
     {
-        path: "/login",
-        name: "Login",
-        component: Login,
+        path: "/admin-dashboard",
+        name: "AdminDashboard",
+        component: AdminDashboard,
+    },
+    {
+        path: "/clinical-review",
+        name: "ClinicalReview",
+        component: ClinicalReview,
     },
 ];
 
