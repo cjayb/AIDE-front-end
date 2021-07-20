@@ -13,6 +13,7 @@
     "tests:ui_headless": "cd ./tests/ui_integration && npx codeceptjs run --config codecept.conf.headless.js --grep E2E --invert --reporter mochawesome"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
@@ -53,5 +54,5 @@
     "vue-cli-plugin-vuetify": "~2.4.0",
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.7.0"
-}
+  }
 }
