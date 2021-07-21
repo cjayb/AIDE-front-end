@@ -13,10 +13,10 @@
     <noscript>
       <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
-    <script
+    {% comment %} <script
       src="https://unpkg.com/@ohif/viewer@4.9.20/dist/index.umd.js"
       crossorigin
-    ></script>
+    ></script> {% endcomment %}
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>

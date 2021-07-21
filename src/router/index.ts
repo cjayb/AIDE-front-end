@@ -20,6 +20,11 @@ const routes: Array<RouteConfig> = [
         name: "ClinicalReview",
         component: ClinicalReview,
     },
+    {
+        path: "/clinical-review/viewer/:study_id",
+        name: "ClinicalReviewViewer",
+        component: ClinicalReview,
+    },
 ];
 
 const router = new VueRouter({

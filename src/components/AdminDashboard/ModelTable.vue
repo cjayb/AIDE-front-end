@@ -52,10 +52,6 @@ export default class Models extends Vue {
     expanded = [];
     singleExpand = true;
     search = "";
-    items = ["Dicom", "Pdf", "Other"];
-    dialog = false;
-    dialog2 = false;
-    dialog3 = false;
     modelsHeaders = [
         {
             text: "Model Name",
@@ -68,25 +64,25 @@ export default class Models extends Vue {
             value: "executions",
         },
         {
-            text: "Failures",
-            value: "failures",
+            text: "Warnings",
+            value: "warnings",
+        },
+        {
+            text: "Errors",
+            value: "errors",
         },
         {
             text: "Success Rate",
             value: "successRate",
         },
-        {
-            text: "Clinical Acceptance",
-            value: "clinicalAcceptance",
-        },
-        {
-            text: "Awaiting Processing",
-            value: "awaitingProcessing",
-        },
-        {
-            text: "avg. Time Spent On Queue",
-            value: "avgOnQueue",
-        },
+        // {
+        //     text: "Awaiting Processing",
+        //     value: "awaitingProcessing",
+        // },
+        // {
+        //     text: "avg. Time Spent On Queue",
+        //     value: "avgOnQueue",
+        // },
         {
             text: "Avg. Duration",
             value: "avgDuration",
@@ -96,43 +92,20 @@ export default class Models extends Vue {
             value: "avgTurnaround",
         },
         {
+            text: "Clinical Acceptance",
+            value: "clinicalAcceptance",
+        },
+        {
             text: "",
             value: "data-table-expand",
-        },
-    ];
-    executionsHeaders = [
-        {
-            text: "Date",
-            align: "start",
-            sortable: false,
-            value: "date",
-        },
-        {
-            text: "Outputs",
-            value: "outputs",
-        },
-        {
-            text: "Status",
-            value: "status",
-        },
-        {
-            text: "Duration",
-            value: "duration",
-        },
-        {
-            text: "Turnaround",
-            value: "turnaround",
-        },
-        {
-            text: "Actions",
-            value: "actions",
         },
     ];
     models = [
         {
             modelName: "Model 1",
             executions: 100,
-            failures: 10,
+            warnings: 10,
+            errors: 10,
             successRate: "90%",
             clinicalAcceptance: "70%",
             awaitingProcessing: "100",
@@ -313,7 +286,8 @@ export default class Models extends Vue {
         {
             modelName: "Model 2",
             executions: 100,
-            failures: 20,
+            warnings: 10,
+            errors: 10,
             successRate: "80%",
             clinicalAcceptance: "90%",
             awaitingProcessing: "1",
@@ -350,7 +324,8 @@ export default class Models extends Vue {
         {
             modelName: "Model 3",
             executions: 100,
-            failures: 30,
+            warnings: 10,
+            errors: 10,
             successRate: "70%",
             clinicalAcceptance: "80%",
             awaitingProcessing: "10",
@@ -387,7 +362,8 @@ export default class Models extends Vue {
         {
             modelName: "Model 4",
             executions: 200,
-            failures: 20,
+            warnings: 10,
+            errors: 10,
             successRate: "90%",
             clinicalAcceptance: "90%",
             awaitingProcessing: "1000",

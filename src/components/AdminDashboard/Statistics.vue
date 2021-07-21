@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <v-row>
-            <v-col cols="12" sm="3" v-for="item in queues" :key="item.label">
+            <v-col cols="3.5" v-for="item in queues" :key="item.label">
                 <v-card class="pa-3">
                     <v-card-title>{{ item.name }}</v-card-title>
                     <v-list class="transparent">
@@ -38,25 +38,33 @@ export default class Dashboard extends Vue {
         {
             name: "Input Queue",
             stats: [
-                { label: "Total awaiting processing", total: "100" },
-                { label: "Total inputs processed", total: "100" },
-                { label: "avg. time spent on queue", total: "5 minutes" },
+                { label: "Backlog", total: "100" },
+                { label: "Added to Queue", total: "100" },
+                { label: "Processed", total: "100" },
             ],
         },
         {
             name: "Output Queue",
             stats: [
-                { label: "Total awaiting processing", total: "100" },
-                { label: "Total outputs processed", total: "100" },
-                { label: "avg. time spent on queue", total: "5 minutes" },
+                { label: "Backlog", total: "100" },
+                { label: "Added to Queue", total: "100" },
+                { label: "Processed", total: "100" },
             ],
         },
         {
             name: "PACS Output Queue",
             stats: [
-                { label: "Total awaiting processing", total: "100" },
-                { label: "Total outputs processed", total: "100" },
-                { label: "avg. time spent on queue", total: "5 minutes" },
+                { label: "Backlog", total: "100" },
+                { label: "Added to Queue", total: "100" },
+                { label: "Processed", total: "100" },
+            ],
+        },
+        {
+            name: "Model Status",
+            stats: [
+                { label: "Active", total: "2" },
+                { label: "Stale", total: "0" },
+                { label: "Inactive", total: "1" },
             ],
         },
     ];

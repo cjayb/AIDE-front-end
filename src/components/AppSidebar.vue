@@ -3,7 +3,7 @@
         <v-img class="mx-auto" src="@/assets/AI-centre.png" height="64px" width="97px" />
         <v-divider></v-divider>
         <v-list dense nav>
-            <v-list-item v-for="item in items" :key="item.title" link :to="item.route">
+            <v-list-item v-for="item in items" :key="item.title" link :to="{ name: item.route }">
                 <v-list-item-icon>
                     <v-icon>{{ item.icon }}</v-icon>
                 </v-list-item-icon>
@@ -25,8 +25,8 @@ import { EventBus } from "@/event-bus";
 export default class AppSidebar extends Vue {
     // Declared as component data
     items = [
-        { title: "Admin", icon: "mdi-cog", route: "admin-dashboard" },
-        { title: "Clinical Review", icon: "mdi-eye", route: "clinical-review" },
+        { title: "Admin", icon: "mdi-cog", route: "AdminDashboard" },
+        { title: "Clinical Review", icon: "mdi-eye", route: "ClinicalReview" },
     ];
     drawer = true;
 

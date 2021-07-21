@@ -44,6 +44,9 @@ export default class AppHeader extends Vue {
         if (this.$route.name == "ClinicalReview") {
             this.pageTitle = "Clinical Review";
         }
+        if (this.$route.name == "ClinicalReviewViewer") {
+            this.pageTitle = "Clinical Review";
+        }
     }
     toggleSidebar(): void {
         this.drawer = !this.drawer;

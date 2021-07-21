@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container style="max-width: 100%">
         <!-- Statistics -->
         <v-row>
             <Statistics />
@@ -16,15 +16,15 @@
 
 <script lang="ts">
 import Vue from "vue";
+import Component from "vue-class-component";
 import Statistics from "../components/AdminDashboard/Statistics.vue";
 import ModelTable from "../components/AdminDashboard/ModelTable.vue";
 
-export default Vue.extend({
-    name: "AdminDashboard",
-
+@Component({
     components: {
         Statistics,
         ModelTable,
     },
-});
+})
+export default class AdminDashboard extends Vue {}
 </script>
