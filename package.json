@@ -10,13 +10,16 @@
     "tests:ui_chrome": "cd ./tests/ui_integration && npx codeceptjs run --config codecept.conf.js --grep E2E --invert --reporter mochawesome",
     "tests:ui_firefox": "cd ./tests/ui_integration && npx codeceptjs run --config codecept.conf.firefox.js --grep E2E --invert --reporter mochawesome",
     "tests:ui_webkit": "cd ./tests/ui_integration && npx codeceptjs run --config codecept.conf.webkit.js --grep E2E --invert --reporter mochawesome",
-    "tests:ui_headless": "cd ./tests/ui_integration && npx codeceptjs run --config codecept.conf.headless.js --grep E2E --invert --reporter mochawesome"
+    "tests:ui_headless": "cd ./tests/ui_integration && npx codeceptjs run --config codecept.conf.headless.js --grep E2E --invert --reporter mochawesome",
+    "tests:ui_ci": "start-server-and-test serve http://localhost:8080 tests:ui_headless"
   },
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "keycloak-js": "^15.0.0",
+    "keycloak-mock": "^1.0.10",
     "moment": "^2.29.1",
+    "start-server-and-test": "^1.13.1",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-json-pretty": "^1.8.1",

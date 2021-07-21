@@ -1,3 +1,3 @@
 export = {
-    registrationPage: "./pages/registration.ts",
+    adminDashboardPage: "./pages/adminDashboard.ts",
 };

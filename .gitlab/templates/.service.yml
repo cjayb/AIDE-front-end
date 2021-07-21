@@ -6,7 +6,7 @@ include:
 stages:
   - sast
   - build
-  - test
+  - test_ui_integration
   - build-image
   - deploy
 
