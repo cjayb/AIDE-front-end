@@ -15,15 +15,22 @@
 
         <v-list dense nav>
             <v-list-item
-                v-for="item in items"
-                :key="item.name"
+                v-for="item in tasks"
+                :key="item.execution_uid"
                 link
-                :to="{ name: 'ClinicalReviewViewer', params: { study_id: item.study_id } }"
+                :to="{
+                    name: 'ClinicalReviewViewer',
+                    params: { study_id: item.output.destinations[0].study.study_uid },
+                }"
             >
                 <v-list-item-content>
-                    <v-list-item-title>{{ item.name }}</v-list-item-title>
-                    <v-list-item-subtitle>{{ item.date }}</v-list-item-subtitle>
-                    <v-list-item-subtitle>{{ item.model }}</v-list-item-subtitle>
+                    <v-list-item-title>{{
+                        item.output.destinations[0].study.series[0].metadata.PatientsName
+                    }}</v-list-item-title>
+                    <v-list-item-subtitle>{{
+                        item.timestamp.inference_finished
+                    }}</v-list-item-subtitle>
+                    <v-list-item-subtitle>{{ item.model.model_name }}</v-list-item-subtitle>
                 </v-list-item-content>
             </v-list-item>
         </v-list></v-container
@@ -33,27 +40,14 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import { getAllExecutions } from "../../api/ExecutionService";
+
 @Component({})
 export default class Tasks extends Vue {
-    items = [
-        {
-            name: "Patient A",
-            date: "14/07/2021",
-            model: "Model A",
-            study_id: "1.3.6.1.4.1.14519.5.2.1.7009.2403.194158539675615867024676990849",
-        },
-        {
-            name: "Patient B",
-            date: "14/07/2021",
-            model: "Model B",
-            study_id: "1.3.6.1.4.1.14519.5.2.1.7009.2403.300468367115324750799216325524",
-        },
-        {
-            name: "Patient C",
-            date: "14/07/2021",
-            model: "Model C",
-            study_id: "1.3.6.1.4.1.25403.345050719074.3824.20170126085406.1",
-        },
-    ];
+    tasks = [];
+
+    async created(): Promise<void> {
+        this.tasks = await getAllExecutions("1", "10", "false");
+    }
 }
 </script>

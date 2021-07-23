@@ -2,7 +2,7 @@
     <v-container>
         <v-data-table
             :headers="executionsHeaders"
-            :items="item.execution"
+            :items="executions"
             item-key="name"
             class="elevation-0"
             dense
@@ -12,8 +12,8 @@
             </template>
 
             <template v-slot:item.status="{ item }">
-                <v-chip :color="getStatus(item.status)" dark outlined small>
-                    {{ item.status }}
+                <v-chip color="green" dark outlined small>
+                    {{ getStatus(item.model.result) }}
                 </v-chip>
             </template>
 
@@ -52,6 +52,7 @@ import { EventBus } from "@/event-bus";
 import DicomViewer from "../Shared/DicomViewer.vue";
 import LogsDialog from "../AdminDashboard/LogsDialog.vue";
 import PipelineDialog from "../AdminDashboard/PipelineDialog.vue";
+import { getModelExecutions } from "../../api/ExecutionService";
 
 @Component({
     components: {
@@ -64,17 +65,23 @@ export default class ExecutionTable extends Vue {
     // Class properties will be component data
     @Prop() item!: any;
 
+    executions = [];
+
+    async created(): Promise<void> {
+        this.executions = await getModelExecutions("model-1.0.0", "1", "10", "false");
+    }
+
     dialog = false;
     executionsHeaders = [
         {
             text: "Date",
             align: "start",
             sortable: false,
-            value: "date",
+            value: "timestamp.input_received",
         },
         {
             text: "Outputs",
-            value: "outputs",
+            value: "output",
         },
         {
             text: "Status",
@@ -82,11 +89,11 @@ export default class ExecutionTable extends Vue {
         },
         {
             text: "Duration",
-            value: "duration",
+            value: "timestamp",
         },
         {
             text: "Turnaround",
-            value: "turnaround",
+            value: "timestamp",
         },
         {
             text: "Actions",
@@ -95,9 +102,24 @@ export default class ExecutionTable extends Vue {
     ];
 
     // Methods will be component methods
-    getStatus(status: string): string {
-        if (status == "Failure") return "red";
-        else return "green";
+    getStatus(result: any): string {
+        if (result.success && result.clinical_review_completed && result.approval_given) {
+            return "Approved";
+        }
+
+        if (result.success && result.clinical_review_completed && !result.approval_given) {
+            return "Rejected";
+        }
+
+        if (result.success && !result.clinical_review_completed) {
+            return "Awaiting Clinical Review";
+        }
+
+        if (!result.success) {
+            return "Failure";
+        }
+
+        return "Unknown";
     }
 
     openLogsDialog(): void {

@@ -1,16 +1,16 @@
 import axios from 'axios'
 
 const http = axios.create({
-    baseURL: `base-url`,
+    baseURL: `localhost:5000`,
     headers: { 'Content-Type': 'application/json' }
 })
 
-export async function getItemById(itemId: string): Promise<Object> {
+export async function login(itemId: string): Promise<Object> {
     const response = await http.get(`/${itemId}`)
     return response.data
 }
 
-export async function createItem(item: Object): Promise<Object> {
+export async function logout(item: Object): Promise<Object> {
     const response = await http.post('/', JSON.stringify(item))
     return response.data
 }

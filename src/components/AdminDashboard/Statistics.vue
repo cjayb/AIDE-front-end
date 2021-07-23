@@ -23,9 +23,25 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 
+import { getExecutionStats } from "../../api/ExecutionService";
+import { getQueueMetrics } from "../../api/QueueService";
+
 @Component
 export default class Dashboard extends Vue {
     // Class properties will be component data
+
+    executionsStats = {};
+    inputQueue = {};
+    outputQueue = {};
+    pacsQueue = {};
+
+    async created(): Promise<void> {
+        this.executionsStats = await getExecutionStats("100");
+        this.inputQueue = await getQueueMetrics("input");
+        this.outputQueue = await getQueueMetrics("output");
+        this.pacsQueue = await getQueueMetrics("pacs");
+    }
+
     queues = [
         {
             name: "Overall Model Statistics",

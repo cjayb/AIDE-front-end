@@ -63,15 +63,21 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { EventBus } from "@/event-bus";
+import { getExecutionPipelines } from "../../api/ExecutionService";
 
 @Component({})
 export default class PipelineDialog extends Vue {
     dialog3 = false;
+    pipeline = [];
 
     created(): void {
         EventBus.$on("openPipelineDialog", (dialog3: boolean) => {
             this.dialog3 = dialog3;
         });
+    }
+
+    async getPipeline(): Promise<void> {
+        this.pipeline = await getExecutionPipelines("colaboration_id");
     }
 }
 </script>
