@@ -21,6 +21,7 @@ export default class DicomViewer extends Vue {
                 {
                     routerBasename: "/#/clinical-review",
                     showStudyList: false,
+                    whiteLabeling: null,
                     servers: {
                         dicomWeb: [
                             {

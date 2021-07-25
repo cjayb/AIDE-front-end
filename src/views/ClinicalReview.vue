@@ -1,9 +1,9 @@
 <template>
     <v-container style="max-width: 100%">
         <!-- Header Bar -->
-        <v-row
+        <!-- <v-row
             ><v-col cols="12"><Header /></v-col
-        ></v-row>
+        ></v-row> -->
         <v-row>
             <!-- Task List -->
             <v-col cols="2">

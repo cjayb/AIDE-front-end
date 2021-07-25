@@ -4,22 +4,43 @@
             :headers="executionsHeaders"
             :items="executions"
             item-key="name"
-            class="elevation-0"
-            dense
+            class="elevation-0 pa-0 ma-0"
         >
-            <template v-slot:item.outputs>
+            <!-- eslint-disable-next-line  -->
+            <template v-slot:item.date="{ item }">
+                {{ item.timestamp.input_received | formatDate }}
+            </template>
+            <!-- eslint-disable-next-line  -->
+            <template v-slot:item.output="{ item }">
                 <v-btn @click.stop="dialog = true" x-small>View Output</v-btn>
             </template>
-
+            <!-- eslint-disable-next-line  -->
             <template v-slot:item.status="{ item }">
-                <v-chip color="green" dark outlined small>
+                <v-chip :color="getStatusColor(item.model.result)" dark outlined small>
                     {{ getStatus(item.model.result) }}
                 </v-chip>
             </template>
-
-            <template v-slot:item.actions>
-                <v-btn @click.stop="openLogsDialog()" x-small>View Logs</v-btn>
-                <v-btn @click.stop="openPipelineDialog()" x-small>View Pipeline</v-btn>
+            <!-- eslint-disable-next-line  -->
+            <template v-slot:item.duration="{ item }">
+                {{
+                    getTimeDifference(
+                        item.timestamp.inference_started,
+                        item.timestamp.inference_finished,
+                    )
+                }}
+            </template>
+            <!-- eslint-disable-next-line  -->
+            <template v-slot:item.turnaround="{ item }">
+                {{ getTimeDifference(item.timestamp.input_received, item.timestamp.output_sent) }}
+            </template>
+            <!-- eslint-disable-next-line  -->
+            <template v-slot:item.actions="{ item }">
+                <v-btn @click.stop="openLogsDialog(item.collaboration_uid)" x-small
+                    >View Logs</v-btn
+                >
+                <v-btn @click.stop="openPipelineDialog(item.collaboration_uid)" x-small
+                    >View Pipeline</v-btn
+                >
             </template>
         </v-data-table>
 
@@ -68,7 +89,12 @@ export default class ExecutionTable extends Vue {
     executions = [];
 
     async created(): Promise<void> {
-        this.executions = await getModelExecutions("model-1.0.0", "1", "10", "false");
+        this.executions = await getModelExecutions(
+            this.item.model_name + "-" + this.item.model_version,
+            "1",
+            "10",
+            "false",
+        );
     }
 
     dialog = false;
@@ -77,7 +103,7 @@ export default class ExecutionTable extends Vue {
             text: "Date",
             align: "start",
             sortable: false,
-            value: "timestamp.input_received",
+            value: "date",
         },
         {
             text: "Outputs",
@@ -89,11 +115,11 @@ export default class ExecutionTable extends Vue {
         },
         {
             text: "Duration",
-            value: "timestamp",
+            value: "duration",
         },
         {
             text: "Turnaround",
-            value: "timestamp",
+            value: "turnaround",
         },
         {
             text: "Actions",
@@ -122,12 +148,38 @@ export default class ExecutionTable extends Vue {
         return "Unknown";
     }
 
-    openLogsDialog(): void {
-        EventBus.$emit("openLogsDialog", true);
+    getStatusColor(result: any): string {
+        if (result.success && result.clinical_review_completed && result.approval_given) {
+            return "green";
+        }
+
+        if (result.success && result.clinical_review_completed && !result.approval_given) {
+            return "red";
+        }
+
+        if (result.success && !result.clinical_review_completed) {
+            return "amber";
+        }
+
+        if (!result.success) {
+            return "red";
+        }
+
+        return "red";
     }
 
-    openPipelineDialog(): void {
-        EventBus.$emit("openPipelineDialog", true);
+    getTimeDifference(start: string, end: string): string {
+        var diff = Math.abs(new Date(start).getTime() - new Date(end).getTime());
+        var minutes = Math.floor(diff / 1000 / 60);
+        return minutes.toString() + " Minutes";
+    }
+
+    openLogsDialog(collaboration_uid: string): void {
+        EventBus.$emit("openLogsDialog", true, collaboration_uid);
+    }
+
+    openPipelineDialog(collaboration_uid: string): void {
+        EventBus.$emit("openPipelineDialog", true, collaboration_uid);
     }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <v-row>
-            <v-col :key="n" cols="12" sm="12">
+            <v-col cols="12" sm="12">
                 <v-data-table
                     :headers="modelsHeaders"
                     :items="models"
@@ -9,7 +9,7 @@
                     :expanded.sync="expanded"
                     :hide-default-footer="true"
                     :search="search"
-                    item-key="modelName"
+                    item-key="model_name"
                     show-expand
                     class="elevation-1"
                 >
@@ -25,6 +25,20 @@
                                 hide-details
                             ></v-text-field>
                         </v-toolbar>
+                    </template>
+
+                    <template v-slot:item.errors> 0 </template>
+
+                    <template v-slot:item.successRate="{ item }">
+                        {{ getSuccessRate(item.stats) }}
+                    </template>
+
+                    <template v-slot:item.duration="{ item }">
+                        {{ getTimeFormat(item.stats.average_execution_time) }}
+                    </template>
+
+                    <template v-slot:item.turnaround="{ item }">
+                        {{ getTimeFormat(item.stats.average_turnaround_time) }}
                     </template>
                     <template v-slot:expanded-item="{ headers, item }">
                         <td :colspan="headers.length" class="elevation-0 pa-0">
@@ -59,15 +73,15 @@ export default class Models extends Vue {
             text: "Model Name",
             align: "start",
             sortable: false,
-            value: "modelName",
+            value: "model_name",
         },
         {
             text: "Executions",
-            value: "executions",
+            value: "stats.executions",
         },
         {
             text: "Warnings",
-            value: "warnings",
+            value: "stats.failures",
         },
         {
             text: "Errors",
@@ -77,343 +91,54 @@ export default class Models extends Vue {
             text: "Success Rate",
             value: "successRate",
         },
-        // {
-        //     text: "Awaiting Processing",
-        //     value: "awaitingProcessing",
-        // },
-        // {
-        //     text: "avg. Time Spent On Queue",
-        //     value: "avgOnQueue",
-        // },
         {
             text: "Avg. Duration",
-            value: "avgDuration",
+            value: "duration",
         },
         {
             text: "Avg. Turnaround",
-            value: "avgTurnaround",
+            value: "turnaround",
         },
-        {
-            text: "Clinical Acceptance",
-            value: "clinicalAcceptance",
-        },
+        // {
+        //     text: "Clinical Acceptance",
+        //     value: "clinicalAcceptance",
+        // },
         {
             text: "",
             value: "data-table-expand",
         },
     ];
-    models = [];
-    // models = [
-    //     {
-    //         modelName: "Model 1",
-    //         executions: 100,
-    //         warnings: 10,
-    //         errors: 10,
-    //         successRate: "90%",
-    //         clinicalAcceptance: "70%",
-    //         awaitingProcessing: "100",
-    //         avgOnQueue: "5 minutes",
-    //         avgDuration: "120 seconds",
-    //         avgTurnaround: "5 hours",
-    //         execution: [
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Success",
-    //                 duration: "12 seconds",
-    //                 turnaround: "32 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Failure",
-    //                 duration: "79 seconds",
-    //                 turnaround: "23 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Success",
-    //                 duration: "4 seconds",
-    //                 turnaround: "23 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Success",
-    //                 duration: "54 seconds",
-    //                 turnaround: "23 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Failure",
-    //                 duration: "56 seconds",
-    //                 turnaround: "76 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Success",
-    //                 duration: "45 seconds",
-    //                 turnaround: "46 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Success",
-    //                 duration: "89 seconds",
-    //                 turnaround: "89 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Failure",
-    //                 duration: "1 seconds",
-    //                 turnaround: "5 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Success",
-    //                 duration: "15 seconds",
-    //                 turnaround: "45 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Success",
-    //                 duration: "45 seconds",
-    //                 turnaround: "63 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Failure",
-    //                 duration: "12 seconds",
-    //                 turnaround: "45 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Success",
-    //                 duration: "45 seconds",
-    //                 turnaround: "13 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Success",
-    //                 duration: "16 seconds",
-    //                 turnaround: "16 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Failure",
-    //                 duration: "15 seconds",
-    //                 turnaround: "13 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Success",
-    //                 duration: "14 seconds",
-    //                 turnaround: "96 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Failure",
-    //                 duration: "14 seconds",
-    //                 turnaround: "14 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Success",
-    //                 duration: "19 seconds",
-    //                 turnaround: "13 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Success",
-    //                 duration: "97 seconds",
-    //                 turnaround: "97 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Failure",
-    //                 duration: "7 seconds",
-    //                 turnaround: "7 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Success",
-    //                 duration: "2 seconds",
-    //                 turnaround: "2 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Failure",
-    //                 duration: "1 seconds",
-    //                 turnaround: "1 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //         ],
-    //     },
-    //     {
-    //         modelName: "Model 2",
-    //         executions: 100,
-    //         warnings: 10,
-    //         errors: 10,
-    //         successRate: "80%",
-    //         clinicalAcceptance: "90%",
-    //         awaitingProcessing: "1",
-    //         avgOnQueue: "1 minutes",
-    //         avgDuration: "240 seconds",
-    //         avgTurnaround: "1 hours",
-    //         execution: [
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Success",
-    //                 duration: "5 seconds",
-    //                 turnaround: "10 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Success",
-    //                 duration: "69 seconds",
-    //                 turnaround: "1 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Success",
-    //                 duration: "7 seconds",
-    //                 turnaround: "96 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //         ],
-    //     },
-    //     {
-    //         modelName: "Model 3",
-    //         executions: 100,
-    //         warnings: 10,
-    //         errors: 10,
-    //         successRate: "70%",
-    //         clinicalAcceptance: "80%",
-    //         awaitingProcessing: "10",
-    //         avgOnQueue: "2 minutes",
-    //         avgDuration: "24 seconds",
-    //         avgTurnaround: "2 hours",
-    //         execution: [
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Success",
-    //                 duration: "5 seconds",
-    //                 turnaround: "10 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Success",
-    //                 duration: "69 seconds",
-    //                 turnaround: "1 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Success",
-    //                 duration: "7 seconds",
-    //                 turnaround: "96 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //         ],
-    //     },
-    //     {
-    //         modelName: "Model 4",
-    //         executions: 200,
-    //         warnings: 10,
-    //         errors: 10,
-    //         successRate: "90%",
-    //         clinicalAcceptance: "90%",
-    //         awaitingProcessing: "1000",
-    //         avgOnQueue: "10 minutes",
-    //         avgDuration: "20 seconds",
-    //         avgTurnaround: "1 hours",
-    //         execution: [
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Success",
-    //                 duration: "5 seconds",
-    //                 turnaround: "10 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Success",
-    //                 duration: "69 seconds",
-    //                 turnaround: "1 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //             {
-    //                 date: "10/06/2012 - 1:14.36",
-    //                 outputs: "outputs",
-    //                 status: "Success",
-    //                 duration: "7 seconds",
-    //                 turnaround: "96 minutes",
-    //                 actions: "View Log, View Pipeline",
-    //             },
-    //         ],
-    //     },
-    // ];
+    models: Array<any> = [];
 
     async created(): Promise<void> {
-        this.models = await getModels();
-    }
+        let tempModels = await getModels();
 
-    async getModelStats(modelId: string): Promise<void> {
-        this.models = await getModelExecutionStats("100", modelId);
+        tempModels.forEach(async (model: any) => {
+            model.stats = await getModelExecutionStats(
+                "100",
+                model.model_name + "-" + model.model_version,
+            );
+
+            this.models.push(model);
+        });
+
+        console.log(this.models);
     }
 
     // Methods will be component methods
     getStatus(status: string): string {
         if (status == "Failure") return "red";
         else return "green";
+    }
+
+    getSuccessRate(stats: any): string {
+        let result = (stats.failures / stats.executions) * 100;
+        return result.toFixed(0) + " %";
+    }
+
+    getTimeFormat(time: any): string {
+        var minutes = Math.floor(time / 60);
+        return minutes + " Minutes";
     }
 }
 </script>

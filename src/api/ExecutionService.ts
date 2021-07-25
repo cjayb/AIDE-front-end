@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const http = axios.create({
-    baseURL: `localhost:5000`,
+    baseURL: `http://localhost:5000`,
     headers: { "Content-Type": "application/json" },
 });
 
@@ -23,7 +23,7 @@ export async function getModelExecutions(
 }
 
 export async function getExecutionPipelines(collaboration_uid: string): Promise<any> {
-    const response = await http.get(`/pipelines/${collaboration_uid}`);
+    const response = await http.get(`/pipeline/${collaboration_uid}`);
     return response.data;
 }
 

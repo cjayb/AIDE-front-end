@@ -3,54 +3,33 @@
         <template v-slot:default="dialog3">
             <v-card>
                 <v-toolbar color="#61366e" dark>Pipeline Viewer</v-toolbar>
+
+                {{ pipeline }}
+
                 <!-- <v-card-text> -->
-                <v-stepper alt-labels class="mt-12">
-                    <v-stepper-header>
-                        <v-stepper-step step="1" complete>
-                            Dicom Received
-                            <small>Wed, 14 Jul 2021 11:15:59 +0000</small>
-                        </v-stepper-step>
-                        <v-divider></v-divider>
+                <v-timeline :dense="$vuetify.breakpoint.smAndDown">
+                    <v-timeline-item v-for="pipeline in pipelines" :key="pipeline.execution_uid">
+                        <span slot="opposite"
+                            >Completed successfully : {{ pipeline.model.result.success }}</span
+                        >
+                        <v-card class="elevation-2">
+                            <v-card-title class="text-h5">
+                                {{ pipeline.model.model_name }}
+                            </v-card-title>
+                            <v-card-text>
+                                Input Received : {{ pipeline.timestamp.input_received | formatDate
+                                }}<br />
+                                Inference Started :
+                                {{ pipeline.timestamp.inference_started | formatDate }}<br />
+                                Inference Finished :
+                                {{ pipeline.timestamp.inference_finished | formatDate }}<br />
+                                Output Sent : {{ pipeline.timestamp.output_sent | formatDate
+                                }}<br />
+                            </v-card-text>
+                        </v-card>
+                    </v-timeline-item>
+                </v-timeline>
 
-                        <v-stepper-step step="2" complete>
-                            Orchestration Engine
-                            <small>Wed, 14 Jul 2021 12:15:59 +0000</small>
-                        </v-stepper-step>
-                        <v-divider></v-divider>
-
-                        <v-stepper-step step="3" complete>
-                            Model A
-                            <small>Start: Wed, 14 Jul 2021 12:15:59 +0000</small>
-                            <small>End: Wed, 14 Jul 2021 13:15:59 +0000</small>
-                        </v-stepper-step>
-                        <v-divider></v-divider>
-
-                        <v-stepper-step step="4" complete>
-                            Orchestration Engine
-                            <small>Wed, 14 Jul 2021 12:15:59 +0000</small>
-                        </v-stepper-step>
-                        <v-divider></v-divider>
-
-                        <v-stepper-step step="5" complete>
-                            Model B
-                            <small>Start: Wed, 14 Jul 2021 12:15:59 +0000</small>
-                            <small>End: Wed, 14 Jul 2021 13:15:59 +0000</small>
-                        </v-stepper-step>
-                        <v-divider></v-divider>
-
-                        <v-stepper-step step="6" complete>
-                            Orchestration Engine
-                            <small>Wed, 14 Jul 2021 12:15:59 +0000</small>
-                        </v-stepper-step>
-                        <v-divider></v-divider>
-
-                        <v-stepper-step step="7" complete>
-                            Model C
-                            <small>Start: Wed, 14 Jul 2021 12:15:59 +0000</small>
-                            <small>End: Wed, 14 Jul 2021 13:15:59 +0000</small>
-                        </v-stepper-step>
-                    </v-stepper-header>
-                </v-stepper>
                 <v-card-actions class="justify-end">
                     <v-btn text @click="dialog3.value = false">Close</v-btn>
                 </v-card-actions>
@@ -68,16 +47,18 @@ import { getExecutionPipelines } from "../../api/ExecutionService";
 @Component({})
 export default class PipelineDialog extends Vue {
     dialog3 = false;
-    pipeline = [];
+    pipelines = [];
 
     created(): void {
-        EventBus.$on("openPipelineDialog", (dialog3: boolean) => {
+        EventBus.$on("openPipelineDialog", (dialog3: boolean, collaboration_uid: string) => {
             this.dialog3 = dialog3;
+            console.log(collaboration_uid);
+            this.getPipeline(collaboration_uid);
         });
     }
 
-    async getPipeline(): Promise<void> {
-        this.pipeline = await getExecutionPipelines("colaboration_id");
+    async getPipeline(collaboration_uid: string): Promise<void> {
+        this.pipelines = await getExecutionPipelines(collaboration_uid);
     }
 }
 </script>
