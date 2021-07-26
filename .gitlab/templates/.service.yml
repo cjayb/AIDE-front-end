@@ -5,7 +5,7 @@ include:
 
 stages:
   - build
-  - test
+#  - test
   - build-image
 
 #deploy dev:
