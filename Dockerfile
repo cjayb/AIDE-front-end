@@ -1,5 +1,4 @@
 FROM node:latest as build-stage
-RUN apk add g++ make python
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
