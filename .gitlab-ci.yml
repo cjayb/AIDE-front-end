@@ -18,21 +18,21 @@ build-ui:
     script:
         - npm run build
 
-#test-ui-headless:
-#    stage: test
-#    needs: [build-ui]
-#    image: mcr.microsoft.com/playwright:focal
-#    before_script:
-#        - npm ci
-#    script:
-#        - npm run tests:ui_headless
-#    after_script:
-#        - cp -r $CI_PROJECT_DIR/tests/ui_integration/output/ ci_artifacts/
-#    artifacts:
-#        name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME"
-#        paths:
-#            - ci_artifacts/
-#        when: always
+test-ui-headless:
+    stage: test
+    needs: [build-ui]
+    image: mcr.microsoft.com/playwright:focal
+    before_script:
+        - npm ci
+    script:
+        - npm run tests:ui_headless
+    after_script:
+        - cp -r $CI_PROJECT_DIR/tests/ui_integration/output/ ci_artifacts/
+    artifacts:
+        name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME"
+        paths:
+            - ci_artifacts/
+        when: always
 
 sonarqube-check:
     stage: sast
