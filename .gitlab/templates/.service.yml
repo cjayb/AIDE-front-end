@@ -4,6 +4,7 @@ include:
   - /.gitlab/templates/.cr.yml
 
 stages:
+  - build
   - test
   - build-image
 
