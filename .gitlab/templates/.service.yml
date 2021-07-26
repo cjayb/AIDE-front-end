@@ -6,7 +6,7 @@ include:
 stages:
   - sast
   - build
-#  - test
+  - test
   - build-image
 
 #deploy dev:
