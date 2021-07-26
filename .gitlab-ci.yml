@@ -1,19 +1,15 @@
 image: node:14
 
-stages:
-    - build
-    - test
+include:
+  - /.gitlab/templates/.service.yml
 
+variables:
+  PROJECT_ROOT: "./"
+  SERVICE: aide-frontend
+  
 cache:
     - paths:
         - "/node_modules"
-
-build-ui:
-    stage: build
-    before_script:
-        - npm ci
-    script:
-        - npm run build
 
 test-ui-headless:
     stage: test
