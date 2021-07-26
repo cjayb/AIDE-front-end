@@ -35,6 +35,7 @@ build-ui:
 #        when: always
 
 sonarqube-check:
+    stage: sast
     image: 
         name: sonarsource/sonar-scanner-cli:latest
         entrypoint: [""]
