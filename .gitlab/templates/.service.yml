@@ -6,7 +6,7 @@ include:
 stages:
   - sast
   - build
-  - test
+#  - test
   - build-image
 
 #deploy dev:
@@ -30,24 +30,24 @@ stages:
 #  only:
 #    - develop
 
-#deploy sit:
-#  stage: deploy
-#  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
-#  script:
-#    - echo $SIT_ANSIBLE_CONTROL_KEY
-#    - echo $SIT_ANSIBLE_CONTROL_IP
-#    - apt update
-#    - apt -y install openssh-server
-#    - export AWS_ACCESS_KEY_ID=$SIT_AWS_ACCESS_KEY
-#    - export AWS_SECRET_ACCESS_KEY=$SIT_AWS_SECRET_KEY
-#    - aws configure set region eu-west-2
-#    - mkdir -p ~/.ssh
-#    - aws secretsmanager get-secret-value --secret-id $SIT_ANSIBLE_CONTROL_KEY --query SecretString --output text > ~/.ssh/$SIT_ANSIBLE_CONTROL_KEY
-#    - chmod 400 ~/.ssh/$SIT_ANSIBLE_CONTROL_KEY
-#    - echo -e "\nIdentityFile ~/.ssh/$SIT_ANSIBLE_CONTROL_KEY" >> ~/.ssh/config
-#    - ssh-keyscan -H $SIT_ANSIBLE_CONTROL_IP >> ~/.ssh/known_hosts
-#    - export EXTRA_VARS="\"DOCKER_TAG=$CI_PIPELINE_IID SERVICE_NAME=$SERVICE_NAME DOCKER_REGISTRY=$DOCKER_REGISTRY DOCKER_IMAGE=$DOCKER_IMAGE DOCKER_USER=$DOCKER_USER DOCKER_TOKEN=$DOCKER_TOKEN PORTS=$PORTS OVERLAY_NETWORK=$OVERLAY_NETWORK\""
-#    - ssh ubuntu@$SIT_ANSIBLE_CONTROL_IP "sudo aws s3 cp s3://ansible-tools-$SIT_ANSIBLE_TOOLS_BUCKET/ansible-schedule-ubuntu.sh /home/ubuntu; sudo dos2unix /home/ubuntu/ansible-schedule-ubuntu.sh; sudo chmod +x /home/ubuntu/ansible-schedule-ubuntu.sh; sudo /home/ubuntu/ansible-schedule-ubuntu.sh -v $EXTRA_VARS -p deploy-service.yml create sit"
-#  only:
-#    - main
-#    - /^release-.*$/
+deploy sit:
+  stage: deploy
+  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+  script:
+    - echo $SIT_ANSIBLE_CONTROL_KEY
+    - echo $SIT_ANSIBLE_CONTROL_IP
+    - apt update
+    - apt -y install openssh-server
+    - export AWS_ACCESS_KEY_ID=$SIT_AWS_ACCESS_KEY
+    - export AWS_SECRET_ACCESS_KEY=$SIT_AWS_SECRET_KEY
+    - aws configure set region eu-west-2
+    - mkdir -p ~/.ssh
+    - aws secretsmanager get-secret-value --secret-id $SIT_ANSIBLE_CONTROL_KEY --query SecretString --output text > ~/.ssh/$SIT_ANSIBLE_CONTROL_KEY
+    - chmod 400 ~/.ssh/$SIT_ANSIBLE_CONTROL_KEY
+    - echo -e "\nIdentityFile ~/.ssh/$SIT_ANSIBLE_CONTROL_KEY" >> ~/.ssh/config
+    - ssh-keyscan -H $SIT_ANSIBLE_CONTROL_IP >> ~/.ssh/known_hosts
+    - export EXTRA_VARS="\"DOCKER_TAG=$CI_PIPELINE_IID SERVICE_NAME=$SERVICE_NAME DOCKER_REGISTRY=$DOCKER_REGISTRY DOCKER_IMAGE=$DOCKER_IMAGE DOCKER_USER=$DOCKER_USER DOCKER_TOKEN=$DOCKER_TOKEN PORTS=$PORTS OVERLAY_NETWORK=$OVERLAY_NETWORK\""
+    - ssh ubuntu@$SIT_ANSIBLE_CONTROL_IP "sudo aws s3 cp s3://ansible-tools-$SIT_ANSIBLE_TOOLS_BUCKET/ansible-schedule-ubuntu.sh /home/ubuntu; sudo dos2unix /home/ubuntu/ansible-schedule-ubuntu.sh; sudo chmod +x /home/ubuntu/ansible-schedule-ubuntu.sh; sudo /home/ubuntu/ansible-schedule-ubuntu.sh -v $EXTRA_VARS -p deploy-service.yml create sit"
+  only:
+    - main
+    - /^release-.*$/
