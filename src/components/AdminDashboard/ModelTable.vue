@@ -44,7 +44,7 @@
                     </template>
                     <template v-slot:expanded-item="{ headers, item }">
                         <td :colspan="headers.length" class="elevation-0 pa-0">
-                            <ExecutionTable :item="item" />
+                            <ExecutionTable :item="item" :key="item" />
                         </td>
                     </template>
                 </v-data-table>
