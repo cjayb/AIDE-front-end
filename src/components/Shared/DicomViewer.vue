@@ -1,5 +1,5 @@
 <template>
-    <div :id="containerId" style="height: 80vh"></div>
+    <div :id="containerId" class="dicom-viewer" style="height: 80vh"></div>
 </template>
 
 <script lang="ts">
@@ -52,3 +52,17 @@ export default class DicomViewer extends Vue {
     };
 }
 </script>
+
+<style>
+:root {
+    --default-color: #000 !important;
+    --hover-color: #20a5d6 !important;
+    --active-color: #20a5d6 !important;
+}
+.dicom-viewer {
+    background-color: #fff !important;
+}
+.study-browser {
+    background-color: #fff !important;
+}
+</style>

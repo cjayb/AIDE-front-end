@@ -5,6 +5,8 @@
             :items="executions"
             item-key="name"
             class="elevation-0 pa-0 ma-0"
+            :loading="loading"
+            loading-text="Loading... Please wait"
         >
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.date="{ item }">
@@ -85,18 +87,8 @@ import { getModelExecutions } from "../../api/ExecutionService";
 export default class ExecutionTable extends Vue {
     // Class properties will be component data
     @Prop() item!: any;
-
+    loading = true;
     executions = [];
-
-    async created(): Promise<void> {
-        this.executions = await getModelExecutions(
-            this.item.model_name + "-" + this.item.model_version,
-            "1",
-            "10",
-            "false",
-        );
-    }
-
     dialog = false;
     executionsHeaders = [
         {
@@ -126,6 +118,17 @@ export default class ExecutionTable extends Vue {
             value: "actions",
         },
     ];
+
+    async created(): Promise<void> {
+        this.loading = true;
+        this.executions = await getModelExecutions(
+            this.item.model_name + "-" + this.item.model_version,
+            "1",
+            "10",
+            "false",
+        );
+        this.loading = false;
+    }
 
     // Methods will be component methods
     getStatus(result: any): string {

@@ -12,6 +12,8 @@
                     item-key="model_name"
                     show-expand
                     class="elevation-1"
+                    :loading="loading"
+                    loading-text="Loading... Please wait"
                 >
                     <template v-slot:top>
                         <v-toolbar flat>
@@ -26,17 +28,17 @@
                             ></v-text-field>
                         </v-toolbar>
                     </template>
-
+                    <!-- eslint-disable-next-line  -->
                     <template v-slot:item.errors> 0 </template>
-
+                    <!-- eslint-disable-next-line  -->
                     <template v-slot:item.successRate="{ item }">
                         {{ getSuccessRate(item.stats) }}
                     </template>
-
+                    <!-- eslint-disable-next-line  -->
                     <template v-slot:item.duration="{ item }">
                         {{ getTimeFormat(item.stats.average_execution_time) }}
                     </template>
-
+                    <!-- eslint-disable-next-line  -->
                     <template v-slot:item.turnaround="{ item }">
                         {{ getTimeFormat(item.stats.average_turnaround_time) }}
                     </template>
@@ -68,6 +70,7 @@ export default class Models extends Vue {
     expanded = [];
     singleExpand = true;
     search = "";
+    loading = true;
     modelsHeaders = [
         {
             text: "Model Name",
@@ -80,7 +83,7 @@ export default class Models extends Vue {
             value: "stats.executions",
         },
         {
-            text: "Warnings",
+            text: "Failures",
             value: "stats.failures",
         },
         {
@@ -111,18 +114,20 @@ export default class Models extends Vue {
     models: Array<any> = [];
 
     async created(): Promise<void> {
+        this.loading = true;
+
         let tempModels = await getModels();
 
         tempModels.forEach(async (model: any) => {
             model.stats = await getModelExecutionStats(
-                "100",
+                this.$store.state.days,
                 model.model_name + "-" + model.model_version,
             );
 
             this.models.push(model);
         });
 
-        console.log(this.models);
+        this.loading = false;
     }
 
     // Methods will be component methods
@@ -132,7 +137,7 @@ export default class Models extends Vue {
     }
 
     getSuccessRate(stats: any): string {
-        let result = (stats.failures / stats.executions) * 100;
+        let result = (100 * (stats.executions - stats.failures)) / stats.executions;
         return result.toFixed(0) + " %";
     }
 

@@ -2,7 +2,7 @@
     <v-container
         ><v-list-item>
             <v-list-item-content>
-                <v-list-item-title class="text-h6"> Tasks </v-list-item-title>
+                <v-list-item-title class="text-h6"> Work List </v-list-item-title>
                 <!-- <v-list-item-subtitle> subtext </v-list-item-subtitle> -->
             </v-list-item-content>
         </v-list-item>
@@ -13,13 +13,16 @@
             label="Search Tasks via Patient Name"
             placeholder="Search Tasks via Patient Name"
             outlined
+            v-model="search"
+            clearable
+            @click:clear="clearSearch"
         ></v-text-field>
 
         <v-divider></v-divider>
 
         <v-list dense nav>
             <v-list-item
-                v-for="item in tasks"
+                v-for="item in filteredTasks"
                 :key="item.execution_uid"
                 link
                 @click="selectTask(item)"
@@ -51,6 +54,7 @@ import { getAllExecutions } from "../../api/ExecutionService";
 @Component({})
 export default class Tasks extends Vue {
     tasks: Array<any> = [];
+    search = "";
 
     async created(): Promise<void> {
         this.tasks = await getAllExecutions("1", "10", "false");
@@ -59,13 +63,20 @@ export default class Tasks extends Vue {
         this.selectTask(this.tasks[0]);
     }
 
-    // mounted(): void {
-    //     let study_id = this.tasks[0].execution.output.destinations[0].study.study_uid;
-    //     this.$router.push({ name: "ClinicalReviewViewer", params: { study_id: study_id } });
-    // }
+    get filteredTasks() {
+        return this.tasks.filter((item) => {
+            if (!this.search) return this.tasks;
+            return item.output.destinations[0].study.series[0].metadata.PatientsName.toLowerCase().includes(
+                this.search.toLowerCase(),
+            );
+        });
+    }
 
     selectTask(execution: any): void {
         EventBus.$emit("selectTask", execution);
+    }
+    clearSearch() {
+        this.search = "";
     }
 }
 </script>
