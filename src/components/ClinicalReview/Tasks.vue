@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container class="pa-0">
         <v-list-item>
             <v-list-item-content>
                 <v-list-item-title class="text-h6">Work List</v-list-item-title>
