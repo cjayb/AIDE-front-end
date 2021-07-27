@@ -1,6 +1,8 @@
 <template>
-    <v-navigation-drawer v-model="drawer" app>
-        <v-img class="mx-auto" src="@/assets/AI-centre.png" height="64px" width="97px" />
+    <v-navigation-drawer v-model="drawer" app permanent expand-on-hover>
+        <div>
+            <v-img class="mx-auto" src="@/assets/AI-centre.png" height="64px" width="97px" />
+        </div>
         <v-divider></v-divider>
         <v-list dense nav>
             <v-list-item v-for="item in items" :key="item.title" link :to="{ name: item.route }">

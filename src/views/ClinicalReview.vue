@@ -1,19 +1,21 @@
 <template>
     <v-container style="max-width: 100%">
-        <!-- Header Bar -->
-        <!-- <v-row
-            ><v-col cols="12"><Header /></v-col
-        ></v-row> -->
         <v-row>
             <!-- Task List -->
             <v-col cols="2">
                 <Tasks />
             </v-col>
             <!-- Viewer -->
-            <v-col cols="8"><DicomViewer :key="$route.path" /></v-col>
-            <!-- Metadata -->
-            <v-col cols="2">
-                <Metadata />
+            <v-col cols="10">
+                <v-row><Header /></v-row>
+                <v-row>
+                    <v-col cols="9">
+                        <DicomViewer :key="$route.path" />
+                    </v-col>
+                    <v-col cols="3">
+                        <Metadata />
+                    </v-col>
+                </v-row>
             </v-col>
         </v-row>
     </v-container>

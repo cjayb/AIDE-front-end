@@ -3,7 +3,6 @@
         ><v-list-item>
             <v-list-item-content>
                 <v-list-item-title class="text-h6"> Metadata </v-list-item-title>
-                <!-- <v-list-item-subtitle> subtext </v-list-item-subtitle> -->
             </v-list-item-content>
         </v-list-item>
 
@@ -80,8 +79,8 @@
                     {{ selectedExecutionMetaData.SliceThickness }}
                 </v-list-item-subtitle>
             </v-list-item>
-        </v-list></v-container
-    >
+        </v-list>
+    </v-container>
 </template>
 
 <script lang="ts">

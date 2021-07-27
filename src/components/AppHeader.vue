@@ -1,6 +1,6 @@
 <template>
     <v-app-bar app color="#fff">
-        <v-app-bar-nav-icon @click="toggleSidebar()"></v-app-bar-nav-icon>
+        <!-- <v-app-bar-nav-icon @click="toggleSidebar()"></v-app-bar-nav-icon> -->
 
         <v-toolbar-title>{{ pageTitle }}</v-toolbar-title>
 

@@ -58,7 +58,34 @@ export default class DicomViewer extends Vue {
     --default-color: #000 !important;
     --hover-color: #20a5d6 !important;
     --active-color: #20a5d6 !important;
+
+    --left-sidepanel-menu-width: 150px !important;
+    --top-bar-height: 10px !important;
 }
+
+.entry-header {
+    padding: 0px 0px !important;
+}
+
+.ImageThumbnail {
+    height: auto !important;
+    width: 100% !important;
+}
+
+.ImageThumbnail canvas {
+    height: auto !important;
+    width: 100% !important;
+}
+
+.study-browser .scrollable-study-thumbnails .thumbnail-container {
+    padding-bottom: 0 !important;
+}
+
+.toolbar-button .toolbar-button-label {
+    font-size: 10px !important;
+    font-weight: 500 !important;
+}
+
 .dicom-viewer {
     background-color: #fff !important;
 }
