@@ -1,5 +1,5 @@
 <template>
-    <v-container class="pa-0">
+    <v-card>
         <v-list-item>
             <v-list-item-content>
                 <v-list-item-title class="text-h6">Work List</v-list-item-title>
@@ -46,7 +46,7 @@
                 </v-list-item-content>
             </v-list-item>
         </v-list>
-    </v-container>
+    </v-card>
 </template>
 
 <script lang="ts">

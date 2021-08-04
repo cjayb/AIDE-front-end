@@ -1,8 +1,11 @@
 import axios from "axios";
 
 const http = axios.create({
-    baseURL: process.env.VUE_APP_ELASTIC_HOST,
-    headers: { "Content-Type": "application/json" },
+    baseURL: process.env.VUE_APP_API_HOST,
+    headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("vue-token"),
+    },
 });
 
 export async function getQueueMetrics(queue_name: string): Promise<any> {

@@ -8,7 +8,7 @@ import Component from "vue-class-component";
 
 @Component
 export default class DicomViewer extends Vue {
-    containerId = "root";
+    containerId = "root2";
 
     mounted(): void {
         const plugin = document.createElement("script");
@@ -54,7 +54,7 @@ export default class DicomViewer extends Vue {
 </script>
 
 <style>
-:root {
+#root2 {
     --default-color: #000 !important;
     --hover-color: #20a5d6 !important;
     --active-color: #20a5d6 !important;

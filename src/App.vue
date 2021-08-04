@@ -34,3 +34,9 @@ export default Vue.extend({
     },
 });
 </script>
+
+<style>
+.row {
+    margin: -12px !important;
+}
+</style>

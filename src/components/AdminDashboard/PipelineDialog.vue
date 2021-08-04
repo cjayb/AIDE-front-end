@@ -2,52 +2,62 @@
     <v-dialog transition="dialog-bottom-transition" v-model="dialog3" max-width="60vw">
         <template v-slot:default="dialog3">
             <v-card>
-                <v-toolbar color="#61366e" dark>Pipeline Viewer</v-toolbar>
+                <v-toolbar color="#61366e" dark v-if="pipelines[0]"
+                    >Pipeline - {{ pipelines[0].model.model_name }}</v-toolbar
+                >
                 <!-- <v-card-text> -->
-                <v-timeline :dense="$vuetify.breakpoint.smAndDown" class="pa-4">
-                    <v-timeline-item>
-                        <span slot="opposite">07/12/2021 10:10</span>
-                        <v-card class="elevation-2">
-                            <v-card-title class="text-h5"> Input Received </v-card-title>
-                            <v-card-text v-if="pipelines[0]">
-                                Input Received :
-                                {{ pipelines[0].timestamp.input_received | formatDate }}
-                            </v-card-text>
-                        </v-card>
+                <v-timeline align-top dense v-if="pipelines[0]" clipped>
+                    <v-timeline-item small>
+                        <v-row class="pt-1">
+                            <v-col cols="3">
+                                <strong>07/12/2021 10:10</strong>
+                            </v-col>
+                            <v-col>
+                                <strong>Input Received </strong>
+                                <div class="text-caption">
+                                    Input Received :
+                                    {{ pipelines[0].timestamp.input_received | formatDate }}
+                                </div>
+                            </v-col>
+                        </v-row>
                     </v-timeline-item>
-
                     <v-timeline-item
                         v-for="pipeline in pipelines"
                         :key="pipeline.execution_uid"
                         :color="getStatusColor(pipeline.model.result)"
+                        small
                     >
-                        <span slot="opposite">{{ getStatus(pipeline.model.result) }}</span>
-                        <v-card class="elevation-2">
-                            <v-card-title class="text-h5">
-                                {{ pipeline.model.model_name }}
-                            </v-card-title>
-                            <v-card-text>
-                                Input Received : {{ pipeline.timestamp.input_received | formatDate
-                                }}<br />
-                                Inference Started :
-                                {{ pipeline.timestamp.inference_started | formatDate }}<br />
-                                Inference Finished :
-                                {{ pipeline.timestamp.inference_finished | formatDate }}<br />
-                                Output Sent : {{ pipeline.timestamp.output_sent | formatDate
-                                }}<br />
-                            </v-card-text>
-                        </v-card>
+                        <v-row class="pt-1">
+                            <v-col cols="3">
+                                <strong>{{ getStatus(pipeline.model.result) }}</strong>
+                            </v-col>
+                            <v-col>
+                                <strong>{{ pipeline.model.model_name }}</strong>
+                                <div class="text-caption">
+                                    Input Received :
+                                    {{ pipeline.timestamp.input_received | formatDate }}<br />
+                                    Inference Started :
+                                    {{ pipeline.timestamp.inference_started | formatDate }}<br />
+                                    Inference Finished :
+                                    {{ pipeline.timestamp.inference_finished | formatDate }}<br />
+                                    Output Sent : {{ pipeline.timestamp.output_sent | formatDate
+                                    }}<br />
+                                </div>
+                            </v-col>
+                        </v-row>
                     </v-timeline-item>
-
-                    <v-timeline-item color="grey">
-                        <span slot="opposite">Output not sent</span>
-                        <v-card class="elevation-2">
-                            <v-card-title class="text-h5"> Output Sent </v-card-title>
-                            <v-card-text> Output Sent : null</v-card-text>
-                        </v-card>
+                    <v-timeline-item small color="grey">
+                        <v-row class="pt-1">
+                            <v-col cols="3">
+                                <strong>Output not sent</strong>
+                            </v-col>
+                            <v-col>
+                                <strong>Output Sent </strong>
+                                <div class="text-caption">Output Sent : null</div>
+                            </v-col>
+                        </v-row>
                     </v-timeline-item>
                 </v-timeline>
-
                 <v-card-actions class="justify-end">
                     <v-btn text @click="dialog3.value = false">Close</v-btn>
                 </v-card-actions>

@@ -4,10 +4,13 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import moment from "moment";
+import authentication from "@/plugins/authentication";
 
 Vue.config.productionTip = false;
 
 Vue.prototype.$window = window;
+
+Vue.use(authentication);
 
 Vue.filter("formatDate", function (value: any) {
     if (value) {
@@ -15,9 +18,11 @@ Vue.filter("formatDate", function (value: any) {
     }
 });
 
-new Vue({
-    router,
-    store,
-    vuetify,
-    render: (h) => h(App),
-}).$mount("#app");
+Vue.$keycloak.init({ checkLoginIframe: false }).then(() => {
+    new Vue({
+        router,
+        store,
+        vuetify,
+        render: (h) => h(App),
+    }).$mount("#app");
+});

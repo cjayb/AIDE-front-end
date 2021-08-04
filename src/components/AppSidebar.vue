@@ -1,9 +1,5 @@
 <template>
-    <v-navigation-drawer v-model="drawer" app permanent expand-on-hover>
-        <div>
-            <v-img class="mx-auto" src="@/assets/AI-centre.png" height="64px" width="97px" />
-        </div>
-        <v-divider></v-divider>
+    <v-navigation-drawer v-model="drawer" app permanent expand-on-hover clipped>
         <v-list dense nav>
             <v-list-item v-for="item in items" :key="item.title" link :to="{ name: item.route }">
                 <v-list-item-icon>

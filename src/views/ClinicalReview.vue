@@ -1,5 +1,14 @@
 <template>
-    <v-container style="max-width: 100%">
+    <v-container style="max-width: 100%" fluid>
+        <!-- <v-row>
+            <v-list-item>
+                <v-list-item-content>
+                    <v-list-item-title class="header-title">
+                        Model outputs for clinical review
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+        </v-row> -->
         <v-row>
             <!-- Task List -->
             <v-col cols="2">
@@ -7,15 +16,21 @@
             </v-col>
             <!-- Viewer -->
             <v-col cols="10">
-                <v-row><Header /></v-row>
-                <v-row>
-                    <v-col cols="9">
-                        <DicomViewer :key="$route.path" />
-                    </v-col>
-                    <v-col cols="3">
-                        <Metadata />
-                    </v-col>
-                </v-row>
+                <Header />
+                <v-card style="width: 100%" class="my-4">
+                    <v-list-item>
+                        <v-list-item-content>
+                            <v-row>
+                                <v-col cols="9">
+                                    <DicomViewer :key="$route.path" />
+                                </v-col>
+                                <v-col cols="3">
+                                    <Metadata />
+                                </v-col>
+                            </v-row>
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-card>
             </v-col>
         </v-row>
     </v-container>
@@ -41,3 +56,18 @@ export default class ClinicalReview extends Vue {
     // Declared as component data
 }
 </script>
+
+<style scoped>
+.header-title {
+    /* font-family: Bai Jamjuree; */
+    font-style: normal;
+    font-weight: 300;
+    font-size: 34px;
+    line-height: 40px;
+    /* identical to box height, or 118% */
+
+    letter-spacing: 0.0025em;
+
+    color: #000000;
+}
+</style>
