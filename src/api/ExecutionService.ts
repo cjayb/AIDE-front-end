@@ -1,14 +1,15 @@
+import Vue from "vue";
 import axios from "axios";
 
 const http = axios.create({
     baseURL: process.env.VUE_APP_API_HOST,
     headers: {
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("vue-token"),
     },
 });
 
 export async function getAllExecutions(page: string, size: string, approved: string): Promise<any> {
+    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/executions?page=${page}&size=${size}&approved=${approved}`);
     return response.data;
 }
@@ -19,6 +20,7 @@ export async function getModelExecutions(
     size: string,
     approved: string,
 ): Promise<any> {
+    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(
         `/executions?model_id=${model_id}&page=${page}&size=${size}&approved=${approved}`,
     );
@@ -26,16 +28,19 @@ export async function getModelExecutions(
 }
 
 export async function getExecutionPipelines(collaboration_uid: string): Promise<any> {
+    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/pipeline/${collaboration_uid}`);
     return response.data;
 }
 
 export async function getExecutionStats(days: string): Promise<any> {
+    http.defaults.headers.common["Authorization"] = Vue.$keycloak.token;
     const response = await http.get(`/execution_stats?days=${days}`);
     return response.data;
 }
 
 export async function getModelExecutionStats(days: string, model_id: string): Promise<any> {
+    http.defaults.headers.common["Authorization"] = Vue.$keycloak.token;
     const response = await http.get(`/execution_stats?days=${days}&model_id=${model_id}`);
     return response.data;
 }
