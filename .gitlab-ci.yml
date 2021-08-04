@@ -1,8 +1,11 @@
 image: node:14
 
-stages:
-    - build
-    - test
+include:
+  - /.gitlab/templates/.service.yml
+
+variables:
+  PROJECT_ROOT: "./"
+  SERVICE: aide-frontend
 
 cache:
     - paths:
@@ -32,6 +35,7 @@ test-ui-headless:
         when: always
 
 sonarqube-check:
+    stage: sast
     image: 
         name: sonarsource/sonar-scanner-cli:latest
         entrypoint: [""]
