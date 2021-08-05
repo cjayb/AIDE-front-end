@@ -1,14 +1,5 @@
 <template>
     <v-container style="max-width: 100%" fluid>
-        <!-- <v-row>
-            <v-list-item>
-                <v-list-item-content>
-                    <v-list-item-title class="header-title">
-                        Model outputs for clinical review
-                    </v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-        </v-row> -->
         <v-row>
             <!-- Task List -->
             <v-col cols="2">
@@ -21,9 +12,11 @@
                     <v-list-item>
                         <v-list-item-content>
                             <v-row>
-                                <v-col cols="9">
-                                    <DicomViewer :key="$route.path" />
-                                </v-col>
+                                <transition name="fade" mode="out-in">
+                                    <v-col cols="9" :key="$route.path">
+                                        <DicomViewer :key="$route.path" />
+                                    </v-col>
+                                </transition>
                                 <v-col cols="3">
                                     <Metadata />
                                 </v-col>

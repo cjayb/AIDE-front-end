@@ -8,7 +8,9 @@
 
         <!-- Main Content -->
         <v-main>
-            <router-view />
+            <transition name="fade" mode="out-in">
+                <router-view />
+            </transition>
         </v-main>
     </v-app>
 </template>
@@ -38,5 +40,15 @@ export default Vue.extend({
 <style>
 .row {
     margin: -12px !important;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
 }
 </style>

@@ -1,86 +1,88 @@
 <template>
-    <v-container {{selectedExecutionMetaData}}
-        ><v-list-item>
-            <v-list-item-content>
-                <v-list-item-title class="text-h6"> Metadata </v-list-item-title>
-            </v-list-item-content>
-        </v-list-item>
-
-        <v-divider></v-divider>
-        <v-list class="transparent" dense>
+    <transition name="fade" mode="out-in">
+        <v-container :key="selectedExecutionMetaData">
             <v-list-item>
-                <v-list-item-title>Modality</v-list-item-title>
-
-                <v-list-item-subtitle class="text-right">
-                    {{ selectedExecutionMetaData.Modality }}
-                </v-list-item-subtitle>
+                <v-list-item-content>
+                    <v-list-item-title class="text-h6"> Metadata </v-list-item-title>
+                </v-list-item-content>
             </v-list-item>
 
-            <v-list-item>
-                <v-list-item-title>InstitutionName</v-list-item-title>
+            <v-divider></v-divider>
+            <v-list class="transparent" dense>
+                <v-list-item>
+                    <v-list-item-title>Modality</v-list-item-title>
 
-                <v-list-item-subtitle class="text-right">
-                    {{ selectedExecutionMetaData.InstitutionName }}
-                </v-list-item-subtitle>
-            </v-list-item>
+                    <v-list-item-subtitle class="text-right">
+                        {{ selectedExecutionMetaData.Modality }}
+                    </v-list-item-subtitle>
+                </v-list-item>
 
-            <v-list-item>
-                <v-list-item-title>PatientsName</v-list-item-title>
+                <v-list-item>
+                    <v-list-item-title>InstitutionName</v-list-item-title>
 
-                <v-list-item-subtitle class="text-right">
-                    {{ selectedExecutionMetaData.PatientsName }}
-                </v-list-item-subtitle>
-            </v-list-item>
+                    <v-list-item-subtitle class="text-right">
+                        {{ selectedExecutionMetaData.InstitutionName }}
+                    </v-list-item-subtitle>
+                </v-list-item>
 
-            <v-list-item>
-                <v-list-item-title>PatientID</v-list-item-title>
+                <v-list-item>
+                    <v-list-item-title>PatientsName</v-list-item-title>
 
-                <v-list-item-subtitle class="text-right">
-                    {{ selectedExecutionMetaData.PatientID }}
-                </v-list-item-subtitle>
-            </v-list-item>
+                    <v-list-item-subtitle class="text-right">
+                        {{ selectedExecutionMetaData.PatientsName }}
+                    </v-list-item-subtitle>
+                </v-list-item>
 
-            <v-list-item>
-                <v-list-item-title>PatientsSex</v-list-item-title>
+                <v-list-item>
+                    <v-list-item-title>PatientID</v-list-item-title>
 
-                <v-list-item-subtitle class="text-right">
-                    {{ selectedExecutionMetaData.PatientsSex }}
-                </v-list-item-subtitle>
-            </v-list-item>
+                    <v-list-item-subtitle class="text-right">
+                        {{ selectedExecutionMetaData.PatientID }}
+                    </v-list-item-subtitle>
+                </v-list-item>
 
-            <v-list-item>
-                <v-list-item-title>PatientsAge</v-list-item-title>
+                <v-list-item>
+                    <v-list-item-title>PatientsSex</v-list-item-title>
 
-                <v-list-item-subtitle class="text-right">
-                    {{ selectedExecutionMetaData.PatientsAge }}
-                </v-list-item-subtitle>
-            </v-list-item>
+                    <v-list-item-subtitle class="text-right">
+                        {{ selectedExecutionMetaData.PatientsSex }}
+                    </v-list-item-subtitle>
+                </v-list-item>
 
-            <v-list-item>
-                <v-list-item-title>PatientsWeight</v-list-item-title>
+                <v-list-item>
+                    <v-list-item-title>PatientsAge</v-list-item-title>
 
-                <v-list-item-subtitle class="text-right">
-                    {{ selectedExecutionMetaData.PatientsWeight }}
-                </v-list-item-subtitle>
-            </v-list-item>
+                    <v-list-item-subtitle class="text-right">
+                        {{ selectedExecutionMetaData.PatientsAge }}
+                    </v-list-item-subtitle>
+                </v-list-item>
 
-            <v-list-item>
-                <v-list-item-title>ContrastBolusAgent</v-list-item-title>
+                <v-list-item>
+                    <v-list-item-title>PatientsWeight</v-list-item-title>
 
-                <v-list-item-subtitle class="text-right">
-                    {{ selectedExecutionMetaData.ContrastBolusAgent }}
-                </v-list-item-subtitle>
-            </v-list-item>
+                    <v-list-item-subtitle class="text-right">
+                        {{ selectedExecutionMetaData.PatientsWeight }}
+                    </v-list-item-subtitle>
+                </v-list-item>
 
-            <v-list-item>
-                <v-list-item-title>SliceThickness</v-list-item-title>
+                <v-list-item>
+                    <v-list-item-title>ContrastBolusAgent</v-list-item-title>
 
-                <v-list-item-subtitle class="text-right">
-                    {{ selectedExecutionMetaData.SliceThickness }}
-                </v-list-item-subtitle>
-            </v-list-item>
-        </v-list>
-    </v-container>
+                    <v-list-item-subtitle class="text-right">
+                        {{ selectedExecutionMetaData.ContrastBolusAgent }}
+                    </v-list-item-subtitle>
+                </v-list-item>
+
+                <v-list-item>
+                    <v-list-item-title>SliceThickness</v-list-item-title>
+
+                    <v-list-item-subtitle class="text-right">
+                        {{ selectedExecutionMetaData.SliceThickness }}
+                    </v-list-item-subtitle>
+                </v-list-item>
+            </v-list>
+        </v-container>
+    </transition>
 </template>
 
 <script lang="ts">
