@@ -40,7 +40,7 @@ const routes: Array<RouteConfig> = [
         path: "/",
         name: "Home",
         beforeEnter: (to, from, next) => {
-            if (process.env.VUE_APP_AUTH_ENABLED == true) {
+            if (process.env.VUE_APP_AUTH_ENABLED == "true") {
                 if (Vue.$keycloak.authenticated) {
                     if (Vue.$keycloak.hasResourceRole("admin")) {
                         Vue.$keycloak
@@ -74,7 +74,7 @@ const routes: Array<RouteConfig> = [
 ];
 
 function authenticated(role: string, to: Route, next: NavigationGuardNext<Vue>) {
-    if (process.env.VUE_APP_AUTH_ENABLED == true) {
+    if (process.env.VUE_APP_AUTH_ENABLED == "true") {
         if (Vue.$keycloak.authenticated) {
             if (Vue.$keycloak.hasResourceRole(role)) {
                 Vue.$keycloak
