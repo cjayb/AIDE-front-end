@@ -8,9 +8,9 @@ exports.config = {
     output: "./output",
     helpers: {
         Playwright: {
-            url: "https://demoqa.com/automation-practice-form",
+            url: "http://localhost:8080",
             show: true,
-            windowSize: "1920x1080",
+            windowSize: "1366x768",
             waitForTimeout: 3000,
             restart: false,
             browser: "chromium",
@@ -52,6 +52,8 @@ exports.config = {
     },
     include: {
         ...require("./pages"),
+        mocks: "./mocks/mockIndex.ts",
+        keycloakMock: "./utils/keycloak_mock.ts",
         screenshotter: "./utils/screenshotter.ts",
     },
     name: "CodeceptJS",
@@ -61,7 +63,7 @@ exports.config = {
             enabled: false,
         },
         autoDelay: {
-            enabled: true,
+            enabled: false,
         },
         tryTo: {
             enabled: true,

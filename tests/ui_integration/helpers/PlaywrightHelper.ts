@@ -5,7 +5,7 @@ export = class PlaywrightHelper extends Helper {
         page._routes = [];
     }
 
-    async mockTheEndpoint(endpoint: string, content: string) {
+    async mockTheEndpoint(endpoint: string, content?: string, status?: number) {
         const { page } = this.helpers.Playwright;
 
         await page.unroute(endpoint);
@@ -15,23 +15,25 @@ export = class PlaywrightHelper extends Helper {
             (route: {
                 fulfill: (arg0: {
                     body: string;
+                    status: number;
                     headers: {
                         "content-type": string;
-                        "access-control-allow-origin": string;
+                        "Access-Control-Allow-Origin": string;
                     };
                 }) => any;
             }) =>
                 route.fulfill({
                     body: JSON.stringify(content),
+                    status: status || 200,
                     headers: {
                         "content-type": "application/json",
-                        "access-control-allow-origin": "*",
+                        "Access-Control-Allow-Origin": "*",
                     },
                 }),
         );
     }
 
-    getPageInfo() {
+    getPageInfo(): Promise<string> {
         const { page } = this.helpers.Playwright;
 
         return page.url();

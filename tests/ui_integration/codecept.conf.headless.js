@@ -8,9 +8,9 @@ exports.config = {
     output: "./output",
     helpers: {
         Playwright: {
-            url: "https://demoqa.com/automation-practice-form",
+            url: "http://localhost:8080",
             show: false,
-            windowSize: "1920x1080",
+            windowSize: "1366x768",
             waitForTimeout: 3000,
             restart: false,
             browser: "chromium",
@@ -18,7 +18,12 @@ exports.config = {
             keepBrowserState: true,
             waitForNavigation: "domcontentloaded",
             chromium: {
-                args: ["--no-sandbox", "--disable-popup-blocking", "--disable-setuid-sandbox"],
+                args: [
+                    "--no-sandbox",
+                    "--disable-popup-blocking",
+                    "--disable-setuid-sandbox",
+                    "--disable-dev-shm-usage",
+                ],
             },
         },
         PlaywrightHelper: {
@@ -47,6 +52,8 @@ exports.config = {
     },
     include: {
         ...require("./pages"),
+        mocks: "./mocks/mockIndex.ts",
+        keycloakMock: "./utils/keycloak_mock.ts",
         screenshotter: "./utils/screenshotter.ts",
     },
     name: "CodeceptJS",
@@ -56,7 +63,7 @@ exports.config = {
             enabled: false,
         },
         autoDelay: {
-            enabled: true,
+            enabled: false,
         },
         tryTo: {
             enabled: true,

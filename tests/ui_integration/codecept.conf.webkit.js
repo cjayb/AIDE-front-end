@@ -8,10 +8,10 @@ exports.config = {
     output: "./output",
     helpers: {
         Playwright: {
-            url: "https://demoqa.com/automation-practice-form",
+            url: "http://localhost:44357",
             show: true,
             windowSize: "1920x1080",
-            waitForTimeout: 3000,
+            waitForTimeout: 5000,
             restart: false,
             browser: "webkit",
             keepCookies: true,
