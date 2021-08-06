@@ -13,6 +13,7 @@
                     show-expand
                     class="elevation-1"
                     :loading="loading"
+                    @click:row="expandRow"
                     loading-text="Loading... Please wait"
                 >
                     <template v-slot:top>
@@ -67,7 +68,7 @@ import { getModelExecutionStats } from "../../api/ExecutionService";
 })
 export default class Models extends Vue {
     // Class properties will be component data
-    expanded = [];
+    expanded: Array<any> = [];
     singleExpand = true;
     search = "";
     loading = true;
@@ -93,19 +94,18 @@ export default class Models extends Vue {
         {
             text: "Success Rate",
             value: "successRate",
+            sortable: false,
         },
         {
-            text: "Avg. Duration",
+            text: "Avg. Duration (Minutes)",
             value: "duration",
+            sortable: false,
         },
         {
-            text: "Avg. Turnaround",
+            text: "Avg. Turnaround (Minutes)",
             value: "turnaround",
+            sortable: false,
         },
-        // {
-        //     text: "Clinical Acceptance",
-        //     value: "clinicalAcceptance",
-        // },
         {
             text: "",
             value: "data-table-expand",
@@ -120,7 +120,7 @@ export default class Models extends Vue {
 
         tempModels.forEach(async (model: any) => {
             model.stats = await getModelExecutionStats(
-                this.$store.state.days,
+                "1000",
                 model.model_name + "-" + model.model_version,
             );
 
@@ -141,9 +141,17 @@ export default class Models extends Vue {
         return result.toFixed(0) + " %";
     }
 
-    getTimeFormat(time: any): string {
+    getTimeFormat(time: any): number {
         var minutes = Math.floor(time / 60);
-        return minutes + " Minutes";
+        return minutes;
+    }
+
+    expandRow(value: any) {
+        if (this.expanded.includes(value)) {
+            this.expanded = [];
+        } else {
+            this.expanded = [value];
+        }
     }
 }
 </script>

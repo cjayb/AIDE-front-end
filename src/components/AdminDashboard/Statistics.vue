@@ -2,7 +2,7 @@
     <v-container>
         <v-row>
             <!-- Model Statistics -->
-            <v-col cols="3">
+            <v-col cols="4">
                 <v-card class="pa-3">
                     <v-card-title>Execution Summary</v-card-title>
                     <v-list class="transparent">
@@ -31,7 +31,7 @@
             </v-col>
 
             <!-- Input -->
-            <v-col cols="3">
+            <v-col cols="4">
                 <v-card class="pa-3">
                     <v-card-title>Input Queue</v-card-title>
                     <v-list class="transparent">
@@ -60,7 +60,7 @@
             </v-col>
 
             <!-- Output -->
-            <v-col cols="3">
+            <!-- <v-col cols="3">
                 <v-card class="pa-3">
                     <v-card-title>Output Queue</v-card-title>
                     <v-list class="transparent">
@@ -86,10 +86,10 @@
                         </v-list-item>
                     </v-list>
                 </v-card>
-            </v-col>
+            </v-col> -->
 
             <!-- Model Status-->
-            <v-col cols="3">
+            <v-col cols="4">
                 <v-card class="pa-3">
                     <v-card-title>Model Status</v-card-title>
                     <v-list class="transparent">
@@ -134,7 +134,7 @@ export default class Dashboard extends Vue {
         console.log(this.$store.state.days);
         this.executionsStats = await getExecutionStats(this.$store.state.days);
         this.inputQueue = await getQueueMetrics("input");
-        this.outputQueue = await getQueueMetrics("output");
+        // this.outputQueue = await getQueueMetrics("output");
         // this.pacsQueue = await getQueueMetrics("pacs");
     }
 

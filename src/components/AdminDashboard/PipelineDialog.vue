@@ -1,10 +1,22 @@
 <template>
-    <v-dialog transition="dialog-bottom-transition" v-model="dialog3" max-width="60vw">
+    <v-dialog
+        transition="dialog-bottom-transition"
+        v-model="dialog3"
+        max-width="60vw"
+        style="overflow-x: hidden"
+    >
         <template v-slot:default="dialog3">
             <v-card>
-                <v-toolbar color="#61366e" dark v-if="pipelines[0]"
-                    >Pipeline - {{ pipelines[0].model.model_name }}</v-toolbar
-                >
+                <v-toolbar color="#61366e" dark>
+                    <v-progress-linear
+                        :active="loading"
+                        :indeterminate="loading"
+                        absolute
+                        bottom
+                    ></v-progress-linear>
+
+                    Pipeline - <span v-if="pipelines[0]">{{ pipelines[0].model.model_name }}</span>
+                </v-toolbar>
                 <!-- <v-card-text> -->
                 <v-timeline align-top dense v-if="pipelines[0]" clipped>
                     <v-timeline-item small>
@@ -76,17 +88,21 @@ import { getExecutionPipelines } from "../../api/ExecutionService";
 export default class PipelineDialog extends Vue {
     dialog3 = false;
     pipelines = [];
+    loading = true;
 
     created(): void {
         EventBus.$on("openPipelineDialog", (dialog3: boolean, collaboration_uid: string) => {
             this.dialog3 = dialog3;
             console.log(collaboration_uid);
+            this.pipelines = [];
             this.getPipeline(collaboration_uid);
         });
     }
 
     async getPipeline(collaboration_uid: string): Promise<void> {
+        this.loading = true;
         this.pipelines = await getExecutionPipelines(collaboration_uid);
+        this.loading = false;
     }
 
     getStatus(result: any): string {

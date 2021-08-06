@@ -8,6 +8,11 @@ const http = axios.create({
     },
 });
 
+http.interceptors.request.use((config) => {
+    Vue.$keycloak.updateToken(70);
+    return config;
+});
+
 export async function getAllExecutions(from: string, size: string, approved: string): Promise<any> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/executions?from=${from}&size=${size}&approved=${approved}`);

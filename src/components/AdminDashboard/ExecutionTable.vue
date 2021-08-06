@@ -14,7 +14,7 @@
             </template>
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.output="{ item }">
-                <v-btn @click.stop="dialog = true" x-small>View Output</v-btn>
+                <v-btn @click.stop="dialog = true" x-small disabled>View Output</v-btn>
             </template>
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.status="{ item }">
@@ -37,7 +37,7 @@
             </template>
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.actions="{ item }">
-                <v-btn @click.stop="openLogsDialog(item.collaboration_uid)" x-small
+                <v-btn @click.stop="openLogsDialog(item.collaboration_uid)" x-small disabled
                     >View Logs</v-btn
                 >
                 <v-btn @click.stop="openPipelineDialog(item.collaboration_uid)" x-small
@@ -99,22 +99,27 @@ export default class ExecutionTable extends Vue {
         },
         {
             text: "Outputs",
+            sortable: false,
             value: "output",
         },
         {
             text: "Status",
+            sortable: false,
             value: "status",
         },
         {
-            text: "Duration",
+            text: "Duration (Minutes)",
             value: "duration",
+            sortable: false,
         },
         {
-            text: "Turnaround",
+            text: "Turnaround (Minutes)",
             value: "turnaround",
+            sortable: false,
         },
         {
             text: "Actions",
+            sortable: false,
             value: "actions",
         },
     ];
@@ -171,10 +176,10 @@ export default class ExecutionTable extends Vue {
         return "red";
     }
 
-    getTimeDifference(start: string, end: string): string {
+    getTimeDifference(start: string, end: string): number {
         var diff = Math.abs(new Date(start).getTime() - new Date(end).getTime());
         var minutes = Math.floor(diff / 1000 / 60);
-        return minutes.toString() + " Minutes";
+        return minutes;
     }
 
     openLogsDialog(collaboration_uid: string): void {

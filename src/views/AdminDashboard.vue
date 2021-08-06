@@ -19,6 +19,7 @@
                         :color="week.color"
                         :dark="week.active"
                         @click="setDays(week)"
+                        disabled
                         >Weekly</v-btn
                     >
                     <v-btn
@@ -27,6 +28,7 @@
                         :color="month.color"
                         :dark="month.active"
                         @click="setDays(month)"
+                        disabled
                         >Monthly</v-btn
                     >
                 </v-col>
@@ -54,6 +56,7 @@
                         :color="performance.color"
                         :dark="performance.active"
                         @click="setStats(performance)"
+                        disabled
                         >Performance</v-btn
                     >
                 </v-col>

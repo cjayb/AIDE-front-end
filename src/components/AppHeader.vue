@@ -6,12 +6,31 @@
 
         <v-toolbar-title>{{ pageTitle }}</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon>
+        <v-btn icon disabled>
             <v-icon>mdi-bell</v-icon>
         </v-btn>
-        <v-btn icon>
-            <v-icon>mdi-account-circle</v-icon>
-        </v-btn>
+
+        <v-menu bottom left offset-y offset-overflow :nudge-left="80">
+            <template v-slot:activator="{ on, attrs }">
+                <v-btn icon>
+                    <v-icon v-bind="attrs" v-on="on">mdi-account-circle</v-icon>
+                </v-btn>
+            </template>
+            <v-list>
+                <v-list dense>
+                    <v-list-item-group v-model="selectedItem" color="primary">
+                        <v-list-item @click="logout()">
+                            <v-list-item-icon>
+                                <v-icon>mdi-logout</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>Logout</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-list-item-group>
+                </v-list>
+            </v-list>
+        </v-menu>
     </v-app-bar>
 </template>
 
@@ -41,6 +60,10 @@ export default class AppHeader extends Vue {
         if (this.$route.name == "ClinicalReviewViewer") {
             this.pageTitle = "Model outputs for clinical review";
         }
+    }
+
+    logout(): void {
+        Vue.$keycloak.logout({ redirectUri: `${window.location.origin}/#/` });
     }
 
     @Watch("$route", { immediate: true, deep: true })
