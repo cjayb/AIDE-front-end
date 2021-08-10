@@ -1,8 +1,7 @@
-const { I, mocks, adminDashboardPage, screenshotter } = inject();
 
 Feature("Admin Dashboard Page");
 
-Before(async () => {
+Before(async ({I, mocks }) => {
     await I.mockTheEndpoint("**/models", mocks.adminDashboardModels, 200);
     await I.mockTheEndpoint("**/queues/input", mocks.inputQueueStats, 200);
     await I.mockTheEndpoint("**/queues/output", mocks.outputQueueStats, 200);
@@ -22,7 +21,7 @@ Before(async () => {
 
 Scenario(
     "On the admin page I can sort, free text search and change model view",
-    async () => {
+    async ({adminDashboardPage}) => {
         // await adminDashboardPage.ITestWeeklyAndMonthlyView(); // This feature has been temporarily disabled in the app, this test should work once the feature has been enabled
         await adminDashboardPage.ITestFreetextSearch();
         await adminDashboardPage.ITestSorts();
@@ -31,7 +30,7 @@ Scenario(
 
 Scenario(
     "On the admin page I can view a specific model's details",
-    async () => {
+    async ({screenshotter, adminDashboardPage}) => {
         await screenshotter.TakePageScreenshotAndCompare("adminDashboardDefault");
         await adminDashboardPage.ITestPagination();
         await adminDashboardPage.ITestViewingModels();
@@ -41,14 +40,14 @@ Scenario(
 /* These features have been temporarily disabled in the app, the tests should work once the features have been enabled
 Scenario(
     "On the admin page I can view the execution log",
-    async () => {
+    async ({adminDashboardPage}) => {
         await adminDashboardPage.ITestViewExecutionLog();
     }
 );
 
 Scenario(
     "On the admin page I can view a model output",
-    async () => {
+    async ({adminDashboardPage}) => {
         await adminDashboardPage.ITestViewModelOutput();
     }
 );
@@ -56,7 +55,7 @@ Scenario(
 
 Scenario(
     "On the admin page I can view the execution pipeline",
-    async () => {
+    async ({adminDashboardPage}) => {
         await adminDashboardPage.ITestViewExecutionPipeline();
     }
 );

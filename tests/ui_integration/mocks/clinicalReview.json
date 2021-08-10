@@ -1,0 +1,1492 @@
+[
+    {
+        "timestamp": {
+            "inference_started": "2021-07-12T09:21:00.817420",
+            "input_received": "2021-07-12T08:25:45.817420",
+            "inference_finished": "2021-07-12T10:45:47.817420",
+            "output_sent": "2021-07-12T10:45:47.817420"
+        },
+        "model": {
+            "mode": "QA",
+            "result": {
+                "clinical_review_completed": false,
+                "reason": "",
+                "success": false,
+                "clinical_review": true,
+                "approval_given": false,
+                "type": "DICOM",
+                "message": "",
+                "clinicial_review_completed": false
+            },
+            "model_version": "1.0.0",
+            "model_name": "Haemorrhage-Stroke",
+            "model_uid": "Haemorrhage-Stroke-1.0.0",
+            "clinical_review": true,
+            "predicate": "DICOM_Modality == 'CT'"
+        },
+        "output": {
+            "destinations": [
+                {
+                    "study": {
+                        "study_uid": "1.3.6.1.4.1.14519.5.2.1.7009.2403.194158539675615867024676990849",
+                        "series": [
+                            {
+                                "filepaths": [
+                                    "mnt/efs_data/1CT1/1-3-6-1-4-1-5962-1-2-1-20040119072730-12322/1-3-6-1-4-1-5962-1-3-1-1-20040119072730-12322\\1.3.6.1.4.1.5962.1.1.1.1.1.20040119072730.12322.dcm"
+                                ],
+                                "metadata": {
+                                    "SpecificCharacterSet": "ISO_IR 100",
+                                    "InstanceNumber": 1,
+                                    "DistanceSourcetoDetector": 1099.3100585938,
+                                    "ForeignImageRevision": null,
+                                    "PatientsWeight": 0,
+                                    "PrimaryReceiverSuiteandHost": null,
+                                    "SliceLocation": -77.2040634155,
+                                    "DistanceSourcetoPatient": 630,
+                                    "SeriesInstanceUID": "1.3.6.1.4.1.5962.1.3.1.1.20040119072730.12322",
+                                    "SamplesperPixel": 1,
+                                    "ImageType": [
+                                        "ORIGINAL",
+                                        "PRIMARY",
+                                        "AXIAL"
+                                    ],
+                                    "BitsAllocated": 16,
+                                    "PatientsSex": "O",
+                                    "ImageOrientationPatient": [
+                                        1,
+                                        0,
+                                        0,
+                                        0,
+                                        1,
+                                        0
+                                    ],
+                                    "InstanceCreationTime": "072731",
+                                    "ExposureTime": 1601,
+                                    "ContentDate": "19970430",
+                                    "Manufacturer": "GE MEDICAL SYSTEMS",
+                                    "SpacingBetweenSlices": 5,
+                                    "Laterality": "",
+                                    "SOPInstanceUID": "1.3.6.1.4.1.5962.1.1.1.1.1.20040119072730.12322",
+                                    "SOPClassUID": "1.2.840.10008.5.1.4.1.1.2",
+                                    "TimezoneOffsetFromUTC": "-0500",
+                                    "PatientPosition": "FFS",
+                                    "SoftwareVersions": "05",
+                                    "HighBit": 15,
+                                    "StudyDate": "20040119",
+                                    "ReconstructionDiameter": 338.6716,
+                                    "AcquisitionNumber": 2,
+                                    "Mobilelocationnumber": null,
+                                    "Exposure": 170,
+                                    "AcquisitionTime": "112936",
+                                    "InstanceCreationDate": "20040119",
+                                    "Serviceid": null,
+                                    "ContrastBolusAgent": "ISOVUE300/100",
+                                    "FilterType": "LARGE BOWTIE FIL",
+                                    "StudyID": "1CT1",
+                                    "RescaleSlope": 1,
+                                    "SeriesDate": "19970430",
+                                    "PatientID": "1CT1",
+                                    "PatientsAge": "102",
+                                    "ScanOptions": "HELICAL MODE",
+                                    "Anatomicalreferenceforscout": null,
+                                    "AccessionNumber": "",
+                                    "Modality": "CT",
+                                    "KVP": 120,
+                                    "FrameofReferenceUID": "1.3.6.1.4.1.5962.1.4.1.1.20040119072730.12322",
+                                    "GantryDetectorTilt": 0,
+                                    "LowerrangeofPixels1": null,
+                                    "BitsStored": 16,
+                                    "PatientsBirthDate": "",
+                                    "StudyDescription": "e+1",
+                                    "StudyInstanceUID": "1.3.6.1.4.1.14519.5.2.1.7009.2403.194158539675615867024676990849",
+                                    "PixelRepresentation": 1,
+                                    "InstanceCreatorUID": "1.3.6.1.4.1.5962.3",
+                                    "DataCollectionDiameter": 480,
+                                    "FocalSpots": 0.7,
+                                    "StationName": "CT01_OC0",
+                                    "PhotometricInterpretation": "MONOCHROME2",
+                                    "AcquisitionDate": "19970430",
+                                    "SeriesNumber": 1,
+                                    "AdditionalPatientHistory": "",
+                                    "SeriesTime": "112749",
+                                    "XRayTubeCurrent": 170,
+                                    "Rows": 128,
+                                    "ContrastBolusRoute": "IV",
+                                    "InstitutionName": "JFK IMAGING CENTER",
+                                    "ReferringPhysiciansName": "",
+                                    "ImageComments": "Uncompressed",
+                                    "Columns": 128,
+                                    "RescaleIntercept": -1024,
+                                    "PrivateCreator": "GEMS_PARM_01",
+                                    "ImagePositionPatient": [
+                                        -158.135803,
+                                        -179.035797,
+                                        -75.699997
+                                    ],
+                                    "PatientsName": "Ansley Arden",
+                                    "PositionReferenceIndicator": "SN",
+                                    "StudyTime": "072730",
+                                    "ManufacturersModelName": "RHAPSODE",
+                                    "ContentTime": "113008",
+                                    "PixelPaddingValue": -2000,
+                                    "ConvolutionKernel": "STANDARD",
+                                    "TableHeight": 133.699997,
+                                    "SliceThickness": 5,
+                                    "PixelSpacing": [
+                                        0.661468,
+                                        0.661468
+                                    ]
+                                },
+                                "series_uid": "1.3.6.1.4.1.5962.1.3.1.1.20040119072730.12322"
+                            }
+                        ]
+                    },
+                    "type": "PACS"
+                }
+            ]
+        },
+        "collaboration_uid": "461e696c-2baf-43f8-8c41-7fedbf9f6711",
+        "execution_uid": "fcee4054-d966-4142-abb3-4081ba763891"
+    },
+    {
+        "timestamp": {
+            "inference_started": "2021-07-12T11:20:20.817420",
+            "input_received": "2021-07-12T10:10:10.817420",
+            "inference_finished": "2021-07-12T12:30:30.817420",
+            "output_sent": "2021-07-12T12:45:45.817420"
+        },
+        "model": {
+            "mode": "QA",
+            "result": {
+                "clinical_review_completed": false,
+                "reason": "",
+                "success": true,
+                "clinical_review": true,
+                "approval_given": false,
+                "type": "DICOM",
+                "message": "",
+                "clinicial_review_completed": false
+            },
+            "model_version": "1.0.0",
+            "model_name": "Haemorrhage-Stroke",
+            "model_uid": "Haemorrhage-Stroke-1.0.0",
+            "clinical_review": true,
+            "predicate": "DICOM_Modality == 'CT'"
+        },
+        "output": {
+            "destinations": [
+                {
+                    "study": {
+                        "study_uid": "1.3.6.1.4.1.14519.5.2.1.7009.2403.300468367115324750799216325524",
+                        "series": [
+                            {
+                                "filepaths": [
+                                    "mnt/efs_data/1CT1/1-3-6-1-4-1-5962-1-2-1-20040119072730-12322/1-3-6-1-4-1-5962-1-3-1-1-20040119072730-12322\\1.3.6.1.4.1.5962.1.1.1.1.1.20040119072730.12322.dcm"
+                                ],
+                                "metadata": {
+                                    "SpecificCharacterSet": "ISO_IR 100",
+                                    "InstanceNumber": 1,
+                                    "DistanceSourcetoDetector": 1099.3100585938,
+                                    "ForeignImageRevision": null,
+                                    "PatientsWeight": 60.35,
+                                    "PrimaryReceiverSuiteandHost": null,
+                                    "SliceLocation": -77.2040634155,
+                                    "DistanceSourcetoPatient": 630,
+                                    "SeriesInstanceUID": "1.3.6.1.4.1.5962.1.3.1.1.20040119072730.12322",
+                                    "SamplesperPixel": 1,
+                                    "ImageType": [
+                                        "ORIGINAL",
+                                        "PRIMARY",
+                                        "AXIAL"
+                                    ],
+                                    "BitsAllocated": 16,
+                                    "PatientsSex": "F",
+                                    "ImageOrientationPatient": [
+                                        1,
+                                        0,
+                                        0,
+                                        0,
+                                        1,
+                                        0
+                                    ],
+                                    "InstanceCreationTime": "072731",
+                                    "ExposureTime": 1601,
+                                    "ContentDate": "19970430",
+                                    "Manufacturer": "GE MEDICAL SYSTEMS",
+                                    "SpacingBetweenSlices": 5,
+                                    "Laterality": "",
+                                    "SOPInstanceUID": "1.3.6.1.4.1.5962.1.1.1.1.1.20040119072730.12322",
+                                    "SOPClassUID": "1.2.840.10008.5.1.4.1.1.2",
+                                    "TimezoneOffsetFromUTC": "-0500",
+                                    "PatientPosition": "FFS",
+                                    "SoftwareVersions": "05",
+                                    "HighBit": 15,
+                                    "StudyDate": "20040119",
+                                    "ReconstructionDiameter": 338.6716,
+                                    "AcquisitionNumber": 2,
+                                    "Mobilelocationnumber": null,
+                                    "Exposure": 170,
+                                    "AcquisitionTime": "112936",
+                                    "InstanceCreationDate": "20040119",
+                                    "Serviceid": null,
+                                    "ContrastBolusAgent": "ISOVUE300/100",
+                                    "FilterType": "LARGE BOWTIE FIL",
+                                    "StudyID": "1CT1",
+                                    "RescaleSlope": 1,
+                                    "SeriesDate": "19970430",
+                                    "PatientID": "2CT2",
+                                    "PatientsAge": "000Y",
+                                    "ScanOptions": "HELICAL MODE",
+                                    "Anatomicalreferenceforscout": null,
+                                    "AccessionNumber": "",
+                                    "Modality": "CT",
+                                    "KVP": 120,
+                                    "FrameofReferenceUID": "1.3.6.1.4.1.5962.1.4.1.1.20040119072730.12322",
+                                    "GantryDetectorTilt": 0,
+                                    "LowerrangeofPixels1": null,
+                                    "BitsStored": 16,
+                                    "PatientsBirthDate": "",
+                                    "StudyDescription": "e+1",
+                                    "StudyInstanceUID": "1.3.6.1.4.1.14519.5.2.1.7009.2403.300468367115324750799216325524",
+                                    "PixelRepresentation": 1,
+                                    "InstanceCreatorUID": "1.3.6.1.4.1.5962.3",
+                                    "DataCollectionDiameter": 480,
+                                    "FocalSpots": 0.7,
+                                    "StationName": "CT01_OC0",
+                                    "PhotometricInterpretation": "MONOCHROME2",
+                                    "AcquisitionDate": "19970430",
+                                    "SeriesNumber": 1,
+                                    "AdditionalPatientHistory": "",
+                                    "SeriesTime": "112749",
+                                    "XRayTubeCurrent": 170,
+                                    "Rows": 128,
+                                    "ContrastBolusRoute": "IV",
+                                    "InstitutionName": "JFK IMAGING CENTER",
+                                    "ReferringPhysiciansName": "",
+                                    "ImageComments": "Uncompressed",
+                                    "Columns": 128,
+                                    "RescaleIntercept": -1024,
+                                    "PrivateCreator": "GEMS_PARM_01",
+                                    "ImagePositionPatient": [
+                                        -158.135803,
+                                        -179.035797,
+                                        -75.699997
+                                    ],
+                                    "PatientsName": "Minerva Dennis",
+                                    "PositionReferenceIndicator": "SN",
+                                    "StudyTime": "072730",
+                                    "ManufacturersModelName": "RHAPSODE",
+                                    "ContentTime": "113008",
+                                    "PixelPaddingValue": -2000,
+                                    "ConvolutionKernel": "STANDARD",
+                                    "TableHeight": 133.699997,
+                                    "SliceThickness": 5,
+                                    "PixelSpacing": [
+                                        0.661468,
+                                        0.661468
+                                    ]
+                                },
+                                "series_uid": "1.3.6.1.4.1.5962.1.3.1.1.20040119072730.12322"
+                            }
+                        ]
+                    },
+                    "type": "PACS"
+                }
+            ]
+        },
+        "collaboration_uid": "461e696c-2baf-43f8-8c41-7fedbf9f6712",
+        "execution_uid": "fcee4054-d966-4142-abb3-4081ba763892"
+    },
+    {
+        "timestamp": {
+            "inference_started": "2021-07-12T12:20:20.817420",
+            "input_received": "2021-07-12T12:10:10.817420",
+            "inference_finished": "2021-07-12T12:30:30.817420",
+            "output_sent": "2021-07-12T12:45:45.817420"
+        },
+        "model": {
+            "mode": "QA",
+            "result": {
+                "clinical_review_completed": false,
+                "reason": "",
+                "success": true,
+                "clinical_review": true,
+                "approval_given": false,
+                "type": "DICOM",
+                "message": "",
+                "clinicial_review_completed": false
+            },
+            "model_version": "1.0.0",
+            "model_name": "Haemorrhage-Stroke",
+            "model_uid": "Haemorrhage-Stroke-1.0.0",
+            "clinical_review": true,
+            "predicate": "DICOM_Modality == 'CT'"
+        },
+        "output": {
+            "destinations": [
+                {
+                    "study": {
+                        "study_uid": "1.3.6.1.4.1.25403.345050719074.3824.20170126085406.1",
+                        "series": [
+                            {
+                                "filepaths": [
+                                    "mnt/efs_data/1CT1/1-3-6-1-4-1-5962-1-2-1-20040119072730-12322/1-3-6-1-4-1-5962-1-3-1-1-20040119072730-12322\\1.3.6.1.4.1.5962.1.1.1.1.1.20040119072730.12322.dcm"
+                                ],
+                                "metadata": {
+                                    "SpecificCharacterSet": "ISO_IR 100",
+                                    "InstanceNumber": 1,
+                                    "DistanceSourcetoDetector": 1099.3100585938,
+                                    "ForeignImageRevision": null,
+                                    "PatientsWeight": 60.25,
+                                    "PrimaryReceiverSuiteandHost": null,
+                                    "SliceLocation": -77.2040634155,
+                                    "DistanceSourcetoPatient": 630,
+                                    "SeriesInstanceUID": "1.3.6.1.4.1.5962.1.3.1.1.20040119072730.12322",
+                                    "SamplesperPixel": 1,
+                                    "ImageType": [
+                                        "ORIGINAL",
+                                        "PRIMARY",
+                                        "AXIAL"
+                                    ],
+                                    "BitsAllocated": 16,
+                                    "PatientsSex": "O",
+                                    "ImageOrientationPatient": [
+                                        1,
+                                        0,
+                                        0,
+                                        0,
+                                        1,
+                                        0
+                                    ],
+                                    "InstanceCreationTime": "072731",
+                                    "ExposureTime": 1601,
+                                    "ContentDate": "19970430",
+                                    "Manufacturer": "GE MEDICAL SYSTEMS",
+                                    "SpacingBetweenSlices": 5,
+                                    "Laterality": "",
+                                    "SOPInstanceUID": "1.3.6.1.4.1.5962.1.1.1.1.1.20040119072730.12322",
+                                    "SOPClassUID": "1.2.840.10008.5.1.4.1.1.2",
+                                    "TimezoneOffsetFromUTC": "-0500",
+                                    "PatientPosition": "FFS",
+                                    "SoftwareVersions": "05",
+                                    "HighBit": 15,
+                                    "StudyDate": "20040119",
+                                    "ReconstructionDiameter": 338.6716,
+                                    "AcquisitionNumber": 2,
+                                    "Mobilelocationnumber": null,
+                                    "Exposure": 170,
+                                    "AcquisitionTime": "112936",
+                                    "InstanceCreationDate": "20040119",
+                                    "Serviceid": null,
+                                    "ContrastBolusAgent": "ISOVUE300/100",
+                                    "FilterType": "LARGE BOWTIE FIL",
+                                    "StudyID": "1CT1",
+                                    "RescaleSlope": 1,
+                                    "SeriesDate": "19970430",
+                                    "PatientID": "3CT3",
+                                    "PatientsAge": "000Y",
+                                    "ScanOptions": "HELICAL MODE",
+                                    "Anatomicalreferenceforscout": null,
+                                    "AccessionNumber": "",
+                                    "Modality": "CT",
+                                    "KVP": 120,
+                                    "FrameofReferenceUID": "1.3.6.1.4.1.5962.1.4.1.1.20040119072730.12322",
+                                    "GantryDetectorTilt": 0,
+                                    "LowerrangeofPixels1": null,
+                                    "BitsStored": 16,
+                                    "PatientsBirthDate": "",
+                                    "StudyDescription": "e+1",
+                                    "StudyInstanceUID": "1.3.6.1.4.1.25403.345050719074.3824.20170126085406.1",
+                                    "PixelRepresentation": 1,
+                                    "InstanceCreatorUID": "1.3.6.1.4.1.5962.3",
+                                    "DataCollectionDiameter": 480,
+                                    "FocalSpots": 0.7,
+                                    "StationName": "CT01_OC0",
+                                    "PhotometricInterpretation": "MONOCHROME2",
+                                    "AcquisitionDate": "19970430",
+                                    "SeriesNumber": 1,
+                                    "AdditionalPatientHistory": "",
+                                    "SeriesTime": "112749",
+                                    "XRayTubeCurrent": 170,
+                                    "Rows": 128,
+                                    "ContrastBolusRoute": "IV",
+                                    "InstitutionName": "JFK IMAGING CENTER",
+                                    "ReferringPhysiciansName": "",
+                                    "ImageComments": "Uncompressed",
+                                    "Columns": 128,
+                                    "RescaleIntercept": -1024,
+                                    "PrivateCreator": "GEMS_PARM_01",
+                                    "ImagePositionPatient": [
+                                        -158.135803,
+                                        -179.035797,
+                                        -75.699997
+                                    ],
+                                    "PatientsName": "Lillia Bruce",
+                                    "PositionReferenceIndicator": "SN",
+                                    "StudyTime": "072730",
+                                    "ManufacturersModelName": "RHAPSODE",
+                                    "ContentTime": "113008",
+                                    "PixelPaddingValue": -2000,
+                                    "ConvolutionKernel": "STANDARD",
+                                    "TableHeight": 133.699997,
+                                    "SliceThickness": 5,
+                                    "PixelSpacing": [
+                                        0.661468,
+                                        0.661468
+                                    ]
+                                },
+                                "series_uid": "1.3.6.1.4.1.5962.1.3.1.1.20040119072730.12322"
+                            }
+                        ]
+                    },
+                    "type": "PACS"
+                }
+            ]
+        },
+        "collaboration_uid": "461e696c-2baf-43f8-8c41-7fedbf9f6713",
+        "execution_uid": "fcee4054-d966-4142-abb3-4081ba763893"
+    },
+    {
+        "timestamp": {
+            "inference_started": "2021-07-12T09:21:00.817420",
+            "input_received": "2021-07-12T08:25:45.817420",
+            "inference_finished": "2021-07-12T10:45:47.817420",
+            "output_sent": "2021-07-12T10:45:47.817420"
+        },
+        "model": {
+            "mode": "QA",
+            "result": {
+                "clinical_review_completed": false,
+                "reason": "",
+                "success": false,
+                "clinical_review": true,
+                "approval_given": false,
+                "type": "DICOM",
+                "message": "",
+                "clinicial_review_completed": false
+            },
+            "model_version": "1.0.0",
+            "model_name": "Haemorrhage-Brush",
+            "model_uid": "Haemorrhage-Brush-1.0.0",
+            "clinical_review": true,
+            "predicate": "DICOM_Modality == 'CT'"
+        },
+        "output": {
+            "destinations": [
+                {
+                    "study": {
+                        "study_uid": "1.3.6.1.4.1.14519.5.2.1.7009.2403.871108593056125491804754960339",
+                        "series": [
+                            {
+                                "filepaths": [
+                                    "mnt/efs_data/1CT1/1-3-6-1-4-1-5962-1-2-1-20040119072730-12322/1-3-6-1-4-1-5962-1-3-1-1-20040119072730-12322\\1.3.6.1.4.1.5962.1.1.1.1.1.20040119072730.12322.dcm"
+                                ],
+                                "metadata": {
+                                    "SpecificCharacterSet": "ISO_IR 100",
+                                    "InstanceNumber": 1,
+                                    "DistanceSourcetoDetector": 1099.3100585938,
+                                    "ForeignImageRevision": null,
+                                    "PatientsWeight": 0,
+                                    "PrimaryReceiverSuiteandHost": null,
+                                    "SliceLocation": -77.2040634155,
+                                    "DistanceSourcetoPatient": 630,
+                                    "SeriesInstanceUID": "1.3.6.1.4.1.5962.1.3.1.1.20040119072730.12322",
+                                    "SamplesperPixel": 1,
+                                    "ImageType": [
+                                        "ORIGINAL",
+                                        "PRIMARY",
+                                        "AXIAL"
+                                    ],
+                                    "BitsAllocated": 16,
+                                    "PatientsSex": "O",
+                                    "ImageOrientationPatient": [
+                                        1,
+                                        0,
+                                        0,
+                                        0,
+                                        1,
+                                        0
+                                    ],
+                                    "InstanceCreationTime": "072731",
+                                    "ExposureTime": 1601,
+                                    "ContentDate": "19970430",
+                                    "Manufacturer": "GE MEDICAL SYSTEMS",
+                                    "SpacingBetweenSlices": 5,
+                                    "Laterality": "",
+                                    "SOPInstanceUID": "1.3.6.1.4.1.5962.1.1.1.1.1.20040119072730.12322",
+                                    "SOPClassUID": "1.2.840.10008.5.1.4.1.1.2",
+                                    "TimezoneOffsetFromUTC": "-0500",
+                                    "PatientPosition": "FFS",
+                                    "SoftwareVersions": "05",
+                                    "HighBit": 15,
+                                    "StudyDate": "20040119",
+                                    "ReconstructionDiameter": 338.6716,
+                                    "AcquisitionNumber": 2,
+                                    "Mobilelocationnumber": null,
+                                    "Exposure": 170,
+                                    "AcquisitionTime": "112936",
+                                    "InstanceCreationDate": "20040119",
+                                    "Serviceid": null,
+                                    "ContrastBolusAgent": "ISOVUE300/100",
+                                    "FilterType": "LARGE BOWTIE FIL",
+                                    "StudyID": "1CT1",
+                                    "RescaleSlope": 1,
+                                    "SeriesDate": "19970430",
+                                    "PatientID": "1CT1",
+                                    "PatientsAge": "000Y",
+                                    "ScanOptions": "HELICAL MODE",
+                                    "Anatomicalreferenceforscout": null,
+                                    "AccessionNumber": "",
+                                    "Modality": "CT",
+                                    "KVP": 120,
+                                    "FrameofReferenceUID": "1.3.6.1.4.1.5962.1.4.1.1.20040119072730.12322",
+                                    "GantryDetectorTilt": 0,
+                                    "LowerrangeofPixels1": null,
+                                    "BitsStored": 16,
+                                    "PatientsBirthDate": "",
+                                    "StudyDescription": "e+1",
+                                    "StudyInstanceUID": "1.3.6.1.4.1.14519.5.2.1.7009.2403.871108593056125491804754960339",
+                                    "PixelRepresentation": 1,
+                                    "InstanceCreatorUID": "1.3.6.1.4.1.5962.3",
+                                    "DataCollectionDiameter": 480,
+                                    "FocalSpots": 0.7,
+                                    "StationName": "CT01_OC0",
+                                    "PhotometricInterpretation": "MONOCHROME2",
+                                    "AcquisitionDate": "19970430",
+                                    "SeriesNumber": 1,
+                                    "AdditionalPatientHistory": "",
+                                    "SeriesTime": "112749",
+                                    "XRayTubeCurrent": 170,
+                                    "Rows": 128,
+                                    "ContrastBolusRoute": "IV",
+                                    "InstitutionName": "JFK IMAGING CENTER",
+                                    "ReferringPhysiciansName": "",
+                                    "ImageComments": "Uncompressed",
+                                    "Columns": 128,
+                                    "RescaleIntercept": -1024,
+                                    "PrivateCreator": "GEMS_PARM_01",
+                                    "ImagePositionPatient": [
+                                        -158.135803,
+                                        -179.035797,
+                                        -75.699997
+                                    ],
+                                    "PatientsName": "John Smith",
+                                    "PositionReferenceIndicator": "SN",
+                                    "StudyTime": "072730",
+                                    "ManufacturersModelName": "RHAPSODE",
+                                    "ContentTime": "113008",
+                                    "PixelPaddingValue": -2000,
+                                    "ConvolutionKernel": "STANDARD",
+                                    "TableHeight": 133.699997,
+                                    "SliceThickness": 5,
+                                    "PixelSpacing": [
+                                        0.661468,
+                                        0.661468
+                                    ]
+                                },
+                                "series_uid": "1.3.6.1.4.1.5962.1.3.1.1.20040119072730.12322"
+                            }
+                        ]
+                    },
+                    "type": "PACS"
+                }
+            ]
+        },
+        "collaboration_uid": "461e696c-2baf-43f8-8c41-7fedbf9f6711",
+        "execution_uid": "fcee4054-d966-4142-abb3-4081ba763891"
+    },
+    {
+        "timestamp": {
+            "inference_started": "2021-07-12T09:21:00.817420",
+            "input_received": "2021-07-12T08:25:45.817420",
+            "inference_finished": "2021-07-12T10:45:47.817420",
+            "output_sent": "2021-07-12T10:45:47.817420"
+        },
+        "model": {
+            "mode": "QA",
+            "result": {
+                "clinical_review_completed": false,
+                "reason": "",
+                "success": false,
+                "clinical_review": true,
+                "approval_given": false,
+                "type": "DICOM",
+                "message": "",
+                "clinicial_review_completed": false
+            },
+            "model_version": "1.0.0",
+            "model_name": "Haemorrhage-Scratch",
+            "model_uid": "Haemorrhage-Scratch-1.0.0",
+            "clinical_review": true,
+            "predicate": "DICOM_Modality == 'CT'"
+        },
+        "output": {
+            "destinations": [
+                {
+                    "study": {
+                        "study_uid": "1.3.6.1.4.1.5962.99.1.3827483890.1961511620.1550015743218.29.0",
+                        "series": [
+                            {
+                                "filepaths": [
+                                    "mnt/efs_data/1CT1/1-3-6-1-4-1-5962-1-2-1-20040119072730-12322/1-3-6-1-4-1-5962-1-3-1-1-20040119072730-12322\\1.3.6.1.4.1.5962.1.1.1.1.1.20040119072730.12322.dcm"
+                                ],
+                                "metadata": {
+                                    "SpecificCharacterSet": "ISO_IR 100",
+                                    "InstanceNumber": 1,
+                                    "DistanceSourcetoDetector": 1099.3100585938,
+                                    "ForeignImageRevision": null,
+                                    "PatientsWeight": 0,
+                                    "PrimaryReceiverSuiteandHost": null,
+                                    "SliceLocation": -77.2040634155,
+                                    "DistanceSourcetoPatient": 630,
+                                    "SeriesInstanceUID": "1.3.6.1.4.1.5962.1.3.1.1.20040119072730.12322",
+                                    "SamplesperPixel": 1,
+                                    "ImageType": [
+                                        "ORIGINAL",
+                                        "PRIMARY",
+                                        "AXIAL"
+                                    ],
+                                    "BitsAllocated": 16,
+                                    "PatientsSex": "O",
+                                    "ImageOrientationPatient": [
+                                        1,
+                                        0,
+                                        0,
+                                        0,
+                                        1,
+                                        0
+                                    ],
+                                    "InstanceCreationTime": "072731",
+                                    "ExposureTime": 1601,
+                                    "ContentDate": "19970430",
+                                    "Manufacturer": "GE MEDICAL SYSTEMS",
+                                    "SpacingBetweenSlices": 5,
+                                    "Laterality": "",
+                                    "SOPInstanceUID": "1.3.6.1.4.1.5962.1.1.1.1.1.20040119072730.12322",
+                                    "SOPClassUID": "1.2.840.10008.5.1.4.1.1.2",
+                                    "TimezoneOffsetFromUTC": "-0500",
+                                    "PatientPosition": "FFS",
+                                    "SoftwareVersions": "05",
+                                    "HighBit": 15,
+                                    "StudyDate": "20040119",
+                                    "ReconstructionDiameter": 338.6716,
+                                    "AcquisitionNumber": 2,
+                                    "Mobilelocationnumber": null,
+                                    "Exposure": 170,
+                                    "AcquisitionTime": "112936",
+                                    "InstanceCreationDate": "20040119",
+                                    "Serviceid": null,
+                                    "ContrastBolusAgent": "ISOVUE300/100",
+                                    "FilterType": "LARGE BOWTIE FIL",
+                                    "StudyID": "1CT1",
+                                    "RescaleSlope": 1,
+                                    "SeriesDate": "19970430",
+                                    "PatientID": "1CT1",
+                                    "PatientsAge": "000Y",
+                                    "ScanOptions": "HELICAL MODE",
+                                    "Anatomicalreferenceforscout": null,
+                                    "AccessionNumber": "",
+                                    "Modality": "CT",
+                                    "KVP": 120,
+                                    "FrameofReferenceUID": "1.3.6.1.4.1.5962.1.4.1.1.20040119072730.12322",
+                                    "GantryDetectorTilt": 0,
+                                    "LowerrangeofPixels1": null,
+                                    "BitsStored": 16,
+                                    "PatientsBirthDate": "",
+                                    "StudyDescription": "e+1",
+                                    "StudyInstanceUID": "1.3.6.1.4.1.5962.99.1.3827483890.1961511620.1550015743218.29.0",
+                                    "PixelRepresentation": 1,
+                                    "InstanceCreatorUID": "1.3.6.1.4.1.5962.3",
+                                    "DataCollectionDiameter": 480,
+                                    "FocalSpots": 0.7,
+                                    "StationName": "CT01_OC0",
+                                    "PhotometricInterpretation": "MONOCHROME2",
+                                    "AcquisitionDate": "19970430",
+                                    "SeriesNumber": 1,
+                                    "AdditionalPatientHistory": "",
+                                    "SeriesTime": "112749",
+                                    "XRayTubeCurrent": 170,
+                                    "Rows": 128,
+                                    "ContrastBolusRoute": "IV",
+                                    "InstitutionName": "JFK IMAGING CENTER",
+                                    "ReferringPhysiciansName": "",
+                                    "ImageComments": "Uncompressed",
+                                    "Columns": 128,
+                                    "RescaleIntercept": -1024,
+                                    "PrivateCreator": "GEMS_PARM_01",
+                                    "ImagePositionPatient": [
+                                        -158.135803,
+                                        -179.035797,
+                                        -75.699997
+                                    ],
+                                    "PatientsName": "Rock Star",
+                                    "PositionReferenceIndicator": "SN",
+                                    "StudyTime": "072730",
+                                    "ManufacturersModelName": "RHAPSODE",
+                                    "ContentTime": "113008",
+                                    "PixelPaddingValue": -2000,
+                                    "ConvolutionKernel": "STANDARD",
+                                    "TableHeight": 133.699997,
+                                    "SliceThickness": 5,
+                                    "PixelSpacing": [
+                                        0.661468,
+                                        0.661468
+                                    ]
+                                },
+                                "series_uid": "1.3.6.1.4.1.5962.1.3.1.1.20040119072730.12322"
+                            }
+                        ]
+                    },
+                    "type": "PACS"
+                }
+            ]
+        },
+        "collaboration_uid": "461e696c-2baf-43f8-8c41-7fedbf9f6711",
+        "execution_uid": "fcee4054-d966-4142-abb3-4081ba763891"
+    },
+    {
+        "timestamp": {
+            "inference_started": "2021-07-12T09:21:00.817420",
+            "input_received": "2021-07-12T08:25:45.817420",
+            "inference_finished": "2021-07-12T10:45:47.817420",
+            "output_sent": "2021-07-12T10:45:47.817420"
+        },
+        "model": {
+            "mode": "QA",
+            "result": {
+                "clinical_review_completed": false,
+                "reason": "",
+                "success": false,
+                "clinical_review": true,
+                "approval_given": false,
+                "type": "DICOM",
+                "message": "",
+                "clinicial_review_completed": false
+            },
+            "model_version": "1.0.0",
+            "model_name": "Haemorrhage-Dummy1",
+            "model_uid": "Haemorrhage-Scratch-1.0.0",
+            "clinical_review": true,
+            "predicate": "DICOM_Modality == 'CT'"
+        },
+        "output": {
+            "destinations": [
+                {
+                    "study": {
+                        "study_uid": "1.3.6.1.4.1.5962.99.1.3827483890.1961511620.1550015743218.29.6",
+                        "series": [
+                            {
+                                "filepaths": [
+                                    "mnt/efs_data/1CT1/1-3-6-1-4-1-5962-1-2-1-20040119072730-12322/1-3-6-1-4-1-5962-1-3-1-1-20040119072730-12322\\1.3.6.1.4.1.5962.1.1.1.1.1.20040119072730.12322.dcm"
+                                ],
+                                "metadata": {
+                                    "SpecificCharacterSet": "ISO_IR 100",
+                                    "InstanceNumber": 1,
+                                    "DistanceSourcetoDetector": 1099.3100585938,
+                                    "ForeignImageRevision": null,
+                                    "PatientsWeight": 0,
+                                    "PrimaryReceiverSuiteandHost": null,
+                                    "SliceLocation": -77.2040634155,
+                                    "DistanceSourcetoPatient": 630,
+                                    "SeriesInstanceUID": "1.3.6.1.4.1.5962.1.3.1.1.20040119072730.12322",
+                                    "SamplesperPixel": 1,
+                                    "ImageType": [
+                                        "ORIGINAL",
+                                        "PRIMARY",
+                                        "AXIAL"
+                                    ],
+                                    "BitsAllocated": 16,
+                                    "PatientsSex": "O",
+                                    "ImageOrientationPatient": [
+                                        1,
+                                        0,
+                                        0,
+                                        0,
+                                        1,
+                                        0
+                                    ],
+                                    "InstanceCreationTime": "072731",
+                                    "ExposureTime": 1601,
+                                    "ContentDate": "19970430",
+                                    "Manufacturer": "GE MEDICAL SYSTEMS",
+                                    "SpacingBetweenSlices": 5,
+                                    "Laterality": "",
+                                    "SOPInstanceUID": "1.3.6.1.4.1.5962.1.1.1.1.1.20040119072730.12322",
+                                    "SOPClassUID": "1.2.840.10008.5.1.4.1.1.2",
+                                    "TimezoneOffsetFromUTC": "-0500",
+                                    "PatientPosition": "FFS",
+                                    "SoftwareVersions": "05",
+                                    "HighBit": 15,
+                                    "StudyDate": "20040119",
+                                    "ReconstructionDiameter": 338.6716,
+                                    "AcquisitionNumber": 2,
+                                    "Mobilelocationnumber": null,
+                                    "Exposure": 170,
+                                    "AcquisitionTime": "112936",
+                                    "InstanceCreationDate": "20040119",
+                                    "Serviceid": null,
+                                    "ContrastBolusAgent": "ISOVUE300/100",
+                                    "FilterType": "LARGE BOWTIE FIL",
+                                    "StudyID": "1CT1",
+                                    "RescaleSlope": 1,
+                                    "SeriesDate": "19970430",
+                                    "PatientID": "1CT1",
+                                    "PatientsAge": "000Y",
+                                    "ScanOptions": "HELICAL MODE",
+                                    "Anatomicalreferenceforscout": null,
+                                    "AccessionNumber": "",
+                                    "Modality": "CT",
+                                    "KVP": 120,
+                                    "FrameofReferenceUID": "1.3.6.1.4.1.5962.1.4.1.1.20040119072730.12322",
+                                    "GantryDetectorTilt": 0,
+                                    "LowerrangeofPixels1": null,
+                                    "BitsStored": 16,
+                                    "PatientsBirthDate": "",
+                                    "StudyDescription": "e+1",
+                                    "StudyInstanceUID": "1.3.6.1.4.1.5962.99.1.3827483890.1961511620.1550015743218.29.6",
+                                    "PixelRepresentation": 1,
+                                    "InstanceCreatorUID": "1.3.6.1.4.1.5962.3",
+                                    "DataCollectionDiameter": 480,
+                                    "FocalSpots": 0.7,
+                                    "StationName": "CT01_OC0",
+                                    "PhotometricInterpretation": "MONOCHROME2",
+                                    "AcquisitionDate": "19970430",
+                                    "SeriesNumber": 1,
+                                    "AdditionalPatientHistory": "",
+                                    "SeriesTime": "112749",
+                                    "XRayTubeCurrent": 170,
+                                    "Rows": 128,
+                                    "ContrastBolusRoute": "IV",
+                                    "InstitutionName": "JFK IMAGING CENTER",
+                                    "ReferringPhysiciansName": "",
+                                    "ImageComments": "Uncompressed",
+                                    "Columns": 128,
+                                    "RescaleIntercept": -1024,
+                                    "PrivateCreator": "GEMS_PARM_01",
+                                    "ImagePositionPatient": [
+                                        -158.135803,
+                                        -179.035797,
+                                        -75.699997
+                                    ],
+                                    "PatientsName": "Rock Dummy1",
+                                    "PositionReferenceIndicator": "SN",
+                                    "StudyTime": "072730",
+                                    "ManufacturersModelName": "RHAPSODE",
+                                    "ContentTime": "113008",
+                                    "PixelPaddingValue": -2000,
+                                    "ConvolutionKernel": "STANDARD",
+                                    "TableHeight": 133.699997,
+                                    "SliceThickness": 5,
+                                    "PixelSpacing": [
+                                        0.661468,
+                                        0.661468
+                                    ]
+                                },
+                                "series_uid": "1.3.6.1.4.1.5962.1.3.1.1.20040119072730.12322"
+                            }
+                        ]
+                    },
+                    "type": "PACS"
+                }
+            ]
+        },
+        "collaboration_uid": "461e696c-2baf-43f8-8c41-7fedbf9f6711",
+        "execution_uid": "fcee4054-d966-4142-abb3-4081ba763891"
+    },
+    {
+        "timestamp": {
+            "inference_started": "2021-07-12T09:21:00.817420",
+            "input_received": "2021-07-12T08:25:45.817420",
+            "inference_finished": "2021-07-12T10:45:47.817420",
+            "output_sent": "2021-07-12T10:45:47.817420"
+        },
+        "model": {
+            "mode": "QA",
+            "result": {
+                "clinical_review_completed": false,
+                "reason": "",
+                "success": false,
+                "clinical_review": true,
+                "approval_given": false,
+                "type": "DICOM",
+                "message": "",
+                "clinicial_review_completed": false
+            },
+            "model_version": "1.0.0",
+            "model_name": "Haemorrhage-Dummy2",
+            "model_uid": "Haemorrhage-Scratch-1.0.0",
+            "clinical_review": true,
+            "predicate": "DICOM_Modality == 'CT'"
+        },
+        "output": {
+            "destinations": [
+                {
+                    "study": {
+                        "study_uid": "1.3.6.1.4.1.5962.99.1.3827483890.1961511620.1550015743218.29.5",
+                        "series": [
+                            {
+                                "filepaths": [
+                                    "mnt/efs_data/1CT1/1-3-6-1-4-1-5962-1-2-1-20040119072730-12322/1-3-6-1-4-1-5962-1-3-1-1-20040119072730-12322\\1.3.6.1.4.1.5962.1.1.1.1.1.20040119072730.12322.dcm"
+                                ],
+                                "metadata": {
+                                    "SpecificCharacterSet": "ISO_IR 100",
+                                    "InstanceNumber": 1,
+                                    "DistanceSourcetoDetector": 1099.3100585938,
+                                    "ForeignImageRevision": null,
+                                    "PatientsWeight": 0,
+                                    "PrimaryReceiverSuiteandHost": null,
+                                    "SliceLocation": -77.2040634155,
+                                    "DistanceSourcetoPatient": 630,
+                                    "SeriesInstanceUID": "1.3.6.1.4.1.5962.1.3.1.1.20040119072730.12322",
+                                    "SamplesperPixel": 1,
+                                    "ImageType": [
+                                        "ORIGINAL",
+                                        "PRIMARY",
+                                        "AXIAL"
+                                    ],
+                                    "BitsAllocated": 16,
+                                    "PatientsSex": "O",
+                                    "ImageOrientationPatient": [
+                                        1,
+                                        0,
+                                        0,
+                                        0,
+                                        1,
+                                        0
+                                    ],
+                                    "InstanceCreationTime": "072731",
+                                    "ExposureTime": 1601,
+                                    "ContentDate": "19970430",
+                                    "Manufacturer": "GE MEDICAL SYSTEMS",
+                                    "SpacingBetweenSlices": 5,
+                                    "Laterality": "",
+                                    "SOPInstanceUID": "1.3.6.1.4.1.5962.1.1.1.1.1.20040119072730.12322",
+                                    "SOPClassUID": "1.2.840.10008.5.1.4.1.1.2",
+                                    "TimezoneOffsetFromUTC": "-0500",
+                                    "PatientPosition": "FFS",
+                                    "SoftwareVersions": "05",
+                                    "HighBit": 15,
+                                    "StudyDate": "20040119",
+                                    "ReconstructionDiameter": 338.6716,
+                                    "AcquisitionNumber": 2,
+                                    "Mobilelocationnumber": null,
+                                    "Exposure": 170,
+                                    "AcquisitionTime": "112936",
+                                    "InstanceCreationDate": "20040119",
+                                    "Serviceid": null,
+                                    "ContrastBolusAgent": "ISOVUE300/100",
+                                    "FilterType": "LARGE BOWTIE FIL",
+                                    "StudyID": "1CT1",
+                                    "RescaleSlope": 1,
+                                    "SeriesDate": "19970430",
+                                    "PatientID": "1CT1",
+                                    "PatientsAge": "000Y",
+                                    "ScanOptions": "HELICAL MODE",
+                                    "Anatomicalreferenceforscout": null,
+                                    "AccessionNumber": "",
+                                    "Modality": "CT",
+                                    "KVP": 120,
+                                    "FrameofReferenceUID": "1.3.6.1.4.1.5962.1.4.1.1.20040119072730.12322",
+                                    "GantryDetectorTilt": 0,
+                                    "LowerrangeofPixels1": null,
+                                    "BitsStored": 16,
+                                    "PatientsBirthDate": "",
+                                    "StudyDescription": "e+1",
+                                    "StudyInstanceUID": "1.3.6.1.4.1.5962.99.1.3827483890.1961511620.1550015743218.29.5",
+                                    "PixelRepresentation": 1,
+                                    "InstanceCreatorUID": "1.3.6.1.4.1.5962.3",
+                                    "DataCollectionDiameter": 480,
+                                    "FocalSpots": 0.7,
+                                    "StationName": "CT01_OC0",
+                                    "PhotometricInterpretation": "MONOCHROME2",
+                                    "AcquisitionDate": "19970430",
+                                    "SeriesNumber": 1,
+                                    "AdditionalPatientHistory": "",
+                                    "SeriesTime": "112749",
+                                    "XRayTubeCurrent": 170,
+                                    "Rows": 128,
+                                    "ContrastBolusRoute": "IV",
+                                    "InstitutionName": "JFK IMAGING CENTER",
+                                    "ReferringPhysiciansName": "",
+                                    "ImageComments": "Uncompressed",
+                                    "Columns": 128,
+                                    "RescaleIntercept": -1024,
+                                    "PrivateCreator": "GEMS_PARM_01",
+                                    "ImagePositionPatient": [
+                                        -158.135803,
+                                        -179.035797,
+                                        -75.699997
+                                    ],
+                                    "PatientsName": "Rock Dummy2",
+                                    "PositionReferenceIndicator": "SN",
+                                    "StudyTime": "072730",
+                                    "ManufacturersModelName": "RHAPSODE",
+                                    "ContentTime": "113008",
+                                    "PixelPaddingValue": -2000,
+                                    "ConvolutionKernel": "STANDARD",
+                                    "TableHeight": 133.699997,
+                                    "SliceThickness": 5,
+                                    "PixelSpacing": [
+                                        0.661468,
+                                        0.661468
+                                    ]
+                                },
+                                "series_uid": "1.3.6.1.4.1.5962.1.3.1.1.20040119072730.12322"
+                            }
+                        ]
+                    },
+                    "type": "PACS"
+                }
+            ]
+        },
+        "collaboration_uid": "461e696c-2baf-43f8-8c41-7fedbf9f6711",
+        "execution_uid": "fcee4054-d966-4142-abb3-4081ba763891"
+    },
+    {
+        "timestamp": {
+            "inference_started": "2021-07-12T09:21:00.817420",
+            "input_received": "2021-07-12T08:25:45.817420",
+            "inference_finished": "2021-07-12T10:45:47.817420",
+            "output_sent": "2021-07-12T10:45:47.817420"
+        },
+        "model": {
+            "mode": "QA",
+            "result": {
+                "clinical_review_completed": false,
+                "reason": "",
+                "success": false,
+                "clinical_review": true,
+                "approval_given": false,
+                "type": "DICOM",
+                "message": "",
+                "clinicial_review_completed": false
+            },
+            "model_version": "1.0.0",
+            "model_name": "Haemorrhage-Dummy3",
+            "model_uid": "Haemorrhage-Scratch-1.0.0",
+            "clinical_review": true,
+            "predicate": "DICOM_Modality == 'CT'"
+        },
+        "output": {
+            "destinations": [
+                {
+                    "study": {
+                        "study_uid": "1.3.6.1.4.1.5962.99.1.3827483890.1961511620.1550015743218.29.4",
+                        "series": [
+                            {
+                                "filepaths": [
+                                    "mnt/efs_data/1CT1/1-3-6-1-4-1-5962-1-2-1-20040119072730-12322/1-3-6-1-4-1-5962-1-3-1-1-20040119072730-12322\\1.3.6.1.4.1.5962.1.1.1.1.1.20040119072730.12322.dcm"
+                                ],
+                                "metadata": {
+                                    "SpecificCharacterSet": "ISO_IR 100",
+                                    "InstanceNumber": 1,
+                                    "DistanceSourcetoDetector": 1099.3100585938,
+                                    "ForeignImageRevision": null,
+                                    "PatientsWeight": 0,
+                                    "PrimaryReceiverSuiteandHost": null,
+                                    "SliceLocation": -77.2040634155,
+                                    "DistanceSourcetoPatient": 630,
+                                    "SeriesInstanceUID": "1.3.6.1.4.1.5962.1.3.1.1.20040119072730.12322",
+                                    "SamplesperPixel": 1,
+                                    "ImageType": [
+                                        "ORIGINAL",
+                                        "PRIMARY",
+                                        "AXIAL"
+                                    ],
+                                    "BitsAllocated": 16,
+                                    "PatientsSex": "O",
+                                    "ImageOrientationPatient": [
+                                        1,
+                                        0,
+                                        0,
+                                        0,
+                                        1,
+                                        0
+                                    ],
+                                    "InstanceCreationTime": "072731",
+                                    "ExposureTime": 1601,
+                                    "ContentDate": "19970430",
+                                    "Manufacturer": "GE MEDICAL SYSTEMS",
+                                    "SpacingBetweenSlices": 5,
+                                    "Laterality": "",
+                                    "SOPInstanceUID": "1.3.6.1.4.1.5962.1.1.1.1.1.20040119072730.12322",
+                                    "SOPClassUID": "1.2.840.10008.5.1.4.1.1.2",
+                                    "TimezoneOffsetFromUTC": "-0500",
+                                    "PatientPosition": "FFS",
+                                    "SoftwareVersions": "05",
+                                    "HighBit": 15,
+                                    "StudyDate": "20040119",
+                                    "ReconstructionDiameter": 338.6716,
+                                    "AcquisitionNumber": 2,
+                                    "Mobilelocationnumber": null,
+                                    "Exposure": 170,
+                                    "AcquisitionTime": "112936",
+                                    "InstanceCreationDate": "20040119",
+                                    "Serviceid": null,
+                                    "ContrastBolusAgent": "ISOVUE300/100",
+                                    "FilterType": "LARGE BOWTIE FIL",
+                                    "StudyID": "1CT1",
+                                    "RescaleSlope": 1,
+                                    "SeriesDate": "19970430",
+                                    "PatientID": "1CT1",
+                                    "PatientsAge": "000Y",
+                                    "ScanOptions": "HELICAL MODE",
+                                    "Anatomicalreferenceforscout": null,
+                                    "AccessionNumber": "",
+                                    "Modality": "CT",
+                                    "KVP": 120,
+                                    "FrameofReferenceUID": "1.3.6.1.4.1.5962.1.4.1.1.20040119072730.12322",
+                                    "GantryDetectorTilt": 0,
+                                    "LowerrangeofPixels1": null,
+                                    "BitsStored": 16,
+                                    "PatientsBirthDate": "",
+                                    "StudyDescription": "e+1",
+                                    "StudyInstanceUID": "1.3.6.1.4.1.5962.99.1.3827483890.1961511620.1550015743218.29.3",
+                                    "PixelRepresentation": 1,
+                                    "InstanceCreatorUID": "1.3.6.1.4.1.5962.3",
+                                    "DataCollectionDiameter": 480,
+                                    "FocalSpots": 0.7,
+                                    "StationName": "CT01_OC0",
+                                    "PhotometricInterpretation": "MONOCHROME2",
+                                    "AcquisitionDate": "19970430",
+                                    "SeriesNumber": 1,
+                                    "AdditionalPatientHistory": "",
+                                    "SeriesTime": "112749",
+                                    "XRayTubeCurrent": 170,
+                                    "Rows": 128,
+                                    "ContrastBolusRoute": "IV",
+                                    "InstitutionName": "JFK IMAGING CENTER",
+                                    "ReferringPhysiciansName": "",
+                                    "ImageComments": "Uncompressed",
+                                    "Columns": 128,
+                                    "RescaleIntercept": -1024,
+                                    "PrivateCreator": "GEMS_PARM_01",
+                                    "ImagePositionPatient": [
+                                        -158.135803,
+                                        -179.035797,
+                                        -75.699997
+                                    ],
+                                    "PatientsName": "Rock Dummy3",
+                                    "PositionReferenceIndicator": "SN",
+                                    "StudyTime": "072730",
+                                    "ManufacturersModelName": "RHAPSODE",
+                                    "ContentTime": "113008",
+                                    "PixelPaddingValue": -2000,
+                                    "ConvolutionKernel": "STANDARD",
+                                    "TableHeight": 133.699997,
+                                    "SliceThickness": 5,
+                                    "PixelSpacing": [
+                                        0.661468,
+                                        0.661468
+                                    ]
+                                },
+                                "series_uid": "1.3.6.1.4.1.5962.1.3.1.1.20040119072730.12322"
+                            }
+                        ]
+                    },
+                    "type": "PACS"
+                }
+            ]
+        },
+        "collaboration_uid": "461e696c-2baf-43f8-8c41-7fedbf9f6711",
+        "execution_uid": "fcee4054-d966-4142-abb3-4081ba763891"
+    },
+    {
+        "timestamp": {
+            "inference_started": "2021-07-12T09:21:00.817420",
+            "input_received": "2021-07-12T08:25:45.817420",
+            "inference_finished": "2021-07-12T10:45:47.817420",
+            "output_sent": "2021-07-12T10:45:47.817420"
+        },
+        "model": {
+            "mode": "QA",
+            "result": {
+                "clinical_review_completed": false,
+                "reason": "",
+                "success": false,
+                "clinical_review": true,
+                "approval_given": false,
+                "type": "DICOM",
+                "message": "",
+                "clinicial_review_completed": false
+            },
+            "model_version": "1.0.0",
+            "model_name": "Haemorrhage-Dummy4",
+            "model_uid": "Haemorrhage-Scratch-1.0.0",
+            "clinical_review": true,
+            "predicate": "DICOM_Modality == 'CT'"
+        },
+        "output": {
+            "destinations": [
+                {
+                    "study": {
+                        "study_uid": "1.3.6.1.4.1.5962.99.1.3827483890.1961511620.1550015743218.29.2",
+                        "series": [
+                            {
+                                "filepaths": [
+                                    "mnt/efs_data/1CT1/1-3-6-1-4-1-5962-1-2-1-20040119072730-12322/1-3-6-1-4-1-5962-1-3-1-1-20040119072730-12322\\1.3.6.1.4.1.5962.1.1.1.1.1.20040119072730.12322.dcm"
+                                ],
+                                "metadata": {
+                                    "SpecificCharacterSet": "ISO_IR 100",
+                                    "InstanceNumber": 1,
+                                    "DistanceSourcetoDetector": 1099.3100585938,
+                                    "ForeignImageRevision": null,
+                                    "PatientsWeight": 0,
+                                    "PrimaryReceiverSuiteandHost": null,
+                                    "SliceLocation": -77.2040634155,
+                                    "DistanceSourcetoPatient": 630,
+                                    "SeriesInstanceUID": "1.3.6.1.4.1.5962.1.3.1.1.20040119072730.12322",
+                                    "SamplesperPixel": 1,
+                                    "ImageType": [
+                                        "ORIGINAL",
+                                        "PRIMARY",
+                                        "AXIAL"
+                                    ],
+                                    "BitsAllocated": 16,
+                                    "PatientsSex": "O",
+                                    "ImageOrientationPatient": [
+                                        1,
+                                        0,
+                                        0,
+                                        0,
+                                        1,
+                                        0
+                                    ],
+                                    "InstanceCreationTime": "072731",
+                                    "ExposureTime": 1601,
+                                    "ContentDate": "19970430",
+                                    "Manufacturer": "GE MEDICAL SYSTEMS",
+                                    "SpacingBetweenSlices": 5,
+                                    "Laterality": "",
+                                    "SOPInstanceUID": "1.3.6.1.4.1.5962.1.1.1.1.1.20040119072730.12322",
+                                    "SOPClassUID": "1.2.840.10008.5.1.4.1.1.2",
+                                    "TimezoneOffsetFromUTC": "-0500",
+                                    "PatientPosition": "FFS",
+                                    "SoftwareVersions": "05",
+                                    "HighBit": 15,
+                                    "StudyDate": "20040119",
+                                    "ReconstructionDiameter": 338.6716,
+                                    "AcquisitionNumber": 2,
+                                    "Mobilelocationnumber": null,
+                                    "Exposure": 170,
+                                    "AcquisitionTime": "112936",
+                                    "InstanceCreationDate": "20040119",
+                                    "Serviceid": null,
+                                    "ContrastBolusAgent": "ISOVUE300/100",
+                                    "FilterType": "LARGE BOWTIE FIL",
+                                    "StudyID": "1CT1",
+                                    "RescaleSlope": 1,
+                                    "SeriesDate": "19970430",
+                                    "PatientID": "1CT1",
+                                    "PatientsAge": "000Y",
+                                    "ScanOptions": "HELICAL MODE",
+                                    "Anatomicalreferenceforscout": null,
+                                    "AccessionNumber": "",
+                                    "Modality": "CT",
+                                    "KVP": 120,
+                                    "FrameofReferenceUID": "1.3.6.1.4.1.5962.1.4.1.1.20040119072730.12322",
+                                    "GantryDetectorTilt": 0,
+                                    "LowerrangeofPixels1": null,
+                                    "BitsStored": 16,
+                                    "PatientsBirthDate": "",
+                                    "StudyDescription": "e+1",
+                                    "StudyInstanceUID": "1.3.6.1.4.1.5962.99.1.3827483890.1961511620.1550015743218.29.2",
+                                    "PixelRepresentation": 1,
+                                    "InstanceCreatorUID": "1.3.6.1.4.1.5962.3",
+                                    "DataCollectionDiameter": 480,
+                                    "FocalSpots": 0.7,
+                                    "StationName": "CT01_OC0",
+                                    "PhotometricInterpretation": "MONOCHROME2",
+                                    "AcquisitionDate": "19970430",
+                                    "SeriesNumber": 1,
+                                    "AdditionalPatientHistory": "",
+                                    "SeriesTime": "112749",
+                                    "XRayTubeCurrent": 170,
+                                    "Rows": 128,
+                                    "ContrastBolusRoute": "IV",
+                                    "InstitutionName": "JFK IMAGING CENTER",
+                                    "ReferringPhysiciansName": "",
+                                    "ImageComments": "Uncompressed",
+                                    "Columns": 128,
+                                    "RescaleIntercept": -1024,
+                                    "PrivateCreator": "GEMS_PARM_01",
+                                    "ImagePositionPatient": [
+                                        -158.135803,
+                                        -179.035797,
+                                        -75.699997
+                                    ],
+                                    "PatientsName": "Rock Dummy4",
+                                    "PositionReferenceIndicator": "SN",
+                                    "StudyTime": "072730",
+                                    "ManufacturersModelName": "RHAPSODE",
+                                    "ContentTime": "113008",
+                                    "PixelPaddingValue": -2000,
+                                    "ConvolutionKernel": "STANDARD",
+                                    "TableHeight": 133.699997,
+                                    "SliceThickness": 5,
+                                    "PixelSpacing": [
+                                        0.661468,
+                                        0.661468
+                                    ]
+                                },
+                                "series_uid": "1.3.6.1.4.1.5962.1.3.1.1.20040119072730.12322"
+                            }
+                        ]
+                    },
+                    "type": "PACS"
+                }
+            ]
+        },
+        "collaboration_uid": "461e696c-2baf-43f8-8c41-7fedbf9f6711",
+        "execution_uid": "fcee4054-d966-4142-abb3-4081ba763891"
+    },
+    {
+        "timestamp": {
+            "inference_started": "2021-07-12T09:21:00.817420",
+            "input_received": "2021-07-12T08:25:45.817420",
+            "inference_finished": "2021-07-12T10:45:47.817420",
+            "output_sent": "2021-07-12T10:45:47.817420"
+        },
+        "model": {
+            "mode": "QA",
+            "result": {
+                "clinical_review_completed": false,
+                "reason": "",
+                "success": false,
+                "clinical_review": true,
+                "approval_given": false,
+                "type": "DICOM",
+                "message": "",
+                "clinicial_review_completed": false
+            },
+            "model_version": "1.0.0",
+            "model_name": "Haemorrhage-Dummy5",
+            "model_uid": "Haemorrhage-Scratch-1.0.0",
+            "clinical_review": true,
+            "predicate": "DICOM_Modality == 'CT'"
+        },
+        "output": {
+            "destinations": [
+                {
+                    "study": {
+                        "study_uid": "1.3.6.1.4.1.5962.99.1.3827483890.1961511620.1550015743218.29.1",
+                        "series": [
+                            {
+                                "filepaths": [
+                                    "mnt/efs_data/1CT1/1-3-6-1-4-1-5962-1-2-1-20040119072730-12322/1-3-6-1-4-1-5962-1-3-1-1-20040119072730-12322\\1.3.6.1.4.1.5962.1.1.1.1.1.20040119072730.12322.dcm"
+                                ],
+                                "metadata": {
+                                    "SpecificCharacterSet": "ISO_IR 100",
+                                    "InstanceNumber": 1,
+                                    "DistanceSourcetoDetector": 1099.3100585938,
+                                    "ForeignImageRevision": null,
+                                    "PatientsWeight": 0,
+                                    "PrimaryReceiverSuiteandHost": null,
+                                    "SliceLocation": -77.2040634155,
+                                    "DistanceSourcetoPatient": 630,
+                                    "SeriesInstanceUID": "1.3.6.1.4.1.5962.1.3.1.1.20040119072730.12322",
+                                    "SamplesperPixel": 1,
+                                    "ImageType": [
+                                        "ORIGINAL",
+                                        "PRIMARY",
+                                        "AXIAL"
+                                    ],
+                                    "BitsAllocated": 16,
+                                    "PatientsSex": "O",
+                                    "ImageOrientationPatient": [
+                                        1,
+                                        0,
+                                        0,
+                                        0,
+                                        1,
+                                        0
+                                    ],
+                                    "InstanceCreationTime": "072731",
+                                    "ExposureTime": 1601,
+                                    "ContentDate": "19970430",
+                                    "Manufacturer": "GE MEDICAL SYSTEMS",
+                                    "SpacingBetweenSlices": 5,
+                                    "Laterality": "",
+                                    "SOPInstanceUID": "1.3.6.1.4.1.5962.1.1.1.1.1.20040119072730.12322",
+                                    "SOPClassUID": "1.2.840.10008.5.1.4.1.1.2",
+                                    "TimezoneOffsetFromUTC": "-0500",
+                                    "PatientPosition": "FFS",
+                                    "SoftwareVersions": "05",
+                                    "HighBit": 15,
+                                    "StudyDate": "20040119",
+                                    "ReconstructionDiameter": 338.6716,
+                                    "AcquisitionNumber": 2,
+                                    "Mobilelocationnumber": null,
+                                    "Exposure": 170,
+                                    "AcquisitionTime": "112936",
+                                    "InstanceCreationDate": "20040119",
+                                    "Serviceid": null,
+                                    "ContrastBolusAgent": "ISOVUE300/100",
+                                    "FilterType": "LARGE BOWTIE FIL",
+                                    "StudyID": "1CT1",
+                                    "RescaleSlope": 1,
+                                    "SeriesDate": "19970430",
+                                    "PatientID": "1CT1",
+                                    "PatientsAge": "000Y",
+                                    "ScanOptions": "HELICAL MODE",
+                                    "Anatomicalreferenceforscout": null,
+                                    "AccessionNumber": "",
+                                    "Modality": "CT",
+                                    "KVP": 120,
+                                    "FrameofReferenceUID": "1.3.6.1.4.1.5962.1.4.1.1.20040119072730.12322",
+                                    "GantryDetectorTilt": 0,
+                                    "LowerrangeofPixels1": null,
+                                    "BitsStored": 16,
+                                    "PatientsBirthDate": "",
+                                    "StudyDescription": "e+1",
+                                    "StudyInstanceUID": "1.3.6.1.4.1.5962.99.1.3827483890.1961511620.1550015743218.29.1",
+                                    "PixelRepresentation": 1,
+                                    "InstanceCreatorUID": "1.3.6.1.4.1.5962.3",
+                                    "DataCollectionDiameter": 480,
+                                    "FocalSpots": 0.7,
+                                    "StationName": "CT01_OC0",
+                                    "PhotometricInterpretation": "MONOCHROME2",
+                                    "AcquisitionDate": "19970430",
+                                    "SeriesNumber": 1,
+                                    "AdditionalPatientHistory": "",
+                                    "SeriesTime": "112749",
+                                    "XRayTubeCurrent": 170,
+                                    "Rows": 128,
+                                    "ContrastBolusRoute": "IV",
+                                    "InstitutionName": "JFK IMAGING CENTER",
+                                    "ReferringPhysiciansName": "",
+                                    "ImageComments": "Uncompressed",
+                                    "Columns": 128,
+                                    "RescaleIntercept": -1024,
+                                    "PrivateCreator": "GEMS_PARM_01",
+                                    "ImagePositionPatient": [
+                                        -158.135803,
+                                        -179.035797,
+                                        -75.699997
+                                    ],
+                                    "PatientsName": "Rock Dummy5",
+                                    "PositionReferenceIndicator": "SN",
+                                    "StudyTime": "072730",
+                                    "ManufacturersModelName": "RHAPSODE",
+                                    "ContentTime": "113008",
+                                    "PixelPaddingValue": -2000,
+                                    "ConvolutionKernel": "STANDARD",
+                                    "TableHeight": 133.699997,
+                                    "SliceThickness": 5,
+                                    "PixelSpacing": [
+                                        0.661468,
+                                        0.661468
+                                    ]
+                                },
+                                "series_uid": "1.3.6.1.4.1.5962.1.3.1.1.20040119072730.12322"
+                            }
+                        ]
+                    },
+                    "type": "PACS"
+                }
+            ]
+        },
+        "collaboration_uid": "461e696c-2baf-43f8-8c41-7fedbf9f6711",
+        "execution_uid": "fcee4054-d966-4142-abb3-4081ba763891"
+    }
+]
