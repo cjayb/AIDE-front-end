@@ -2,6 +2,7 @@
 type PlaywrightHelper = import("./helpers/PlaywrightHelper");
 type registrationPage = typeof import("./pages/registration");
 type adminDashboardPage = typeof import("./pages/adminDashboard");
+type clinicalReviewPage = typeof import("./pages/clinicalReview");
 type mocks = typeof import("./mocks/mockIndex")
 type screenshotter = typeof import("./utils/screenshotter");
 type keycloakMock = typeof import("./utils/keycloak_mock");
@@ -11,6 +12,7 @@ declare namespace CodeceptJS {
         I: I;
         registrationPage: registrationPage;
         adminDashboardPage: adminDashboardPage;
+        clinicalReviewPage: clinicalReviewPage;
         screenshotter: screenshotter;
         keycloakMock: keycloakMock;
         mocks: mocks;

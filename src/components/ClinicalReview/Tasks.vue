@@ -13,6 +13,7 @@
             class="pa-2"
             label="Search Tasks"
             placeholder="Search Tasks"
+            data-test="search-tasks-input"
             v-model="search"
             clearable
             @click:clear="clearSearch"
@@ -30,6 +31,7 @@
                     name: 'ClinicalReviewViewer',
                     params: { study_id: item.output.destinations[0].study.study_uid },
                 }"
+                data-test="work-list-item"
             >
                 <v-list-item-content>
                     <v-list-item-title>

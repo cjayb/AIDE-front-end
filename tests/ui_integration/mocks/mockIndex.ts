@@ -10,8 +10,7 @@ let adminDashboardAggregatedExecutionStatsWeek = require("../mocks/adminDashboar
 let adminDashboardExecutionResultsModel1 = require("../mocks/adminDashboardExecutionResultsModel1.json");
 let adminDashboardExecutionResultsModel2 = require("../mocks/adminDashboardExecutionResultsModel2.json");
 let adminDashboardPipelinesModel1 = require("../mocks/adminDashboardPipelinesModel1.json");
-
-
+let clinicalReview = require("../mocks/clinicalReview.json");
 
 export = {
     adminDashboardModels,
@@ -25,5 +24,6 @@ export = {
     adminDashboardAggregatedExecutionStatsWeek,
     adminDashboardExecutionResultsModel1,
     adminDashboardExecutionResultsModel2,
-    adminDashboardPipelinesModel1
+    adminDashboardPipelinesModel1,
+    clinicalReview
 }
