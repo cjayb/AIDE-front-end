@@ -19,6 +19,16 @@ export async function getAllExecutions(from: string, size: string, approved: str
     return response.data;
 }
 
+export async function getAllModelExecutions(
+    model_id: string,
+    from: string,
+    size: string,
+): Promise<any> {
+    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
+    const response = await http.get(`/executions?model_id=${model_id}&from=${from}&size=${size}`);
+    return response.data;
+}
+
 export async function getModelExecutions(
     model_id: string,
     from: string,

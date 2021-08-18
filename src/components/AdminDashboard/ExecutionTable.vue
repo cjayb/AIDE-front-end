@@ -10,7 +10,7 @@
         >
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.date="{ item }">
-                {{ item.timestamp.input_received | formatDate }}
+                {{ item.timestamp.received_at | formatDate }}
             </template>
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.output="{ item }">
@@ -18,8 +18,8 @@
             </template>
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.status="{ item }">
-                <v-chip :color="getStatusColor(item.model.result)" dark outlined small>
-                    {{ getStatus(item.model.result) }}
+                <v-chip :color="getStatusColor(item.result)" dark outlined small>
+                    {{ getStatus(item.result) }}
                 </v-chip>
             </template>
             <!-- eslint-disable-next-line  -->
@@ -33,14 +33,16 @@
             </template>
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.turnaround="{ item }">
-                {{ getTimeDifference(item.timestamp.input_received, item.timestamp.output_sent) }}
+                {{
+                    getTimeDifference(item.timestamp.received_at, item.timestamp.inference_finished)
+                }}
             </template>
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.actions="{ item }">
-                <v-btn @click.stop="openLogsDialog(item.collaboration_uid)" x-small disabled
+                <v-btn @click.stop="openLogsDialog(item.correlation_id)" x-small disabled
                     >View Logs</v-btn
                 >
-                <v-btn @click.stop="openPipelineDialog(item.collaboration_uid)" x-small
+                <v-btn @click.stop="openPipelineDialog(item.correlation_id)" x-small
                     >View Pipeline</v-btn
                 >
             </template>
@@ -75,7 +77,7 @@ import { EventBus } from "@/event-bus";
 import DicomViewer from "../Shared/DicomViewer.vue";
 import LogsDialog from "../AdminDashboard/LogsDialog.vue";
 import PipelineDialog from "../AdminDashboard/PipelineDialog.vue";
-import { getModelExecutions } from "../../api/ExecutionService";
+import { getAllModelExecutions } from "../../api/ExecutionService";
 
 @Component({
     components: {
@@ -126,50 +128,42 @@ export default class ExecutionTable extends Vue {
 
     async created(): Promise<void> {
         this.loading = true;
-        this.executions = await getModelExecutions(
-            this.item.model_name + "-" + this.item.model_version,
+        this.executions = await getAllModelExecutions(
+            this.item.model_name + "%2F" + this.item.model_version,
             "1",
             "10",
-            "false",
         );
         this.loading = false;
     }
 
     // Methods will be component methods
     getStatus(result: any): string {
-        if (result.success && result.clinical_review_completed && result.approval_given) {
-            return "Approved";
+        console.log(result);
+        if (result.status == "success") {
+            return "Success";
         }
 
-        if (result.success && result.clinical_review_completed && !result.approval_given) {
-            return "Rejected";
+        if (result.status == "error") {
+            return "Error";
         }
 
-        if (result.success && !result.clinical_review_completed) {
-            return "Awaiting Clinical Review";
-        }
-
-        if (!result.success) {
-            return "Failure";
+        if (result.status == "failed") {
+            return "Failed";
         }
 
         return "Unknown";
     }
 
     getStatusColor(result: any): string {
-        if (result.success && result.clinical_review_completed && result.approval_given) {
+        if (result.status == "success") {
             return "green";
         }
 
-        if (result.success && result.clinical_review_completed && !result.approval_given) {
-            return "red";
-        }
-
-        if (result.success && !result.clinical_review_completed) {
+        if (result.status == "error") {
             return "amber";
         }
 
-        if (!result.success) {
+        if (result.status == "failed") {
             return "red";
         }
 

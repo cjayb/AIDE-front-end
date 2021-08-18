@@ -121,7 +121,7 @@ export default class Models extends Vue {
         tempModels.forEach(async (model: any) => {
             model.stats = await getModelExecutionStats(
                 "1000",
-                model.model_name + "-" + model.model_version,
+                model.model_name + "%2F" + model.model_version,
             );
 
             this.models.push(model);

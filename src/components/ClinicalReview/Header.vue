@@ -22,16 +22,16 @@
                 <v-list-item-content>
                     <v-row style="background: #f5f5f5">
                         <v-col data-test="patient-name" cols="3">
-                            Name: {{ selectedExecutionMetaData.PatientsName }}
+                            Name: {{ selectedExecutionMetaData.PatientName }}
                         </v-col>
                         <v-col data-test="patient-age" cols="3">
-                            Age: {{ selectedExecutionMetaData.PatientsAge }}
+                            Age: {{ selectedExecutionMetaData.PatientAge }}
                         </v-col>
                         <v-col data-test="patient-id" cols="3">
                             Patient Id: {{ selectedExecutionMetaData.PatientID }}
                         </v-col>
                         <v-col data-test="patient-sex" cols="3">
-                            Sex: {{ selectedExecutionMetaData.PatientsSex }}
+                            Sex: {{ selectedExecutionMetaData.PatientSex }}
                         </v-col>
                     </v-row>
                 </v-list-item-content>
@@ -52,8 +52,7 @@ export default class Header extends Vue {
 
     created(): void {
         EventBus.$on("selectTask", (execution: any) => {
-            this.selectedExecutionMetaData =
-                execution.output.destinations[0].study.series[0].metadata;
+            this.selectedExecutionMetaData = execution.event.origin.series[0];
             this.selectedModel = execution.model;
         });
     }

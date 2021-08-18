@@ -24,21 +24,19 @@
         <v-list dense nav>
             <v-list-item
                 v-for="item in filteredTasks"
-                :key="item.execution_uid"
+                :key="item.event.executions[0].execution_uid"
                 link
                 @click="selectTask(item)"
                 :to="{
                     name: 'ClinicalReviewViewer',
-                    params: { study_id: item.output.destinations[0].study.study_uid },
+                    params: { study_id: item.event.origin.studyUID },
                 }"
                 data-test="work-list-item"
             >
                 <v-list-item-content>
                     <v-list-item-title>
                         <!-- Patient: -->
-                        {{
-                            item.output.destinations[0].study.series[0].metadata.PatientsName
-                        }}</v-list-item-title
+                        {{ item.event.origin.series[0].PatientName }}</v-list-item-title
                     >
                     <v-list-item-subtitle>{{ item.model.model_name }}</v-list-item-subtitle>
                     <v-list-item-subtitle>
