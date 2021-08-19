@@ -128,7 +128,7 @@ export default class ExecutionTable extends Vue {
         },
     ];
 
-    updatePagination(pagination) {
+    updatePagination(pagination: any): void {
         if (pagination.pageStart == 0) {
             this.updateExecutions(1, pagination.itemsPerPage);
         } else if (pagination.pageStart == 1) {
@@ -138,7 +138,7 @@ export default class ExecutionTable extends Vue {
         }
     }
 
-    async updateExecutions(page, size) {
+    async updateExecutions(page: any, size: any): Promise<void> {
         this.loading = true;
         this.executions = await getAllModelExecutions(
             this.model.model_name + "%2F" + this.model.model_version,
