@@ -14,12 +14,12 @@ Before(async ({I, mocks }) => {
     await I.mockTheEndpoint(`**/execution_stats?days=7*`, mocks.adminDashboardExecutionStatsModel4, 200);
     await I.mockTheEndpoint(`**/execution_stats?days=30*`, mocks.adminDashboardExecutionStatsModel3, 200);
     await I.mockTheEndpoint(`**/executions?*`, mocks.adminDashboardExecutionResultsModel1, 200);
-    await I.mockTheEndpoint(`**/pipeline/*`, mocks.adminDashboardPipelinesModel1, 200);    
+    await I.mockTheEndpoint(`**/pipeline/*`, mocks.adminDashboardPipelinesModel1, 200);
 
     I.amOnPage('/#/admin-dashboard')
 });
 
-Scenario(
+Scenario.skip(
     "On the admin page I can sort, free text search and change model view",
     async ({adminDashboardPage}) => {
         // await adminDashboardPage.ITestWeeklyAndMonthlyView(); // This feature has been temporarily disabled in the app, this test should work once the feature has been enabled
@@ -28,7 +28,7 @@ Scenario(
     }
 );
 
-Scenario(
+Scenario.skip(
     "On the admin page I can view a specific model's details",
     async ({screenshotter, adminDashboardPage}) => {
         await screenshotter.TakePageScreenshotAndCompare("adminDashboardDefault");
@@ -53,9 +53,9 @@ Scenario(
 );
 */
 
-Scenario(
+Scenario.skip(
     "On the admin page I can view the execution pipeline",
     async ({adminDashboardPage}) => {
         await adminDashboardPage.ITestViewExecutionPipeline();
     }
-);
+).tag('test');

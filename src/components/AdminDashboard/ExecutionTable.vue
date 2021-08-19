@@ -41,7 +41,7 @@
             </template>
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.actions="{ item }">
-                <v-btn @click.stop="openLogsDialog(item.correlation_id)" x-small disabled
+                <v-btn @click.stop="openLogsDialog(item.model.execution_uid)" x-small
                     >View Logs</v-btn
                 >
                 <v-btn @click.stop="openPipelineDialog(item.correlation_id)" x-small
@@ -187,8 +187,8 @@ export default class ExecutionTable extends Vue {
         return minutes;
     }
 
-    openLogsDialog(collaboration_uid: string): void {
-        EventBus.$emit("openLogsDialog", true, collaboration_uid);
+    openLogsDialog(execution_uid: string): void {
+        EventBus.$emit("openLogsDialog", true, execution_uid);
     }
 
     openPipelineDialog(collaboration_uid: string): void {

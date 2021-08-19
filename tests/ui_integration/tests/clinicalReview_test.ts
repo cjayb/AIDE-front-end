@@ -7,7 +7,7 @@ Before(async ({I, mocks, clinicalReviewPage}) => {
     clinicalReviewPage.IWaitForDicomViewerToLoad();
 });
 
-Scenario(
+Scenario.skip(
     "I can view and filter the Work List",
     async ({ screenshotter, clinicalReviewPage }) => {
         await screenshotter.TakePageScreenshotAndCompare("clinicalReviewDefault");
