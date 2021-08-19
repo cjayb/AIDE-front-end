@@ -1,8 +1,7 @@
 #!/bin/bash
-cd /app
-ls
+ls app
+cd app
 rm env-config.js
-sh ../generate_env_config.sh > ./env-config.js
-cd /app
+sh ./generate_env_config.sh > ./env-config.js
 more ./env-config.js
 nginx

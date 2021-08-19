@@ -17,8 +17,8 @@ RUN mkdir /app
 COPY --from=build-stage /app/dist /app
 
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY docker_entrypoint.sh ./docker_entrypoint.sh
-COPY generate_env_config.sh ./generate_env_config.sh
+COPY docker_entrypoint.sh /app/docker_entrypoint.sh
+COPY generate_env_config.sh /app/generate_env_config.sh
 
 EXPOSE 443
-ENTRYPOINT ["sh", "./docker_entrypoint.sh"]
+ENTRYPOINT ["sh", "/app/docker_entrypoint.sh"]
