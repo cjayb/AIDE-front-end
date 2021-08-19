@@ -131,7 +131,6 @@ export default class Dashboard extends Vue {
     pacsQueue = {};
 
     async created(): Promise<void> {
-        console.log(this.$store.state.days);
         this.executionsStats = await getExecutionStats(this.$store.state.days);
         this.inputQueue = await getQueueMetrics("input");
         // this.outputQueue = await getQueueMetrics("output");

@@ -45,7 +45,7 @@
                     </template>
                     <template v-slot:expanded-item="{ headers, item }">
                         <td :colspan="headers.length" class="elevation-0 pa-0">
-                            <ExecutionTable :item="item" :key="item" />
+                            <ExecutionTable :model="item" :key="item" />
                         </td>
                     </template>
                 </v-data-table>
@@ -131,11 +131,6 @@ export default class Models extends Vue {
     }
 
     // Methods will be component methods
-    getStatus(status: string): string {
-        if (status == "Failure") return "red";
-        else return "green";
-    }
-
     getSuccessRate(stats: any): string {
         let result = (100 * (stats.executions - stats.failures)) / stats.executions;
         return result.toFixed(0) + " %";

@@ -22,13 +22,12 @@
                     <v-timeline-item small>
                         <v-row class="pt-1">
                             <v-col cols="3">
-                                <strong>07/12/2021 10:10</strong>
+                                <strong>Input Received</strong>
                             </v-col>
                             <v-col>
-                                <strong>Input Received </strong>
+                                <strong>Dicom Ingestor</strong>
                                 <div class="text-caption">
-                                    Input Received :
-                                    {{ pipelines[0].timestamp.input_received | formatDate }}
+                                    {{ pipelines[0].timestamp.received_at | formatDate }}
                                 </div>
                             </v-col>
                         </v-row>
@@ -36,36 +35,23 @@
                     <v-timeline-item
                         v-for="pipeline in pipelines"
                         :key="pipeline.execution_uid"
-                        :color="getStatusColor(pipeline.model.result)"
+                        :color="getStatusColor(pipeline.result)"
                         small
                     >
                         <v-row class="pt-1">
                             <v-col cols="3">
-                                <strong>{{ getStatus(pipeline.model.result) }}</strong>
+                                <strong>{{ getStatus(pipeline.result) }}</strong>
                             </v-col>
                             <v-col>
                                 <strong>{{ pipeline.model.model_name }}</strong>
                                 <div class="text-caption">
                                     Input Received :
-                                    {{ pipeline.timestamp.input_received | formatDate }}<br />
+                                    {{ pipeline.timestamp.received_at | formatDate }}<br />
                                     Inference Started :
                                     {{ pipeline.timestamp.inference_started | formatDate }}<br />
                                     Inference Finished :
-                                    {{ pipeline.timestamp.inference_finished | formatDate }}<br />
-                                    Output Sent : {{ pipeline.timestamp.output_sent | formatDate
-                                    }}<br />
+                                    {{ pipeline.timestamp.inference_finished | formatDate }}
                                 </div>
-                            </v-col>
-                        </v-row>
-                    </v-timeline-item>
-                    <v-timeline-item small color="grey">
-                        <v-row class="pt-1">
-                            <v-col cols="3">
-                                <strong>Output not sent</strong>
-                            </v-col>
-                            <v-col>
-                                <strong>Output Sent </strong>
-                                <div class="text-caption">Output Sent : null</div>
                             </v-col>
                         </v-row>
                     </v-timeline-item>
@@ -93,7 +79,6 @@ export default class PipelineDialog extends Vue {
     created(): void {
         EventBus.$on("openPipelineDialog", (dialog3: boolean, collaboration_uid: string) => {
             this.dialog3 = dialog3;
-            console.log(collaboration_uid);
             this.pipelines = [];
             this.getPipeline(collaboration_uid);
         });
@@ -106,40 +91,31 @@ export default class PipelineDialog extends Vue {
     }
 
     getStatus(result: any): string {
-        console.log(result);
-        if (result.success && result.clinical_review_completed && result.approval_given) {
-            return "Approved";
+        if (result.status == "success") {
+            return "Success";
         }
 
-        if (result.success && result.clinical_review_completed && !result.approval_given) {
-            return "Rejected";
+        if (result.status == "error") {
+            return "Error";
         }
 
-        if (result.success && !result.clinical_review_completed) {
-            return "Awaiting Clinical Review";
-        }
-
-        if (!result.success) {
-            return "Failure";
+        if (result.status == "failed") {
+            return "Failed";
         }
 
         return "Unknown";
     }
 
     getStatusColor(result: any): string {
-        if (result.success && result.clinical_review_completed && result.approval_given) {
+        if (result.status == "success") {
             return "green";
         }
 
-        if (result.success && result.clinical_review_completed && !result.approval_given) {
-            return "red";
-        }
-
-        if (result.success && !result.clinical_review_completed) {
+        if (result.status == "error") {
             return "amber";
         }
 
-        if (!result.success) {
+        if (result.status == "failed") {
             return "red";
         }
 

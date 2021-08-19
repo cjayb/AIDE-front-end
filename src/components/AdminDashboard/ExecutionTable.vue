@@ -3,10 +3,12 @@
         <v-data-table
             :headers="executionsHeaders"
             :items="executions"
+            :server-items-length="this.model.stats.executions"
             item-key="name"
             class="elevation-0 pa-0 ma-0"
             :loading="loading"
             loading-text="Loading... Please wait"
+            @pagination="updatePagination"
         >
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.date="{ item }">
@@ -64,8 +66,8 @@
             </v-card>
         </v-dialog>
 
-        <LogsDialog :dialog2="dialog2" />
-        <PipelineDialog :dialog3="dialog3" />
+        <LogsDialog />
+        <PipelineDialog />
     </v-container>
 </template>
 
@@ -88,7 +90,7 @@ import { getAllModelExecutions } from "../../api/ExecutionService";
 })
 export default class ExecutionTable extends Vue {
     // Class properties will be component data
-    @Prop() item!: any;
+    @Prop() model!: any;
     loading = true;
     executions = [];
     dialog = false;
@@ -127,18 +129,29 @@ export default class ExecutionTable extends Vue {
     ];
 
     async created(): Promise<void> {
+        this.updateExecutions(1, 10);
+    }
+
+    updatePagination(pagination) {
+        if (pagination.pageStart == 1) {
+            this.updateExecutions(pagination.pageStart, pagination.pageStop);
+        } else {
+            this.updateExecutions(pagination.pageStart + 1, pagination.pageStop);
+        }
+    }
+
+    async updateExecutions(page, size) {
         this.loading = true;
         this.executions = await getAllModelExecutions(
-            this.item.model_name + "%2F" + this.item.model_version,
-            "1",
-            "10",
+            this.model.model_name + "%2F" + this.model.model_version,
+            page,
+            size,
         );
         this.loading = false;
     }
 
     // Methods will be component methods
     getStatus(result: any): string {
-        console.log(result);
         if (result.status == "success") {
             return "Success";
         }
