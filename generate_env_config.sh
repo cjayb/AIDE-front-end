@@ -1,0 +1,5 @@
+#!/bin/bash
+cat <<EOF
+window.FRONTEND_API_HOST="${FRONTEND_API_HOST}"
+window.KEYCLOAK_URL="${KEYCLOAK_URL}"
+EOF
