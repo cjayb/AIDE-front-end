@@ -2,7 +2,7 @@ import Vue from "vue";
 import Keycloak from "keycloak-js";
 
 const options = {
-    url: process.env.VUE_APP_KEYCLOAK_URL,
+    url: window.KEYCLOAK_URL,
     realm: process.env.VUE_APP_KEYCLOAK_REALM,
     clientId: process.env.VUE_APP_KEYCLOAK_CLIENT_ID,
     // onLoad: process.env.VUE_APP_KEYCLOAK_ON_LOAD,
