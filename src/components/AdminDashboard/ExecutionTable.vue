@@ -128,12 +128,10 @@ export default class ExecutionTable extends Vue {
         },
     ];
 
-    async created(): Promise<void> {
-        this.updateExecutions(1, 10);
-    }
-
     updatePagination(pagination) {
-        if (pagination.pageStart == 1) {
+        if (pagination.pageStart == 0) {
+            this.updateExecutions(1, pagination.itemsPerPage);
+        } else if (pagination.pageStart == 1) {
             this.updateExecutions(pagination.pageStart, pagination.pageStop);
         } else {
             this.updateExecutions(pagination.pageStart + 1, pagination.pageStop);
