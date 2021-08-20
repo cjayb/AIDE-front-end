@@ -9,6 +9,7 @@
                     :expanded.sync="expanded"
                     :hide-default-footer="true"
                     :search="search"
+                    :sort-by="['model_name']"
                     item-key="model_name"
                     show-expand
                     class="elevation-1"
