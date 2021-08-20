@@ -2,7 +2,7 @@ import Vue from "vue";
 import axios from "axios";
 
 const http = axios.create({
-    baseURL: process.env.VUE_APP_API_HOST,
+    baseURL: window.FRONTEND_API_HOST,
     headers: {
         "Content-Type": "application/json",
     },
