@@ -26,6 +26,7 @@
                 </v-card>
             </v-col>
         </v-row>
+        <ApprovalDialog />
     </v-container>
 </template>
 
@@ -36,6 +37,7 @@ import DicomViewer from "../components/Shared/DicomViewer.vue";
 import Header from "../components/ClinicalReview/Header.vue";
 import Tasks from "../components/ClinicalReview/Tasks.vue";
 import Metadata from "../components/ClinicalReview/Metadata.vue";
+import ApprovalDialog from "../components/ClinicalReview/ApprovalDialog.vue";
 
 @Component({
     components: {
@@ -43,6 +45,7 @@ import Metadata from "../components/ClinicalReview/Metadata.vue";
         Header,
         Tasks,
         Metadata,
+        ApprovalDialog,
     },
 })
 export default class ClinicalReview extends Vue {

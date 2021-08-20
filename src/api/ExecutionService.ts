@@ -59,3 +59,16 @@ export async function getModelExecutionStats(days: string, model_id: string): Pr
     const response = await http.get(`/execution_stats?days=${days}&model_id=${model_id}`);
     return response.data;
 }
+
+export async function updateClinicalReview(
+    execution_uid: string,
+    acceptance: string,
+    reason: string,
+    message: string,
+): Promise<any> {
+    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
+    const response = await http.post(
+        `/executions/${execution_uid}/approvals?acceptance=${acceptance}&reason=${reason}&message=${message}`,
+    );
+    return response.data;
+}

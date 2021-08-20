@@ -4,12 +4,12 @@
             <v-list-item style="background: #455a64; color: #fff" class="pr-0">
                 <v-list-item-content>
                     <v-row>
-                        <v-col data-test="header-mode" cols="9" style="color: #fff">
+                        <v-col data-test="header-mode" cols="8" style="color: #fff">
                             Mode: {{ this.selectedModel.mode }}
                         </v-col>
-                        <v-col cols="1">
+                        <v-col cols="2">
                             <v-btn
-                                data-test="accept-btn"
+                                data-test="open-pipeline"
                                 dark
                                 x-small
                                 plain
@@ -21,10 +21,37 @@
                             <PipelineDialog />
                         </v-col>
                         <v-col cols="2" style="background: #f5f5f5; color: #fff">
-                            <v-btn data-test="accept-btn" color="#4CAF50" dark x-small class="ma-1">
+                            <v-btn
+                                data-test="accept-btn"
+                                color="#4CAF50"
+                                style="margin-right: 8px"
+                                dark
+                                x-small
+                                class="ma-1"
+                                @click.stop="
+                                    openApprovalDialog(
+                                        selectedModel.execution_uid,
+                                        true,
+                                        `Accept '${selectedModel.model_name}' result`,
+                                    )
+                                "
+                            >
                                 Accept
                             </v-btn>
-                            <v-btn data-test="reject-btn" color="#D11515" dark x-small class="ma-1">
+                            <v-btn
+                                data-test="reject-btn"
+                                color="#D11515"
+                                dark
+                                x-small
+                                class="ma-1"
+                                @click.stop="
+                                    openApprovalDialog(
+                                        selectedModel.execution_uid,
+                                        false,
+                                        `Reject '${selectedModel.model_name}' result`,
+                                    )
+                                "
+                            >
                                 Reject
                             </v-btn>
                         </v-col>
@@ -75,6 +102,10 @@ export default class Header extends Vue {
             this.selectedModel = execution.model;
             this.correlation_id = execution.correlation_id;
         });
+    }
+
+    openApprovalDialog(execution_uid: string, approval: boolean, title: string): void {
+        EventBus.$emit("openApprovalDialog", true, execution_uid, approval, title);
     }
 
     openPipelineDialog(correlation_id: string): void {
