@@ -1,23 +1,26 @@
 <template>
     <transition name="fade" mode="out-in">
         <v-card style="width: 100%" :key="selectedModel">
-            <v-list-item style="background: #607d8b; color: #fff">
+            <v-list-item style="background: #455a64; color: #fff" class="pr-0">
                 <v-list-item-content>
                     <v-row>
-                        <v-col data-test="header-mode" cols="9">
+                        <v-col data-test="header-mode" cols="9" style="color: #fff">
                             Mode: {{ this.selectedModel.mode }}
                         </v-col>
-                        <v-col cols="3" style="color: #fff">
+                        <v-col cols="1">
                             <v-btn
                                 data-test="accept-btn"
                                 dark
                                 x-small
+                                plain
                                 class="ma-1"
                                 @click="openPipelineDialog(correlation_id)"
                             >
                                 Open Pipeline
                             </v-btn>
                             <PipelineDialog />
+                        </v-col>
+                        <v-col cols="2" style="background: #f5f5f5; color: #fff">
                             <v-btn data-test="accept-btn" color="#4CAF50" dark x-small class="ma-1">
                                 Accept
                             </v-btn>
@@ -28,9 +31,9 @@
                     </v-row>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item style="background: #f5f5f5; color: #fff">
+            <v-list-item style="background: #fff; color: #fff">
                 <v-list-item-content>
-                    <v-row style="background: #f5f5f5">
+                    <v-row style="background: #fff">
                         <v-col data-test="patient-name" cols="3">
                             Name: {{ selectedExecutionMetaData.PatientName }}
                         </v-col>
