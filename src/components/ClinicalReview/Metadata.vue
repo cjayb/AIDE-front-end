@@ -10,11 +10,23 @@
             <v-divider></v-divider>
             <v-list class="transparent" dense style="height: 75vh; overflow-y: scroll">
                 <v-list-item v-for="(item, key, index) in selectedExecutionMetaData" :key="index">
-                    <v-list-item-title>{{ key }}</v-list-item-title>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-list-item-title v-bind="attrs" v-on="on">{{
+                                key
+                            }}</v-list-item-title>
+                        </template>
+                        <span>{{ key }}</span>
+                    </v-tooltip>
 
-                    <v-list-item-subtitle class="text-right">
-                        {{ item }}
-                    </v-list-item-subtitle>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-list-item-subtitle class="text-right" v-bind="attrs" v-on="on">
+                                {{ item }}
+                            </v-list-item-subtitle>
+                        </template>
+                        <span>{{ item }}</span>
+                    </v-tooltip>
                 </v-list-item>
             </v-list>
         </v-container>
