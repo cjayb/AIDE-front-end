@@ -16,7 +16,7 @@
             </template>
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.output="{ item }">
-                <v-btn @click.stop="dialog = true" x-small disabled>View Output</v-btn>
+                <v-btn @click="getFile(item)" x-small>View Output</v-btn>
             </template>
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.status="{ item }">
@@ -50,7 +50,7 @@
             </template>
         </v-data-table>
 
-        <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+        <!-- <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
             <v-card>
                 <v-toolbar color="#61366e" dark>
                     <v-btn icon dark @click="dialog = false">
@@ -64,7 +64,7 @@
                 </v-toolbar>
                 <DicomViewer />
             </v-card>
-        </v-dialog>
+        </v-dialog> -->
 
         <LogsDialog />
         <PipelineDialog />
@@ -79,7 +79,7 @@ import { EventBus } from "@/event-bus";
 import DicomViewer from "../Shared/DicomViewer.vue";
 import LogsDialog from "../AdminDashboard/LogsDialog.vue";
 import PipelineDialog from "../AdminDashboard/PipelineDialog.vue";
-import { getAllModelExecutions } from "../../api/ExecutionService";
+import { getAllModelExecutions, getFile } from "../../api/ExecutionService";
 
 @Component({
     components: {
@@ -136,6 +136,14 @@ export default class ExecutionTable extends Vue {
         } else {
             this.updateExecutions(pagination.pageStart + 1, pagination.pageStop);
         }
+    }
+
+    async getFile(item: any): Promise<void> {
+        item.event.resources.forEach(async (resource: any) => {
+            if (resource.namespace == item.model.model_uid) {
+                await this.getFile(resource.file_path);
+            }
+        });
     }
 
     async updateExecutions(page: any, size: any): Promise<void> {

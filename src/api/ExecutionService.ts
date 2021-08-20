@@ -72,3 +72,9 @@ export async function updateClinicalReview(
     );
     return response.data;
 }
+
+export async function getFile(file_path: string): Promise<any> {
+    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
+    const response = await http.post("/file", { file_path: file_path });
+    return response.data;
+}
