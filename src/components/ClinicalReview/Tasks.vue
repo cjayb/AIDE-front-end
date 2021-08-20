@@ -34,15 +34,34 @@
                 data-test="work-list-item"
             >
                 <v-list-item-content>
-                    <v-list-item-title>
-                        <!-- Patient: -->
-                        {{ item.event.origin.series[0].PatientName }}</v-list-item-title
-                    >
-                    <v-list-item-subtitle>{{ item.model.model_name }}</v-list-item-subtitle>
-                    <v-list-item-subtitle>
-                        <!-- Received: -->
-                        {{ item.timestamp.inference_finished | formatDate }}</v-list-item-subtitle
-                    >
+                    <v-tooltip bottom open-delay="3000">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-list-item-title v-bind="attrs" v-on="on">
+                                {{ item.event.origin.series[0].PatientName }}</v-list-item-title
+                            >
+                        </template>
+                        <span>{{ item.event.origin.series[0].PatientName }}</span>
+                    </v-tooltip>
+                    <v-tooltip bottom open-delay="3000">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-list-item-subtitle v-bind="attrs" v-on="on">{{
+                                item.model.model_name
+                            }}</v-list-item-subtitle>
+                        </template>
+                        <span>{{ item.model.model_name }}</span>
+                    </v-tooltip>
+
+                    <v-tooltip bottom open-delay="3000">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-list-item-subtitle v-bind="attrs" v-on="on">
+                                Received:
+                                {{
+                                    item.timestamp.inference_finished | formatDate
+                                }}</v-list-item-subtitle
+                            >
+                        </template>
+                        <span>{{ item.timestamp.inference_finished | formatDate }}</span>
+                    </v-tooltip>
                 </v-list-item-content>
             </v-list-item>
         </v-list>
