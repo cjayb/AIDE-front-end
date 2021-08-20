@@ -4,23 +4,24 @@
             <v-list-item style="background: #607d8b; color: #fff">
                 <v-list-item-content>
                     <v-row>
-                        <v-col data-test="header-mode" cols="10">
+                        <v-col data-test="header-mode" cols="9">
                             Mode: {{ this.selectedModel.mode }}
                         </v-col>
-                        <v-col cols="2" style="color: #fff">
+                        <v-col cols="3" style="color: #fff">
                             <v-btn
                                 data-test="accept-btn"
                                 dark
                                 x-small
+                                class="ma-1"
                                 @click="openPipelineDialog(correlation_id)"
                             >
                                 Open Pipeline
                             </v-btn>
                             <PipelineDialog />
-                            <v-btn data-test="accept-btn" color="#4CAF50" dark x-small>
+                            <v-btn data-test="accept-btn" color="#4CAF50" dark x-small class="ma-1">
                                 Accept
                             </v-btn>
-                            <v-btn data-test="reject-btn" color="#D11515" dark x-small>
+                            <v-btn data-test="reject-btn" color="#D11515" dark x-small class="ma-1">
                                 Reject
                             </v-btn>
                         </v-col>
