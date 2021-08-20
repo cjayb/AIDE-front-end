@@ -45,8 +45,6 @@
                             <v-col>
                                 <strong>{{ pipeline.model.model_name }}</strong>
                                 <div class="text-caption">
-                                    Input Received :
-                                    {{ pipeline.timestamp.received_at | formatDate }}<br />
                                     Inference Started :
                                     {{ pipeline.timestamp.inference_started | formatDate }}<br />
                                     Inference Finished :
