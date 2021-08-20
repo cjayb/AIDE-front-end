@@ -42,9 +42,9 @@ export async function getModelExecutions(
     return response.data;
 }
 
-export async function getExecutionPipelines(collaboration_uid: string): Promise<any> {
+export async function getExecutionPipelines(correlation_id: string): Promise<any> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
-    const response = await http.get(`/pipeline/${collaboration_uid}`);
+    const response = await http.get(`/pipeline/${correlation_id}`);
     return response.data;
 }
 

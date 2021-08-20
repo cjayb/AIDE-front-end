@@ -191,8 +191,8 @@ export default class ExecutionTable extends Vue {
         EventBus.$emit("openLogsDialog", true, execution_uid);
     }
 
-    openPipelineDialog(collaboration_uid: string): void {
-        EventBus.$emit("openPipelineDialog", true, collaboration_uid);
+    openPipelineDialog(correlation_id: string): void {
+        EventBus.$emit("openPipelineDialog", true, correlation_id);
     }
 }
 </script>

@@ -77,16 +77,16 @@ export default class PipelineDialog extends Vue {
     loading = true;
 
     created(): void {
-        EventBus.$on("openPipelineDialog", (dialog3: boolean, collaboration_uid: string) => {
+        EventBus.$on("openPipelineDialog", (dialog3: boolean, correlation_id: string) => {
             this.dialog3 = dialog3;
             this.pipelines = [];
-            this.getPipeline(collaboration_uid);
+            this.getPipeline(correlation_id);
         });
     }
 
-    async getPipeline(collaboration_uid: string): Promise<void> {
+    async getPipeline(correlation_id: string): Promise<void> {
         this.loading = true;
-        this.pipelines = await getExecutionPipelines(collaboration_uid);
+        this.pipelines = await getExecutionPipelines(correlation_id);
         this.loading = false;
     }
 

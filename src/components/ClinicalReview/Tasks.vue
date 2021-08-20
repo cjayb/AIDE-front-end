@@ -21,7 +21,7 @@
 
         <!-- <v-divider></v-divider> -->
 
-        <v-list dense nav>
+        <v-list dense nav style="height: 83vh; overflow-y: scroll">
             <v-list-item
                 v-for="item in filteredTasks"
                 :key="item.event.executions[0].execution_uid"
@@ -62,7 +62,7 @@ export default class Tasks extends Vue {
 
     async created(): Promise<void> {
         this.tasks = await getAllExecutions("1", "10", "false");
-        let study_id = this.tasks[0].output.destinations[0].study.study_uid;
+        let study_id = this.tasks[0].event.origin.studyUID;
         this.$router.push({ name: "ClinicalReviewViewer", params: { study_id: study_id } });
         this.selectTask(this.tasks[0]);
     }

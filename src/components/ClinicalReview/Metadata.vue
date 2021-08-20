@@ -8,7 +8,7 @@
             </v-list-item>
 
             <v-divider></v-divider>
-            <v-list class="transparent" dense>
+            <v-list class="transparent" dense style="height: 75vh; overflow-y: scroll">
                 <v-list-item v-for="(item, key, index) in selectedExecutionMetaData" :key="index">
                     <v-list-item-title>{{ key }}</v-list-item-title>
 

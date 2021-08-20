@@ -8,6 +8,15 @@
                             Mode: {{ this.selectedModel.mode }}
                         </v-col>
                         <v-col cols="2" style="color: #fff">
+                            <v-btn
+                                data-test="accept-btn"
+                                dark
+                                x-small
+                                @click="openPipelineDialog(correlation_id)"
+                            >
+                                Open Pipeline
+                            </v-btn>
+                            <PipelineDialog />
                             <v-btn data-test="accept-btn" color="#4CAF50" dark x-small>
                                 Accept
                             </v-btn>
@@ -43,18 +52,29 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import PipelineDialog from "../AdminDashboard/PipelineDialog.vue";
 import { EventBus } from "@/event-bus";
 
-@Component({})
+@Component({
+    components: {
+        PipelineDialog,
+    },
+})
 export default class Header extends Vue {
     selectedExecutionMetaData = {};
     selectedModel = {};
+    correlation_id = "";
 
     created(): void {
         EventBus.$on("selectTask", (execution: any) => {
             this.selectedExecutionMetaData = execution.event.origin.series[0];
             this.selectedModel = execution.model;
+            this.correlation_id = execution.correlation_id;
         });
+    }
+
+    openPipelineDialog(correlation_id: string): void {
+        EventBus.$emit("openPipelineDialog", true, correlation_id);
     }
 }
 </script>

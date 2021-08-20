@@ -21,7 +21,7 @@
         "inference_finished": "2021-07-12T22:45:45.817420",
         "output_sent": "2021-07-12T22:45:45.817420"
       },
-      "collaboration_uid": "461e696c-2baf-43f8-8c41-7fedbf9f6711",
+      "correlation_id": "461e696c-2baf-43f8-8c41-7fedbf9f6711",
       "output": {
         "destinations": [
           {
@@ -166,7 +166,7 @@
         "inference_finished": "2021-07-12T22:45:45.817420",
         "output_sent": "2021-07-12T22:45:45.817420"
       },
-      "collaboration_uid": "461e696c-2baf-43f8-8c41-7fedbf9f6711",
+      "correlation_id": "461e696c-2baf-43f8-8c41-7fedbf9f6711",
       "output": {
         "destinations": [
           {

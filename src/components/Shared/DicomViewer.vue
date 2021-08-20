@@ -26,9 +26,9 @@ export default class DicomViewer extends Vue {
                         dicomWeb: [
                             {
                                 name: "DCM4CHEE",
-                                wadoUriRoot: process.env.VUE_APP_WADO_URI_ROOT,
-                                qidoRoot: process.env.VUE_APP_QIDO_ROOT,
-                                wadoRoot: process.env.VUE_APP_WADO_ROOT,
+                                wadoUriRoot: window.WADO_URI_ROOT,
+                                qidoRoot: window.QIDO_ROOT,
+                                wadoRoot: window.WADO_ROOT,
                                 qidoSupportsIncludeField: true,
                                 imageRendering: "wadors",
                                 thumbnailRendering: "wadors",
