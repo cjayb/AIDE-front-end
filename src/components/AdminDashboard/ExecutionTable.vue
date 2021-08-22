@@ -16,7 +16,7 @@
             </template>
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.output="{ item }">
-                <v-btn @click="getFile(item)" x-small>View Output</v-btn>
+                <v-btn @click="getFile(item)" x-small>Download Output</v-btn>
             </template>
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.status="{ item }">
@@ -41,31 +41,14 @@
             </template>
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.actions="{ item }">
-                <v-btn @click.stop="openLogsDialog(item.model.execution_uid)" x-small
+                <v-btn @click.stop="openLogsDialog(item.model.execution_uid)" x-small class="ma-1"
                     >View Logs</v-btn
                 >
-                <v-btn @click.stop="openPipelineDialog(item.correlation_id)" x-small
+                <v-btn @click.stop="openPipelineDialog(item.correlation_id)" x-small class="ma-1"
                     >View Pipeline</v-btn
                 >
             </template>
         </v-data-table>
-
-        <!-- <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
-            <v-card>
-                <v-toolbar color="#61366e" dark>
-                    <v-btn icon dark @click="dialog = false">
-                        <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                    <v-toolbar-title>View output i.e Dicom, Pdf etc.</v-toolbar-title>
-                    <v-spacer></v-spacer>
-                    <v-toolbar-items>
-                        <v-btn dark text @click="dialog = false"> Close </v-btn>
-                    </v-toolbar-items>
-                </v-toolbar>
-                <DicomViewer />
-            </v-card>
-        </v-dialog> -->
-
         <LogsDialog />
         <PipelineDialog />
     </v-container>
@@ -141,7 +124,7 @@ export default class ExecutionTable extends Vue {
     async getFile(item: any): Promise<void> {
         item.event.resources.forEach(async (resource: any) => {
             if (resource.namespace == item.model.model_uid) {
-                await this.getFile(resource.file_path);
+                await getFile(resource.file_path);
             }
         });
     }

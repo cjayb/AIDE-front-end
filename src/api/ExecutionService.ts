@@ -13,6 +13,19 @@ http.interceptors.request.use((config) => {
     return config;
 });
 
+http.interceptors.response.use(
+    function (response) {
+        return response;
+    },
+    function (error) {
+        if (401 === error.response.status) {
+            Vue.$keycloak.logout({ redirectUri: `${window.location.origin}/#/` });
+        } else {
+            return Promise.reject(error);
+        }
+    },
+);
+
 export async function getAllExecutions(from: string, size: string, approved: string): Promise<any> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/executions?from=${from}&size=${size}&approved=${approved}`);
@@ -75,6 +88,13 @@ export async function updateClinicalReview(
 
 export async function getFile(file_path: string): Promise<any> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
-    const response = await http.post("/file", { file_path: file_path });
+    const response = await http.post("/file", { file_path: file_path }, { responseType: "blob" });
+    const file_name = file_path.split("/");
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", file_name[file_name.length - 1]); //or any other extension
+    document.body.appendChild(link);
+    link.click();
     return response.data;
 }

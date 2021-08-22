@@ -4,7 +4,17 @@
             <v-list-item style="background: #455a64; color: #fff" class="pr-0">
                 <v-list-item-content>
                     <v-row>
-                        <v-col data-test="header-mode" cols="8" style="color: #fff">
+                        <v-col
+                            data-test="header-mode"
+                            cols="8"
+                            style="
+                                color: #fff;
+                                display: flex;
+                                justify-content: center;
+                                align-content: center;
+                                flex-direction: column;
+                            "
+                        >
                             Mode: {{ this.selectedModel.mode }}
                         </v-col>
                         <v-col cols="2">
@@ -12,7 +22,7 @@
                                 data-test="open-pipeline"
                                 dark
                                 x-small
-                                plain
+                                text
                                 class="ma-1"
                                 @click="openPipelineDialog(correlation_id)"
                             >

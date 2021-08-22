@@ -13,6 +13,19 @@ http.interceptors.request.use((config) => {
     return config;
 });
 
+http.interceptors.response.use(
+    function (response) {
+        return response;
+    },
+    function (error) {
+        if (401 === error.response.status) {
+            Vue.$keycloak.logout({ redirectUri: `${window.location.origin}/#/` });
+        } else {
+            return Promise.reject(error);
+        }
+    },
+);
+
 export async function getLogs(executionId: string): Promise<any> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     console.log(executionId);
