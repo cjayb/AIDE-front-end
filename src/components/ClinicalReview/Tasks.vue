@@ -81,7 +81,9 @@ export default class Tasks extends Vue {
 
     async created(): Promise<void> {
         EventBus.$on("updateTaskList", (selectedTask: string) => {
-            var updatedList = this.tasks.filter((item) => item.model.execution_uid !== selectedTask);
+            var updatedList = this.tasks.filter(
+                (item) => item.model.execution_uid !== selectedTask,
+            );
             this.tasks = updatedList;
             if (this.tasks.length === 0) {
                 EventBus.$emit("tasksNotEmpty", true);
