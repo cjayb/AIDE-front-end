@@ -158,18 +158,18 @@ export default class ExecutionTable extends Vue {
 
     getStatusColor(result: any): string {
         if (result.status == "success") {
-            return "green";
+            return "#00703c";
         }
 
         if (result.status == "error") {
-            return "amber";
+            return "#CF5300";
         }
 
         if (result.status == "failed") {
-            return "red";
+            return "#d4351c";
         }
 
-        return "red";
+        return "#d4351c";
     }
 
     getTimeDifference(start: string, end: string): number {

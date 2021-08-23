@@ -7,56 +7,57 @@
     >
         <template v-slot:default="dialog3">
             <v-card>
-                <v-toolbar color="#61366e" dark>
-                    <v-progress-linear
-                        :active="loading"
-                        :indeterminate="loading"
-                        absolute
-                        bottom
-                    ></v-progress-linear>
-
-                    Pipeline - <span v-if="pipelines[0]">{{ pipelines[0].model.model_name }}</span>
-                </v-toolbar>
-                <!-- <v-card-text> -->
-                <v-timeline align-top dense v-if="pipelines[0]" clipped>
-                    <v-timeline-item small>
-                        <v-row class="pt-1">
-                            <v-col cols="3">
-                                <strong>Input Received</strong>
-                            </v-col>
-                            <v-col>
-                                <strong>Dicom Ingestor</strong>
-                                <div class="text-caption">
-                                    {{ pipelines[0].timestamp.received_at | formatDate }}
-                                </div>
-                            </v-col>
-                        </v-row>
-                    </v-timeline-item>
-                    <v-timeline-item
-                        v-for="pipeline in pipelines"
-                        :key="pipeline.execution_uid"
-                        :color="getStatusColor(pipeline.result)"
-                        small
-                    >
-                        <v-row class="pt-1">
-                            <v-col cols="3">
-                                <strong>{{ getStatus(pipeline.result) }}</strong>
-                            </v-col>
-                            <v-col>
-                                <strong>{{ pipeline.model.model_name }}</strong>
-                                <div class="text-caption">
-                                    Inference Started :
-                                    {{ pipeline.timestamp.inference_started | formatDate }}<br />
-                                    Inference Finished :
-                                    {{ pipeline.timestamp.inference_finished | formatDate }}
-                                </div>
-                            </v-col>
-                        </v-row>
-                    </v-timeline-item>
-                </v-timeline>
-                <v-card-actions class="justify-end">
-                    <v-btn text @click="dialog3.value = false">Close</v-btn>
-                </v-card-actions>
+                <div v-show="loading" class="pa-1 pb-2">
+                    Please Wait...
+                    <v-progress-linear indeterminate color="blue" class=""></v-progress-linear>
+                </div>
+                <div v-show="!loading">
+                    <v-toolbar color="#61366e" dark>
+                        Pipeline -
+                        <span v-if="pipelines[0]">{{ pipelines[0].model.model_name }}</span>
+                    </v-toolbar>
+                    <!-- <v-card-text> -->
+                    <v-timeline align-top dense v-if="pipelines[0]" clipped>
+                        <v-timeline-item small>
+                            <v-row class="pt-1">
+                                <v-col cols="3">
+                                    <strong>Input Received</strong>
+                                </v-col>
+                                <v-col>
+                                    <strong>Dicom Ingestor</strong>
+                                    <div class="text-caption">
+                                        {{ pipelines[0].timestamp.received_at | formatDate }}
+                                    </div>
+                                </v-col>
+                            </v-row>
+                        </v-timeline-item>
+                        <v-timeline-item
+                            v-for="pipeline in pipelines"
+                            :key="pipeline.execution_uid"
+                            :color="getStatusColor(pipeline.result)"
+                            small
+                        >
+                            <v-row class="pt-1">
+                                <v-col cols="3">
+                                    <strong>{{ getStatus(pipeline.result) }}</strong>
+                                </v-col>
+                                <v-col>
+                                    <strong>{{ pipeline.model.model_name }}</strong>
+                                    <div class="text-caption">
+                                        Inference Started :
+                                        {{ pipeline.timestamp.inference_started | formatDate
+                                        }}<br />
+                                        Inference Finished :
+                                        {{ pipeline.timestamp.inference_finished | formatDate }}
+                                    </div>
+                                </v-col>
+                            </v-row>
+                        </v-timeline-item>
+                    </v-timeline>
+                    <v-card-actions class="justify-end">
+                        <v-btn text @click="dialog3.value = false">Close</v-btn>
+                    </v-card-actions>
+                </div>
             </v-card>
         </template>
     </v-dialog>

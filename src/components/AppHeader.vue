@@ -12,8 +12,8 @@
 
         <v-menu bottom left offset-y offset-overflow :nudge-left="80">
             <template v-slot:activator="{ on, attrs }">
-                <v-btn icon>
-                    <v-icon v-bind="attrs" v-on="on">mdi-account-circle</v-icon>
+                <v-btn icon v-on="on">
+                    <v-icon v-bind="attrs">mdi-account-circle</v-icon>
                 </v-btn>
             </template>
             <v-list>

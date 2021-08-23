@@ -2,20 +2,26 @@
     <v-dialog transition="dialog-bottom-transition" max-width="60vw" v-model="dialog2">
         <template v-slot:default="dialog2">
             <v-card>
-                <v-toolbar color="#61366e" dark>Log Viewer</v-toolbar>
-                <v-card-text style="height: 60vh; overflow: scroll !important">
-                    <vue-json-pretty
-                        :path="'res'"
-                        :data="logs"
-                        :customValueFormatter="customKeyFormatter"
-                        showLine
-                    >
-                    </vue-json-pretty>
-                </v-card-text>
-                <v-card-actions class="justify-end">
-                    <v-btn text @click="downloadFile">Download Logs</v-btn>
-                    <v-btn text @click="dialog2.value = false">Close</v-btn>
-                </v-card-actions>
+                <div v-show="loading" class="pa-1 pb-2">
+                    Please Wait...
+                    <v-progress-linear indeterminate color="blue" class=""></v-progress-linear>
+                </div>
+                <div v-show="!loading">
+                    <v-toolbar color="#61366e" dark>Log Viewer</v-toolbar>
+                    <v-card-text style="height: 60vh; overflow: scroll !important">
+                        <vue-json-pretty
+                            :path="'res'"
+                            :data="logs"
+                            :customValueFormatter="customKeyFormatter"
+                            showLine
+                        >
+                        </vue-json-pretty>
+                    </v-card-text>
+                    <v-card-actions class="justify-end">
+                        <v-btn text @click="downloadFile">Download Logs</v-btn>
+                        <v-btn text @click="dialog2.value = false">Close</v-btn>
+                    </v-card-actions>
+                </div>
             </v-card>
         </template>
     </v-dialog>
@@ -34,6 +40,7 @@ import { getLogs } from "../../api/LogService";
 })
 export default class LogsDialog extends Vue {
     dialog2 = false;
+    loading = true;
     executionId = "";
     logs = "No logs found";
 
@@ -42,6 +49,7 @@ export default class LogsDialog extends Vue {
             this.executionId = execution_uid;
             this.dialog2 = dialog2;
             this.logs = await getLogs(execution_uid);
+            this.loading = false;
         });
     }
 
@@ -62,7 +70,7 @@ export default class LogsDialog extends Vue {
     customKeyFormatter(key: any, path: any) {
         console.log(key);
 
-        return `<p style="color: #0e844e">${key}<p>`;
+        return `<p style="color: #00AA00">${key}<p>`;
     }
 }
 </script>
