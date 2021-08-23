@@ -4,7 +4,13 @@
             <v-card>
                 <v-toolbar color="#61366e" dark>Log Viewer</v-toolbar>
                 <v-card-text style="height: 60vh; overflow: scroll !important">
-                    <vue-json-pretty :path="'res'" :data="logs" showLine> </vue-json-pretty>
+                    <vue-json-pretty
+                        :path="'res'"
+                        :data="logs"
+                        :customValueFormatter="customKeyFormatter"
+                        showLine
+                    >
+                    </vue-json-pretty>
                 </v-card-text>
                 <v-card-actions class="justify-end">
                     <v-btn text @click="downloadFile">Download Logs</v-btn>
@@ -51,6 +57,12 @@ export default class LogsDialog extends Vue {
         e.initEvent("click", true, false);
         a.dispatchEvent(e);
         a.remove();
+    }
+
+    customKeyFormatter(key: any, path: any) {
+        console.log(key);
+
+        return `<p style="color: #0e844e">${key}<p>`;
     }
 }
 </script>
