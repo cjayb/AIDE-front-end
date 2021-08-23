@@ -68,14 +68,21 @@
                     </v-row>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item style="background: #fff; color: #fff">
+            <v-list-item style="background: #fff">
                 <v-list-item-content>
                     <v-row style="background: #fff">
                         <v-col data-test="patient-name" cols="3">
                             Name: {{ selectedExecutionMetaData.PatientName }}
                         </v-col>
-                        <v-col data-test="patient-age" cols="3">
+                        <v-col
+                            data-test="patient-age"
+                            cols="3"
+                            v-if="selectedExecutionMetaData.PatientAge"
+                        >
                             Age: {{ selectedExecutionMetaData.PatientAge }}
+                        </v-col>
+                        <v-col data-test="patient-age" cols="3" else>
+                            BirthDate: {{ selectedExecutionMetaData.PatientBirthDate | formatAge }}
                         </v-col>
                         <v-col data-test="patient-id" cols="3">
                             Patient Id: {{ selectedExecutionMetaData.PatientID }}

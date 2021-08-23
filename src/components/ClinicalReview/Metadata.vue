@@ -8,25 +8,32 @@
             </v-list-item>
 
             <v-divider></v-divider>
-            <v-list class="transparent" dense style="height: 75vh; overflow-y: scroll">
-                <v-list-item v-for="(item, key, index) in selectedExecutionMetaData" :key="index">
-                    <v-tooltip bottom>
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-list-item-title v-bind="attrs" v-on="on">{{
-                                key
-                            }}</v-list-item-title>
-                        </template>
-                        <span>{{ key }}</span>
-                    </v-tooltip>
 
-                    <v-tooltip bottom>
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-list-item-subtitle class="text-right" v-bind="attrs" v-on="on">
-                                {{ item }}
-                            </v-list-item-subtitle>
-                        </template>
-                        <span>{{ item }}</span>
-                    </v-tooltip>
+            <v-list dense nav style="height: 75vh; overflow-y: scroll">
+                <v-list-item
+                    v-for="(item, key, index) in selectedExecutionMetaData"
+                    :key="index"
+                    link
+                    data-test="work-list-item"
+                >
+                    <v-list-item-content>
+                        <v-tooltip bottom open-delay="1000">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-list-item-title v-bind="attrs" v-on="on">
+                                    {{ key }}</v-list-item-title
+                                >
+                            </template>
+                            <span>{{ key }}</span>
+                        </v-tooltip>
+                        <v-tooltip bottom open-delay="1000">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-list-item-subtitle v-bind="attrs" v-on="on">{{
+                                    item
+                                }}</v-list-item-subtitle>
+                            </template>
+                            <span>{{ item }}</span>
+                        </v-tooltip>
+                    </v-list-item-content>
                 </v-list-item>
             </v-list>
         </v-container>

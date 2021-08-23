@@ -18,6 +18,12 @@ Vue.filter("formatDate", function (value: any) {
     }
 });
 
+Vue.filter("formatAge", function (value: any) {
+    if (value) {
+        return moment(String(value)).format("MM/DD/YYYY");
+    }
+});
+
 Vue.$keycloak.init({ checkLoginIframe: false }).then(() => {
     new Vue({
         router,

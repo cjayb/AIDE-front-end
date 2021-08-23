@@ -134,7 +134,11 @@ export default class Models extends Vue {
     // Methods will be component methods
     getSuccessRate(stats: any): string {
         let result = (100 * (stats.executions - stats.failures)) / stats.executions;
-        return result.toFixed(0) + " %";
+        if (Number.isNaN(result)) {
+            return 0 + " %";
+        } else {
+            return result.toFixed(0) + " %";
+        }
     }
 
     getTimeFormat(time: any): number {
