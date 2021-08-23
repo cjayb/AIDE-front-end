@@ -37,6 +37,7 @@
                                 data-test="accept-btn"
                                 color="#4CAF50"
                                 dark
+                                :loading="loading"
                                 @click="acceptReview()"
                             >
                                 Accept
@@ -47,6 +48,7 @@
                                 data-test="reject-btn"
                                 color="#DC2626"
                                 dark
+                                :loading="loading"
                                 @click="rejectReview()"
                             >
                                 Reject
@@ -80,6 +82,7 @@ export default class ApprovalDialog extends Vue {
     checkbox = false;
     reason = "";
     description = "";
+    loading = false;
 
     created(): void {
         EventBus.$on(
@@ -95,7 +98,18 @@ export default class ApprovalDialog extends Vue {
 
     async acceptReview() {
         if (this.checkbox) {
-            await updateClinicalReview(this.executionId, "true", "", this.description);
+            this.loading = true;
+            var response = await updateClinicalReview(
+                this.executionId,
+                "true",
+                "",
+                this.description,
+            );
+
+            if (response.status === true) {
+                EventBus.$emit("updateTaskList", this.executionId);
+            }
+            this.loading = false;
             this.dialog4 = false;
         } else {
             alert("Required fields not filled!");
@@ -103,8 +117,18 @@ export default class ApprovalDialog extends Vue {
     }
 
     async rejectReview() {
-        if (this.checkbox && this.reason != "") {
-            await updateClinicalReview(this.executionId, "false", this.reason, this.description);
+        if (this.checkbox && this.reason !== "") {
+            this.loading = true;
+            var response = await updateClinicalReview(
+                this.executionId,
+                "false",
+                this.reason,
+                this.description,
+            );
+            if (response.status === true) {
+                EventBus.$emit("updateTaskList", this.executionId);
+            }
+            this.loading = false;
             this.dialog4 = false;
         } else {
             alert("Required fields not filled!");

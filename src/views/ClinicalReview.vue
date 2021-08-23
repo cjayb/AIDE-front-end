@@ -6,7 +6,7 @@
                 <Tasks />
             </v-col>
             <!-- Viewer -->
-            <v-col cols="10">
+            <v-col cols="10" v-if="tasksNotEmpty">
                 <Header />
                 <v-card style="width: 100%" class="my-4">
                     <v-list-item>
@@ -25,7 +25,11 @@
                     </v-list-item>
                 </v-card>
             </v-col>
+            <v-col v-else>
+                <EmptyTaskList />
+            </v-col>
         </v-row>
+
         <ApprovalDialog />
     </v-container>
 </template>
@@ -38,6 +42,8 @@ import Header from "../components/ClinicalReview/Header.vue";
 import Tasks from "../components/ClinicalReview/Tasks.vue";
 import Metadata from "../components/ClinicalReview/Metadata.vue";
 import ApprovalDialog from "../components/ClinicalReview/ApprovalDialog.vue";
+import EmptyTaskList from "../views/EmptyTaskList.vue";
+import { EventBus } from "@/event-bus";
 
 @Component({
     components: {
@@ -46,10 +52,16 @@ import ApprovalDialog from "../components/ClinicalReview/ApprovalDialog.vue";
         Tasks,
         Metadata,
         ApprovalDialog,
+        EmptyTaskList,
     },
 })
 export default class ClinicalReview extends Vue {
-    // Declared as component data
+    tasksNotEmpty = true;
+    created(): void {
+        EventBus.$on("tasksNotEmpty", (tasksEmpty: boolean) => {
+            this.tasksNotEmpty = tasksEmpty;
+        });
+    }
 }
 </script>
 

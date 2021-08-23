@@ -80,7 +80,19 @@ export default class Tasks extends Vue {
     search = "";
 
     async created(): Promise<void> {
+        EventBus.$on("updateTaskList", (selectedTask: string) => {
+            var updatedList = this.tasks.filter((item) => item.model.execution_uid !== selectedTask);
+            this.tasks = updatedList;
+            if (this.tasks.length === 0) {
+                EventBus.$emit("tasksNotEmpty", true);
+            }
+        });
         this.tasks = await getAllExecutions("1", "10", "false");
+        if (this.tasks.length === 0) {
+            EventBus.$emit("tasksNotEmpty", false);
+        } else {
+            EventBus.$emit("tasksNotEmpty", true);
+        }
         let study_id = this.tasks[0].event.origin.studyUID;
         this.$router.push({ name: "ClinicalReviewViewer", params: { study_id: study_id } });
         this.selectTask(this.tasks[0]);
