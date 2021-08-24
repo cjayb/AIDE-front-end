@@ -86,7 +86,7 @@ export default class Tasks extends Vue {
             );
             this.tasks = updatedList;
             if (this.tasks.length === 0) {
-                EventBus.$emit("tasksNotEmpty", true);
+                EventBus.$emit("tasksNotEmpty", false);
             }
         });
         this.tasks = await getAllExecutions("1", "10", "false");
