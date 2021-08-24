@@ -1,6 +1,6 @@
 <template>
     <transition name="fade" mode="out-in">
-        <v-card style="width: 100%" :key="selectedModel">
+        <v-card style="width: 100%" :key="selectedModel" v-if="loaded">
             <v-list-item style="background: #455a64; color: #fff" class="pr-0">
                 <v-list-item-content>
                     <v-row>
@@ -112,12 +112,16 @@ export default class Header extends Vue {
     selectedExecutionMetaData = {};
     selectedModel = {};
     correlation_id = "";
+    loaded = false;
 
     created(): void {
         EventBus.$on("selectTask", (execution: any) => {
             this.selectedExecutionMetaData = execution.event.origin.series[0];
             this.selectedModel = execution.model;
             this.correlation_id = execution.correlation_id;
+            if (this.selectedModel) {
+                this.loaded = true;
+            }
         });
     }
 

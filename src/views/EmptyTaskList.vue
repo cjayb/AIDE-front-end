@@ -2,8 +2,8 @@
     <v-container>
         <v-row align="center" justify="center">
             <v-col cols="5">
-                <v-card color="amber">
-                    <v-card-title><v-icon>mdi-alert</v-icon> Warning </v-card-title>
+                <v-card dark color="green">
+                    <v-card-title><v-icon>mdi-information-outline</v-icon> Info </v-card-title>
                     <v-divider></v-divider>
                     <v-card-text>There are no tasks for review</v-card-text>
                 </v-card>
