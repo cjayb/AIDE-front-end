@@ -95,17 +95,23 @@
                     <v-list class="transparent">
                         <v-list-item>
                             <v-list-item-title>Active</v-list-item-title>
-                            <v-list-item-subtitle class="text-right"> 3 </v-list-item-subtitle>
+                            <v-list-item-subtitle class="text-right">
+                                {{ active }}
+                            </v-list-item-subtitle>
                         </v-list-item>
 
                         <v-list-item>
                             <v-list-item-title>Stale</v-list-item-title>
-                            <v-list-item-subtitle class="text-right"> 0 </v-list-item-subtitle>
+                            <v-list-item-subtitle class="text-right">
+                                {{ stale }}
+                            </v-list-item-subtitle>
                         </v-list-item>
 
                         <v-list-item>
                             <v-list-item-title>Inactive</v-list-item-title>
-                            <v-list-item-subtitle class="text-right"> 0 </v-list-item-subtitle>
+                            <v-list-item-subtitle class="text-right">
+                                {{ inactive }}
+                            </v-list-item-subtitle>
                         </v-list-item>
                     </v-list>
                 </v-card>
@@ -115,10 +121,11 @@
 </template>
 
 <script lang="ts">
+import { getModels } from "@/api/ModelService";
 import Vue from "vue";
 import Component from "vue-class-component";
 
-import { getExecutionStats } from "../../api/ExecutionService";
+import { getExecutionStats, getModelExecutionStats } from "../../api/ExecutionService";
 import { getQueueMetrics } from "../../api/QueueService";
 
 @Component
@@ -129,10 +136,35 @@ export default class Dashboard extends Vue {
     inputQueue = {};
     outputQueue = {};
     pacsQueue = {};
+    models: any = [];
+    stale = 0;
+    counter = 0;
+    active = 0;
+    inactive = 0;
 
     async created(): Promise<void> {
         this.executionsStats = await getExecutionStats(this.$store.state.days);
         this.inputQueue = await getQueueMetrics("input");
+        this.models = await getModels();
+
+        const active_models = this.models.filter((model: any) => model.active);
+        this.inactive = this.models.filter((model: any) => !model.active).length;
+        const promises = await active_models.map(async (model: any) => {
+            const model_executions = await getModelExecutionStats(
+                "1",
+                `${model.model_name}%2F${model.model_version}`,
+            );
+            if (model_executions.executions === 0) {
+                this.counter = this.counter + 1;
+            }
+        });
+
+        await Promise.all(promises);
+
+        this.stale = this.counter;
+
+        this.active = active_models.length - this.stale;
+
         // this.outputQueue = await getQueueMetrics("output");
         // this.pacsQueue = await getQueueMetrics("pacs");
     }
