@@ -16,7 +16,25 @@
             </template>
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.output="{ item }">
-                <v-btn @click="getFile(item)" x-small>Download Output</v-btn>
+                <v-item-group class="v-btn-toggle">
+                    <v-menu offset-y>
+                        <template v-slot:activator="{ on }">
+                            <v-btn v-on="on" x-small>Download Output</v-btn>
+                        </template>
+                        <v-list>
+                            <v-list-item
+                                v-for="(resource, index) in getModelResources(item)"
+                                :key="index"
+                                selectable
+                                @click="getFile(resource.file_path)"
+                            >
+                                <v-list-item-title>{{
+                                    extractFileName(resource.file_path)
+                                }}</v-list-item-title>
+                            </v-list-item>
+                        </v-list>
+                    </v-menu>
+                </v-item-group>
             </template>
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.status="{ item }">
@@ -121,12 +139,10 @@ export default class ExecutionTable extends Vue {
         }
     }
 
-    async getFile(item: any): Promise<void> {
-        item.event.resources.forEach(async (resource: any) => {
-            if (resource.namespace == item.model.model_uid) {
-                await getFile(resource.file_path);
-            }
-        });
+    getModelResources(item: any) {
+        return item.event.resources.filter(
+            (resource: any) => resource.namespace === item.model.model_uid,
+        );
     }
 
     async updateExecutions(page: any, size: any): Promise<void> {
@@ -170,6 +186,12 @@ export default class ExecutionTable extends Vue {
         }
 
         return "#d4351c";
+    }
+
+    extractFileName(fileName: string): string {
+        const pathItems = fileName.split("/");
+
+        return pathItems[pathItems.length - 1];
     }
 
     getTimeDifference(start: string, end: string): number {
