@@ -1,10 +1,19 @@
 <template>
-    <div :id="containerId" class="dicom-viewer" style="height: 80vh"></div>
+    <v-container>
+        <v-btn-toggle v-model="icon" dense group style="float: right">
+            <v-btn value="left" @click="downloadCurrentStudy()">
+                <span class="hidden-sm-and-down">Download Study</span>
+                <v-icon right> mdi-download </v-icon>
+            </v-btn>
+        </v-btn-toggle>
+        <div :id="containerId" class="dicom-viewer" style="height: 80vh"></div>
+    </v-container>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import { findStudy, downloadStudy } from "../../api/OrthancService";
 
 @Component
 export default class DicomViewer extends Vue {
@@ -49,6 +58,14 @@ export default class DicomViewer extends Vue {
     componentRenderedOrUpdatedCallback = function () {
         console.log("OHIF Viewer rendered/updated");
     };
+
+    async downloadCurrentStudy(): Promise<void> {
+        const file_name = this.$route.path.split("/");
+        await findStudy(file_name[file_name.length - 1]).then(async (response) => {
+            console.log(response);
+            await downloadStudy(response[0].ID);
+        });
+    }
 }
 </script>
 
