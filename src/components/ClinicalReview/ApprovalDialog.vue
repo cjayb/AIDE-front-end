@@ -1,6 +1,6 @@
 <template>
     <v-dialog transition="dialog-bottom-transition" max-width="60vw" v-model="dialog4">
-        <template v-slot:default="dialog4">
+        <template>
             <v-card>
                 <v-card-title> {{ title }} </v-card-title>
                 <div style="margin: 0px 30px 0px 30px">
@@ -26,10 +26,7 @@
                     ></v-checkbox>
                     <v-card-actions class="justify-end">
                         <v-col cols="4" style="color: #fff">
-                            <v-btn
-                                depressed
-                                style="margin-right: 8px"
-                                @click="dialog4.value = false"
+                            <v-btn depressed style="margin-right: 8px" @click="onCancel()"
                                 >Cancel</v-btn
                             >
                             <v-btn
@@ -133,6 +130,13 @@ export default class ApprovalDialog extends Vue {
         } else {
             alert("Required fields not filled!");
         }
+    }
+
+    onCancel() {
+        this.description = "";
+        this.approval = false;
+        this.reason = "";
+        this.dialog4 = false;
     }
 }
 </script>
