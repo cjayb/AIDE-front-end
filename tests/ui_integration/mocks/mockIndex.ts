@@ -11,6 +11,8 @@ let adminDashboardExecutionResultsModel1 = require("../mocks/adminDashboardExecu
 let adminDashboardExecutionResultsModel2 = require("../mocks/adminDashboardExecutionResultsModel2.json");
 let adminDashboardPipelinesModel1 = require("../mocks/adminDashboardPipelinesModel1.json");
 let clinicalReview = require("../mocks/clinicalReview.json");
+let executionLogs = require("../mocks/executionLogs.json")
+let outputFile = require("../mocks/outputFile.json")
 
 export = {
     adminDashboardModels,
@@ -25,5 +27,7 @@ export = {
     adminDashboardExecutionResultsModel1,
     adminDashboardExecutionResultsModel2,
     adminDashboardPipelinesModel1,
-    clinicalReview
+    clinicalReview,
+    executionLogs,
+    outputFile
 }

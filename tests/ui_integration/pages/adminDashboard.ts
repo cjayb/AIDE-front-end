@@ -12,7 +12,7 @@ export = {
     // Execution Results
     viewLogsModel1: locate(".v-btn").withChild(".v-btn__content").withText("View Logs").at(1),
     endOfLogs: locate(".vjs-key").withText("message"),
-    viewOutputModel1: locate(".v-btn").withChild(".v-btn__content").withText("View Output").at(1),
+    downloadOutputModel1: locate(".v-btn").withChild(".v-btn__content").withText("Download Output").at(1),
     viewPipelineModel1: locate(".v-btn").withChild(".v-btn__content").withText("View Pipeline").at(1),
     closeModal: locate(".v-btn").withChild(".v-btn__content").withText("Close"),
 
@@ -26,7 +26,7 @@ export = {
     model2Name: mocks.adminDashboardModels[1]["model_name"],
 
     IToggleModelRowDetail(modelIndex: number){ 
-        I.click(locate(this.expandModelRow).at(modelIndex + 1));
+        I.click(locate(this.expandModelRow).at(modelIndex + 2));
     },
 
     async ITestSort(text: string, screenshotRef = ""){

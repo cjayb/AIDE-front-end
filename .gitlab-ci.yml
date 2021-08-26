@@ -22,6 +22,8 @@ test_ui_headless:
     stage: test_ui_integration
     image: mcr.microsoft.com/playwright:v1.5.1-focal
     needs: []
+    before_script:
+        - export VUE_APP_AUTH_ENABLED=false
     script:
         - npm i --no-optional -f
         - npm run tests:ui_ci

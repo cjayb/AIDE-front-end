@@ -1,50 +1,30 @@
 [
     {
-    "output": {
-    "destinations": [
-    "PACS"
-    ]
-    },
-    "model_name": "Haemorrhage-Brush",
-    "predicate": "DICOM_Modality == 'ABC'",
-    "clinical_review": true,
-    "mode": "QA",
-    "model_version": "1.0.0"
+        "model_name": "Haemorrhage-Brush",
+        "predicate": "DICOM_Modality == 'ABC'",
+        "mode": "QA",
+        "model_version": "1.0.0",
+        "active": true
     },
     {
-    "output": {
-    "destinations": [
-    "PACS"
-    ]
-    },
-    "model_name": "ch_test_model_1",
-    "predicate": "test == 1 and case < 2",
-    "clinical_review": true,
-    "mode": "QA",
-    "model_version": "1.0.0"
+        "model_name": "ch_test_model_1",
+        "predicate": "test == 1 and case < 2",
+        "mode": "QA",
+        "model_version": "1.0.0",
+        "active": true
     },
     {
-    "output": {
-    "destinations": [
-    "PACS"
-    ]
-    },
-    "model_name": "ch_test_model_2",
-    "predicate": "modality < 1",
-    "clinical_review": false,
-    "mode": "QA",
-    "model_version": "1.0.0"
+        "model_name": "ch_test_model_2",
+        "predicate": "modality < 1",
+        "mode": "QA",
+        "model_version": "1.0.0",
+        "active": true
     },
     {
-    "output": {
-    "destinations": [
-    "PACS"
-    ]
-    },
-    "model_name": "Haemorrhage-Stroke",
-    "predicate": "DICOM_Modality == 'CT'",
-    "clinical_review": true,
-    "mode": "QA",
-    "model_version": "1.0.0"
+        "model_name": "Haemorrhage-Stroke",
+        "predicate": "DICOM_Modality == 'CT'",
+        "mode": "QA",
+        "model_version": "1.0.0",
+        "active": true
     }
-    ]
+]
