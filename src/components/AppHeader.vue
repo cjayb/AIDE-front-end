@@ -6,14 +6,16 @@
 
         <v-toolbar-title>{{ pageTitle }}</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon disabled>
+        <v-btn icon disabled aria-label="notification bell">
             <v-icon>mdi-bell</v-icon>
         </v-btn>
 
         <v-menu bottom left offset-y offset-overflow :nudge-left="80">
             <template v-slot:activator="{ on, attrs }">
-                <v-btn icon v-on="on">
-                    <v-icon v-bind="attrs">mdi-account-circle</v-icon>
+                <v-btn text v-on="on" aria-label="log out button">
+                    <v-icon v-bind="attrs" class="mr-2">mdi-account-circle </v-icon>
+                    {{ name }}
+                    <v-icon class="ml-2">mdi-chevron-down</v-icon>
                 </v-btn>
             </template>
             <v-list>
@@ -38,16 +40,21 @@
 import Vue from "vue";
 import { Watch } from "vue-property-decorator";
 import Component from "vue-class-component";
-import { EventBus } from "@/event-bus";
 
 @Component
 export default class AppHeader extends Vue {
     // Class properties will be component data
     pageTitle = "Page Title";
+    name = "";
 
     // Methods will be component methods
     created(): void {
         this.updatePageTitle();
+        if (Vue.$keycloak.authenticated) {
+            this.name = Vue.$keycloak.tokenParsed.name;
+        } else {
+            this.name = "Unauthenticated User";
+        }
     }
 
     updatePageTitle(): void {
