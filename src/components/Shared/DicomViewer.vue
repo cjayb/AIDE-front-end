@@ -1,7 +1,11 @@
 <template>
     <v-container>
         <v-btn-toggle v-model="icon" dense group style="float: right">
-            <v-btn value="left" @click="downloadCurrentStudy()">
+            <v-btn value="left" @click="getReports()" :loading="reportLoading">
+                <span class="hidden-sm-and-down">Open Report</span>
+                <v-icon right> mdi-download </v-icon>
+            </v-btn>
+            <v-btn value="left" @click="downloadCurrentStudy()" :loading="studyLoading">
                 <span class="hidden-sm-and-down">Download Study</span>
                 <v-icon right> mdi-download </v-icon>
             </v-btn>
@@ -13,11 +17,13 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import { findStudy, downloadStudy } from "../../api/OrthancService";
+import { findStudy, downloadStudy, getSeries } from "../../api/OrthancService";
 
 @Component
 export default class DicomViewer extends Vue {
     containerId = "root2";
+    studyLoading = false;
+    reportLoading = false;
 
     mounted(): void {
         const plugin = document.createElement("script");
@@ -61,9 +67,27 @@ export default class DicomViewer extends Vue {
 
     async downloadCurrentStudy(): Promise<void> {
         const file_name = this.$route.path.split("/");
+        this.studyLoading = true;
         await findStudy(file_name[file_name.length - 1]).then(async (response) => {
-            console.log(response);
             await downloadStudy(response[0].ID);
+            this.studyLoading = false;
+        });
+    }
+
+    async getReports(): Promise<void> {
+        const file_name = this.$route.path.split("/");
+        this.reportLoading = true;
+        await findStudy(file_name[file_name.length - 1]).then(async (response: any) => {
+            response[0].Series.forEach(async (seriesId: string) => {
+                let series = await getSeries(seriesId);
+                if (series.Instances.length === 1) {
+                    window.open(
+                        `${window.ORTHANC_API_URL}/instances/${series.Instances[0]}/pdf`,
+                        "_blank",
+                    );
+                }
+            });
+            this.reportLoading = false;
         });
     }
 }

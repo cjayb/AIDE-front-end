@@ -1,6 +1,7 @@
 #!/bin/bash
 cat <<EOF
 window.FRONTEND_API_HOST="${FRONTEND_API_HOST}"
+window.ORTHANC_API_URL="${ORTHANC_API_URL}"
 window.KEYCLOAK_URL="${KEYCLOAK_URL}"
 window.WADO_URI_ROOT="${WADO_URI_ROOT}"
 window.QIDO_ROOT="${QIDO_ROOT}"
