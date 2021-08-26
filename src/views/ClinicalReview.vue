@@ -13,13 +13,13 @@
                         <v-list-item-content>
                             <v-row>
                                 <transition name="fade" mode="out-in">
-                                    <v-col cols="9" :key="$route.path">
+                                    <v-col cols="12" :key="$route.path">
                                         <DicomViewer :key="$route.path" />
                                     </v-col>
                                 </transition>
-                                <v-col cols="3">
+                                <!-- <v-col cols="3">
                                     <Metadata />
-                                </v-col>
+                                </v-col> -->
                             </v-row>
                         </v-list-item-content>
                     </v-list-item>

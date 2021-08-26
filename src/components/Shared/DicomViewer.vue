@@ -5,12 +5,12 @@
                 <span class="hidden-sm-and-down">Open Report</span>
                 <v-icon right> mdi-download </v-icon>
             </v-btn>
-            <v-btn value="left" @click="downloadCurrentStudy()" :loading="studyLoading">
-                <span class="hidden-sm-and-down">Download Study</span>
+            <v-btn value="left" @click="OpenInOrthanc()" :loading="studyLoading">
+                <span class="hidden-sm-and-down">Open in Orthanc</span>
                 <v-icon right> mdi-download </v-icon>
             </v-btn>
         </v-btn-toggle>
-        <div :id="containerId" class="dicom-viewer" style="height: 80vh"></div>
+        <iframe :src="selectedStudyUrl" width="100%" style="height: 80vh" frameborder="0"> </iframe>
     </v-container>
 </template>
 
@@ -24,37 +24,13 @@ export default class DicomViewer extends Vue {
     containerId = "root2";
     studyLoading = false;
     reportLoading = false;
+    selectedStudyUrl = "";
 
     mounted(): void {
-        const plugin = document.createElement("script");
-        plugin.setAttribute("src", "https://unpkg.com/@ohif/viewer@4.9.20/dist/index.umd.js");
-        plugin.async = true;
-        document.head.appendChild(plugin);
-
-        if (!(window as any).ohifRendered) {
-            (window as any).OHIFViewer.installViewer(
-                {
-                    routerBasename: "/#/clinical-review",
-                    showStudyList: false,
-                    whiteLabeling: null,
-                    servers: {
-                        dicomWeb: [
-                            {
-                                name: "DCM4CHEE",
-                                wadoUriRoot: window.WADO_URI_ROOT,
-                                qidoRoot: window.QIDO_ROOT,
-                                wadoRoot: window.WADO_ROOT,
-                                qidoSupportsIncludeField: true,
-                                imageRendering: "wadors",
-                                thumbnailRendering: "wadors",
-                            },
-                        ],
-                    },
-                },
-                this.containerId,
-                this.componentRenderedOrUpdatedCallback,
-            );
-        }
+        const file_name = this.$route.path.split("/");
+        this.selectedStudyUrl = `${window.ORTHANC_API_URL}/stone-webviewer/index.html?study=${
+            file_name[file_name.length - 1]
+        }`;
     }
 
     destroyed(): void {
@@ -65,11 +41,14 @@ export default class DicomViewer extends Vue {
         console.log("OHIF Viewer rendered/updated");
     };
 
-    async downloadCurrentStudy(): Promise<void> {
+    async OpenInOrthanc(): Promise<void> {
         const file_name = this.$route.path.split("/");
         this.studyLoading = true;
         await findStudy(file_name[file_name.length - 1]).then(async (response) => {
-            await downloadStudy(response[0].ID);
+            window.open(
+                `${window.ORTHANC_API_URL}/app/explorer.html#study?uuid=${response[0].ID}`,
+                "_blank",
+            );
             this.studyLoading = false;
         });
     }
@@ -82,7 +61,7 @@ export default class DicomViewer extends Vue {
                 let series = await getSeries(seriesId);
                 if (series.Instances.length === 1) {
                     window.open(
-                        `${window.ORTHANC_API_URL}/instances/${series.Instances[0]}/pdf`,
+                        `${window.ORTHANC_API_URL}/app/explorer.html#instance?uuid=${series.Instances[0]}`,
                         "_blank",
                     );
                 }
