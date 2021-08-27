@@ -2,7 +2,7 @@
     <v-container>
         <v-data-table
             :headers="executionsHeaders"
-            :items="executions"
+            :items="items"
             :server-items-length="this.model.stats.executions"
             item-key="name"
             class="elevation-0 pa-0 ma-0"
@@ -12,7 +12,7 @@
         >
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.date="{ item }">
-                {{ item.timestamp.inference_started | formatDate }}
+                {{ item.execution.timestamp.inference_started | formatDate }}
             </template>
 
             <!-- eslint-disable-next-line  -->
@@ -35,14 +35,21 @@
                 <v-item-group class="v-btn-toggle">
                     <v-menu offset-y>
                         <template v-slot:activator="{ on }">
-                            <v-btn v-on="on" x-small>Download Output</v-btn>
+                            <v-btn
+                                v-on="on"
+                                x-small
+                                :loading="item.downloadLoading"
+                                class="x-small-icon"
+                            >
+                                Download Output
+                            </v-btn>
                         </template>
                         <v-list>
                             <v-list-item
-                                v-for="(resource, index) in getModelResources(item)"
+                                v-for="(resource, index) in getModelResources(item.execution)"
                                 :key="index"
                                 selectable
-                                @click="getFile(resource.file_path)"
+                                @click="getOutputFile(item, resource.file_path)"
                             >
                                 <v-list-item-title>{{
                                     extractFileName(resource.file_path)
@@ -54,31 +61,40 @@
             </template>
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.status="{ item }">
-                <v-chip :color="getStatusColor(item.result)" dark outlined small>
-                    {{ getStatus(item.result) }}
+                <v-chip :color="getStatusColor(item.execution.result)" dark outlined small>
+                    {{ getStatus(item.execution.result) }}
                 </v-chip>
             </template>
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.duration="{ item }">
                 {{
                     getTimeDifference(
-                        item.timestamp.inference_started,
-                        item.timestamp.inference_finished,
+                        item.execution.timestamp.inference_started,
+                        item.execution.timestamp.inference_finished,
                     )
                 }}
             </template>
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.turnaround="{ item }">
                 {{
-                    getTimeDifference(item.timestamp.received_at, item.timestamp.inference_finished)
+                    getTimeDifference(
+                        item.execution.timestamp.received_at,
+                        item.execution.timestamp.inference_finished,
+                    )
                 }}
             </template>
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.actions="{ item }">
-                <v-btn @click.stop="openLogsDialog(item.model.execution_uid)" x-small class="ma-1"
+                <v-btn
+                    @click.stop="openLogsDialog(item.execution.model.execution_uid)"
+                    x-small
+                    class="ma-1"
                     >View Logs</v-btn
                 >
-                <v-btn @click.stop="openPipelineDialog(item.correlation_id)" x-small class="ma-1"
+                <v-btn
+                    @click.stop="openPipelineDialog(item.execution.correlation_id)"
+                    x-small
+                    class="ma-1"
                     >View Pipeline</v-btn
                 >
             </template>
@@ -110,7 +126,9 @@ export default class ExecutionTable extends Vue {
     @Prop() model!: any;
     loading = true;
     executions = [];
+    items: any[] = [];
     dialog = false;
+    downloadLoading = false;
     executionsHeaders = [
         {
             text: "Date",
@@ -163,6 +181,12 @@ export default class ExecutionTable extends Vue {
         },
     ];
 
+    async getOutputFile(item: any, file_path: string): Promise<any> {
+        item.downloadLoading = true;
+        await getFile(file_path);
+        item.downloadLoading = false;
+    }
+
     updatePagination(pagination: any): void {
         if (pagination.pageStart == 0) {
             this.updateExecutions(0, pagination.itemsPerPage);
@@ -184,6 +208,10 @@ export default class ExecutionTable extends Vue {
             page,
             size,
         );
+
+        this.items = this.executions.map((item) => {
+            return { execution: item, downloadLoading: false };
+        });
         this.loading = false;
     }
 
@@ -241,3 +269,10 @@ export default class ExecutionTable extends Vue {
     }
 }
 </script>
+
+<style>
+.x-small-icon .v-progress-circular {
+    height: 13px !important;
+    width: 13px !important;
+}
+</style>

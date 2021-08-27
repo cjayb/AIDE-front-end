@@ -132,8 +132,8 @@ import { getQueueMetrics } from "../../api/QueueService";
 export default class Dashboard extends Vue {
     // Class properties will be component data
 
-    executionsStats = {};
-    inputQueue = {};
+    executionsStats = { executions: 0, failures: 0 };
+    inputQueue = { message_count: 0, delivered: 0, published: 0 };
     outputQueue = {};
     pacsQueue = {};
     models: any = [];
@@ -170,7 +170,11 @@ export default class Dashboard extends Vue {
     }
 
     getSuccessRate(stats: any): string {
-        let result = (100 * (stats.executions - stats.failures)) / stats.executions;
+        let result = 0;
+
+        if (stats) {
+            let result = (100 * (stats.executions - stats.failures)) / stats.executions;
+        }
         return result.toFixed(0) + " %";
     }
 }
