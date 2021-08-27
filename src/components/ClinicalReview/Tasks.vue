@@ -44,11 +44,12 @@
                     </v-tooltip>
                     <v-tooltip bottom open-delay="3000">
                         <template v-slot:activator="{ on, attrs }">
-                            <v-list-item-subtitle v-bind="attrs" v-on="on">{{
-                                item.model.model_name
-                            }}</v-list-item-subtitle>
+                            <v-list-item-subtitle v-bind="attrs" v-on="on"
+                                >{{ item.model.model_name }} -
+                                {{ item.model.model_version }}</v-list-item-subtitle
+                            >
                         </template>
-                        <span>{{ item.model.model_name }}</span>
+                        <span>{{ item.model.model_name }} - {{ item.model.model_version }}</span>
                     </v-tooltip>
 
                     <v-tooltip bottom open-delay="3000">
@@ -103,7 +104,7 @@ export default class Tasks extends Vue {
     get filteredTasks() {
         return this.tasks.filter((item) => {
             if (!this.search) return this.tasks;
-            return item.output.destinations[0].study.series[0].metadata.PatientsName.toLowerCase().includes(
+            return item.event.origin.series[0].PatientName.toLowerCase().includes(
                 this.search.toLowerCase(),
             );
         });
