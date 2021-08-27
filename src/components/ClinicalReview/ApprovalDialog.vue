@@ -26,7 +26,7 @@
                     ></v-checkbox>
                     <v-card-actions class="justify-end">
                         <v-col cols="4" style="color: #fff">
-                            <v-btn depressed style="margin-right: 8px" @click="onCancel()"
+                            <v-btn depressed style="margin-right: 8px" @click="clearDataAndCloseDialog()"
                                 >Cancel</v-btn
                             >
                             <v-btn
@@ -107,7 +107,7 @@ export default class ApprovalDialog extends Vue {
                 EventBus.$emit("updateTaskList", this.executionId);
             }
             this.loading = false;
-            this.dialog4 = false;
+            this.clearDataAndCloseDialog();
         } else {
             alert("Required fields not filled!");
         }
@@ -126,13 +126,13 @@ export default class ApprovalDialog extends Vue {
                 EventBus.$emit("updateTaskList", this.executionId);
             }
             this.loading = false;
-            this.dialog4 = false;
+            this.clearDataAndCloseDialog();
         } else {
             alert("Required fields not filled!");
         }
     }
 
-    onCancel() {
+    clearDataAndCloseDialog() {
         this.description = "";
         this.approval = false;
         this.reason = "";
