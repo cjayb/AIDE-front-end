@@ -88,6 +88,8 @@ export default class Tasks extends Vue {
             this.tasks = updatedList;
             if (this.tasks.length === 0) {
                 EventBus.$emit("tasksNotEmpty", false);
+            } else {
+                this.selectTask(this.tasks[0]);
             }
         });
         this.tasks = await getAllExecutions("1", "10", "false");
@@ -113,6 +115,7 @@ export default class Tasks extends Vue {
     selectTask(execution: any): void {
         EventBus.$emit("selectTask", execution);
     }
+
     clearSearch() {
         this.search = "";
     }
