@@ -23,17 +23,15 @@ import { EventBus } from "@/event-bus";
 export default class AppSidebar extends Vue {
     // Declared as component data
     items = [
-        { title: "Admin", icon: "mdi-cog", route: "AdminDashboard", role: "Admin" },
-        { title: "Clinical Review", icon: "mdi-eye", route: "ClinicalReview", role: "Clinician" },
+        { title: "Admin", icon: "mdi-cog", route: "AdminDashboard", role: "admin" },
+        { title: "Clinical Review", icon: "mdi-eye", route: "ClinicalReview", role: "clinician" },
     ];
+    roles: any = [];
     drawer = true;
 
     created(): void {
-        if (Vue.$keycloak.hasResourceRole("admin")) {
-            this.items = this.items.filter((item) => item.role === "Admin");
-        } else if (Vue.$keycloak.hasResourceRole("clinician")) {
-            this.items = this.items.filter((item) => item.role === "Clinician");
-        }
+        this.roles = Vue.$keycloak.resourceAccess["aide-app"].roles;
+        this.items = this.items.filter((item) => this.roles.includes(item.role));
 
         EventBus.$on("toggleSidebar", (drawer: boolean) => {
             this.drawer = drawer;
