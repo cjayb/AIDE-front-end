@@ -12,7 +12,7 @@
         >
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.date="{ item }">
-                {{ item.timestamp.received_at | formatDate }}
+                {{ item.timestamp.inference_started | formatDate }}
             </template>
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.output="{ item }">
