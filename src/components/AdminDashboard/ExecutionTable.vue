@@ -14,6 +14,22 @@
             <template v-slot:item.date="{ item }">
                 {{ item.timestamp.inference_started | formatDate }}
             </template>
+
+            <!-- eslint-disable-next-line  -->
+            <template v-slot:item.patient="{ item }">
+                {{ item.event.origin.series[0].PatientID }}
+            </template>
+
+            <!-- eslint-disable-next-line  -->
+            <template v-slot:item.studydescription="{ item }">
+                {{ item.event.origin.series[0].StudyDescription }}
+            </template>
+
+            <!-- eslint-disable-next-line  -->
+            <template v-slot:item.seriesdescription="{ item }">
+                {{ item.event.origin.series[0].SeriesDescription }}
+            </template>
+
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.output="{ item }">
                 <v-item-group class="v-btn-toggle">
@@ -101,6 +117,24 @@ export default class ExecutionTable extends Vue {
             align: "start",
             sortable: false,
             value: "date",
+        },
+        {
+            text: "Patient ID",
+            align: "start",
+            sortable: false,
+            value: "patient",
+        },
+        {
+            text: "Study Description",
+            align: "start",
+            sortable: false,
+            value: "studydescription",
+        },
+        {
+            text: "Series Description",
+            align: "start",
+            sortable: false,
+            value: "seriesdescription",
         },
         {
             text: "Outputs",

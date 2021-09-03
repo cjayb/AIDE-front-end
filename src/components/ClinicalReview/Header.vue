@@ -82,7 +82,7 @@
                             Age: {{ selectedExecutionMetaData.PatientAge }}
                         </v-col>
                         <v-col data-test="patient-age" cols="3" else>
-                            BirthDate: {{ selectedExecutionMetaData.PatientBirthDate | formatAge }}
+                            Birth Date: {{ selectedExecutionMetaData.PatientBirthDate | formatAge }}
                         </v-col>
                         <v-col data-test="patient-id" cols="3">
                             Patient Id: {{ selectedExecutionMetaData.PatientID }}
