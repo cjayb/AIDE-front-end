@@ -137,6 +137,7 @@ export default class ApprovalDialog extends Vue {
         this.description = "";
         this.approval = false;
         this.reason = "";
+        this.checkbox = false;
     }
 
     closeDialog() {
