@@ -22,49 +22,49 @@
         <!-- <v-divider></v-divider> -->
 
         <v-list dense nav style="height: 83vh; overflow-y: scroll">
-            <v-list-item
-                v-for="item in filteredTasks"
-                :key="item.event.executions[0].execution_uid"
-                link
-                @click="selectTask(item)"
-                :to="{
-                    name: 'ClinicalReviewViewer',
-                    params: { study_id: item.event.origin.studyUID },
-                }"
-                data-test="work-list-item"
-            >
-                <v-list-item-content>
-                    <v-tooltip bottom open-delay="3000">
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-list-item-title v-bind="attrs" v-on="on">
-                                {{ item.event.origin.series[0].PatientName }}</v-list-item-title
+            <v-list-item-group v-model="selectedItem">
+                <v-list-item
+                    v-for="item in filteredTasks"
+                    :key="item.event.executions[0].execution_uid"
+                    @click="selectTask(item)"
+                    :active="false"
+                    data-test="work-list-item"
+                >
+                    <v-list-item-content>
+                        <v-tooltip bottom open-delay="3000">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-list-item-title v-bind="attrs" v-on="on">
+                                    {{ item.event.origin.series[0].PatientName }}</v-list-item-title
+                                >
+                            </template>
+                            <span>{{ item.event.origin.series[0].PatientName }}</span>
+                        </v-tooltip>
+                        <v-tooltip bottom open-delay="3000">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-list-item-subtitle v-bind="attrs" v-on="on"
+                                    >{{ item.model.model_name }} -
+                                    {{ item.model.model_version }}</v-list-item-subtitle
+                                >
+                            </template>
+                            <span
+                                >{{ item.model.model_name }} - {{ item.model.model_version }}</span
                             >
-                        </template>
-                        <span>{{ item.event.origin.series[0].PatientName }}</span>
-                    </v-tooltip>
-                    <v-tooltip bottom open-delay="3000">
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-list-item-subtitle v-bind="attrs" v-on="on"
-                                >{{ item.model.model_name }} -
-                                {{ item.model.model_version }}</v-list-item-subtitle
-                            >
-                        </template>
-                        <span>{{ item.model.model_name }} - {{ item.model.model_version }}</span>
-                    </v-tooltip>
+                        </v-tooltip>
 
-                    <v-tooltip bottom open-delay="3000">
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-list-item-subtitle v-bind="attrs" v-on="on">
-                                Received:
-                                {{
-                                    item.timestamp.inference_finished | formatDate
-                                }}</v-list-item-subtitle
-                            >
-                        </template>
-                        <span>{{ item.timestamp.inference_finished | formatDate }}</span>
-                    </v-tooltip>
-                </v-list-item-content>
-            </v-list-item>
+                        <v-tooltip bottom open-delay="3000">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-list-item-subtitle v-bind="attrs" v-on="on">
+                                    Received:
+                                    {{
+                                        item.timestamp.inference_finished | formatDate
+                                    }}</v-list-item-subtitle
+                                >
+                            </template>
+                            <span>{{ item.timestamp.inference_finished | formatDate }}</span>
+                        </v-tooltip>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list-item-group>
         </v-list>
     </v-card>
 </template>
@@ -79,6 +79,7 @@ import { getAllExecutions } from "../../api/ExecutionService";
 export default class Tasks extends Vue {
     tasks: Array<any> = [];
     search = "";
+    selectedItem = 0;
 
     async created(): Promise<void> {
         EventBus.$on("updateTaskList", (selectedTask: string) => {
@@ -90,8 +91,10 @@ export default class Tasks extends Vue {
                 EventBus.$emit("tasksNotEmpty", false);
             } else {
                 this.selectTask(this.tasks[0]);
+                this.selectedItem = 0;
             }
         });
+
         this.tasks = await getAllExecutions("1", "10", "false");
         if (this.tasks.length === 0) {
             EventBus.$emit("tasksNotEmpty", false);
@@ -113,6 +116,11 @@ export default class Tasks extends Vue {
     }
 
     selectTask(execution: any): void {
+        this.$router.push({
+            name: "ClinicalReviewViewer",
+            params: { study_id: execution.event.origin.studyUID },
+        });
+
         EventBus.$emit("selectTask", execution);
     }
 
