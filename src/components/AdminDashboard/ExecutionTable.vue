@@ -17,17 +17,17 @@
 
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.patient="{ item }">
-                {{ item.event.origin.series[0].PatientID }}
+                {{ item.execution.event.origin.series[0].PatientID }}
             </template>
 
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.studydescription="{ item }">
-                {{ item.event.origin.series[0].StudyDescription }}
+                {{ item.execution.event.origin.series[0].StudyDescription }}
             </template>
 
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.seriesdescription="{ item }">
-                {{ item.event.origin.series[0].SeriesDescription }}
+                {{ item.execution.event.origin.series[0].SeriesDescription }}
             </template>
 
             <!-- eslint-disable-next-line  -->
