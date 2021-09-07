@@ -59,35 +59,6 @@
                 </v-card>
             </v-col>
 
-            <!-- Output -->
-            <!-- <v-col cols="3">
-                <v-card class="pa-3">
-                    <v-card-title>Output Queue</v-card-title>
-                    <v-list class="transparent">
-                        <v-list-item>
-                            <v-list-item-title>Backlog</v-list-item-title>
-                            <v-list-item-subtitle class="text-right">
-                                {{ outputQueue.message_count }}
-                            </v-list-item-subtitle>
-                        </v-list-item>
-
-                        <v-list-item>
-                            <v-list-item-title>Added to Queue</v-list-item-title>
-                            <v-list-item-subtitle class="text-right">
-                                {{ outputQueue.delivered }}
-                            </v-list-item-subtitle>
-                        </v-list-item>
-
-                        <v-list-item>
-                            <v-list-item-title>Processed</v-list-item-title>
-                            <v-list-item-subtitle class="text-right">
-                                {{ outputQueue.published }}
-                            </v-list-item-subtitle>
-                        </v-list-item>
-                    </v-list>
-                </v-card>
-            </v-col> -->
-
             <!-- Model Status-->
             <v-col cols="4">
                 <v-card class="pa-3">
@@ -127,16 +98,19 @@ import Component from "vue-class-component";
 
 import { getExecutionStats, getModelExecutionStats } from "../../api/ExecutionService";
 import { getQueueMetrics } from "../../api/QueueService";
+import { Model } from "@/models/Model";
+import { ExecutionStat } from "@/models/ExecutionStat";
+import { QueueMetric } from "@/models/QueueMetric";
 
 @Component
 export default class Dashboard extends Vue {
     // Class properties will be component data
 
-    executionsStats = { executions: 0, failures: 0 };
-    inputQueue = { message_count: 0, delivered: 0, published: 0 };
-    outputQueue = {};
-    pacsQueue = {};
-    models: any = [];
+    executionsStats: ExecutionStat = {} as ExecutionStat;
+    inputQueue: QueueMetric = {} as QueueMetric;
+    outputQueue: QueueMetric = {} as QueueMetric;
+    pacsQueue: QueueMetric = {} as QueueMetric;
+    models: Array<Model> = [];
     stale = 0;
     counter = 0;
     active = 0;
@@ -147,9 +121,9 @@ export default class Dashboard extends Vue {
         this.inputQueue = await getQueueMetrics("input");
         this.models = await getModels();
 
-        const active_models = this.models.filter((model: any) => model.active);
-        this.inactive = this.models.filter((model: any) => !model.active).length;
-        const promises = await active_models.map(async (model: any) => {
+        const active_models = this.models.filter((model: Model) => model.active);
+        this.inactive = this.models.filter((model: Model) => !model.active).length;
+        const promises = active_models.map(async (model: Model) => {
             const model_executions = await getModelExecutionStats(
                 "1",
                 `${model.model_name}%2F${model.model_version}`,
@@ -164,16 +138,13 @@ export default class Dashboard extends Vue {
         this.stale = this.counter;
 
         this.active = active_models.length - this.stale;
-
-        // this.outputQueue = await getQueueMetrics("output");
-        // this.pacsQueue = await getQueueMetrics("pacs");
     }
 
-    getSuccessRate(stats: any): string {
+    getSuccessRate(stats: ExecutionStat): string {
         let result = 0;
 
         if (stats) {
-            let result = (100 * (stats.executions - stats.failures)) / stats.executions;
+            result = (100 * (stats.executions - stats.failures)) / stats.executions;
         }
         return result.toFixed(0) + " %";
     }

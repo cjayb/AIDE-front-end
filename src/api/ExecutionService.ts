@@ -1,5 +1,7 @@
 import Vue from "vue";
 import axios from "axios";
+import { Execution } from "@/models/Execution";
+import { ExecutionStat } from "@/models/ExecutionStat";
 
 const http = axios.create({
     baseURL: window.FRONTEND_API_HOST,
@@ -26,7 +28,11 @@ http.interceptors.response.use(
     },
 );
 
-export async function getAllExecutions(from: string, size: string, approved: string): Promise<any> {
+export async function getAllExecutions(
+    from: string,
+    size: string,
+    approved: string,
+): Promise<Array<Execution>> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/executions?from=${from}&size=${size}&approved=${approved}`);
     return response.data;
@@ -36,7 +42,7 @@ export async function getAllModelExecutions(
     model_id: string,
     from: string,
     size: string,
-): Promise<any> {
+): Promise<Array<Execution>> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/executions?model_id=${model_id}&from=${from}&size=${size}`);
     return response.data;
@@ -47,7 +53,7 @@ export async function getModelExecutions(
     from: string,
     size: string,
     approved: string,
-): Promise<any> {
+): Promise<Array<Execution>> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(
         `/executions?model_id=${model_id}&from=${from}&size=${size}&approved=${approved}`,
@@ -55,19 +61,22 @@ export async function getModelExecutions(
     return response.data;
 }
 
-export async function getExecutionPipelines(correlation_id: string): Promise<any> {
+export async function getExecutionPipelines(correlation_id: string): Promise<Array<Execution>> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/pipeline/${correlation_id}`);
     return response.data;
 }
 
-export async function getExecutionStats(days: string): Promise<any> {
+export async function getExecutionStats(days: string): Promise<ExecutionStat> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/execution_stats?days=${days}`);
     return response.data;
 }
 
-export async function getModelExecutionStats(days: string, model_id: string): Promise<any> {
+export async function getModelExecutionStats(
+    days: string,
+    model_id: string,
+): Promise<ExecutionStat> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/execution_stats?days=${days}&model_id=${model_id}`);
     return response.data;

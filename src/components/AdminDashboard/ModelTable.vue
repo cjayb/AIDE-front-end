@@ -61,6 +61,8 @@ import Component from "vue-class-component";
 import ExecutionTable from "./ExecutionTable.vue";
 import { getModels } from "../../api/ModelService";
 import { getModelExecutionStats } from "../../api/ExecutionService";
+import { Model } from "@/models/Model";
+import { ExecutionStat } from "@/models/ExecutionStat";
 
 @Component({
     components: {
@@ -112,14 +114,14 @@ export default class Models extends Vue {
             value: "data-table-expand",
         },
     ];
-    models: Array<any> = [];
+    models: Array<Model> = [];
 
     async created(): Promise<void> {
         this.loading = true;
 
         let tempModels = await getModels();
 
-        tempModels.forEach(async (model: any) => {
+        tempModels.forEach(async (model: Model) => {
             model.stats = await getModelExecutionStats(
                 "1000",
                 model.model_name + "%2F" + model.model_version,
@@ -132,7 +134,7 @@ export default class Models extends Vue {
     }
 
     // Methods will be component methods
-    getSuccessRate(stats: any): string {
+    getSuccessRate(stats: ExecutionStat): string {
         let result = (100 * (stats.executions - stats.failures)) / stats.executions;
         if (Number.isNaN(result)) {
             return 0 + " %";
@@ -141,7 +143,7 @@ export default class Models extends Vue {
         }
     }
 
-    getTimeFormat(time: any): number {
+    getTimeFormat(time: number): number {
         var minutes = Math.floor(time / 60);
         return minutes;
     }

@@ -1,5 +1,6 @@
 import Vue from "vue";
 import axios from "axios";
+import { Model } from "@/models/Model";
 
 const http = axios.create({
     baseURL: window.FRONTEND_API_HOST,
@@ -26,7 +27,7 @@ http.interceptors.response.use(
     },
 );
 
-export async function getModels(): Promise<any> {
+export async function getModels(): Promise<Array<Model>> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/models`);
     return response.data;

@@ -1,3 +1,4 @@
+import { QueueMetric } from "@/models/QueueMetric";
 import Vue from "vue";
 import axios from "axios";
 
@@ -26,7 +27,7 @@ http.interceptors.response.use(
     },
 );
 
-export async function getQueueMetrics(queue_name: string): Promise<any> {
+export async function getQueueMetrics(queue_name: string): Promise<QueueMetric> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/queues/${queue_name}`);
     return response.data;

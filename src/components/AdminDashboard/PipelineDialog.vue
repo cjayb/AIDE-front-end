@@ -68,11 +68,12 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { EventBus } from "@/event-bus";
 import { getExecutionPipelines } from "../../api/ExecutionService";
+import { Execution } from "@/models/Execution";
 
 @Component({})
 export default class PipelineDialog extends Vue {
     dialog3 = false;
-    pipelines = [];
+    pipelines: Array<Execution> = [];
     loading = true;
 
     created(): void {

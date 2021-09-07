@@ -1,7 +1,7 @@
-interface Execution {
+export interface Execution {
     correlation_id: string,
     event: Event,
-    model: Model,
+    model: ExecutionModel,
     result: Result,
     timestamp: Timestamp,
 }
@@ -13,7 +13,7 @@ interface Event {
     resources: Array<Resources>,
 }
 
-interface Model {
+interface ExecutionModel {
     execution_uid: string,
     mode: string,
     model_name: string,

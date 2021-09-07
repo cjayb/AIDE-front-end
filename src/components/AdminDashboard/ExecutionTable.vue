@@ -113,6 +113,8 @@ import DicomViewer from "../Shared/DicomViewer.vue";
 import LogsDialog from "../AdminDashboard/LogsDialog.vue";
 import PipelineDialog from "../AdminDashboard/PipelineDialog.vue";
 import { getAllModelExecutions, getFile } from "../../api/ExecutionService";
+import { Execution } from "@/models/Execution";
+import { Model } from "@/models/Model";
 
 @Component({
     components: {
@@ -123,10 +125,10 @@ import { getAllModelExecutions, getFile } from "../../api/ExecutionService";
 })
 export default class ExecutionTable extends Vue {
     // Class properties will be component data
-    @Prop() model!: any;
+    @Prop() model!: Model;
     loading = true;
-    executions = [];
-    items: any[] = [];
+    executions: Array<Execution> = [];
+    items: Array<any> = [];
     dialog = false;
     downloadLoading = false;
     executionsHeaders = [
