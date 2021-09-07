@@ -89,5 +89,5 @@ deploy uat:
     - export EXTRA_VARS="\"DOCKER_TAG=$CI_COMMIT_BRANCH SERVICE_NAME=$SERVICE_NAME DOCKER_REGISTRY=$DOCKER_REGISTRY DOCKER_IMAGE=$DOCKER_IMAGE DOCKER_USER=$DOCKER_USER DOCKER_TOKEN=$DOCKER_TOKEN PORTS=$PORTS OVERLAY_NETWORK=$OVERLAY_NETWORK\""
     - ssh ubuntu@$UAT_ANSIBLE_CONTROL_IP "sudo aws s3 cp s3://ansible-tools-$UAT_ANSIBLE_TOOLS_BUCKET/ansible-schedule-ubuntu.sh /home/ubuntu; sudo dos2unix /home/ubuntu/ansible-schedule-ubuntu.sh; sudo chmod +x /home/ubuntu/ansible-schedule-ubuntu.sh; sudo /home/ubuntu/ansible-schedule-ubuntu.sh -v $EXTRA_VARS -p deploy-service.yml create uat"
   rules:
-      - if: '$CI_PIPELINE_SOURCE == "web" && $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH =~ /^release-.*$/'
+      - if: '$CI_PIPELINE_SOURCE == "web" && ($CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH =~ /^release-.*$/)'
         when: always
