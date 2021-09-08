@@ -68,7 +68,7 @@ export default class LogsDialog extends Vue {
     }
 
     customKeyFormatter(key: any, path: any) {
-        return `<p style="color: #00AA00">${key}<p>`;
+        return `<span style="color: #00AA00">${key}<span>`;
     }
 }
 </script>
