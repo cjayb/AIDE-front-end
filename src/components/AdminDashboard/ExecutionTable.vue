@@ -92,7 +92,12 @@
                     >View Logs</v-btn
                 >
                 <v-btn
-                    @click.stop="openPipelineDialog(item.execution.correlation_id)"
+                    @click.stop="
+                        openPipelineDialog(
+                            item.execution.correlation_id,
+                            item.execution.model.model_uid,
+                        )
+                    "
                     x-small
                     class="ma-1"
                     >View Pipeline</v-btn
@@ -266,8 +271,8 @@ export default class ExecutionTable extends Vue {
         EventBus.$emit("openLogsDialog", true, execution_uid);
     }
 
-    openPipelineDialog(correlation_id: string): void {
-        EventBus.$emit("openPipelineDialog", true, correlation_id);
+    openPipelineDialog(correlation_id: string, model_uid: string): void {
+        EventBus.$emit("openPipelineDialog", true, correlation_id, model_uid);
     }
 }
 </script>

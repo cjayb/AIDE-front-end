@@ -24,7 +24,7 @@
                                 x-small
                                 text
                                 class="ma-1"
-                                @click="openPipelineDialog(correlation_id)"
+                                @click="openPipelineDialog(correlation_id, selectedModel.model_uid)"
                             >
                                 Open Pipeline
                             </v-btn>
@@ -129,8 +129,8 @@ export default class Header extends Vue {
         EventBus.$emit("openApprovalDialog", true, execution_uid, approval, title);
     }
 
-    openPipelineDialog(correlation_id: string): void {
-        EventBus.$emit("openPipelineDialog", true, correlation_id);
+    openPipelineDialog(correlation_id: string, model_uid: string): void {
+        EventBus.$emit("openPipelineDialog", true, correlation_id, model_uid);
     }
 }
 </script>

@@ -28,7 +28,6 @@ http.interceptors.response.use(
 
 export async function getLogs(executionId: string): Promise<any> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
-    console.log(executionId);
     const response = await http.get(`/logs/${executionId}`);
     if (response.status == 404) {
         return "No Data Found";

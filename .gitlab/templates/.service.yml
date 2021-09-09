@@ -27,8 +27,7 @@ deploy dev:
     - export EXTRA_VARS="\"DOCKER_TAG=$CI_COMMIT_BRANCH SERVICE_NAME=$SERVICE_NAME DOCKER_REGISTRY=$DOCKER_REGISTRY DOCKER_IMAGE=$DOCKER_IMAGE DOCKER_USER=$DOCKER_USER DOCKER_TOKEN=$DOCKER_TOKEN PORTS=$PORTS OVERLAY_NETWORK=$OVERLAY_NETWORK\""
     - ssh ubuntu@$DEV_ANSIBLE_CONTROL_IP "sudo aws s3 cp s3://ansible-tools-$DEV_ANSIBLE_TOOLS_BUCKET/ansible-schedule-ubuntu.sh /home/ubuntu; sudo dos2unix /home/ubuntu/ansible-schedule-ubuntu.sh; sudo chmod +x /home/ubuntu/ansible-schedule-ubuntu.sh; sudo /home/ubuntu/ansible-schedule-ubuntu.sh -v $EXTRA_VARS -p deploy-service.yml create dev"
   only:
-      - /^dev-.*$/
-
+    - develop
 
 deploy branch:
   stage: deploy
@@ -65,7 +64,7 @@ deploy sit:
     - chmod 400 ~/.ssh/$SIT_ANSIBLE_CONTROL_KEY
     - echo -e "\nIdentityFile ~/.ssh/$SIT_ANSIBLE_CONTROL_KEY" >> ~/.ssh/config
     - ssh-keyscan -H $SIT_ANSIBLE_CONTROL_IP >> ~/.ssh/known_hosts
-    - export EXTRA_VARS="\"DOCKER_TAG=$CI_PIPELINE_IID SERVICE_NAME=$SERVICE_NAME DOCKER_REGISTRY=$DOCKER_REGISTRY DOCKER_IMAGE=$DOCKER_IMAGE DOCKER_USER=$DOCKER_USER DOCKER_TOKEN=$DOCKER_TOKEN PORTS=$PORTS OVERLAY_NETWORK=$OVERLAY_NETWORK\""
+    - export EXTRA_VARS="\"DOCKER_TAG=$CI_COMMIT_BRANCH SERVICE_NAME=$SERVICE_NAME DOCKER_REGISTRY=$DOCKER_REGISTRY DOCKER_IMAGE=$DOCKER_IMAGE DOCKER_USER=$DOCKER_USER DOCKER_TOKEN=$DOCKER_TOKEN PORTS=$PORTS OVERLAY_NETWORK=$OVERLAY_NETWORK\""
     - ssh ubuntu@$SIT_ANSIBLE_CONTROL_IP "sudo aws s3 cp s3://ansible-tools-$SIT_ANSIBLE_TOOLS_BUCKET/ansible-schedule-ubuntu.sh /home/ubuntu; sudo dos2unix /home/ubuntu/ansible-schedule-ubuntu.sh; sudo chmod +x /home/ubuntu/ansible-schedule-ubuntu.sh; sudo /home/ubuntu/ansible-schedule-ubuntu.sh -v $EXTRA_VARS -p deploy-service.yml create sit"
   only:
     - main
@@ -87,10 +86,8 @@ deploy uat:
     - chmod 400 ~/.ssh/$UAT_ANSIBLE_CONTROL_KEY
     - echo -e "\nIdentityFile ~/.ssh/$UAT_ANSIBLE_CONTROL_KEY" >> ~/.ssh/config
     - ssh-keyscan -H $UAT_ANSIBLE_CONTROL_IP >> ~/.ssh/known_hosts
-    - export EXTRA_VARS="\"DOCKER_TAG=$CI_PIPELINE_IID SERVICE_NAME=$SERVICE_NAME DOCKER_REGISTRY=$DOCKER_REGISTRY DOCKER_IMAGE=$DOCKER_IMAGE DOCKER_USER=$DOCKER_USER DOCKER_TOKEN=$DOCKER_TOKEN PORTS=$PORTS OVERLAY_NETWORK=$OVERLAY_NETWORK\""
+    - export EXTRA_VARS="\"DOCKER_TAG=$CI_COMMIT_BRANCH SERVICE_NAME=$SERVICE_NAME DOCKER_REGISTRY=$DOCKER_REGISTRY DOCKER_IMAGE=$DOCKER_IMAGE DOCKER_USER=$DOCKER_USER DOCKER_TOKEN=$DOCKER_TOKEN PORTS=$PORTS OVERLAY_NETWORK=$OVERLAY_NETWORK\""
     - ssh ubuntu@$UAT_ANSIBLE_CONTROL_IP "sudo aws s3 cp s3://ansible-tools-$UAT_ANSIBLE_TOOLS_BUCKET/ansible-schedule-ubuntu.sh /home/ubuntu; sudo dos2unix /home/ubuntu/ansible-schedule-ubuntu.sh; sudo chmod +x /home/ubuntu/ansible-schedule-ubuntu.sh; sudo /home/ubuntu/ansible-schedule-ubuntu.sh -v $EXTRA_VARS -p deploy-service.yml create uat"
-  when:
-    - manual
-  only:
-    - main
-    - /^release-.*$/
+  rules:
+      - if: '$CI_PIPELINE_SOURCE == "web" && ($CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH =~ /^release-.*$/)'
+        when: always

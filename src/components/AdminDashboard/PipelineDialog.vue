@@ -12,10 +12,7 @@
                     <v-progress-linear indeterminate color="blue" class=""></v-progress-linear>
                 </div>
                 <div v-show="!loading">
-                    <v-toolbar color="#61366e" dark>
-                        Pipeline -
-                        <span v-if="pipelines[0]">{{ pipelines[0].model.model_name }}</span>
-                    </v-toolbar>
+                    <v-toolbar color="#61366e" dark> Pipeline - {{ model_uid }} </v-toolbar>
                     <!-- <v-card-text> -->
                     <v-timeline align-top dense v-if="pipelines[0]" clipped>
                         <v-timeline-item small>
@@ -75,13 +72,18 @@ export default class PipelineDialog extends Vue {
     dialog3 = false;
     pipelines: Array<Execution> = [];
     loading = true;
+    model_uid = "";
 
     created(): void {
-        EventBus.$on("openPipelineDialog", (dialog3: boolean, correlation_id: string) => {
-            this.dialog3 = dialog3;
-            this.pipelines = [];
-            this.getPipeline(correlation_id);
-        });
+        EventBus.$on(
+            "openPipelineDialog",
+            (dialog3: boolean, correlation_id: string, model_uid: string) => {
+                this.dialog3 = dialog3;
+                this.pipelines = [];
+                this.getPipeline(correlation_id);
+                this.model_uid = model_uid ? model_uid : "";
+            },
+        );
     }
 
     async getPipeline(correlation_id: string): Promise<void> {
