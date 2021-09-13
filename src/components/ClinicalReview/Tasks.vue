@@ -13,10 +13,10 @@
             class="pa-2"
             label="Search Tasks"
             placeholder="Search Tasks"
-            data-test="search-tasks-input"
             v-model="search"
             clearable
             @click:clear="clearSearch"
+            data-cy="worklist-search"
         ></v-text-field>
 
         <!-- <v-divider></v-divider> -->
@@ -28,7 +28,7 @@
                     :key="item.event.executions[0].execution_uid"
                     @click="selectTask(item)"
                     :active="false"
-                    data-test="work-list-item"
+                    data-cy="worklist-item"
                 >
                     <v-list-item-content>
                         <v-tooltip bottom open-delay="3000">

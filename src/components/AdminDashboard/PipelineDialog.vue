@@ -11,7 +11,7 @@
                     Please Wait...
                     <v-progress-linear indeterminate color="blue" class=""></v-progress-linear>
                 </div>
-                <div v-show="!loading">
+                <div v-show="!loading" data-cy="pipeline-dialogue">
                     <v-toolbar color="#61366e" dark> Pipeline - {{ model_uid }} </v-toolbar>
                     <!-- <v-card-text> -->
                     <v-timeline align-top dense v-if="pipelines[0]" clipped>

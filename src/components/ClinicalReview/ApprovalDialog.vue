@@ -11,18 +11,21 @@
                         :items="items"
                         filled
                         label="Reason for rejection"
+                        data-cy="reject-reason"
                         dense
                     ></v-select>
                     <v-text-field
                         v-model="description"
                         label="Description(optional)"
                         filled
+                        data-cy="modal-description"
                     ></v-text-field>
 
                     <v-checkbox
                         v-model="checkbox"
                         color="#61366E"
                         :label="'I accept that this is signed under my name'"
+                        data-cy="modal-checkbox"
                     ></v-checkbox>
                     <v-card-actions class="justify-end">
                         <v-col cols="4" style="color: #fff">
@@ -31,7 +34,7 @@
                             >
                             <v-btn
                                 v-if="approval"
-                                data-test="accept-btn"
+                                data-cy="modal-accept-btn"
                                 color="#4CAF50"
                                 dark
                                 :loading="loading"
@@ -42,7 +45,7 @@
 
                             <v-btn
                                 v-else
-                                data-test="reject-btn"
+                                data-cy="modal-reject-btn"
                                 color="#DC2626"
                                 dark
                                 :loading="loading"

@@ -28,3 +28,6 @@ tests/ui_integration/screenshots/diff
 
 # GitLab Runner
 builds/
+
+# Cypress videos
+cypress/videos

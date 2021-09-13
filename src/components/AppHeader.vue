@@ -1,6 +1,6 @@
 <template>
     <v-app-bar app color="#fff" clipped-left class="elevation-1">
-        <div class="mr-4">
+        <div class="mr-4" data-cy="logo">
             <v-img class="mx-auto" src="@/assets/AI-centre.png" height="64px" width="97px" />
         </div>
 

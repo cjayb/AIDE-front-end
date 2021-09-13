@@ -16,6 +16,7 @@
                     :loading="loading"
                     @click:row="expandRow"
                     loading-text="Loading... Please wait"
+                    data-cy="model-table"
                 >
                     <template v-slot:top>
                         <v-toolbar flat>
@@ -27,6 +28,7 @@
                                 label="Search"
                                 single-line
                                 hide-details
+                                data-cy="model-search"
                             ></v-text-field>
                         </v-toolbar>
                     </template>

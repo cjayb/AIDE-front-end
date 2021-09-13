@@ -14,6 +14,7 @@
                             :data="logs"
                             :customValueFormatter="customKeyFormatter"
                             showLine
+                            data-cy="execution-logs"
                         >
                         </vue-json-pretty>
                     </v-card-text>

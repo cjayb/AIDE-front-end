@@ -32,7 +32,7 @@
                         </v-col>
                         <v-col cols="2" style="background: #f5f5f5; color: #fff">
                             <v-btn
-                                data-test="accept-btn"
+                                data-cy="accept-btn"
                                 color="#4CAF50"
                                 style="margin-right: 8px"
                                 dark
@@ -49,7 +49,7 @@
                                 Accept
                             </v-btn>
                             <v-btn
-                                data-test="reject-btn"
+                                data-cy="reject-btn"
                                 color="#D11515"
                                 dark
                                 x-small
@@ -71,23 +71,23 @@
             <v-list-item style="background: #fff">
                 <v-list-item-content>
                     <v-row style="background: #fff">
-                        <v-col data-test="patient-name" cols="3">
+                        <v-col data-cy="patient-name" cols="3">
                             Name: {{ selectedExecutionMetaData.PatientName }}
                         </v-col>
                         <v-col
-                            data-test="patient-age"
+                            data-cy="patient-dob"
                             cols="3"
                             v-if="selectedExecutionMetaData.PatientAge"
                         >
                             Age: {{ selectedExecutionMetaData.PatientAge }}
                         </v-col>
-                        <v-col data-test="patient-age" cols="3" else>
+                        <v-col data-cy="patient-dob" cols="3" else>
                             Birth Date: {{ selectedExecutionMetaData.PatientBirthDate | formatAge }}
                         </v-col>
-                        <v-col data-test="patient-id" cols="3">
+                        <v-col data-cy="patient-id" cols="3">
                             Patient Id: {{ selectedExecutionMetaData.PatientID }}
                         </v-col>
-                        <v-col data-test="patient-sex" cols="3">
+                        <v-col data-cy="patient-sex" cols="3">
                             Sex: {{ selectedExecutionMetaData.PatientSex }}
                         </v-col>
                     </v-row>

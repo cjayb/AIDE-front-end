@@ -6,6 +6,8 @@ include:
 variables:
   PROJECT_ROOT: "./"
   SERVICE: aide-frontend
+  DOCKER_DRIVER: overlay2
+  GIT_DEPTH: 1
 
 cache:
     - paths:
@@ -19,19 +21,25 @@ build-ui:
         - npm run build
 
 test_ui_headless:
+    # Cache modules in between jobs
+    cache:
+        key: $CI_COMMIT_REF_SLUG
+        paths:
+            - .npm/
+
     stage: test_ui_integration
-    image: mcr.microsoft.com/playwright:v1.5.1-focal
+    image: 
+        name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/cypress/included:8.3.1
+        entrypoint: [""]
     needs: []
     before_script:
         - export VUE_APP_AUTH_ENABLED=false
+        - npm ci --cache .npm --prefer-offline
     script:
-        - npm i --no-optional -f
         - npm run tests:ui_ci
-    allow_failure: true
     after_script:
-        - cp -r $CI_PROJECT_DIR/tests/ui_integration/output/ ci_artifacts/
-        - cp -r $CI_PROJECT_DIR/tests/ui_integration/screenshots/diff ci_artifacts/
-
+        - cp -r $CI_PROJECT_DIR/cypress/videos ci_artifacts/
+        - cp -r $CI_PROJECT_DIR/cypress/screenshots ci_artifacts/
     artifacts:
         name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME"
         paths:
@@ -43,7 +51,7 @@ test_ui_headless:
 sonarqube-check:
     stage: sast
     image: 
-        name: sonarsource/sonar-scanner-cli:latest
+        name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/sonarsource/sonar-scanner-cli:latest
         entrypoint: [""]
     variables:
         SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache

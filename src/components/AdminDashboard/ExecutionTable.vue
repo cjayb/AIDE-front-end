@@ -9,6 +9,7 @@
             :loading="loading"
             loading-text="Loading... Please wait"
             @pagination="updatePagination"
+            data-cy="execution-table"
         >
             <!-- eslint-disable-next-line  -->
             <template v-slot:item.date="{ item }">
@@ -89,6 +90,7 @@
                     @click.stop="openLogsDialog(item.execution.model.execution_uid)"
                     x-small
                     class="ma-1"
+                    data-cy="open-logs"
                     >View Logs</v-btn
                 >
                 <v-btn
@@ -100,6 +102,7 @@
                     "
                     x-small
                     class="ma-1"
+                    data-cy="open-pipeline"
                     >View Pipeline</v-btn
                 >
             </template>
