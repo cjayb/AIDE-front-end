@@ -21,6 +21,7 @@ http.interceptors.response.use(
         if (401 === error.response.status) {
             Vue.$keycloak.logout({ redirectUri: `${window.location.origin}/#/` });
         } else {
+            Vue.$toast.error(`Something unexpected went wrong retrieving logs!`);
             return Promise.reject(error);
         }
     },
