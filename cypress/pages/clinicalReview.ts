@@ -1,9 +1,9 @@
 import ApiMocks from "../fixtures/mockIndex";
-import IPage from "./abstractPage";
+import { AbstractPage } from "./abstractPage";
 import moment from "moment";
 import { RejectReason } from "../data/rejectReason";
 
-export default class ClinicalReviewPage implements IPage {
+export default class ClinicalReviewPage extends AbstractPage {
     //Clinical review worklist
     private static FREETEXT_SEARCH: string = 'worklist-search';
     public static PATIENT_NAME_VIEWER: string = 'patient-name';

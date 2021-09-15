@@ -1,28 +1,18 @@
-import { table } from "console"
 import { ModelTableColumn } from "../data/modelTableColumn"
 import ApiMocks from "../fixtures/mockIndex"
-import IPage from "./abstractPage"
-export default class AdminDashboardPage implements IPage {
+import { AbstractPage } from "./abstractPage"
+export default class AdminDashboardPage extends AbstractPage {
     // Default Screen
-    // public static WEEKLY_VIEW: CodeceptJS.Locator = locate(".v-btn").withChild(".v-btn__content").withText("Weekly")
-    // public static MONTHLY_VIEW: CodeceptJS.Locator = locate(".v-btn").withChild(".v-btn__content").withText("Monthly")
-    // public static DAY_VIEW: CodeceptJS.Locator = locate(".v-btn").withChild(".v-btn__content").withText("24 Hours")
     private static MODEL_TABLE: string = "model-table"
     private static MODEL_ROW: string = "td";
     private static TABLE_HEADER: string = "th";
     public static FREETEXT_SEARCH: string = "model-search";
-    // public static MODELS_TITLE: CodeceptJS.Locator = locate(".v-toolbar__title").withText("Models")
 
     // // Execution Results
     private static EXECUTIONS_TABLE: string = "execution-table"
     private static VIEW_LOGS: string = "open-logs"
     private static VIEW_PIPELINE: string = "open-pipeline"
     private static PIPELINE_DIALOGUE: string = "pipeline-dialogue"
-    // public static VIEW_LOGS_MODEL_1: CodeceptJS.Locator = locate(".v-btn").withChild(".v-btn__content").withText("View Logs").at(1)
-    // public static END_OF_LOGS: CodeceptJS.Locator = locate(".vjs-key").withText("message")
-    // public static DOWNLOAD_OUTPUT_MODEL_1: CodeceptJS.Locator = locate(".v-btn").withChild(".v-btn__content").withText("Download Output").at(1)
-    // public static VIEW_PIPELINE_MODEL_1: CodeceptJS.Locator = locate(".v-btn").withChild(".v-btn__content").withText("View Pipeline").at(1)
-    // public static CLOSE_MODAL: CodeceptJS.Locator = locate(".v-btn").withChild(".v-btn__content").withText("Close")
 
     // Execution Results Pagination
     private static PREVIOUS_PAGE: string = ".mdi-chevron-left"

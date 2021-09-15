@@ -54,4 +54,14 @@ describe("Admin dashboard page", () => {
         adminPage.showPipelineForExecution(2);
         adminPage.assertPipelineContainsModel(ApiMocks.ADMIN_DASH_PIPELINES_MODEL_1[0].model.model_name)
     });
+
+
+    it.only("A failing API call produces an error in the UI", () => {
+        cy.intercept("/executions?*", { statusCode: 404 }).as("Executions not found");
+        //Wait for other error messages to disappear from the DOM
+        cy.get('[class=v-toast__text]').should("not.exist");
+        adminPage.toggleModelRowWithName(AdminDashboardPage.MODEL_1_NAME);
+        cy.wait("@Executions not found")
+        adminPage.assertLatestErrorContainsMessage("Something unexpected went wrong retrieving executions!");
+    })
 })
