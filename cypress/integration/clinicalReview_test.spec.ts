@@ -1,10 +1,11 @@
 /// <reference types="cypress" />
+import { ExecutionData } from "../data/execution";
 import { RejectReason } from "../data/rejectReason";
 import ClinicalReviewPage from "../pages/clinicalReview";
 const reviewPage = new ClinicalReviewPage();
-const dianeName = ClinicalReviewPage.REVIEW_DIANE_ANDERSON.event.origin.series[0].PatientName;
-const kellyName = ClinicalReviewPage.REVIEW_KELLY_MALDONADO.event.origin.series[0].PatientName;
-const leoneName = ClinicalReviewPage.REVIEW_LEONE_GOODPASTURE.event.origin.series[0].PatientName;
+const dianeName = ExecutionData.REVIEW_DIANE_ANDERSON.event.origin.series[0]["PatientName"];
+const kellyName = ExecutionData.REVIEW_KELLY_MALDONADO.event.origin.series[0]["PatientName"];
+const leoneName = ExecutionData.REVIEW_LEONE_GOODPASTURE.event.origin.series[0]["PatientName"];
 
 describe("Clinical review page", () => {
     beforeEach(() => {
@@ -23,9 +24,9 @@ describe("Clinical review page", () => {
     })
 
     it("Can view fields in the Orthanc viewer window", () => {
-        const patientDob: string = reviewPage.formatDob(ClinicalReviewPage.REVIEW_LEONE_GOODPASTURE.event.origin.series[0].PatientBirthDate);
-        const patientId = ClinicalReviewPage.REVIEW_LEONE_GOODPASTURE.event.origin.series[0].PatientID;
-        const patientSex = ClinicalReviewPage.REVIEW_LEONE_GOODPASTURE.event.origin.series[0].PatientSex;
+        const patientDob: string = reviewPage.formatDob(ExecutionData.REVIEW_LEONE_GOODPASTURE.event.origin.series[0]["PatientBirthDate"]);
+        const patientId = ExecutionData.REVIEW_LEONE_GOODPASTURE.event.origin.series[0]["PatientID"];
+        const patientSex = ExecutionData.REVIEW_LEONE_GOODPASTURE.event.origin.series[0]["PatientSex"];
         reviewPage.searchWorklist("leo");
         reviewPage.worklistItemWithText(leoneName).click();
         reviewPage.assertViewerDetails(leoneName, patientDob, patientId, patientSex);

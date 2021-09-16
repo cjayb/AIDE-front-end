@@ -6,14 +6,14 @@ export interface Execution {
     timestamp: Timestamp,
 }
 
-interface Event {
+export interface Event {
     correlation_id: string,
     executions: Array<ExecutionEvent>,
     origin: Origin,
     resources: Array<Resources>,
 }
 
-interface ExecutionModel {
+export interface ExecutionModel {
     execution_uid: string,
     mode: string,
     model_name: string,
@@ -21,20 +21,20 @@ interface ExecutionModel {
     model_version: string,
 }
 
-interface Result {
+export interface Result {
     clinical_review: ClinicalReview,
     message: string,
     status: string,
 }
 
-interface Timestamp {
+export interface Timestamp {
     clinical_review_received: string,
     inference_finished: string,
     inference_started: string,
     received_at: string,
 }
 
-interface ClinicalReview {
+export interface ClinicalReview {
     completed: boolean,
 }
 

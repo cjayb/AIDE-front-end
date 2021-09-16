@@ -1,3 +1,5 @@
+import { Model } from "vue-property-decorator";
+import { ModelData } from "../data/model";
 import { ModelTableColumn } from "../data/modelTableColumn"
 import ApiMocks from "../fixtures/mockIndex"
 import { AbstractPage } from "./abstractPage"
@@ -18,10 +20,6 @@ export default class AdminDashboardPage extends AbstractPage {
     private static PREVIOUS_PAGE: string = ".mdi-chevron-left"
     private static ROWS_PER_PAGE_SELECTOR: string = ".mdi-menu-down"
     private static NEXT_PAGE: string = ".mdi-chevron-right"
-
-    // Model Data
-    public static MODEL_1_NAME: string = ApiMocks.ADMIN_DASHBOARD_MODELS[0]["model_name"]
-    private static MODEL_2_NAME: string = ApiMocks.ADMIN_DASHBOARD_MODELS[1]["model_name"]
 
     //Execution logs modal
     private static EXECUTION_LOGS: string = "execution-logs"
@@ -78,14 +76,14 @@ export default class AdminDashboardPage extends AbstractPage {
         cy.intercept("/queues/output", ApiMocks.OUTPUT_QUEUE_STATS).as("Output queue stats");
         cy.intercept("/execution_stats?days=1", ApiMocks.ADMIN_DASH_AGG_EXECUTION_STATS_DAY).as("Today's execution stats");
         cy.intercept("/execution_stats?days=7", ApiMocks.ADMIN_DASH_AGG_EXECUTION_STATS_WEEK).as("This week's execution stats");
-        cy.intercept(`/execution_stats?days=1000&model_id=${ApiMocks.ADMIN_DASHBOARD_MODELS[0]["model_name"]}%2F1.0.0`, ApiMocks.ADMIN_DASH_EXECUTION_STATS_MODEL_1).as("Model1Stats");
-        cy.intercept(`/execution_stats?days=1000&model_id=${ApiMocks.ADMIN_DASHBOARD_MODELS[1]["model_name"]}%2F1.0.0`, ApiMocks.ADMIN_DASH_EXECUTION_STATS_MODEL_2).as("Model2Stats");
-        cy.intercept(`/execution_stats?days=1000&model_id=${ApiMocks.ADMIN_DASHBOARD_MODELS[2]["model_name"]}%2F1.0.0`, ApiMocks.ADMIN_DASH_EXECUTION_STATS_MODEL_3).as("Model3Stats");
-        cy.intercept(`/execution_stats?days=1000&model_id=${ApiMocks.ADMIN_DASHBOARD_MODELS[3]["model_name"]}%2F1.0.0`, ApiMocks.ADMIN_DASH_EXECUTION_STATS_MODEL_4).as("Model4Stats");
-        cy.intercept(`/execution_stats?days=1&model_id=${ApiMocks.ADMIN_DASHBOARD_MODELS[0]["model_name"]}%2F1.0.0`, ApiMocks.ADMIN_DASH_EXECUTION_STATS_MODEL_1).as("Model1Status");
-        cy.intercept(`/execution_stats?days=1&model_id=${ApiMocks.ADMIN_DASHBOARD_MODELS[1]["model_name"]}%2F1.0.0`, ApiMocks.ADMIN_DASH_EXECUTION_STATS_MODEL_2).as("Model2Status");
-        cy.intercept(`/execution_stats?days=1&model_id=${ApiMocks.ADMIN_DASHBOARD_MODELS[2]["model_name"]}%2F1.0.0`, ApiMocks.ADMIN_DASH_EXECUTION_STATS_MODEL_3).as("Model3Status");
-        cy.intercept(`/execution_stats?days=1&model_id=${ApiMocks.ADMIN_DASHBOARD_MODELS[3]["model_name"]}%2F1.0.0`, ApiMocks.ADMIN_DASH_EXECUTION_STATS_MODEL_4).as("Model4Status");
+        cy.intercept(`/execution_stats?days=1000&model_id=${ModelData.HAEMORRHAGE_BRUSH.model_name}%2F1.0.0`, ApiMocks.ADMIN_DASH_EXECUTION_STATS_MODEL_1).as("Model1Stats");
+        cy.intercept(`/execution_stats?days=1000&model_id=${ModelData.CH_MODEL_1.model_name}%2F1.0.0`, ApiMocks.ADMIN_DASH_EXECUTION_STATS_MODEL_2).as("Model2Stats");
+        cy.intercept(`/execution_stats?days=1000&model_id=${ModelData.CH_MODEL_2.model_name}%2F1.0.0`, ApiMocks.ADMIN_DASH_EXECUTION_STATS_MODEL_3).as("Model3Stats");
+        cy.intercept(`/execution_stats?days=1000&model_id=${ModelData.HAEMORRHAGE_STROKE.model_name}%2F1.0.0`, ApiMocks.ADMIN_DASH_EXECUTION_STATS_MODEL_4).as("Model4Stats");
+        cy.intercept(`/execution_stats?days=1&model_id=${ModelData.HAEMORRHAGE_BRUSH.model_name}%2F1.0.0`, ApiMocks.ADMIN_DASH_EXECUTION_STATS_MODEL_1).as("Model1Status");
+        cy.intercept(`/execution_stats?days=1&model_id=${ModelData.CH_MODEL_1.model_name}%2F1.0.0`, ApiMocks.ADMIN_DASH_EXECUTION_STATS_MODEL_2).as("Model2Status");
+        cy.intercept(`/execution_stats?days=1&model_id=${ModelData.CH_MODEL_2.model_name}%2F1.0.0`, ApiMocks.ADMIN_DASH_EXECUTION_STATS_MODEL_3).as("Model3Status");
+        cy.intercept(`/execution_stats?days=1&model_id=${ModelData.HAEMORRHAGE_STROKE.model_name}%2F1.0.0`, ApiMocks.ADMIN_DASH_EXECUTION_STATS_MODEL_4).as("Model4Status");
         cy.intercept(`/execution_stats?days=7*`, ApiMocks.ADMIN_DASH_EXECUTION_STATS_MODEL_4).as("General stats week");
         cy.intercept(`/execution_stats?days=30*`, ApiMocks.ADMIN_DASH_EXECUTION_STATS_MODEL_3).as("General stats month");
         cy.intercept(`/executions?*`, ApiMocks.ADMIN_DASH_EXECUTION_RESULTS_MODEL_1).as("Heamorrhage-brush executions");

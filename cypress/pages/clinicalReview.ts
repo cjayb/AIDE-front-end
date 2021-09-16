@@ -23,12 +23,6 @@ export default class ClinicalReviewPage extends AbstractPage {
     private static DESCRIPTION: string = "modal-description";
     private static CHECKBOX: string = ".v-input--selection-controls__ripple";
 
-
-    //Data from mocks
-    public static REVIEW_DIANE_ANDERSON = ApiMocks.CLINICAL_REVIEW[2];
-    public static REVIEW_KELLY_MALDONADO = ApiMocks.CLINICAL_REVIEW[0];
-    public static REVIEW_LEONE_GOODPASTURE = ApiMocks.CLINICAL_REVIEW[1];
-
     public initPage() {
         cy.intercept('GET', '/executions?*', ApiMocks.CLINICAL_REVIEW).as("Executions for review");
         cy.intercept('POST', '/executions/*/approvals?*', ApiMocks.CLINICAL_REVIEW_RESPONSE).as("Review response");
