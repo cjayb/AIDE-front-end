@@ -15,6 +15,7 @@
 
 // load type definitions that come with Cypress module
 /// <reference types="cypress" />
+const cypressTable = require("../../node_modules/cypress-get-table/src/index");
 
 declare namespace Cypress {
     interface Chainable {
@@ -23,6 +24,12 @@ declare namespace Cypress {
        * @example cy.dataCy('greeting')
        */
       dataCy(value: string): Chainable<Element>
+
+      /**
+       * Custom command to perform assertions on a table.
+       * @example cy.get("table").getTable().should(($tableData) => ...)
+       */
+      getTable(): Chainable<Element>
     }
   }
 

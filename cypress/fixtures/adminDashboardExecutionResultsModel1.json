@@ -8,12 +8,14 @@
                {
                   "SeriesInstanceUID": "colon.image",
                   "Modality": "MR",
-                  "SliceThickness": 3
+                  "SliceThickness": 3,
+                  "PatientID": "MyPatientId",
+                  "StudyDescription": "A study",
+                  "SeriesDescription": "A Series"
                }
             ],
             "namespace": "dicom-ingestor/1.0.0",
             "studyUID": "MyStudyID",
-            "patientId": "MyPatientId",
             "file_path": "WORKDIR\\MyStudyID",
             "type": "dicom/origin"
          },

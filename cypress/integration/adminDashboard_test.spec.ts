@@ -1,10 +1,12 @@
 /// <reference types="cypress" />
 
 import { Model } from "../../src/models/Model";
+import { ExecutionData } from "../data/execution";
 import { ModelData } from "../data/model";
 import { ModelTableColumn } from "../data/modelTableColumn";
 import ApiMocks from "../fixtures/mockIndex";
 import AdminDashboardPage from "../pages/adminDashboard";
+import { ExecutionStatData } from "../data/executionStat";
 
 const adminPage = new AdminDashboardPage();
 const noMatchingRecords = "No matching records found"
@@ -37,9 +39,14 @@ describe("Admin dashboard page", () => {
         adminPage.assertModelEntryContainsText(1, "36")
     });
 
-    it("On the admin page I can view a specific model's details", () => {
+    it("On the admin page I can view a specific model's execution details", () => {
+        //Model row data
+        adminPage.assertModelRow(3, ModelData.HAEMORRHAGE_BRUSH, ExecutionStatData.MODEL_1_STATS);
+
+        //Execution row data
         adminPage.toggleModelRowWithName(ModelData.HAEMORRHAGE_BRUSH.model_name);
-        // TODO: Check fields in execution row
+        cy.dataCy("execution-table").find("table").should("not.contain.text", "Loading... Please wait");
+        adminPage.assertExecutionRow(1, ExecutionData.FIRST_EXECUTION_MODEL_1);
     });
 
     it("On the admin page I can view the execution log", () => {

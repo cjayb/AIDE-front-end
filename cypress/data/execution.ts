@@ -46,7 +46,22 @@ export class ExecutionData implements Execution {
         this._timestamp = value;
     }
 
+    public getDuration(): number {
+       return this.getTimeDifference(this._timestamp.inference_started, this._timestamp.inference_finished);
+    }
+
+    public getTurnaround(): number {
+        return this.getTimeDifference(this._timestamp.received_at, this._timestamp.inference_finished);
+    }
+
+    private getTimeDifference(start: string, end: string) {
+        var diff = Math.abs(new Date(start).getTime() - new Date(end).getTime());
+        var minutes = Math.floor(diff / 1000 / 60);
+        return minutes;
+    }
+
     public static REVIEW_DIANE_ANDERSON: ExecutionData = new ExecutionData(<Execution>ApiMocks.CLINICAL_REVIEW[2]);
     public static REVIEW_KELLY_MALDONADO = new ExecutionData(<Execution>ApiMocks.CLINICAL_REVIEW[0]);
     public static REVIEW_LEONE_GOODPASTURE = new ExecutionData(<Execution>ApiMocks.CLINICAL_REVIEW[1]);
+    public static FIRST_EXECUTION_MODEL_1 = new ExecutionData(<Execution>ApiMocks.ADMIN_DASH_EXECUTION_RESULTS_MODEL_1[0]);
 }

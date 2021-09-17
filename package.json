@@ -11,13 +11,14 @@
     "tests:ui_firefox": "cd ./tests/ui_integration && npx codeceptjs run --config codecept.conf.firefox.js --grep E2E --invert --reporter mochawesome",
     "tests:ui_webkit": "cd ./tests/ui_integration && npx codeceptjs run --config codecept.conf.webkit.js --grep E2E --invert --reporter mochawesome",
     "tests:ui_headless": "npx cypress run -b chrome",
-    "tests:debug": "npx cross-env CYPRESS_REMOTE_DEBUGGING_PORT=9222 cypress open",
+    "tests:ui_debug": "npx cross-env CYPRESS_REMOTE_DEBUGGING_PORT=9222 cypress open",
     "tests:ui_ci": "start-server-and-test serve http://localhost:8080 tests:ui_headless"
   },
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "cross-env": "^7.0.3",
+    "cypress-get-table": "^1.0.1",
     "keycloak-js": "^15.0.0",
     "keycloak-mock": "^1.0.10",
     "moment": "^2.29.1",
