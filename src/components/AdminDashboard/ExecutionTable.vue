@@ -107,8 +107,6 @@
                 >
             </template>
         </v-data-table>
-        <LogsDialog />
-        <PipelineDialog />
     </v-container>
 </template>
 
@@ -118,8 +116,6 @@ import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
 import { EventBus } from "@/event-bus";
 import DicomViewer from "../Shared/DicomViewer.vue";
-import LogsDialog from "../AdminDashboard/LogsDialog.vue";
-import PipelineDialog from "../AdminDashboard/PipelineDialog.vue";
 import { getAllModelExecutions, getFile } from "../../api/ExecutionService";
 import { Execution } from "@/models/Execution";
 import { Model } from "@/models/Model";
@@ -127,8 +123,6 @@ import { Model } from "@/models/Model";
 @Component({
     components: {
         DicomViewer,
-        LogsDialog,
-        PipelineDialog,
     },
 })
 export default class ExecutionTable extends Vue {
