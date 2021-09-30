@@ -49,7 +49,12 @@ export default class LogsDialog extends Vue {
         EventBus.$on("openLogsDialog", async (dialog2: boolean, execution_uid: string) => {
             this.executionId = execution_uid;
             this.dialog2 = dialog2;
+            this.loading = true;
+            this.logs = "";
             this.logs = await getLogs(execution_uid);
+            if (this.logs == undefined) {
+                this.logs = "No logs found";
+            }
             this.loading = false;
         });
     }

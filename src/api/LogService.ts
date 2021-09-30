@@ -22,7 +22,7 @@ http.interceptors.response.use(
             Vue.$keycloak.logout({ redirectUri: `${window.location.origin}/#/` });
         } else {
             Vue.$toast.error(`Something unexpected went wrong retrieving logs!`);
-            return Promise.reject(error);
+            return error;
         }
     },
 );
