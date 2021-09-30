@@ -78,3 +78,9 @@ export default class LogsDialog extends Vue {
     }
 }
 </script>
+
+<style>
+.v-toast__text {
+    font-family: "Roboto", sans-serif !important;
+}
+</style>
