@@ -7,6 +7,7 @@ import { ModelTableColumn } from "../data/modelTableColumn";
 import ApiMocks from "../fixtures/mockIndex";
 import AdminDashboardPage from "../pages/adminDashboard";
 import { ExecutionStatData } from "../data/executionStat";
+import { nodeTerminal, a11yConfig } from "utils/a11y_util";
 
 const adminPage = new AdminDashboardPage();
 const noMatchingRecords = "No matching records found"
@@ -14,29 +15,30 @@ const noMatchingRecords = "No matching records found"
 describe("Admin dashboard page", () => {
     beforeEach(() => {
         adminPage.initPage();
+        cy.injectAxe()
         // TODO: Once weekly and monthly filters are available, add tests for them here
     })
 
     it("On the admin page I can free text search to change model view", () => {
+        cy.checkA11y(null, a11yConfig, nodeTerminal, true);
         adminPage.searchDashboard("ch")
-        adminPage.assertTableContainsModel(ModelData.CH_MODEL_1.model_name);
-        adminPage.assertTableContainsModel(ModelData.CH_MODEL_2.model_name);
-        adminPage.searchDashboard("3000");
-        adminPage.assertTableContainsModel(ModelData.HAEMORRHAGE_STROKE.model_name);
-        adminPage.searchDashboard("xyz");
-        adminPage.assertTableContainsModel(noMatchingRecords);
+            .assertTableContainsModel(ModelData.CH_MODEL_1.model_name)
+            .assertTableContainsModel(ModelData.CH_MODEL_2.model_name)
+            .searchDashboard("3000")
+            .assertTableContainsModel(ModelData.HAEMORRHAGE_STROKE.model_name)
+            .searchDashboard("xyz")
+            .assertTableContainsModel(noMatchingRecords);
     })
 
-
     it("On the admin page I can sort the model entries", () => {
-        adminPage.sortModelTable(ModelTableColumn.EXECUTIONS);
-        adminPage.sortModelTable(ModelTableColumn.EXECUTIONS);
-        adminPage.assertModelEntryContainsText(1, "1000");
-        adminPage.searchDashboard("3000");
-        adminPage.assertTableContainsModel(ModelData.HAEMORRHAGE_STROKE.model_name);
-        adminPage.searchDashboard("");
-        adminPage.sortModelTable(ModelTableColumn.FAILURES);
-        adminPage.assertModelEntryContainsText(1, "36")
+        adminPage.sortModelTable(ModelTableColumn.EXECUTIONS)
+            .sortModelTable(ModelTableColumn.EXECUTIONS)
+            .assertModelEntryContainsText(1, "1000")
+            .searchDashboard("3000")
+            .assertTableContainsModel(ModelData.HAEMORRHAGE_STROKE.model_name)
+            .searchDashboard("")
+            .sortModelTable(ModelTableColumn.FAILURES)
+            .assertModelEntryContainsText(1, "36");
     });
 
     it("On the admin page I can view a specific model's execution details", () => {
@@ -47,18 +49,21 @@ describe("Admin dashboard page", () => {
         adminPage.toggleModelRowWithName(ModelData.HAEMORRHAGE_BRUSH.model_name);
         cy.dataCy("execution-table").find("table").should("not.contain.text", "Loading... Please wait");
         adminPage.assertExecutionRow(1, ExecutionData.FIRST_EXECUTION_MODEL_1);
+        cy.checkA11y(null, a11yConfig, nodeTerminal, true);
     });
 
     it("On the admin page I can view the execution log", () => {
-        adminPage.toggleModelRowWithName(ModelData.HAEMORRHAGE_BRUSH.model_name);
-        adminPage.showLogsForExecution(2);
-        adminPage.assertExecutionLogs(ApiMocks.EXECUTION_LOGS[0].msg)
+        adminPage.toggleModelRowWithName(ModelData.HAEMORRHAGE_BRUSH.model_name)
+            .showLogsForExecution(2)
+            .assertExecutionLogs(ApiMocks.EXECUTION_LOGS[0].msg);
+        cy.checkA11y(null, a11yConfig, nodeTerminal, true);
     });
 
     it("On the admin page I can view the execution pipeline", () => {
-        adminPage.toggleModelRowWithName(ModelData.HAEMORRHAGE_BRUSH.model_name);
-        adminPage.showPipelineForExecution(2);
-        adminPage.assertPipelineContainsModel(new ModelData(<Model>ApiMocks.ADMIN_DASH_PIPELINES_MODEL_1[0].model).model_name);
+        adminPage.toggleModelRowWithName(ModelData.HAEMORRHAGE_BRUSH.model_name)
+            .showPipelineForExecution(2)
+            .assertPipelineContainsModel(new ModelData(<Model>ApiMocks.ADMIN_DASH_PIPELINES_MODEL_1[0].model).model_name);
+        cy.checkA11y(null, a11yConfig, nodeTerminal, true);
     });
 
 

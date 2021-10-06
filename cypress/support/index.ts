@@ -1,3 +1,6 @@
+import 'cypress-axe'
+import 'cypress-get-table'
+import './commands'
 // ***********************************************************
 // This example support/index.js is processed and
 // loaded automatically before your test files.
@@ -12,27 +15,3 @@
 // You can read more here:
 // https://on.cypress.io/configuration
 // ***********************************************************
-
-// load type definitions that come with Cypress module
-/// <reference types="cypress" />
-const cypressTable = require("../../node_modules/cypress-get-table/src/index");
-
-declare namespace Cypress {
-    interface Chainable {
-      /**
-       * Custom command to select DOM element by data-cy attribute.
-       * @example cy.dataCy('greeting')
-       */
-      dataCy(value: string): Chainable<Element>
-
-      /**
-       * Custom command to perform assertions on a table.
-       * @example cy.get("table").getTable().should(($tableData) => ...)
-       */
-      getTable(): Chainable<Element>
-    }
-  }
-
-  Cypress.Commands.add('dataCy', (value) => {
-    return cy.get(`[data-cy=${value}]`)
-  })

@@ -33,12 +33,14 @@ export default class ClinicalReviewPage extends AbstractPage {
         });
     }
 
-    public searchWorklist(text: string): Cypress.Chainable<Element> {
-        return cy.dataCy(ClinicalReviewPage.FREETEXT_SEARCH).type(text);
+    public searchWorklist(text: string): ClinicalReviewPage {
+        cy.dataCy(ClinicalReviewPage.FREETEXT_SEARCH).type(text);
+        return this;
     }
 
-    public clearWorklistSearch(): void {
+    public clearWorklistSearch(): ClinicalReviewPage {
         cy.get(ClinicalReviewPage.CLEAR_FREETEXT_SEARCH).click();
+        return this;
     }
 
     public worklistItemWithText(text: string): Cypress.Chainable<Element> {
@@ -49,7 +51,7 @@ export default class ClinicalReviewPage extends AbstractPage {
         return moment(String(text)).format("MM/DD/YYYY");
     }
 
-    public assertViewerDetails(patientName: string, patientDob: string, patientId: string, patientSex: string) {
+    public assertViewerDetails(patientName: string, patientDob: string, patientId: string, patientSex: string): ClinicalReviewPage {
         cy.dataCy(ClinicalReviewPage.PATIENT_NAME_VIEWER)
             .should("contain.text", patientName);
         cy.dataCy(ClinicalReviewPage.PATIENT_DOB_VIEWER)
@@ -58,25 +60,31 @@ export default class ClinicalReviewPage extends AbstractPage {
             .should("contain.text", patientId);
         cy.dataCy(ClinicalReviewPage.PATIENT_SEX_VIEWER)
             .should("contain.text", patientSex);
+
+        return this;
     }
 
-    public acceptReject(decision: boolean) {
+    public acceptReject(decision: boolean): ClinicalReviewPage {
         if (decision) {
             cy.dataCy(ClinicalReviewPage.ACCEPT_BUTTON).click();
         } else {
             cy.dataCy(ClinicalReviewPage.REJECT_BUTTON).click();
         }
+
+        return this;
     }
 
-    public acceptRejectModal(decision: boolean){
+    public acceptRejectModal(decision: boolean): ClinicalReviewPage {
         if (decision){
             cy.dataCy(ClinicalReviewPage.ACCEPT_MODAL).click();
         } else {
             cy.dataCy(ClinicalReviewPage.REJECT_MODAL).click();
         }
+
+        return this;
     }
 
-    public fillReviewModal(signed: boolean, reason?: RejectReason, description?: string){
+    public fillReviewModal(signed: boolean, reason?: RejectReason, description?: string): ClinicalReviewPage {
         if (!!reason){
             cy.get(ClinicalReviewPage.REJECT_REASON_SELECT).click();
             cy.get(ClinicalReviewPage.REJECT_REASONS).contains(reason).click();
@@ -89,5 +97,6 @@ export default class ClinicalReviewPage extends AbstractPage {
         if (signed){
             cy.get(ClinicalReviewPage.CHECKBOX).click();
         }
+        return this;
     }
 }

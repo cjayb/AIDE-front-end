@@ -27,72 +27,81 @@ export default class AdminDashboardPage extends AbstractPage {
     //Execution logs modal
     private static EXECUTION_LOGS: string = "execution-logs"
 
-    public toggleModelRowWithName(modelName: string) {
+    public toggleModelRowWithName(modelName: string): AdminDashboardPage {
         cy.get(AdminDashboardPage.MODEL_ROW).contains(modelName).click();
+        return this;
     }
 
-    public showLogsForExecution(number: number) {
+    public showLogsForExecution(number: number): AdminDashboardPage {
         cy.dataCy(AdminDashboardPage.EXECUTIONS_TABLE).within(() => {
             cy.dataCy(AdminDashboardPage.VIEW_LOGS).eq(number).click();
         })
+        return this;
     }
 
-    public showPipelineForExecution(number: number) {
+    public showPipelineForExecution(number: number): AdminDashboardPage{
         cy.dataCy(AdminDashboardPage.EXECUTIONS_TABLE).within(() => {
             cy.dataCy(AdminDashboardPage.VIEW_PIPELINE).eq(number).click();
         })
+        return this;
     }
 
-    public assertPipelineContainsModel(modelName: string) {
+    public assertPipelineContainsModel(modelName: string): AdminDashboardPage {
         cy.dataCy(AdminDashboardPage.PIPELINE_DIALOGUE).should("contain.text", modelName);
+        return this;
     }
 
-    public sortModelTable(column: ModelTableColumn) {
+    public sortModelTable(column: ModelTableColumn): AdminDashboardPage {
         cy.get(AdminDashboardPage.TABLE_HEADER).contains(column).click();
+        return this;
     }
 
-    public assertModelEntryContainsText(number: number, text: string) {
+    public assertModelEntryContainsText(number: number, text: string): AdminDashboardPage {
         cy.dataCy(AdminDashboardPage.MODEL_TABLE).within(($table => {
             cy.get("tr").eq(number).should("contain.text", text);
         }));
+        return this;
     }
 
-    public assertExecutionLogs(text: string) {
+    public assertExecutionLogs(text: string): AdminDashboardPage {
         cy.dataCy(AdminDashboardPage.EXECUTION_LOGS).should("contain.text", text);
+        return this;
     }
 
-    public searchDashboard(text: string) {
+    public searchDashboard(text: string): AdminDashboardPage {
         if (text !== "") {
             cy.dataCy(AdminDashboardPage.FREETEXT_SEARCH).clear().type(text);
         } else {
             cy.dataCy(AdminDashboardPage.FREETEXT_SEARCH).clear();
         }
+        return this;
     }
 
-    public assertTableContainsModel(modelName: string) {
-        cy.dataCy(AdminDashboardPage.MODEL_TABLE).get("table").should("contain.text", modelName)
+    public assertTableContainsModel(modelName: string): AdminDashboardPage {
+        cy.dataCy(AdminDashboardPage.MODEL_TABLE).get("table").should("contain.text", modelName);
+        return this;
     }
 
     public assertModelRow(rowNumber: number, modelData: ModelData, executionStatData: ExecutionStatData) {
-        this.assertModelRowData(rowNumber, ModelTableColumn.MODEL_NAME, modelData.model_name);
-        this.assertModelRowData(rowNumber, ModelTableColumn.EXECUTIONS, executionStatData.executions.toString());
-        this.assertModelRowData(rowNumber, ModelTableColumn.FAILURES, executionStatData.failures.toString());
-        this.assertModelRowData(rowNumber, ModelTableColumn.ERRORS, executionStatData.errors.toString());
-        this.assertModelRowData(rowNumber, ModelTableColumn.SUCCESS_RATE, Helpers.getSuccessRate(executionStatData.executions, executionStatData.failures));
-        this.assertModelRowData(rowNumber, ModelTableColumn.AVERAGE_DURATION, Helpers.getTimeFormat(executionStatData.average_execution_time).toString());
-        this.assertModelRowData(rowNumber, ModelTableColumn.AVERAGE_TURNAROUND, Helpers.getTimeFormat(executionStatData.average_turnaround_time).toString());
+        this.assertModelRowData(rowNumber, ModelTableColumn.MODEL_NAME, modelData.model_name)
+            .assertModelRowData(rowNumber, ModelTableColumn.EXECUTIONS, executionStatData.executions.toString())
+            .assertModelRowData(rowNumber, ModelTableColumn.FAILURES, executionStatData.failures.toString())
+            .assertModelRowData(rowNumber, ModelTableColumn.ERRORS, executionStatData.errors.toString())
+            .assertModelRowData(rowNumber, ModelTableColumn.SUCCESS_RATE, Helpers.getSuccessRate(executionStatData.executions, executionStatData.failures))
+            .assertModelRowData(rowNumber, ModelTableColumn.AVERAGE_DURATION, Helpers.getTimeFormat(executionStatData.average_execution_time).toString())
+            .assertModelRowData(rowNumber, ModelTableColumn.AVERAGE_TURNAROUND, Helpers.getTimeFormat(executionStatData.average_turnaround_time).toString());
     }
 
     public assertExecutionRow(rowNumber: number, executionData: ExecutionData) {
-        this.assertExecutionRowData(rowNumber, ExecutionTableColumn.PATIENT_ID, executionData.event.origin.series[0]["PatientID"]);
-        this.assertExecutionRowData(rowNumber, ExecutionTableColumn.STUDY_DESC, executionData.event.origin.series[0]["StudyDescription"]);
-        this.assertExecutionRowData(rowNumber, ExecutionTableColumn.SERIES_DESC, executionData.event.origin.series[0]["SeriesDescription"]);
-        this.assertExecutionRowData(rowNumber, ExecutionTableColumn.STATUS, Helpers.capitaliseWord(executionData.result.status));
-        this.assertExecutionRowData(rowNumber, ExecutionTableColumn.DURATION, executionData.getDuration().toString());
-        this.assertExecutionRowData(rowNumber, ExecutionTableColumn.TURNAROUND, executionData.getTurnaround().toString());
+        this.assertExecutionRowData(rowNumber, ExecutionTableColumn.PATIENT_ID, executionData.event.origin.series[0]["PatientID"])
+            .assertExecutionRowData(rowNumber, ExecutionTableColumn.STUDY_DESC, executionData.event.origin.series[0]["StudyDescription"])
+            .assertExecutionRowData(rowNumber, ExecutionTableColumn.SERIES_DESC, executionData.event.origin.series[0]["SeriesDescription"])
+            .assertExecutionRowData(rowNumber, ExecutionTableColumn.STATUS, Helpers.capitaliseWord(executionData.result.status))
+            .assertExecutionRowData(rowNumber, ExecutionTableColumn.DURATION, executionData.getDuration().toString())
+            .assertExecutionRowData(rowNumber, ExecutionTableColumn.TURNAROUND, executionData.getTurnaround().toString());
     }
 
-    private assertExecutionRowData(rowNumber: number, executionTableColumn: ExecutionTableColumn, expectedText: string) {
+    private assertExecutionRowData(rowNumber: number, executionTableColumn: ExecutionTableColumn, expectedText: string): AdminDashboardPage {
         cy.dataCy(AdminDashboardPage.EXECUTIONS_TABLE).within(($div) => {
             cy.get("table").getTable().should((tableData => {
                 const rowData: object = tableData[rowNumber + 1];
@@ -100,10 +109,11 @@ export default class AdminDashboardPage extends AbstractPage {
                 expect(expectedText).to.equal(columnString);
             }))
         })
+        return this;
     }
 
 
-    private assertModelRowData(rowNumber: number, modelTableColumn: ModelTableColumn, expectedText: string) {
+    private assertModelRowData(rowNumber: number, modelTableColumn: ModelTableColumn, expectedText: string): AdminDashboardPage {
         cy.dataCy(AdminDashboardPage.MODEL_TABLE).within(($div) => {
             cy.get("table").getTable().should((tableData => {
                 const rowData: object = tableData[rowNumber - 1];
@@ -111,6 +121,7 @@ export default class AdminDashboardPage extends AbstractPage {
                 expect(expectedText).to.equal(columnString);
             }))
         })
+        return this;
     }
 
     public async initPage() {
