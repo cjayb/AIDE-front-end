@@ -3,7 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
-import moment from "moment";
+import moment from "moment-timezone";
 import authentication from "@/plugins/authentication";
 import VueToast from "vue-toast-notification";
 // import "vue-toast-notification/dist/theme-default.css";
@@ -21,7 +21,7 @@ Vue.use(VueToast, {
 
 Vue.filter("formatDate", function (value: any) {
     if (value) {
-        return moment(String(value)).format("MM/DD/YYYY HH:mm");
+        return moment.tz(moment.utc(value), "Europe/London").format("MM/DD/YYYY HH:mm");
     }
 });
 
