@@ -32,3 +32,6 @@ builds/
 # Cypress videos
 cypress/videos
 cypress/screenshots
+
+# Eslint
+eslint.json

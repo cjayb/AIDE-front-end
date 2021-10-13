@@ -4,6 +4,7 @@ include:
   - /.gitlab/templates/.cr.yml
 
 stages:
+  - lint
   - sast
   - build
   - test_ui_integration

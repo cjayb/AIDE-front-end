@@ -20,6 +20,19 @@ build-ui:
     script:
         - npm run build
 
+lint:
+    stage: lint
+    before_script:
+        - npm ci
+    script:
+        - ls -l
+        - npx eslint './src/**/*.ts' -f json -o ./eslint.json || exit 0
+    artifacts:
+        paths:
+            - eslint.json
+    only:
+        - merge_requests
+
 test_ui_headless:
     # Cache modules in between jobs
     cache:
@@ -62,6 +75,8 @@ sonarqube-check:
         - .sonar/cache
     script: 
         - sonar-scanner
+    dependencies:
+        - lint
     allow_failure: true
     only:
         - merge_requests
