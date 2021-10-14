@@ -43,3 +43,17 @@ declare namespace Cypress {
   Cypress.Commands.add('dataCy', (value) => {
     return cy.get(`[data-cy=${value}]`)
   })
+
+  Cypress.Commands.add('percySnapshotElement', { prevSubject: true }, (subject, name, options) => {
+    cy.percySnapshot(name, {
+      domTransformation: (documentClone) => scope(documentClone, subject.selector),
+      ...options,
+    });
+  });
+  
+  function scope(documentClone: Document, selector: string): Document {
+    const element = documentClone.querySelector(selector);
+    documentClone.querySelector('body').innerHTML = element.outerHTML;
+  
+    return documentClone;
+  }

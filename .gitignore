@@ -29,9 +29,11 @@ tests/ui_integration/screenshots/diff
 # GitLab Runner
 builds/
 
-# Cypress videos
+# Cypress videos/artifacts
 cypress/videos
 cypress/screenshots
+cypress-visual-report
+cypress-visual-screenshots
 
 # Eslint
 eslint.json

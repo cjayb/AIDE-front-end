@@ -4,14 +4,11 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "serve:test": "set VUE_APP_AUTH_ENABLED=false&& npm run serve",
     "build": "vue-cli-service build",
+    "serve:test": "SET VUE_APP_AUTH_ENABLED=false&& npm run serve",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "tests:ui_chrome": "cd ./tests/ui_integration && npx codeceptjs run --config codecept.conf.js --grep E2E --invert --reporter mochawesome",
-    "tests:ui_firefox": "cd ./tests/ui_integration && npx codeceptjs run --config codecept.conf.firefox.js --grep E2E --invert --reporter mochawesome",
-    "tests:ui_webkit": "cd ./tests/ui_integration && npx codeceptjs run --config codecept.conf.webkit.js --grep E2E --invert --reporter mochawesome",
-    "tests:ui_headless": "npx cypress run -b chrome",
+    "tests:ui_headless": "npx percy exec cypress run -b chrome",
     "tests:ui_debug": "npx cross-env CYPRESS_REMOTE_DEBUGGING_PORT=9222 cypress open",
     "tests:ui_ci": "start-server-and-test serve http://localhost:8080 tests:ui_headless"
   },
@@ -35,6 +32,8 @@
     "vuex": "^3.4.0"
   },
   "devDependencies": {
+    "@percy/cli": "^1.0.0-beta.69",
+    "@percy/cypress": "^3.1.1",
     "@types/jest": "^24.0.19",
     "@types/mochawesome": "^6.2.0",
     "@types/node": "^15.12.0",
@@ -51,7 +50,7 @@
     "@vue/eslint-config-typescript": "^7.0.0",
     "@vue/test-utils": "^1.0.3",
     "axe-core": "^4.3.3",
-    "cypress": "^8.5.0",
+    "cypress": "^8.6.0",
     "cypress-axe": "^0.13.0",
     "cypress-get-table": "^1.0.1",
     "eslint": "^6.8.0",

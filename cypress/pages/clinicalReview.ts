@@ -15,6 +15,12 @@ export default class ClinicalReviewPage extends AbstractPage {
     public static ACCEPT_BUTTON: string = "accept-btn";
     public static REJECT_BUTTON: string = "reject-btn";
 
+    //Custom Dicom viewer
+    public static SERIES_SELECTOR: string = "series-selector"
+    public static SERIES: string = "dicom-series"
+    public static MODALITY_LENGTH: string = "modality-length"
+    public static SERIES_DESCRIPTION: string = "series-description"
+
     //Clinical decision modal
     private static ACCEPT_MODAL: string = "modal-accept-btn";
     private static REJECT_MODAL: string = "modal-reject-btn";

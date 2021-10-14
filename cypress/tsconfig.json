@@ -3,7 +3,7 @@
       "baseUrl": "./",
       "target": "es5",
       "lib": ["dom", "esnext"],
-      "types": ["cypress", "node", "cypress-axe"],
+      "types": ["cypress", "node", "cypress-axe", "@percy/cypress"],
       "esModuleInterop": true,
       "allowSyntheticDefaultImports": true,
       "sourceMap": true

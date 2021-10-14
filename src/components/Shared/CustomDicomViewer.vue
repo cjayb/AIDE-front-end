@@ -2,7 +2,7 @@
     <v-container style="max-width: 100%; height: 80vh; overflow-y: hidden" fluid>
         <v-row>
             <!-- Series Selector -->
-            <v-col cols="2">
+            <v-col cols="2" data-cy="series-selector">
                 <v-list class="serieslist" style="height: 80vh; overflow-y: auto">
                     <v-header class="serieslist-header"
                         ><v-icon>mdi-chevron-left</v-icon>Series</v-header
@@ -12,6 +12,7 @@
                             v-for="(item, i) in series"
                             :key="i"
                             @click="updatedSelectedSeries(item)"
+                            data-cy="dicom-series"
                         >
                             <v-list-item-content>
                                 <v-list-item-title>
@@ -27,12 +28,12 @@
                                         ></pdf>
                                     </v-sheet>
                                 </v-list-item-title>
-                                <v-list-item-subtitle
+                                <v-list-item-subtitle data-cy="modality-length"
                                     >{{ item.MainDicomTags.Modality }} ({{
                                         item.Instances.length
                                     }})</v-list-item-subtitle
                                 >
-                                <v-list-item-subtitle>{{
+                                <v-list-item-subtitle data-cy="series-description">{{
                                     item.MainDicomTags.SeriesDescription
                                 }}</v-list-item-subtitle>
                             </v-list-item-content>

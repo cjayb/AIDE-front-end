@@ -57,6 +57,8 @@ test_ui_headless:
         name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME"
         paths:
             - ci_artifacts/
+            - cypress-visual-report/
+            - cypress-visual-screenshots/
         when: always
     only: 
         - merge_requests

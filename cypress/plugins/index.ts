@@ -29,6 +29,6 @@ module.exports = (on, config) => {
     table(message) {
       console.table(message)
       return null;
-    }
+    },
   })
 }

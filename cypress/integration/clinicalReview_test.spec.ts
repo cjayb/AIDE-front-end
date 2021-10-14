@@ -55,4 +55,33 @@ describe("Clinical review page", () => {
             .worklistItemWithText(kellyName)
                 .should("not.exist");
     })
+
+    it("Can view the dicom series selector'", () => {
+        cy.wait(3000) //Wait for the dicoms to render
+        cy.dataCy(ClinicalReviewPage.SERIES_SELECTOR).percySnapshotElement("Series-selector")
+        cy.get(".serieslist-header").then((el) => {
+            expect(el[0].textContent).to.eq("Series")
+        })
+        cy.dataCy(ClinicalReviewPage.SERIES).eq(0).within(() => {
+            cy.dataCy(ClinicalReviewPage.MODALITY_LENGTH).then((el) => {
+                expect(el[0].textContent).to.eq(`${ExecutionData.REVIEW_KELLY_MALDONADO.event.origin.series[0]["Modality"]} (22)`)
+                console.log(el)
+            })
+            cy.dataCy(ClinicalReviewPage.SERIES_DESCRIPTION)
+                .should("have.text", ExecutionData.REVIEW_KELLY_MALDONADO.event.origin.series[0]["SeriesDescription"])
+        })
+    })
+
+
+    it("Can change dicom series selected", () => {
+        cy.wait(3000) //Wait for the dicoms to render
+        cy.dataCy(ClinicalReviewPage.SERIES).eq(1).click().within(() => {
+            cy.dataCy(ClinicalReviewPage.MODALITY_LENGTH).then((el) => {
+                expect(el[0].textContent).to.eq(`MR (100)`)
+                console.log(el)
+            })
+            cy.dataCy(ClinicalReviewPage.SERIES_DESCRIPTION)
+                .should("have.text", "T1/3D/FFE/C")
+        })
+    })
 })
