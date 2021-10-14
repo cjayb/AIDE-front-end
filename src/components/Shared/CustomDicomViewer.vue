@@ -94,10 +94,9 @@ export default class CustomDicomViewer extends Vue {
 }
 
 .serieslist .v-list-item-group .v-list-item--active {
-    background-color: #61366e;
-    opacity: 50%;
+    opacity: 100%;
     border-radius: 10px;
-    margin: 5px;
+    border: solid 1px white;
 }
 
 .serieslist .v-list-item--link:before {
