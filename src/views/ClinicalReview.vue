@@ -8,7 +8,10 @@
             <!-- Viewer -->
             <v-col cols="10" v-if="tasksNotEmpty">
                 <Header />
-                <v-card style="width: 100%" class="my-4">
+                <v-card
+                    style="width: 100%; height: 84vh; overflow-y: scroll; background: black"
+                    class="my-4"
+                >
                     <v-list-item>
                         <v-list-item-content>
                             <v-row>

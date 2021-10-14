@@ -1,28 +1,12 @@
 <template>
-    <v-container>
-        <v-row>
-            <v-col cols="12">
-                <v-btn-toggle dense group style="float: right">
-                    <v-btn value="left" :href="selectedStudyUrl" target="_blank">
-                        <span class="hidden-sm-and-down">Open in Advanced Viewer</span>
-                        <v-icon right> mdi-launch </v-icon>
-                    </v-btn>
-                    <v-btn value="left" @click="getReports()" :loading="reportLoading">
-                        <span class="hidden-sm-and-down">Open Report</span>
-                        <v-icon right> mdi-download </v-icon>
-                    </v-btn>
-                    <v-btn value="left" @click="OpenInOrthanc()" :loading="studyLoading">
-                        <span class="hidden-sm-and-down">Open in Orthanc</span>
-                        <v-icon right> mdi-download </v-icon>
-                    </v-btn>
-                </v-btn-toggle>
-            </v-col>
-        </v-row>
+    <v-container style="max-width: 100%" fluid>
         <v-row>
             <!-- Series Selector -->
-            <v-col cols="1">
-                <v-list>
-                    <v-subheader>Series</v-subheader>
+            <v-col cols="2">
+                <v-list class="serieslist" style="height: 80vh; overflow-y: auto">
+                    <v-header class="serieslist-header"
+                        ><v-icon>mdi-chevron-left</v-icon>Series</v-header
+                    >
                     <v-list-item-group v-model="selectedItem" color="primary">
                         <v-list-item
                             v-for="(item, i) in series"
@@ -31,14 +15,7 @@
                         >
                             <v-list-item-content>
                                 <v-list-item-title>
-                                    <v-sheet
-                                        color="white"
-                                        elevation="3"
-                                        height="100"
-                                        rounded
-                                        width="100"
-                                        class="mx-auto"
-                                    >
+                                    <v-sheet height="100" width="100" class="mx-auto">
                                         <v-img
                                             v-if="item.MainDicomTags.Modality != 'DOC'"
                                             class="mx-auto"
@@ -51,7 +28,7 @@
                                     </v-sheet>
                                 </v-list-item-title>
                                 <v-list-item-subtitle
-                                    >{{ item.MainDicomTags.Modality }} - ({{
+                                    >Modality: {{ item.MainDicomTags.Modality }} ({{
                                         item.Instances.length
                                     }})</v-list-item-subtitle
                                 >
@@ -61,7 +38,7 @@
                 </v-list>
             </v-col>
             <!-- Dicom Viewport -->
-            <v-col cols="11"> DICOM Viewport {{ selectedSeries }}</v-col>
+            <v-col cols="10" style="color: #fff"> DICOM Viewport {{ selectedSeries }}</v-col>
         </v-row>
     </v-container>
 </template>
@@ -79,8 +56,6 @@ import { findStudy, getStudy, getSeries, getInstance } from "../../api/OrthancSe
 })
 export default class CustomDicomViewer extends Vue {
     selectedStudyUrl = "";
-    studyLoading = false;
-    reportLoading = false;
     selectedItem = 0;
     selectedSeries: any = {};
     study: any = {};
@@ -100,36 +75,35 @@ export default class CustomDicomViewer extends Vue {
             this.selectedSeries = this.series[this.selectedItem];
         });
     }
-
-    async OpenInOrthanc(): Promise<void> {
-        const file_name = this.$route.path.split("/");
-        this.studyLoading = true;
-        await findStudy(file_name[file_name.length - 1]).then(async (response) => {
-            window.open(
-                `${window.ORTHANC_API_URL}/app/explorer.html#study?uuid=${response[0].ID}`,
-                "_blank",
-            );
-            this.studyLoading = false;
-        });
-    }
-
-    async getReports(): Promise<void> {
-        const file_name = this.$route.path.split("/");
-        this.reportLoading = true;
-        await findStudy(file_name[file_name.length - 1]).then(async (response: any) => {
-            response[0].Series.forEach(async (seriesId: string) => {
-                let series = await getSeries(seriesId);
-                if (series.Instances.length === 1) {
-                    window.open(
-                        `${window.ORTHANC_API_URL}/app/explorer.html#instance?uuid=${series.Instances[0]}`,
-                        "_blank",
-                    );
-                }
-            });
-            this.reportLoading = false;
-        });
-    }
 }
 </script>
 
-<style></style>
+<style>
+.serieslist {
+    background: black !important;
+    color: white !important;
+}
+
+.serieslist-header .v-icon {
+    color: white;
+}
+
+.serieslist .v-list-item__subtitle {
+    color: #fff !important;
+    text-align: center;
+}
+
+.serieslist .v-list-item-group .v-list-item--active {
+    background-color: #61366e;
+    opacity: 50%;
+    border-radius: 10px;
+    margin: 5px;
+}
+
+.serieslist .v-list-item--link:before {
+    background-color: #46464680;
+    opacity: 100%;
+    border-radius: 10px;
+    margin: 5px;
+}
+</style>
