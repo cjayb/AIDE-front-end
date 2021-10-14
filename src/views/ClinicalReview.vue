@@ -14,7 +14,8 @@
                             <v-row>
                                 <transition name="fade" mode="out-in">
                                     <v-col cols="12" :key="$route.path">
-                                        <DicomViewer :key="$route.path" />
+                                        <!-- <DicomViewer :key="$route.path" /> -->
+                                        <CustomDicomViewer :key="$route.path" />
                                     </v-col>
                                 </transition>
                                 <!-- <v-col cols="3">
@@ -38,6 +39,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import DicomViewer from "../components/Shared/DicomViewer.vue";
+import CustomDicomViewer from "../components/Shared/CustomDicomViewer.vue";
 import Header from "../components/ClinicalReview/Header.vue";
 import Tasks from "../components/ClinicalReview/Tasks.vue";
 import Metadata from "../components/ClinicalReview/Metadata.vue";
@@ -48,6 +50,7 @@ import { EventBus } from "@/event-bus";
 @Component({
     components: {
         DicomViewer,
+        CustomDicomViewer,
         Header,
         Tasks,
         Metadata,
