@@ -19,11 +19,11 @@
                                         <v-img
                                             v-if="item.MainDicomTags.Modality != 'DOC'"
                                             class="mx-auto"
-                                            :src="`https://dev-aide.answerdigital.io:8045/instances/${item.Instances[0]}/preview`"
+                                            :src="`${orthanUrl}/instances/${item.Instances[0]}/preview`"
                                         />
                                         <pdf
                                             v-if="item.MainDicomTags.Modality == 'DOC'"
-                                            :src="`https://dev-aide.answerdigital.io:8045/instances/${item.Instances[0]}/pdf`"
+                                            :src="`${orthanUrl}/instances/${item.Instances[0]}/pdf`"
                                         ></pdf>
                                     </v-sheet>
                                 </v-list-item-title>
@@ -46,11 +46,11 @@
                 <v-img
                     v-if="selectedSeries.MainDicomTags.Modality != 'DOC'"
                     class="mx-auto"
-                    :src="`https://dev-aide.answerdigital.io:8045/instances/${selectedInstance.ID}/preview`"
+                    :src="`${orthanUrl}/instances/${selectedInstance.ID}/preview`"
                 />
                 <pdf
                     v-if="selectedSeries.MainDicomTags.Modality == 'DOC'"
-                    :src="`https://dev-aide.answerdigital.io:8045/instances/${selectedInstance.ID}/pdf`"
+                    :src="`${orthanUrl}/instances/${selectedInstance.ID}/pdf`"
                 ></pdf>
             </v-col>
             <!-- Metadata Viewport -->
@@ -90,8 +90,11 @@ export default class CustomDicomViewer extends Vue {
     study: any = {};
     series: Array<any> = [];
 
+    orthanUrl = window.ORTHANC_API_URL;
+
     async mounted(): Promise<void> {
         const file_name = this.$route.path.split("/");
+
         this.selectedStudyUrl = `${window.ORTHANC_API_URL}/stone-webviewer/index.html?study=${
             file_name[file_name.length - 1]
         }`;
