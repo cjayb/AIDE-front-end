@@ -28,10 +28,13 @@
                                     </v-sheet>
                                 </v-list-item-title>
                                 <v-list-item-subtitle
-                                    >Modality: {{ item.MainDicomTags.Modality }} ({{
+                                    >{{ item.MainDicomTags.Modality }} ({{
                                         item.Instances.length
                                     }})</v-list-item-subtitle
                                 >
+                                <v-list-item-subtitle>{{
+                                    item.MainDicomTags.SeriesDescription
+                                }}</v-list-item-subtitle>
                             </v-list-item-content>
                         </v-list-item>
                     </v-list-item-group>
