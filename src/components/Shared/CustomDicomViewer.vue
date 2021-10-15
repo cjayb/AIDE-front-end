@@ -42,7 +42,7 @@
             </v-col>
             <!-- Dicom Viewport -->
             <v-col cols="8" style="color: #fff">
-                <!-- DICOM Viewport {{ selectedInstance }} -->
+                DICOM Viewport {{ selectedInstance }}
                 <v-img
                     v-if="selectedSeries.MainDicomTags.Modality != 'DOC'"
                     class="mx-auto"
