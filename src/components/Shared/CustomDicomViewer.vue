@@ -1,5 +1,5 @@
 <template>
-    <v-container style="max-width: 100%" fluid>
+    <v-container style="max-width: 100%; height: 80vh; overflow-y: hidden" fluid>
         <v-row>
             <!-- Series Selector -->
             <v-col cols="2">
@@ -42,8 +42,9 @@
             </v-col>
             <!-- Dicom Viewport -->
             <v-col cols="8" style="color: #fff">
-                DICOM Viewport {{ selectedInstance }}
+                <!-- DICOM Viewport {{ selectedInstance }} -->
                 <v-img
+                    style="height: 80vh"
                     v-if="selectedSeries.MainDicomTags.Modality != 'DOC'"
                     class="mx-auto"
                     :src="`${orthanUrl}/instances/${selectedInstance.ID}/preview`"
@@ -54,7 +55,7 @@
                 ></pdf>
             </v-col>
             <!-- Metadata Viewport -->
-            <v-col cols="2" style="color: #fff">
+            <v-col cols="2" style="color: #fff; height: 80vh; overflow-y: auto">
                 <v-header class="serieslist-header" style="float: right"
                     >Metadata<v-icon>mdi-chevron-right</v-icon></v-header
                 >
@@ -135,6 +136,10 @@ export default class CustomDicomViewer extends Vue {
     text-align: center;
 }
 
+.serieslist .v-list-item-group .v-list-item {
+    margin: 5px 5px;
+}
+
 .serieslist .v-list-item-group .v-list-item--active {
     opacity: 100%;
     border-radius: 10px;
@@ -145,6 +150,28 @@ export default class CustomDicomViewer extends Vue {
     background-color: #46464680;
     opacity: 100%;
     border-radius: 10px;
-    margin: 5px;
+    margin: 0px;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #61366e;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #5f2e6e;
 }
 </style>
