@@ -11,7 +11,7 @@
                         <v-list-item
                             v-for="(item, i) in series"
                             :key="i"
-                            @click="selectedSeries = item"
+                            @click="updatedSelectedSeries(item)"
                         >
                             <v-list-item-content>
                                 <v-list-item-title>
@@ -47,7 +47,7 @@
                 <v-header class="serieslist-header" style="float: right"
                     >Metadata<v-icon>mdi-chevron-right</v-icon></v-header
                 >
-                <p style="clear: both">{{ selectedInstance.MainDicomTags }}</p></v-col
+                <p style="clear: both">{{ selectedInstanceMetadata }}</p></v-col
             >
         </v-row>
     </v-container>
@@ -57,7 +57,13 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import pdf from "vue-pdf";
-import { findStudy, getStudy, getSeries, getInstance } from "../../api/OrthancService";
+import {
+    findStudy,
+    getStudy,
+    getSeries,
+    getInstance,
+    getInstanceMetadata,
+} from "../../api/OrthancService";
 
 @Component({
     components: {
@@ -69,6 +75,7 @@ export default class CustomDicomViewer extends Vue {
     selectedItem = 0;
     selectedSeries: any = {};
     selectedInstance: any = {};
+    selectedInstanceMetadata: any = {};
     study: any = {};
     series: Array<any> = [];
 
@@ -85,7 +92,16 @@ export default class CustomDicomViewer extends Vue {
             this.series.push(x);
             this.selectedSeries = this.series[this.selectedItem];
             this.selectedInstance = await getInstance(this.selectedSeries.Instances[0]);
+            this.selectedInstanceMetadata = await getInstanceMetadata(
+                this.selectedSeries.Instances[0],
+            );
         });
+    }
+
+    async updatedSelectedSeries(item: any): Promise<void> {
+        this.selectedSeries = item;
+        this.selectedInstance = await getInstance(this.selectedSeries.Instances[0]);
+        this.selectedInstanceMetadata = await getInstanceMetadata(this.selectedSeries.Instances[0]);
     }
 }
 </script>

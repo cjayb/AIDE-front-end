@@ -37,6 +37,11 @@ export async function getInstance(StudyId: string): Promise<any> {
     return response.data;
 }
 
+export async function getInstanceMetadata(StudyId: string): Promise<any> {
+    const response = await http.get(`/instances/${StudyId}/simplified-tags`);
+    return response.data;
+}
+
 export async function downloadStudy(StudyId: string): Promise<any> {
     const response = await http.get(`/studies/${StudyId}/media`, { responseType: "blob" });
     const url = window.URL.createObjectURL(new Blob([response.data]));
