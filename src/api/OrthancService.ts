@@ -8,6 +8,19 @@ const http = axios.create({
     },
 });
 
+http.interceptors.response.use(
+    function (response) {
+        return response;
+    },
+    function (error) {
+        if (401 === error.response.status) {
+            Vue.$keycloak.logout({ redirectUri: `${window.location.origin}/#/` });
+        } else {
+            return error;
+        }
+    },
+);
+
 export async function findStudy(StudyInstanceUID: string): Promise<any> {
     const response = await http.post(`/tools/find`, {
         Level: "Study",

@@ -38,7 +38,7 @@ Vue.config.errorHandler = (err, vm, info) => {
     console.log(vm);
     console.log(info);
     console.log(err);
-    Vue.$toast.error("Something unexpected went wrong!");
+    // Vue.$toast.error("Something unexpected went wrong!");
 };
 
 Vue.$keycloak.init({ checkLoginIframe: false }).then(() => {

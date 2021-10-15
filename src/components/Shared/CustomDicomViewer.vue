@@ -41,7 +41,18 @@
                 </v-list>
             </v-col>
             <!-- Dicom Viewport -->
-            <v-col cols="8" style="color: #fff">DICOM Viewport {{ selectedInstance }}</v-col>
+            <v-col cols="8" style="color: #fff">
+                <!-- DICOM Viewport {{ selectedInstance }} -->
+                <v-img
+                    v-if="selectedSeries.MainDicomTags.Modality != 'DOC'"
+                    class="mx-auto"
+                    :src="`https://dev-aide.answerdigital.io:8045/instances/${selectedInstance.ID}/preview`"
+                />
+                <pdf
+                    v-if="selectedSeries.MainDicomTags.Modality == 'DOC'"
+                    :src="`https://dev-aide.answerdigital.io:8045/instances/${selectedInstance.ID}/pdf`"
+                ></pdf>
+            </v-col>
             <!-- Metadata Viewport -->
             <v-col cols="2" style="color: #fff">
                 <v-header class="serieslist-header" style="float: right"
