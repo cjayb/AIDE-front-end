@@ -41,7 +41,14 @@
                 </v-list>
             </v-col>
             <!-- Dicom Viewport -->
-            <v-col cols="10" style="color: #fff"> DICOM Viewport {{ selectedSeries }}</v-col>
+            <v-col cols="8" style="color: #fff">DICOM Viewport {{ selectedInstance }}</v-col>
+            <!-- Metadata Viewport -->
+            <v-col cols="2" style="color: #fff">
+                <v-header class="serieslist-header" style="float: right"
+                    >Metadata<v-icon>mdi-chevron-right</v-icon></v-header
+                >
+                <p style="clear: both">{{ selectedInstance.MainDicomTags }}</p></v-col
+            >
         </v-row>
     </v-container>
 </template>
@@ -61,6 +68,7 @@ export default class CustomDicomViewer extends Vue {
     selectedStudyUrl = "";
     selectedItem = 0;
     selectedSeries: any = {};
+    selectedInstance: any = {};
     study: any = {};
     series: Array<any> = [];
 
@@ -76,6 +84,7 @@ export default class CustomDicomViewer extends Vue {
             let x = await getSeries(seriesId);
             this.series.push(x);
             this.selectedSeries = this.series[this.selectedItem];
+            this.selectedInstance = await getInstance(this.selectedSeries.Instances[0]);
         });
     }
 }
