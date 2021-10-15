@@ -50,6 +50,7 @@
                     :src="`${orthanUrl}/instances/${selectedInstance.ID}/preview`"
                 />
                 <pdf
+                    style="height: 80vh; overflow-y: auto"
                     v-if="selectedSeries.MainDicomTags.Modality == 'DOC'"
                     :src="`${orthanUrl}/instances/${selectedInstance.ID}/pdf`"
                 ></pdf>
