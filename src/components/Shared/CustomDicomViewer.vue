@@ -43,13 +43,26 @@
             </v-col>
             <!-- Dicom Viewport -->
             <v-col cols="8" style="color: #fff">
-                <!-- DICOM Viewport {{ selectedInstance }} -->
-                <v-img
-                    style="height: 80vh"
+                <div
                     v-if="selectedSeries.MainDicomTags.Modality != 'DOC'"
-                    class="mx-auto"
-                    :src="`${orthanUrl}/instances/${selectedInstance.ID}/preview`"
-                />
+                    style="
+                        width: 100%;
+                        height: 100%;
+                        position: relative;
+                        color: white;
+                        display: inline-block;
+                        border-style: solid;
+                        border-color: black;
+                    "
+                    oncontextmenu="return false"
+                    class="disable-selection noIbar"
+                    unselectable="on"
+                    onselectstart="return false;"
+                    onmousedown="return false;"
+                >
+                    <div id="dicomImage" style="width: 100%; height: 100%"></div>
+                </div>
+
                 <pdf
                     style="height: 80vh; overflow-y: auto"
                     v-if="selectedSeries.MainDicomTags.Modality == 'DOC'"
@@ -71,6 +84,13 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import pdf from "vue-pdf";
+
+import * as cornerstone from "cornerstone-core";
+import * as cornerstoneWebImageLoader from "cornerstone-web-image-loader";
+import cornerstoneTools from "cornerstone-tools";
+import cornerstoneMath from "cornerstone-math";
+import Hammer from "hammerjs";
+
 import {
     findStudy,
     getStudy,
@@ -95,6 +115,9 @@ export default class CustomDicomViewer extends Vue {
 
     orthanUrl = window.ORTHANC_API_URL;
 
+    exampleImageId =
+        "https://dev-aide.answerdigital.io:8045/instances/accd3105-52315bdc-6e577e7e-7af4a839-69c1803c/preview";
+
     async mounted(): Promise<void> {
         const file_name = this.$route.path.split("/");
 
@@ -112,6 +135,8 @@ export default class CustomDicomViewer extends Vue {
             this.selectedInstanceMetadata = await getInstanceMetadata(
                 this.selectedSeries.Instances[0],
             );
+            // display cornerstone
+            this.renderImage();
         });
     }
 
@@ -119,6 +144,29 @@ export default class CustomDicomViewer extends Vue {
         this.selectedSeries = item;
         this.selectedInstance = await getInstance(this.selectedSeries.Instances[0]);
         this.selectedInstanceMetadata = await getInstanceMetadata(this.selectedSeries.Instances[0]);
+
+        this.renderImage();
+    }
+
+    renderImage(): void {
+        cornerstoneWebImageLoader.external.cornerstone = cornerstone;
+        cornerstoneTools.external.cornerstone = cornerstone;
+        cornerstoneTools.external.Hammer = Hammer;
+        cornerstoneTools.external.cornerstoneMath = cornerstoneMath;
+
+        cornerstoneTools.init();
+
+        const WwwcTool = cornerstoneTools.WwwcTool;
+
+        const element = document.getElementById("dicomImage");
+        cornerstone.enable(element);
+        cornerstone
+            .loadImage(`${this.orthanUrl}/instances/${this.selectedInstance.ID}/preview`)
+            .then(function (image: any) {
+                cornerstone.displayImage(element, image);
+                cornerstoneTools.addTool(WwwcTool);
+                cornerstoneTools.setToolActive("Wwwc", { mouseButtonMask: 1 });
+            });
     }
 }
 </script>
