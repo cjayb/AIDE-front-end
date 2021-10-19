@@ -1,25 +1,25 @@
 <template>
-    <v-container>
-        <div
-            v-if="selectedSeries.MainDicomTags.Modality != 'DOC'"
-            style="
-                width: 100%;
-                height: 100%;
-                position: relative;
-                color: white;
-                display: inline-block;
-                border-style: solid;
-                border-color: black;
-            "
-            oncontextmenu="return false"
-            class="disable-selection noIbar"
-            unselectable="on"
-            onselectstart="return false;"
-            onmousedown="return false;"
-        >
-            <div id="dicomImage" style="width: 100%; height: 100%"></div>
-        </div>
-    </v-container>
+    <!-- <v-container> -->
+    <div
+        v-if="selectedSeries.MainDicomTags.Modality != 'DOC'"
+        style="
+            width: 100%;
+            height: 100%;
+            position: relative;
+            color: white;
+            display: inline-block;
+            border-style: solid;
+            border-color: black;
+        "
+        oncontextmenu="return false"
+        class="disable-selection noIbar"
+        unselectable="on"
+        onselectstart="return false;"
+        onmousedown="return false;"
+    >
+        <div id="dicomImage" style="width: 100%; height: 100%"></div>
+    </div>
+    <!-- </v-container> -->
 </template>
 
 <script lang="ts">
@@ -40,19 +40,13 @@ export default class DicomViewport extends Vue {
     selectedInstance: any = {};
     orthanUrl = window.ORTHANC_API_URL;
     imageIds: Array<any> = [];
-    exampleImageIds = [
-        "https://dev-aide.answerdigital.io:8045/instances/accd3105-52315bdc-6e577e7e-7af4a839-69c1803c/preview",
-        "https://dev-aide.answerdigital.io:8045/instances/976e8f0c-fe9cad0d-a764b30a-fe7af484-35a61629/preview",
-    ];
-
     async created(): Promise<void> {
         EventBus.$on("updatedSelectedSeries", async (selectedSeries: any) => {
             this.selectedSeries = selectedSeries;
             this.selectedInstance = await getInstance(this.selectedSeries.Instances[0]);
 
             this.imageIds = this.selectedSeries.Instances.map(
-                (seriesImage: any) =>
-                    `${this.orthanUrl}/instances/${this.selectedInstance.ID}/preview`,
+                (seriesImage: any) => `${this.orthanUrl}/instances/${seriesImage}/preview`,
             );
 
             this.renderImage();
