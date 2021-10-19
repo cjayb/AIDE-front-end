@@ -21,9 +21,6 @@
                                         <CustomDicomViewer :key="$route.path" />
                                     </v-col>
                                 </transition>
-                                <!-- <v-col cols="3">
-                                    <Metadata />
-                                </v-col> -->
                             </v-row>
                         </v-list-item-content>
                     </v-list-item>
@@ -45,7 +42,6 @@ import DicomViewer from "../components/Shared/DicomViewer.vue";
 import CustomDicomViewer from "../components/Shared/CustomDicomViewer.vue";
 import Header from "../components/ClinicalReview/Header.vue";
 import Tasks from "../components/ClinicalReview/Tasks.vue";
-import Metadata from "../components/ClinicalReview/Metadata.vue";
 import ApprovalDialog from "../components/ClinicalReview/ApprovalDialog.vue";
 import EmptyTaskList from "../views/EmptyTaskList.vue";
 import { EventBus } from "@/event-bus";
@@ -56,7 +52,6 @@ import { EventBus } from "@/event-bus";
         CustomDicomViewer,
         Header,
         Tasks,
-        Metadata,
         ApprovalDialog,
         EmptyTaskList,
     },
