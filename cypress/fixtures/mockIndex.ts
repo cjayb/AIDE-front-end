@@ -14,6 +14,7 @@ export default class ApiMocks {
     public static ADMIN_DASH_PIPELINES_MODEL_1 = require("./adminDashboardPipelinesModel1.json");
     public static CLINICAL_REVIEW = require("./clinicalReview.json");
     public static CLINICAL_REVIEW_RESPONSE = require("./clinicalReviewResponse.json");
-    public static EXECUTION_LOGS = require("./executionLogs.json")
-    public static OUTPUT_FILE = require("./outputFile.json")
+    public static EXECUTION_LOGS = require("./executionLogs.json");
+    public static OUTPUT_FILE = require("./outputFile.json");
+    public static REMOTE_DICOM_METADATA = require("./remoteDicomMetadata");
 }

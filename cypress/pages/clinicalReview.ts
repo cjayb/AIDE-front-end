@@ -16,10 +16,14 @@ export default class ClinicalReviewPage extends AbstractPage {
     public static REJECT_BUTTON: string = "reject-btn";
 
     //Custom Dicom viewer
-    public static SERIES_SELECTOR: string = "series-selector"
-    public static SERIES: string = "dicom-series"
-    public static MODALITY_LENGTH: string = "modality-length"
-    public static SERIES_DESCRIPTION: string = "series-description"
+    public static SERIES_SELECTOR: string = "series-selector";
+    public static SERIES: string = "dicom-series";
+    public static MODALITY_LENGTH: string = "modality-length";
+    public static SERIES_DESCRIPTION: string = "series-description";
+    public static DICOM_METADATA: string = "dicom-metadata";
+    public static DICOM_VIEWPORT: string = "dicom-viewport";
+    public static PDF_VIEWPORT: string = "pdf-viewport";
+    public static SELECTED_IMAGE: string = "#dicomImage"
 
     //Clinical decision modal
     private static ACCEPT_MODAL: string = "modal-accept-btn";
@@ -37,6 +41,11 @@ export default class ClinicalReviewPage extends AbstractPage {
             //TODO: Remove this once uncaught exceptions have been removed
             return false;
         });
+    }
+
+    public waitForViewer(): ClinicalReviewPage {
+        cy.wait(5000) // wait for dicom viewer to render
+        return this;
     }
 
     public searchWorklist(text: string): ClinicalReviewPage {

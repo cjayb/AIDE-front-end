@@ -14,6 +14,7 @@ describe("Clinical review page", () => {
         cy.injectAxe();
     })
 
+
     it("Can view and filter the clinical review worklist", () => {
         reviewPage.searchWorklist("de")
             .worklistItemWithText(dianeName).click()
@@ -26,6 +27,7 @@ describe("Clinical review page", () => {
             .worklistItemWithText(kellyName).click()
                 .should("contain.text", kellyName);
     })
+
 
     it("Can view fields in the Orthanc viewer window", () => {
         const patientDob: string = reviewPage.formatDob(ExecutionData.REVIEW_LEONE_GOODPASTURE.event.origin.series[0]["PatientBirthDate"]);
@@ -47,6 +49,7 @@ describe("Clinical review page", () => {
                 .should("not.exist");
     })
 
+
     it("Can reject worklist item", () => {
         reviewPage.acceptReject(false);
         cy.checkA11y(null, a11yConfig, nodeTerminal, true);
@@ -56,8 +59,9 @@ describe("Clinical review page", () => {
                 .should("not.exist");
     })
 
+
     it("Can view the dicom series selector'", () => {
-        cy.wait(3000) //Wait for the dicoms to render
+        reviewPage.waitForViewer()
         cy.dataCy(ClinicalReviewPage.SERIES_SELECTOR).percySnapshotElement("Series-selector")
         cy.get(".serieslist-header").then((el) => {
             expect(el[0].textContent).to.eq("Series")
@@ -65,7 +69,6 @@ describe("Clinical review page", () => {
         cy.dataCy(ClinicalReviewPage.SERIES).eq(0).within(() => {
             cy.dataCy(ClinicalReviewPage.MODALITY_LENGTH).then((el) => {
                 expect(el[0].textContent).to.eq(`${ExecutionData.REVIEW_KELLY_MALDONADO.event.origin.series[0]["Modality"]} (22)`)
-                console.log(el)
             })
             cy.dataCy(ClinicalReviewPage.SERIES_DESCRIPTION)
                 .should("have.text", ExecutionData.REVIEW_KELLY_MALDONADO.event.origin.series[0]["SeriesDescription"])
@@ -74,14 +77,34 @@ describe("Clinical review page", () => {
 
 
     it("Can change dicom series selected", () => {
-        cy.wait(3000) //Wait for the dicoms to render
+        reviewPage.waitForViewer()
         cy.dataCy(ClinicalReviewPage.SERIES).eq(1).click().within(() => {
             cy.dataCy(ClinicalReviewPage.MODALITY_LENGTH).then((el) => {
                 expect(el[0].textContent).to.eq(`MR (100)`)
-                console.log(el)
             })
             cy.dataCy(ClinicalReviewPage.SERIES_DESCRIPTION)
                 .should("have.text", "T1/3D/FFE/C")
         })
+    })
+
+
+    it("Dicom Metadata can be viewed", () => {
+        // reviewPage.waitForViewer()
+        // cy.intercept('GET', "https://demo.orthanc-server.com/instances/*/simplified-tags", ApiMocks.REMOTE_DICOM_METADATA)
+        // cy.dataCy(ClinicalReviewPage.DICOM_METADATA).should("have.text", JSON.stringify(ApiMocks.REMOTE_DICOM_METADATA))
+        // To be completed once metadata is formatted
+    })
+
+
+    it("Dicom viewport displays correctly", () => {
+        reviewPage.waitForViewer()
+        cy.get(ClinicalReviewPage.SELECTED_IMAGE).percySnapshotElement("Dicom-viewport")
+    })
+
+
+    it("Can scroll through dicom images", () => {
+        reviewPage.waitForViewer()
+        cy.dataCy(ClinicalReviewPage.DICOM_VIEWPORT).trigger("wheel", "center", { deltaY: 100 })
+        cy.get(ClinicalReviewPage.SELECTED_IMAGE).percySnapshotElement("Scrolled-dicom")
     })
 })
