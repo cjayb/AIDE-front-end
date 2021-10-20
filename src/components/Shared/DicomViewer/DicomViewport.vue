@@ -5,7 +5,6 @@
         style="
             width: 100%;
             height: 100%;
-            position: relative;
             color: white;
             display: inline-block;
             border-style: solid;
@@ -17,7 +16,7 @@
         onselectstart="return false;"
         onmousedown="return false;"
     >
-        <div id="dicomImage" style="width: 100%; height: 100%"></div>
+        <div id="dicomImage" style="width: 100%; height: 80vh"></div>
     </div>
     <!-- </v-container> -->
 </template>

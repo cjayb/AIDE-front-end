@@ -27,19 +27,10 @@ import SeriesSelector from "./DicomViewer/SeriesSelector.vue";
 import MetaData from "./DicomViewer/MetaData.vue";
 import DicomViewport from "./DicomViewer/DicomViewport.vue";
 import PdfViewport from "./DicomViewer/PdfViewport.vue";
-
-import pdf from "vue-pdf";
-import * as cornerstone from "cornerstone-core";
-import * as cornerstoneWebImageLoader from "cornerstone-web-image-loader";
-import cornerstoneTools from "cornerstone-tools";
-import cornerstoneMath from "cornerstone-math";
-import Hammer from "hammerjs";
-
-import { findStudy, getSeries, getInstance, getInstanceMetadata } from "../../api/OrthancService";
+import { findStudy, getSeries } from "../../api/OrthancService";
 
 @Component({
     components: {
-        pdf,
         SeriesSelector,
         MetaData,
         DicomViewport,
