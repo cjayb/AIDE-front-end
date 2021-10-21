@@ -7,7 +7,7 @@
             </v-col>
             <!-- Dicom Viewport -->
             <v-col cols="6" xl="8" style="color: #fff">
-                <DicomViewport data-cy="dicom-viewport"></DicomViewport>
+                <DicomViewport :study="study" data-cy="dicom-viewport"></DicomViewport>
 
                 <PdfViewport data-cy="pdf-viewport"></PdfViewport>
             </v-col>

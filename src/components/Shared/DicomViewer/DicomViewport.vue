@@ -36,15 +36,21 @@
                 <span class="hidden-sm-and-down">Advanced Viewer</span>
                 <v-icon right> mdi-launch </v-icon>
             </v-btn>
-            <v-btn value="left" @click="getReports()" :loading="reportLoading" style="color: white">
-                <span class="hidden-sm-and-down">Open Report</span>
+
+            <v-btn
+                value="left"
+                :href="`${orthanUrl}/studies/${selectedStudyId}/archive`"
+                target="_blank"
+                style="color: white"
+            >
+                <span class="hidden-sm-and-down">Download Study</span>
                 <v-icon right> mdi-download </v-icon>
             </v-btn>
         </v-btn-toggle>
         <div id="dicomImage" style="width: 100%; height: 80vh">
             <span style="position: absolute; bottom: 0; left: 50%"
-                >Slice: {{ stack.currentImageIdIndex }}</span
-            >
+                >Slice: {{ stack.currentImageIdIndex }}
+            </span>
         </div>
     </div>
 </template>
@@ -63,14 +69,24 @@ import Hammer from "hammerjs";
 
 @Component
 export default class DicomViewport extends Vue {
+    @Prop() study: any = [];
+    selectedStudyId = "";
     selectedSeries: any = {};
     selectedInstance: any = {};
+    selectedStudyUrl = "";
     orthanUrl = window.ORTHANC_API_URL;
     stack: any = {};
     imageIds: Array<any> = [];
 
     async created(): Promise<void> {
+        const file_name = this.$route.path.split("/");
+
+        this.selectedStudyUrl = `${window.ORTHANC_API_URL}/stone-webviewer/index.html?study=${
+            file_name[file_name.length - 1]
+        }`;
+
         EventBus.$on("updatedSelectedSeries", async (selectedSeries: any) => {
+            this.selectedStudyId = this.study[0].ID;
             this.selectedSeries = selectedSeries;
             this.selectedInstance = await getInstance(this.selectedSeries.Instances[0]);
 
@@ -136,6 +152,23 @@ export default class DicomViewport extends Vue {
             cornerstoneTools.setToolActive("StackScrollMouseWheel", {});
         });
     }
+
+    // async getReports(): Promise<void> {
+    //     const file_name = this.$route.path.split("/");
+    //     this.reportLoading = true;
+    //     await findStudy(file_name[file_name.length - 1]).then(async (response: any) => {
+    //         response[0].Series.forEach(async (seriesId: string) => {
+    //             let series = await getSeries(seriesId);
+    //             if (series.Instances.length === 1) {
+    //                 window.open(
+    //                     `${window.ORTHANC_API_URL}/app/explorer.html#instance?uuid=${series.Instances[0]}`,
+    //                     "_blank",
+    //                 );
+    //             }
+    //         });
+    //         this.reportLoading = false;
+    //     });
+    // }
 }
 </script>
 
