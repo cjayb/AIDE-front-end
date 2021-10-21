@@ -132,4 +132,9 @@ export default class MetaData extends Vue {
     border-radius: 10px;
     margin: 0px;
 }
+
+.cornerstone-canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
 </style>

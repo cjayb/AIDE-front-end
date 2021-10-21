@@ -9,21 +9,17 @@
             <v-col cols="10" v-if="tasksNotEmpty">
                 <Header />
                 <v-card
-                    style="width: 100%; height: 84vh; overflow-y: scroll; background: black"
+                    style="width: 100%; height: 84vh; overflow-y: hidden; background: black"
                     class="my-4"
                 >
-                    <v-list-item>
-                        <v-list-item-content>
-                            <v-row>
-                                <transition name="fade" mode="out-in">
-                                    <v-col cols="12" :key="$route.path">
-                                        <!-- <DicomViewer :key="$route.path" /> -->
-                                        <CustomDicomViewer :key="$route.path" />
-                                    </v-col>
-                                </transition>
-                            </v-row>
-                        </v-list-item-content>
-                    </v-list-item>
+                    <v-row>
+                        <transition name="fade" mode="out-in">
+                            <v-col cols="12" :key="$route.path">
+                                <!-- <DicomViewer :key="$route.path" /> -->
+                                <CustomDicomViewer :key="$route.path" />
+                            </v-col>
+                        </transition>
+                    </v-row>
                 </v-card>
             </v-col>
             <v-col v-else>

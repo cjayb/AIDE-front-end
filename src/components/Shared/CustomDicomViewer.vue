@@ -2,17 +2,17 @@
     <v-container style="max-width: 100%; height: 80vh; overflow-y: hidden" fluid>
         <v-row>
             <!-- Series Selector -->
-            <v-col cols="2" data-cy="series-selector">
+            <v-col cols="3" xl="2" data-cy="series-selector">
                 <SeriesSelector :series="series" :key="series"></SeriesSelector>
             </v-col>
             <!-- Dicom Viewport -->
-            <v-col cols="8" style="color: #fff">
+            <v-col cols="6" xl="8" style="color: #fff">
                 <DicomViewport data-cy="dicom-viewport"></DicomViewport>
 
                 <PdfViewport data-cy="pdf-viewport"></PdfViewport>
             </v-col>
             <!-- Metadata Viewport -->
-            <v-col cols="2" style="color: #fff; height: 80vh; overflow-y: auto">
+            <v-col cols="3" xl="2" style="color: #fff; height: 80vh; overflow-y: hidden">
                 <MetaData data-cy="dicom-metadata"></MetaData
             ></v-col>
         </v-row>
