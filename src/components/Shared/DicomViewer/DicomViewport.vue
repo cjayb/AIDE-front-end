@@ -1,5 +1,4 @@
 <template>
-    <!-- <v-container> -->
     <div
         v-if="selectedSeries.MainDicomTags.Modality != 'DOC'"
         style="
@@ -16,9 +15,38 @@
         onselectstart="return false;"
         onmousedown="return false;"
     >
-        <div id="dicomImage" style="width: 100%; height: 80vh"></div>
+        <v-btn-toggle v-model="icon" dense group style="float: right">
+            <v-btn value="left" :href="selectedStudyUrl" target="_blank" style="color: white">
+                <v-icon right> mdi-rotate-right </v-icon>
+            </v-btn>
+
+            <v-btn value="left" :href="selectedStudyUrl" target="_blank" style="color: white">
+                <v-icon right> mdi-swap-vertical </v-icon>
+            </v-btn>
+
+            <v-btn value="left" :href="selectedStudyUrl" target="_blank" style="color: white">
+                <v-icon right> mdi-pan </v-icon>
+            </v-btn>
+
+            <v-btn value="left" :href="selectedStudyUrl" target="_blank" style="color: white">
+                <v-icon right> mdi-magnify-plus-outline </v-icon>
+            </v-btn>
+
+            <v-btn value="left" :href="selectedStudyUrl" target="_blank" style="color: white">
+                <span class="hidden-sm-and-down">Advanced Viewer</span>
+                <v-icon right> mdi-launch </v-icon>
+            </v-btn>
+            <v-btn value="left" @click="getReports()" :loading="reportLoading" style="color: white">
+                <span class="hidden-sm-and-down">Open Report</span>
+                <v-icon right> mdi-download </v-icon>
+            </v-btn>
+        </v-btn-toggle>
+        <div id="dicomImage" style="width: 100%; height: 80vh">
+            <span style="position: absolute; bottom: 0; left: 50%"
+                >Slice: {{ stack.currentImageIdIndex }}</span
+            >
+        </div>
     </div>
-    <!-- </v-container> -->
 </template>
 
 <script lang="ts">
@@ -38,7 +66,9 @@ export default class DicomViewport extends Vue {
     selectedSeries: any = {};
     selectedInstance: any = {};
     orthanUrl = window.ORTHANC_API_URL;
+    stack: any = {};
     imageIds: Array<any> = [];
+
     async created(): Promise<void> {
         EventBus.$on("updatedSelectedSeries", async (selectedSeries: any) => {
             this.selectedSeries = selectedSeries;
@@ -69,10 +99,12 @@ export default class DicomViewport extends Vue {
         const ZoomTool = cornerstoneTools.ZoomTool;
         const StackScrollMouseWheelTool = cornerstoneTools.StackScrollMouseWheelTool;
 
-        const stack = {
+        this.stack = {
             currentImageIdIndex: 0,
             imageIds: this.imageIds,
         };
+
+        const stack = this.stack;
 
         cornerstone.loadImage(this.imageIds[0]).then(function (image: any) {
             cornerstone.displayImage(element, image);

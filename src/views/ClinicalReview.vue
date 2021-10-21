@@ -9,13 +9,12 @@
             <v-col cols="10" v-if="tasksNotEmpty">
                 <Header />
                 <v-card
-                    style="width: 100%; height: 84vh; overflow-y: hidden; background: black"
+                    style="width: 100%; height: 84vh; overflow: hidden; background: black"
                     class="my-4"
                 >
                     <v-row>
                         <transition name="fade" mode="out-in">
                             <v-col cols="12" :key="$route.path">
-                                <!-- <DicomViewer :key="$route.path" /> -->
                                 <CustomDicomViewer :key="$route.path" />
                             </v-col>
                         </transition>
@@ -34,7 +33,6 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import DicomViewer from "../components/Shared/DicomViewer.vue";
 import CustomDicomViewer from "../components/Shared/CustomDicomViewer.vue";
 import Header from "../components/ClinicalReview/Header.vue";
 import Tasks from "../components/ClinicalReview/Tasks.vue";
@@ -44,7 +42,6 @@ import { EventBus } from "@/event-bus";
 
 @Component({
     components: {
-        DicomViewer,
         CustomDicomViewer,
         Header,
         Tasks,

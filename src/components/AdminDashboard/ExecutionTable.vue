@@ -115,16 +115,11 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
 import { EventBus } from "@/event-bus";
-import DicomViewer from "../Shared/DicomViewer.vue";
 import { getAllModelExecutions, getFile } from "../../api/ExecutionService";
 import { Execution } from "@/models/Execution";
 import { Model } from "@/models/Model";
 
-@Component({
-    components: {
-        DicomViewer,
-    },
-})
+@Component
 export default class ExecutionTable extends Vue {
     // Class properties will be component data
     @Prop() model!: Model;
