@@ -57,7 +57,9 @@ export default class CustomDicomViewer extends Vue {
         this.study[0].Series.forEach(async (seriesId: string) => {
             let x = await getSeries(seriesId);
             this.series.push(x);
-            EventBus.$emit("updatedSelectedSeries", this.series[this.selectedItem]);
+            if (this.series.length == 1) {
+                EventBus.$emit("updatedSelectedSeries", this.series[this.selectedItem]);
+            }
         });
     }
 }

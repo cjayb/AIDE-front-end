@@ -1,39 +1,43 @@
 <template>
-    <v-list class="serieslist" style="height: 80vh; overflow-y: auto">
-        <v-header class="serieslist-header"><v-icon>mdi-chevron-left</v-icon>Series</v-header>
-        <v-list-item-group v-model="selectedItem" color="primary">
-            <v-list-item
-                v-for="(item, i) in series"
-                :key="i"
-                @click="updatedSelectedSeries(item)"
-                data-cy="dicom-series"
-            >
-                <v-list-item-content>
-                    <v-list-item-title>
-                        <v-sheet height="100" width="100" class="mx-auto">
-                            <v-img
-                                v-if="item.MainDicomTags.Modality != 'DOC'"
-                                class="mx-auto"
-                                :src="`${orthanUrl}/instances/${item.Instances[0]}/preview`"
-                            />
-                            <pdf
-                                v-if="item.MainDicomTags.Modality == 'DOC'"
-                                :src="`${orthanUrl}/instances/${item.Instances[0]}/pdf`"
-                            ></pdf>
-                        </v-sheet>
-                    </v-list-item-title>
-                    <v-list-item-subtitle data-cy="modality-length"
-                        >{{ item.MainDicomTags.Modality }} ({{
-                            item.Instances.length
-                        }})</v-list-item-subtitle
-                    >
-                    <v-list-item-subtitle data-cy="series-description">{{
-                        item.MainDicomTags.SeriesDescription
-                    }}</v-list-item-subtitle>
-                </v-list-item-content>
-            </v-list-item>
-        </v-list-item-group>
-    </v-list>
+    <v-container>
+        <v-header class="serieslist-header" style="float: left"
+            ><v-icon>mdi-chevron-left</v-icon>Series</v-header
+        >
+        <v-list class="serieslist" style="height: 74vh; overflow-y: auto; clear: both">
+            <v-list-item-group v-model="selectedItem" color="primary">
+                <v-list-item
+                    v-for="(item, i) in series"
+                    :key="i"
+                    @click="updatedSelectedSeries(item)"
+                    data-cy="dicom-series"
+                >
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            <v-sheet height="100" width="100" class="mx-auto">
+                                <v-img
+                                    v-if="item.MainDicomTags.Modality != 'DOC'"
+                                    class="mx-auto"
+                                    :src="`${orthanUrl}/instances/${item.Instances[0]}/preview`"
+                                />
+                                <pdf
+                                    v-if="item.MainDicomTags.Modality == 'DOC'"
+                                    :src="`${orthanUrl}/instances/${item.Instances[0]}/pdf`"
+                                ></pdf>
+                            </v-sheet>
+                        </v-list-item-title>
+                        <v-list-item-subtitle data-cy="modality-length"
+                            >{{ item.MainDicomTags.Modality }} ({{
+                                item.Instances.length
+                            }})</v-list-item-subtitle
+                        >
+                        <v-list-item-subtitle data-cy="series-description">{{
+                            item.MainDicomTags.SeriesDescription
+                        }}</v-list-item-subtitle>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list-item-group>
+        </v-list>
+    </v-container>
 </template>
 
 <script lang="ts">
@@ -50,6 +54,7 @@ import { Prop } from "vue-property-decorator";
 export default class SeriesSelector extends Vue {
     @Prop() series: Array<any> = [];
     orthanUrl = window.ORTHANC_API_URL;
+    selectedItem: any = 0;
 
     async updatedSelectedSeries(selectedSeries: any): Promise<void> {
         EventBus.$emit("updatedSelectedSeries", selectedSeries);
@@ -61,6 +66,10 @@ export default class SeriesSelector extends Vue {
 .serieslist {
     background: black !important;
     color: white !important;
+}
+
+.serieslist-header {
+    color: white;
 }
 
 .serieslist-header .v-icon {
