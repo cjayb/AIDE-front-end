@@ -131,10 +131,6 @@ export default class DicomViewport extends Vue {
             cornerstoneTools.addTool(WwwcTool);
             cornerstoneTools.setToolActive("Wwwc", { mouseButtonMask: 1 });
 
-            // Pan
-            cornerstoneTools.addTool(PanTool);
-            cornerstoneTools.setToolActive("Pan", { mouseButtonMask: 2 });
-
             // Zoom
             cornerstoneTools.addTool(ZoomTool, {
                 // Optional configuration
@@ -145,7 +141,11 @@ export default class DicomViewport extends Vue {
                     maxScale: 20.0,
                 },
             });
-            cornerstoneTools.setToolActive("Zoom", { mouseButtonMask: 3 });
+            cornerstoneTools.setToolActive("Zoom", { mouseButtonMask: 2 });
+
+            // Pan
+            cornerstoneTools.addTool(PanTool);
+            cornerstoneTools.setToolActive("Pan", { mouseButtonMask: 3 });
 
             // Scroll
             cornerstoneTools.addTool(StackScrollMouseWheelTool);

@@ -27,12 +27,25 @@
         <v-list class="metadatalist" style="height: 97%; overflow-y: auto; clear: both">
             <v-list-item-group color="primary">
                 <template v-for="(value, name) in selectedInstanceMetadata">
-                    <v-list-item data-cy="metadata-series" v-if="value != null" :key="value">
+                    <v-list-item data-cy="metadata-series" v-if="!!value" :key="value">
                         <v-list-item-content>
-                            <v-list-item-title>
-                                {{ name }}
-                            </v-list-item-title>
-                            <v-list-item-subtitle>{{ value }}</v-list-item-subtitle>
+                            <v-tooltip bottom open-delay="500">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-list-item-title v-bind="attrs" v-on="on">
+                                        {{ name }}
+                                    </v-list-item-title>
+                                </template>
+                                <span>{{ name }}</span>
+                            </v-tooltip>
+
+                            <v-tooltip bottom open-delay="500">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-list-item-subtitle v-bind="attrs" v-on="on">{{
+                                        value
+                                    }}</v-list-item-subtitle>
+                                </template>
+                                <span>{{ value }}</span>
+                            </v-tooltip>
                         </v-list-item-content>
                         <v-list-item-action>
                             <v-btn icon @click="pinItem(name, value)">
@@ -93,7 +106,7 @@ export default class MetaData extends Vue {
 }
 
 .metadatalist .v-list-item__title {
-    color: #fff !important;
+    color: #757575 !important;
     text-align: center;
 }
 
@@ -120,7 +133,7 @@ export default class MetaData extends Vue {
 
 .metadatalist .v-list-item--link:before {
     background-color: #46464680;
-    opacity: 100%;
+    opacity: 50%;
     border-radius: 10px;
     margin: 0px;
 }

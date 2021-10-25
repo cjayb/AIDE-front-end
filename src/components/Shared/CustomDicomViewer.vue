@@ -2,7 +2,7 @@
     <v-container style="max-width: 100%; height: 80vh; overflow-y: hidden" fluid>
         <v-row>
             <!-- Series Selector -->
-            <v-col cols="3" xl="2" data-cy="series-selector">
+            <v-col cols="2" xl="2" data-cy="series-selector" style="padding: 12px 0px">
                 <SeriesSelector :series="series" :key="series"></SeriesSelector>
             </v-col>
             <!-- Dicom Viewport -->
@@ -12,7 +12,7 @@
                 <PdfViewport data-cy="pdf-viewport"></PdfViewport>
             </v-col>
             <!-- Metadata Viewport -->
-            <v-col cols="3" xl="2" style="color: #fff; height: 80vh; overflow-y: hidden">
+            <v-col cols="4" xl="2" style="color: #fff; height: 80vh; overflow-y: hidden">
                 <MetaData data-cy="dicom-metadata"></MetaData
             ></v-col>
         </v-row>

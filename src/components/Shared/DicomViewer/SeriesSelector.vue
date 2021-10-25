@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container style="padding: 12px 5px">
         <v-header class="serieslist-header" style="float: left"
             ><v-icon>mdi-chevron-left</v-icon>Series</v-header
         >
@@ -12,6 +12,11 @@
                     data-cy="dicom-series"
                 >
                     <v-list-item-content>
+                        <v-list-item-subtitle data-cy="modality-length"
+                            >{{ item.MainDicomTags.Modality }} ({{
+                                item.Instances.length
+                            }})</v-list-item-subtitle
+                        >
                         <v-list-item-title>
                             <v-sheet height="100" width="100" class="mx-auto">
                                 <v-img
@@ -25,14 +30,20 @@
                                 ></pdf>
                             </v-sheet>
                         </v-list-item-title>
-                        <v-list-item-subtitle data-cy="modality-length"
-                            >{{ item.MainDicomTags.Modality }} ({{
-                                item.Instances.length
-                            }})</v-list-item-subtitle
-                        >
-                        <v-list-item-subtitle data-cy="series-description">{{
-                            item.MainDicomTags.SeriesDescription
-                        }}</v-list-item-subtitle>
+
+                        <v-tooltip bottom open-delay="500">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-list-item-subtitle
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    data-cy="series-description"
+                                    >{{
+                                        item.MainDicomTags.SeriesDescription
+                                    }}</v-list-item-subtitle
+                                >
+                            </template>
+                            <span>{{ item.MainDicomTags.SeriesDescription }}</span>
+                        </v-tooltip>
                     </v-list-item-content>
                 </v-list-item>
             </v-list-item-group>
@@ -82,7 +93,8 @@ export default class SeriesSelector extends Vue {
 }
 
 .serieslist .v-list-item-group .v-list-item {
-    margin: 5px 5px;
+    margin: 5px 0px;
+    padding: 5px;
 }
 
 .serieslist .v-list-item-group .v-list-item--active {
@@ -93,7 +105,7 @@ export default class SeriesSelector extends Vue {
 
 .serieslist .v-list-item--link:before {
     background-color: #46464680;
-    opacity: 100%;
+    opacity: 50%;
     border-radius: 10px;
     margin: 0px;
 }
