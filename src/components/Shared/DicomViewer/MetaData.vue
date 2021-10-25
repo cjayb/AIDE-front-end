@@ -1,5 +1,5 @@
 <template>
-    <v-container style="height: 78vh; overflow-y: hidden">
+    <v-container style="height: 67vh; overflow-y: hidden">
         <v-list class="metadatalist" style="clear: both">
             <v-list-item-group color="primary" class="pinnedlist">
                 <v-list-item

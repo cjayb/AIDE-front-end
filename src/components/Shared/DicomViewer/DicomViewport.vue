@@ -15,38 +15,6 @@
         onselectstart="return false;"
         onmousedown="return false;"
     >
-        <!-- <v-btn-toggle v-model="icon" dense group style="float: right">
-            <v-btn value="left" :href="selectedStudyUrl" target="_blank" style="color: white">
-                <v-icon right> mdi-rotate-right </v-icon>
-            </v-btn>
-
-            <v-btn value="left" :href="selectedStudyUrl" target="_blank" style="color: white">
-                <v-icon right> mdi-swap-vertical </v-icon>
-            </v-btn>
-
-            <v-btn value="left" :href="selectedStudyUrl" target="_blank" style="color: white">
-                <v-icon right> mdi-pan </v-icon>
-            </v-btn>
-
-            <v-btn value="left" :href="selectedStudyUrl" target="_blank" style="color: white">
-                <v-icon right> mdi-magnify-plus-outline </v-icon>
-            </v-btn>
-
-            <v-btn value="left" :href="selectedStudyUrl" target="_blank" style="color: white">
-                <span class="hidden-sm-and-down">Advanced Viewer</span>
-                <v-icon right> mdi-launch </v-icon>
-            </v-btn>
-
-            <v-btn
-                value="left"
-                :href="`${orthanUrl}/studies/${selectedStudyId}/archive`"
-                target="_blank"
-                style="color: white"
-            >
-                <span class="hidden-sm-and-down">Download Study</span>
-                <v-icon right> mdi-download </v-icon>
-            </v-btn>
-        </v-btn-toggle> -->
         <div id="dicomImage" style="width: 100%; height: 80vh">
             <span style="position: absolute; bottom: 0; left: 50%"
                 >Slice: {{ stack.currentImageIdIndex }}
@@ -152,23 +120,6 @@ export default class DicomViewport extends Vue {
             cornerstoneTools.setToolActive("StackScrollMouseWheel", {});
         });
     }
-
-    // async getReports(): Promise<void> {
-    //     const file_name = this.$route.path.split("/");
-    //     this.reportLoading = true;
-    //     await findStudy(file_name[file_name.length - 1]).then(async (response: any) => {
-    //         response[0].Series.forEach(async (seriesId: string) => {
-    //             let series = await getSeries(seriesId);
-    //             if (series.Instances.length === 1) {
-    //                 window.open(
-    //                     `${window.ORTHANC_API_URL}/app/explorer.html#instance?uuid=${series.Instances[0]}`,
-    //                     "_blank",
-    //                 );
-    //             }
-    //         });
-    //         this.reportLoading = false;
-    //     });
-    // }
 }
 </script>
 
