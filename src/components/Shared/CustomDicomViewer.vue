@@ -1,18 +1,101 @@
 <template>
     <v-container style="max-width: 100%; height: 80vh; overflow-y: hidden" fluid>
         <v-row>
+            <v-col cols="2" xl="2"
+                ><v-header class="serieslist-header" style="float: left"
+                    ><v-icon @click="toggleSeries()">{{ seriesIcon }}</v-icon
+                    >Series</v-header
+                ></v-col
+            >
+            <v-col cols="6" xl="8">
+                <v-btn-toggle v-model="icon" dense group style="float: right">
+                    <v-btn
+                        value="left"
+                        :href="selectedStudyUrl"
+                        target="_blank"
+                        style="color: white"
+                    >
+                        <v-icon right> mdi-rotate-right </v-icon>
+                    </v-btn>
+
+                    <v-btn
+                        value="left"
+                        :href="selectedStudyUrl"
+                        target="_blank"
+                        style="color: white"
+                    >
+                        <v-icon right> mdi-swap-vertical </v-icon>
+                    </v-btn>
+
+                    <v-btn
+                        value="left"
+                        :href="selectedStudyUrl"
+                        target="_blank"
+                        style="color: white"
+                    >
+                        <v-icon right> mdi-pan </v-icon>
+                    </v-btn>
+
+                    <v-btn
+                        value="left"
+                        :href="selectedStudyUrl"
+                        target="_blank"
+                        style="color: white"
+                    >
+                        <v-icon right> mdi-magnify-plus-outline </v-icon>
+                    </v-btn>
+
+                    <v-btn
+                        value="left"
+                        :href="selectedStudyUrl"
+                        target="_blank"
+                        style="color: white"
+                    >
+                        <span class="hidden-sm-and-down">Advanced Viewer</span>
+                        <v-icon right> mdi-launch </v-icon>
+                    </v-btn>
+
+                    <v-btn
+                        value="left"
+                        :href="`${orthanUrl}/studies/${selectedStudyId}/archive`"
+                        target="_blank"
+                        style="color: white"
+                    >
+                        <span class="hidden-sm-and-down">Download Study</span>
+                        <v-icon right> mdi-download </v-icon>
+                    </v-btn>
+                </v-btn-toggle>
+            </v-col>
+            <v-col cols="4" xl="2"
+                ><v-header class="metadatalist-header" style="float: right"
+                    >Metadata<v-icon @click="toggleMetadata()">{{ metadataIcon }}</v-icon></v-header
+                ></v-col
+            >
+        </v-row>
+        <v-row>
             <!-- Series Selector -->
-            <v-col cols="2" xl="2" data-cy="series-selector" style="padding: 12px 0px">
+            <v-col
+                :cols="seriesWidth"
+                :xl="seriesWidth"
+                v-show="seriesDisplay"
+                data-cy="series-selector"
+                style="padding: 12px 0px"
+            >
                 <SeriesSelector :series="series" :key="series"></SeriesSelector>
             </v-col>
             <!-- Dicom Viewport -->
-            <v-col cols="6" xl="8" style="color: #fff">
+            <v-col :cols="viewportWidth" :xl="viewportWidth + 2" style="color: #fff">
                 <DicomViewport :study="study" data-cy="dicom-viewport"></DicomViewport>
 
                 <PdfViewport data-cy="pdf-viewport"></PdfViewport>
             </v-col>
             <!-- Metadata Viewport -->
-            <v-col cols="4" xl="2" style="color: #fff; height: 80vh; overflow-y: hidden">
+            <v-col
+                :cols="metadataWidth"
+                :xl="metadataWidth - 2"
+                v-show="metadataDisplay"
+                style="color: #fff; height: 80vh; overflow-y: hidden"
+            >
                 <MetaData data-cy="dicom-metadata"></MetaData
             ></v-col>
         </v-row>
@@ -39,9 +122,19 @@ import { findStudy, getSeries } from "../../api/OrthancService";
 })
 export default class CustomDicomViewer extends Vue {
     selectedStudyUrl = "";
+    selectedStudyId = "";
     selectedItem = 0;
     study: any = {};
     series: Array<any> = [];
+
+    seriesDisplay = true;
+    seriesIcon = "mdi-chevron-left";
+    metadataDisplay = true;
+    metadataIcon = "mdi-chevron-right";
+
+    seriesWidth = 2;
+    viewportWidth = 6;
+    metadataWidth = 4;
 
     orthanUrl = window.ORTHANC_API_URL;
 
@@ -53,6 +146,7 @@ export default class CustomDicomViewer extends Vue {
         }`;
 
         this.study = await findStudy(file_name[file_name.length - 1]);
+        this.selectedStudyId = this.study[0].ID;
         this.series = [];
         this.study[0].Series.forEach(async (seriesId: string) => {
             let x = await getSeries(seriesId);
@@ -61,6 +155,32 @@ export default class CustomDicomViewer extends Vue {
                 EventBus.$emit("updatedSelectedSeries", this.series[this.selectedItem]);
             }
         });
+    }
+
+    toggleSeries(): void {
+        this.seriesDisplay = !this.seriesDisplay;
+        if (this.seriesDisplay) {
+            this.seriesIcon = "mdi-chevron-left";
+            this.seriesWidth = 2;
+            this.viewportWidth = this.viewportWidth - 2;
+        } else {
+            this.seriesIcon = "mdi-chevron-right";
+            this.seriesWidth = 0;
+            this.viewportWidth = this.viewportWidth + 2;
+        }
+    }
+
+    toggleMetadata(): void {
+        this.metadataDisplay = !this.metadataDisplay;
+        if (this.metadataDisplay) {
+            this.metadataIcon = "mdi-chevron-right";
+            this.metadataWidth = 4;
+            this.viewportWidth = this.viewportWidth - 2;
+        } else {
+            this.metadataIcon = "mdi-chevron-left";
+            this.metadataWidth = 0;
+            this.viewportWidth = this.viewportWidth + 2;
+        }
     }
 }
 </script>

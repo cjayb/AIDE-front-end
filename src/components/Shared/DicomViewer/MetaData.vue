@@ -1,8 +1,5 @@
 <template>
     <v-container style="height: 78vh; overflow-y: hidden">
-        <v-header class="metadatalist-header" style="float: right"
-            >Metadata<v-icon>mdi-chevron-right</v-icon></v-header
-        >
         <v-list class="metadatalist" style="clear: both">
             <v-list-item-group color="primary" class="pinnedlist">
                 <v-list-item
@@ -83,6 +80,10 @@ export default class MetaData extends Vue {
         });
     }
 
+    toggleMetadata(): void {
+        EventBus.$emit("toggleMetadata");
+    }
+
     pinItem(name: any, value: any): void {
         this.selectedInstanceMetadata[name] = null;
         this.pinnedInstanceMetadata.push({ name: name, value: value });
@@ -99,6 +100,14 @@ export default class MetaData extends Vue {
 .metadatalist {
     background: black !important;
     color: white !important;
+}
+
+.metadatalist-header {
+    color: white;
+}
+
+.metadatalist-header .v-icon {
+    color: white;
 }
 
 .metadatalist-header .v-icon {

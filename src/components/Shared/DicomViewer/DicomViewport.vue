@@ -15,7 +15,7 @@
         onselectstart="return false;"
         onmousedown="return false;"
     >
-        <v-btn-toggle v-model="icon" dense group style="float: right">
+        <!-- <v-btn-toggle v-model="icon" dense group style="float: right">
             <v-btn value="left" :href="selectedStudyUrl" target="_blank" style="color: white">
                 <v-icon right> mdi-rotate-right </v-icon>
             </v-btn>
@@ -46,7 +46,7 @@
                 <span class="hidden-sm-and-down">Download Study</span>
                 <v-icon right> mdi-download </v-icon>
             </v-btn>
-        </v-btn-toggle>
+        </v-btn-toggle> -->
         <div id="dicomImage" style="width: 100%; height: 80vh">
             <span style="position: absolute; bottom: 0; left: 50%"
                 >Slice: {{ stack.currentImageIdIndex }}

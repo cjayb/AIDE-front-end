@@ -1,8 +1,5 @@
 <template>
     <v-container style="padding: 12px 5px">
-        <v-header class="serieslist-header" style="float: left"
-            ><v-icon>mdi-chevron-left</v-icon>Series</v-header
-        >
         <v-list class="serieslist" style="height: 74vh; overflow-y: auto; clear: both">
             <v-list-item-group v-model="selectedItem" color="primary">
                 <v-list-item
@@ -69,6 +66,10 @@ export default class SeriesSelector extends Vue {
 
     async updatedSelectedSeries(selectedSeries: any): Promise<void> {
         EventBus.$emit("updatedSelectedSeries", selectedSeries);
+    }
+
+    toggleSeries(): void {
+        EventBus.$emit("toggleSeries");
     }
 }
 </script>
