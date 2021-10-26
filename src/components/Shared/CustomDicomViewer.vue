@@ -8,55 +8,97 @@
                 ></v-col
             >
             <v-col cols="6" xl="8">
-                <v-btn-toggle v-model="icon" dense group style="float: right">
-                    <v-btn
-                        value="left"
-                        :href="selectedStudyUrl"
-                        target="_blank"
-                        style="color: white"
-                    >
-                        <v-icon right> mdi-rotate-right </v-icon>
-                    </v-btn>
+                <v-btn-toggle v-model="toggle_exclusive" dense dark style="float: right">
+                    <v-tooltip bottom open-delay="1000">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                                style="color: white"
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="updateSelectedTool('wwwc')"
+                            >
+                                <v-icon right> mdi-decagram </v-icon>
+                            </v-btn>
+                        </template>
+                        <span>Change windowing</span>
+                    </v-tooltip>
 
-                    <v-btn
-                        value="left"
-                        :href="selectedStudyUrl"
-                        target="_blank"
-                        style="color: white"
-                    >
-                        <v-icon right> mdi-swap-vertical </v-icon>
-                    </v-btn>
+                    <v-tooltip bottom open-delay="1000">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                                style="color: white"
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="updateSelectedTool('rotate')"
+                            >
+                                <v-icon right> mdi-rotate-right </v-icon>
+                            </v-btn>
+                        </template>
+                        <span>Rotate</span>
+                    </v-tooltip>
 
-                    <v-btn
-                        value="left"
-                        :href="selectedStudyUrl"
-                        target="_blank"
-                        style="color: white"
-                    >
-                        <v-icon right> mdi-pan </v-icon>
-                    </v-btn>
+                    <v-tooltip bottom open-delay="1000">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                                style="color: white"
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="updateSelectedTool('pan')"
+                            >
+                                <v-icon right> mdi-pan </v-icon>
+                            </v-btn>
+                        </template>
+                        <span>Pan</span>
+                    </v-tooltip>
 
-                    <v-btn
-                        value="left"
-                        :href="selectedStudyUrl"
-                        target="_blank"
-                        style="color: white"
-                    >
-                        <v-icon right> mdi-magnify-plus-outline </v-icon>
-                    </v-btn>
+                    <v-tooltip bottom open-delay="1000">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                                style="color: white"
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="updateSelectedTool('zoom')"
+                            >
+                                <v-icon right> mdi-magnify-plus-outline </v-icon>
+                            </v-btn>
+                        </template>
+                        <span>Zoom</span>
+                    </v-tooltip>
 
-                    <v-btn
-                        value="left"
-                        :href="selectedStudyUrl"
-                        target="_blank"
-                        style="color: white"
-                    >
+                    <v-tooltip bottom open-delay="1000">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                                style="color: white"
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="updateSelectedTool('length')"
+                            >
+                                <v-icon right> mdi-arrow-expand-horizontal </v-icon>
+                            </v-btn>
+                        </template>
+                        <span>Measure length</span>
+                    </v-tooltip>
+
+                    <v-tooltip bottom open-delay="1000">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                                style="color: white"
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="updateSelectedTool('angle')"
+                            >
+                                <v-icon right> mdi-angle-acute </v-icon>
+                            </v-btn>
+                        </template>
+                        <span>Measure angle</span>
+                    </v-tooltip>
+
+                    <v-btn :href="selectedStudyUrl" target="_blank" style="color: white">
                         <span class="hidden-sm-and-down">Advanced Viewer</span>
                         <v-icon right> mdi-launch </v-icon>
                     </v-btn>
 
                     <v-btn
-                        value="left"
                         :href="`${orthanUrl}/studies/${selectedStudyId}/archive`"
                         target="_blank"
                         style="color: white"
@@ -136,6 +178,8 @@ export default class CustomDicomViewer extends Vue {
     viewportWidth = 6;
     metadataWidth = 4;
 
+    toggle_exclusive = 0;
+
     orthanUrl = window.ORTHANC_API_URL;
 
     async created(): Promise<void> {
@@ -181,6 +225,10 @@ export default class CustomDicomViewer extends Vue {
             this.metadataWidth = 0;
             this.viewportWidth = this.viewportWidth + 2;
         }
+    }
+
+    updateSelectedTool(tool: string): void {
+        EventBus.$emit("updateSelectedTool", tool);
     }
 }
 </script>
