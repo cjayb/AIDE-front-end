@@ -94,7 +94,6 @@ export default class DicomViewport extends Vue {
 
     renderImage(): void {
         const element = document.getElementById("dicomImage");
-        // cornerstone.reset(element);
         cornerstone.enable(element);
 
         cornerstoneWebImageLoader.external.cornerstone = cornerstone;

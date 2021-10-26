@@ -70,6 +70,7 @@ export default class MetaData extends Vue {
 
     async created(): Promise<void> {
         EventBus.$on("updatedSelectedSeries", async (selectedSeries: any) => {
+            this.pinnedInstanceMetadata = this.$store.state.pinnedMetadata;
             this.selectedInstanceMetadata = [];
             this.selectedInstanceMetadata = await getInstanceMetadata(selectedSeries.Instances[0]);
 
@@ -87,11 +88,13 @@ export default class MetaData extends Vue {
     pinItem(name: any, value: any): void {
         this.selectedInstanceMetadata[name] = null;
         this.pinnedInstanceMetadata.push({ name: name, value: value });
+        this.$store.commit("setPinnedMetadata", this.pinnedInstanceMetadata);
     }
 
     unpinItem(item: any): void {
         this.selectedInstanceMetadata[item.name] = item.value;
         this.pinnedInstanceMetadata.splice(this.pinnedInstanceMetadata.indexOf(item), 1);
+        this.$store.commit("setPinnedMetadata", this.pinnedInstanceMetadata);
     }
 }
 </script>

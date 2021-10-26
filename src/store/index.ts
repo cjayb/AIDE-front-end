@@ -7,6 +7,7 @@ export default new Vuex.Store({
     state: {
         days: "1",
         stats: "execution",
+        pinnedMetadata: [],
     },
     mutations: {
         setDays(state, days) {
@@ -14,6 +15,9 @@ export default new Vuex.Store({
         },
         setStats(state, stats) {
             state.stats = stats;
+        },
+        setPinnedMetadata(state, pinnedMetadata) {
+            state.pinnedMetadata = pinnedMetadata;
         },
     },
     actions: {},
