@@ -5,7 +5,7 @@
                 <v-list-item
                     v-for="item in pinnedInstanceMetadata"
                     :key="item.name"
-                    data-cy="metadata-series"
+                    data-cy="pinned-metadata"
                 >
                     <v-list-item-content>
                         <v-list-item-title>
