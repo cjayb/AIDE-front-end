@@ -21,7 +21,7 @@
 
         <!-- <v-divider></v-divider> -->
 
-        <v-list dense nav style="height: 83vh; overflow-y: scroll">
+        <v-list dense nav style="height: calc(100vh - 282px); overflow-y: scroll">
             <v-list-item-group v-model="selectedItem">
                 <v-list-item
                     v-for="item in filteredTasks"
