@@ -96,9 +96,6 @@ export default class DicomViewport extends Vue {
     }
 
     renderImage(): void {
-        const element = document.getElementById("dicomImage");
-        cornerstone.enable(element);
-
         cornerstoneWebImageLoader.external.cornerstone = cornerstone;
         cornerstoneTools.external.cornerstone = cornerstone;
         cornerstoneTools.external.Hammer = Hammer;
@@ -120,6 +117,9 @@ export default class DicomViewport extends Vue {
         };
 
         const stack = this.stack;
+
+        const element = document.getElementById("dicomImage");
+        cornerstone.enable(element);
 
         cornerstone.loadImage(this.imageIds[0]).then(function (image: any) {
             cornerstone.displayImage(element, image);
