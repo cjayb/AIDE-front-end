@@ -8,6 +8,16 @@
                 ></v-col
             >
             <v-col cols="6" xl="8">
+                <v-btn-toggle dense dark style="float: right">
+                    <v-btn
+                        :href="`${orthanUrl}/studies/${selectedStudyId}/archive`"
+                        target="_blank"
+                        style="color: white"
+                    >
+                        <span class="hidden-sm-and-down">Download Study</span>
+                        <v-icon right> mdi-download </v-icon>
+                    </v-btn>
+                </v-btn-toggle>
                 <v-btn-toggle v-model="toggle_exclusive" dense dark style="float: right">
                     <v-tooltip bottom open-delay="1000">
                         <template v-slot:activator="{ on, attrs }">
@@ -92,20 +102,6 @@
                         </template>
                         <span>Measure angle</span>
                     </v-tooltip>
-
-                    <v-btn :href="selectedStudyUrl" target="_blank" style="color: white">
-                        <span class="hidden-sm-and-down">Advanced Viewer</span>
-                        <v-icon right> mdi-launch </v-icon>
-                    </v-btn>
-
-                    <v-btn
-                        :href="`${orthanUrl}/studies/${selectedStudyId}/archive`"
-                        target="_blank"
-                        style="color: white"
-                    >
-                        <span class="hidden-sm-and-down">Download Study</span>
-                        <v-icon right> mdi-download </v-icon>
-                    </v-btn>
                 </v-btn-toggle>
             </v-col>
             <v-col cols="4" xl="2"
@@ -196,6 +192,8 @@ export default class CustomDicomViewer extends Vue {
             let x = await getSeries(seriesId);
             this.series.push(x);
             if (this.series.length == 1) {
+                // TODO figure out why tools aren't attached on first render, so that we can remove the double call below
+                EventBus.$emit("updatedSelectedSeries", this.series[this.selectedItem]);
                 EventBus.$emit("updatedSelectedSeries", this.series[this.selectedItem]);
             }
         });
