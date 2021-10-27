@@ -20,7 +20,7 @@
             </template>
             <v-list>
                 <v-list dense>
-                    <v-list-item-group v-model="selectedItem" color="primary">
+                    <v-list-item-group color="primary">
                         <v-list-item @click="logout()">
                             <v-list-item-icon>
                                 <v-icon>mdi-logout</v-icon>

@@ -1,11 +1,11 @@
 <template>
-    <v-container style="max-width: 100%; height: 80vh; overflow-y: hidden" fluid>
+    <v-container style="max-width: 100%; height: calc(100vh - 164px); overflow-y: hidden" fluid>
         <v-row>
             <v-col cols="2" xl="2"
-                ><v-header class="serieslist-header" style="float: left"
-                    ><v-icon @click="toggleSeries()">{{ seriesIcon }}</v-icon
-                    >Series</v-header
-                ></v-col
+                ><div class="serieslist-header" style="float: left">
+                    <v-icon @click="toggleSeries()">{{ seriesIcon }}</v-icon
+                    >Series
+                </div></v-col
             >
             <v-col cols="6" xl="8">
                 <v-btn-toggle dense dark style="float: right">
@@ -105,9 +105,9 @@
                 </v-btn-toggle>
             </v-col>
             <v-col cols="4" xl="2"
-                ><v-header class="metadatalist-header" style="float: right"
-                    >Metadata<v-icon @click="toggleMetadata()">{{ metadataIcon }}</v-icon></v-header
-                ></v-col
+                ><div class="metadatalist-header" style="float: right">
+                    Metadata<v-icon @click="toggleMetadata()">{{ metadataIcon }}</v-icon>
+                </div></v-col
             >
         </v-row>
         <v-row>
@@ -119,7 +119,7 @@
                 data-cy="series-selector"
                 style="padding: 12px 0px"
             >
-                <SeriesSelector :series="series" :key="series"></SeriesSelector>
+                <SeriesSelector :series="series"></SeriesSelector>
             </v-col>
             <!-- Dicom Viewport -->
             <v-col :cols="viewportWidth" :xl="viewportWidth + 2" style="color: #fff">
@@ -132,7 +132,7 @@
                 :cols="metadataWidth"
                 :xl="metadataWidth - 2"
                 v-show="metadataDisplay"
-                style="color: #fff; height: 80vh; overflow-y: hidden"
+                style="color: #fff; overflow-y: hidden"
             >
                 <MetaData data-cy="dicom-metadata"></MetaData
             ></v-col>
@@ -178,7 +178,7 @@ export default class CustomDicomViewer extends Vue {
 
     orthanUrl = window.ORTHANC_API_URL;
 
-    async created(): Promise<void> {
+    async mounted(): Promise<void> {
         const file_name = this.$route.path.split("/");
 
         this.selectedStudyUrl = `${window.ORTHANC_API_URL}/stone-webviewer/index.html?study=${
@@ -194,7 +194,7 @@ export default class CustomDicomViewer extends Vue {
             if (this.series.length == 1) {
                 // TODO figure out why tools aren't attached on first render, so that we can remove the double call below
                 EventBus.$emit("updatedSelectedSeries", this.series[this.selectedItem]);
-                EventBus.$emit("updatedSelectedSeries", this.series[this.selectedItem]);
+                // EventBus.$emit("updatedSelectedSeries", this.series[this.selectedItem]);
             }
         });
     }

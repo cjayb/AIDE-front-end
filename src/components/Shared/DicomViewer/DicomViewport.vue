@@ -1,6 +1,9 @@
 <template>
     <div
-        v-if="selectedSeries.MainDicomTags.Modality != 'DOC'"
+        v-if="
+            selectedSeries.MainDicomTags != undefined &&
+            selectedSeries.MainDicomTags.Modality != 'DOC'
+        "
         style="
             width: 100%;
             height: 100%;
@@ -15,7 +18,7 @@
         onselectstart="return false;"
         onmousedown="return false;"
     >
-        <div id="dicomImage" style="width: 100%; height: 80vh">
+        <div id="dicomImage" style="width: 100%; height: calc(100vh - 263px)">
             <span style="position: absolute; bottom: 0; left: 50%"
                 >Slice: {{ stack.currentImageIdIndex }}
             </span>
@@ -46,7 +49,7 @@ export default class DicomViewport extends Vue {
     stack: any = {};
     imageIds: Array<any> = [];
 
-    async created(): Promise<void> {
+    async mounted(): Promise<void> {
         const file_name = this.$route.path.split("/");
 
         this.selectedStudyUrl = `${window.ORTHANC_API_URL}/stone-webviewer/index.html?study=${

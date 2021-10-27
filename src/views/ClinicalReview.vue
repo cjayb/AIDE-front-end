@@ -1,5 +1,6 @@
 <template>
     <v-container style="max-width: 100%" fluid>
+        <Header />
         <v-row>
             <!-- Task List -->
             <v-col cols="2">
@@ -7,9 +8,14 @@
             </v-col>
             <!-- Viewer -->
             <v-col cols="10" v-if="tasksNotEmpty">
-                <Header />
+                <!-- <Header /> -->
                 <v-card
-                    style="width: 100%; height: 84vh; overflow: hidden; background: black"
+                    style="
+                        width: 100%;
+                        height: calc(100vh - 164px);
+                        overflow: hidden;
+                        background: black;
+                    "
                     class="my-4"
                 >
                     <v-row>

@@ -1,8 +1,11 @@
 <template>
     <v-container>
         <pdf
-            style="height: 80vh; overflow-y: auto"
-            v-if="selectedSeries.MainDicomTags.Modality == 'DOC'"
+            style="height: calc(100vh - 300px); overflow-y: auto"
+            v-if="
+                selectedSeries.MainDicomTags != undefined &&
+                selectedSeries.MainDicomTags.Modality == 'DOC'
+            "
             :src="`${orthanUrl}/instances/${selectedInstance.ID}/pdf`"
         ></pdf>
     </v-container>

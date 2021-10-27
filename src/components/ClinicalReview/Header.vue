@@ -1,6 +1,87 @@
 <template>
     <transition name="fade" mode="out-in">
-        <v-card style="width: 100%" :key="selectedModel" v-if="loaded">
+        <v-row style="background: #fbfbfb">
+            <v-col data-cy="patient-name" cols="2">
+                <span class="headerLabel">Patient Name:</span>
+                <span class="headerValue">{{ selectedExecutionMetaData.PatientName }}</span>
+            </v-col>
+            <v-divider class="my-3" vertical></v-divider>
+            <v-col data-cy="patient-dob" cols="2" v-if="selectedExecutionMetaData.PatientAge">
+                <span class="headerLabel">Age:</span>
+                <span class="headerValue">{{ selectedExecutionMetaData.PatientAge }}</span>
+            </v-col>
+            <v-col data-cy="patient-dob" cols="2" else>
+                <span class="headerLabel">DoB:</span>
+                <span class="headerValue">{{
+                    selectedExecutionMetaData.PatientBirthDate | formatAge
+                }}</span>
+            </v-col>
+            <v-divider class="my-3" vertical></v-divider>
+            <v-col data-cy="patient-id" cols="2" v-if="selectedExecutionMetaData.HospitalID">
+                <span class="headerLabel">HospitalID:</span>
+                <span class="headerValue">{{ selectedExecutionMetaData.HospitalID }}</span>
+            </v-col>
+            <v-col data-cy="patient-id" cols="2" else>
+                <span class="headerLabel">PatientID:</span>
+                <span class="headerValue">{{ selectedExecutionMetaData.PatientID }}</span>
+            </v-col>
+            <v-divider class="my-3" vertical></v-divider>
+            <v-col data-cy="patient-sex" cols="2">
+                <span class="headerLabel">Gender:</span>
+                <span class="headerValue">{{ selectedExecutionMetaData.PatientSex }}</span>
+            </v-col>
+            <v-divider class="my-3" vertical></v-divider>
+            <v-col data-cy="patient-sex" cols="2">
+                <span class="headerLabel">Study Date:</span>
+                <span class="headerValue">{{
+                    selectedExecutionMetaData.StudyDate | formatAge
+                }}</span>
+            </v-col>
+            <v-divider class="my-3" vertical></v-divider>
+            <v-col data-cy="patient-sex" cols="2">
+                <v-btn
+                    data-test="open-pipeline"
+                    text
+                    class="ma-1"
+                    @click="openPipelineDialog(correlation_id, selectedModel.model_uid)"
+                >
+                    Open Pipeline
+                </v-btn>
+                <v-btn
+                    data-cy="accept-btn"
+                    color="#0072CE"
+                    style="margin-right: 8px"
+                    dark
+                    class="ma-1"
+                    @click.stop="
+                        openApprovalDialog(
+                            selectedModel.execution_uid,
+                            true,
+                            `Accept '${selectedModel.model_name}' result`,
+                        )
+                    "
+                >
+                    Accept
+                </v-btn>
+                <v-btn
+                    data-cy="reject-btn"
+                    color="#DA291C"
+                    dark
+                    class="ma-1"
+                    @click.stop="
+                        openApprovalDialog(
+                            selectedModel.execution_uid,
+                            false,
+                            `Reject '${selectedModel.model_name}' result`,
+                        )
+                    "
+                >
+                    Reject
+                </v-btn>
+            </v-col>
+        </v-row>
+
+        <!-- <v-card style="width: 100%" :key="selectedModel" v-if="loaded">
             <v-list-item style="background: #455a64; color: #fff" class="pr-0">
                 <v-list-item-content>
                     <v-row>
@@ -93,7 +174,7 @@
                     </v-row>
                 </v-list-item-content>
             </v-list-item>
-        </v-card>
+        </v-card> -->
     </transition>
 </template>
 
@@ -134,3 +215,17 @@ export default class Header extends Vue {
     }
 }
 </script>
+<style scoped>
+.headerLabel {
+    color: #61366e;
+    font-weight: bold;
+    line-height: 44px;
+    vertical-align: middle;
+}
+
+.headerValue {
+    font-weight: bold;
+    line-height: 44px;
+    vertical-align: middle;
+}
+</style>

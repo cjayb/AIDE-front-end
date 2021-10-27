@@ -1,10 +1,13 @@
 <template>
     <v-container style="padding: 12px 5px">
-        <v-list class="serieslist" style="height: 67vh; overflow-y: auto; clear: both">
+        <v-list
+            class="serieslist"
+            style="height: calc(100vh - 237px); overflow-y: auto; clear: both"
+        >
             <v-list-item-group v-model="selectedItem" color="primary">
                 <v-list-item
-                    v-for="(item, i) in series"
-                    :key="i"
+                    v-for="item in series"
+                    :key="item.ID"
                     @click="updatedSelectedSeries(item)"
                     data-cy="dicom-series"
                 >
