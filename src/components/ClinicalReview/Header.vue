@@ -1,44 +1,54 @@
 <template>
     <transition name="fade" mode="out-in">
-        <v-row style="background: #fbfbfb">
-            <v-col data-cy="patient-name" cols="2">
+        <v-toolbar class="mx-0 my-0 px-0 py-0" flat style="background: #fbfbfb">
+            <span data-cy="patient-name">
                 <span class="headerLabel">Patient Name:</span>
                 <span class="headerValue">{{ selectedExecutionMetaData.PatientName }}</span>
-            </v-col>
-            <v-divider class="my-3" vertical></v-divider>
-            <v-col data-cy="patient-dob" cols="2" v-if="selectedExecutionMetaData.PatientAge">
+            </span>
+            <v-spacer></v-spacer>
+            <v-divider class="mx-1" vertical></v-divider>
+            <v-spacer></v-spacer>
+            <span data-cy="patient-dob" v-if="selectedExecutionMetaData.PatientAge">
                 <span class="headerLabel">Age:</span>
                 <span class="headerValue">{{ selectedExecutionMetaData.PatientAge }}</span>
-            </v-col>
-            <v-col data-cy="patient-dob" cols="2" else>
+            </span>
+            <span data-cy="patient-dob" else>
                 <span class="headerLabel">DoB:</span>
                 <span class="headerValue">{{
                     selectedExecutionMetaData.PatientBirthDate | formatAge
                 }}</span>
-            </v-col>
-            <v-divider class="my-3" vertical></v-divider>
-            <v-col data-cy="patient-id" cols="2" v-if="selectedExecutionMetaData.HospitalID">
+            </span>
+            <v-spacer></v-spacer>
+            <v-divider class="mx-1" vertical></v-divider>
+            <v-spacer></v-spacer>
+            <span data-cy="patient-id" v-if="selectedExecutionMetaData.HospitalID">
                 <span class="headerLabel">HospitalID:</span>
                 <span class="headerValue">{{ selectedExecutionMetaData.HospitalID }}</span>
-            </v-col>
-            <v-col data-cy="patient-id" cols="2" else>
+            </span>
+            <span data-cy="patient-id" else>
                 <span class="headerLabel">PatientID:</span>
                 <span class="headerValue">{{ selectedExecutionMetaData.PatientID }}</span>
-            </v-col>
-            <v-divider class="my-3" vertical></v-divider>
-            <v-col data-cy="patient-sex" cols="2">
+            </span>
+            <v-spacer></v-spacer>
+            <v-divider class="mx-1" vertical></v-divider>
+            <v-spacer></v-spacer>
+            <span data-cy="patient-sex">
                 <span class="headerLabel">Gender:</span>
                 <span class="headerValue">{{ selectedExecutionMetaData.PatientSex }}</span>
-            </v-col>
-            <v-divider class="my-3" vertical></v-divider>
-            <v-col data-cy="patient-sex" cols="2">
+            </span>
+            <v-spacer></v-spacer>
+            <v-divider class="mx-1" vertical></v-divider>
+            <v-spacer></v-spacer>
+            <span data-cy="patient-sex">
                 <span class="headerLabel">Study Date:</span>
                 <span class="headerValue">{{
                     selectedExecutionMetaData.StudyDate | formatAge
                 }}</span>
-            </v-col>
-            <v-divider class="my-3" vertical></v-divider>
-            <v-col data-cy="patient-sex" cols="2">
+            </span>
+            <v-spacer></v-spacer>
+            <v-divider class="mx-1" vertical></v-divider>
+            <v-spacer></v-spacer>
+            <span data-cy="patient-sex">
                 <v-btn
                     data-test="open-pipeline"
                     text
@@ -78,8 +88,8 @@
                 >
                     Reject
                 </v-btn>
-            </v-col>
-        </v-row>
+            </span>
+        </v-toolbar>
 
         <!-- <v-card style="width: 100%" :key="selectedModel" v-if="loaded">
             <v-list-item style="background: #455a64; color: #fff" class="pr-0">

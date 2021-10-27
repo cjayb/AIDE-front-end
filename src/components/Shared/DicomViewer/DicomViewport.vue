@@ -121,10 +121,22 @@ export default class DicomViewport extends Vue {
         const element = document.getElementById("dicomImage");
         cornerstone.enable(element);
 
+        // cornerstone.addEventListener(
+        //     cornerstoneTools.EVENTS.STACK_PREFETCH_IMAGE_LOADED,
+        //     function () {
+        //         console.log("prefetched image");
+        //     },
+        // );
+
+        // cornerstone.addEventListener(cornerstoneTools.EVENTS.STACK_PREFETCH_DONE, function () {
+        //     console.log("finished prefetch");
+        // });
+
         cornerstone.loadImage(this.imageIds[0]).then(function (image: any) {
             cornerstone.displayImage(element, image);
             cornerstoneTools.addStackStateManager(element, ["stack"]);
             cornerstoneTools.addToolState(element, "stack", stack);
+            cornerstoneTools.stackPrefetch.enable(element);
 
             cornerstoneTools.addTool(WwwcTool);
             cornerstoneTools.addTool(RotateTool);
