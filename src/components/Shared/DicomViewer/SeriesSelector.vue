@@ -77,7 +77,7 @@ export default class SeriesSelector extends Vue {
 }
 </script>
 
-<style>
+<style scoped>
 .serieslist {
     background: black !important;
     color: white !important;
@@ -102,14 +102,14 @@ export default class SeriesSelector extends Vue {
 }
 
 .serieslist .v-list-item-group .v-list-item--active {
-    opacity: 100%;
+    opacity: 1;
     border-radius: 10px;
     border: solid 1px white;
 }
 
 .serieslist .v-list-item--link:before {
-    background-color: #46464680;
-    opacity: 50%;
+    background-color: #464646;
+    opacity: 0.6;
     border-radius: 10px;
     margin: 0px;
 }

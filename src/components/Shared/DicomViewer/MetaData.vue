@@ -99,7 +99,7 @@ export default class MetaData extends Vue {
 }
 </script>
 
-<style>
+<style scoped>
 .metadatalist {
     background: black !important;
     color: white !important;
@@ -132,30 +132,40 @@ export default class MetaData extends Vue {
 }
 
 .metadatalist .v-list-item-group .v-list-item--active {
-    opacity: 100%;
+    opacity: 1;
     border-radius: 10px;
     /* border: solid 1px white; */
 }
 
 .metadatalist .v-list-item--link:hover {
-    background-color: #46464680;
-    opacity: 100%;
+    background-color: #464646;
+    opacity: 1;
     border-radius: 10px;
 }
 
 .metadatalist .v-list-item--link:before {
-    background-color: #46464680;
-    opacity: 50%;
+    background-color: #464646;
+    opacity: 0.6;
     border-radius: 10px;
     margin: 0px;
 }
 
 .pinnedlist .v-list-item--link:before {
-    background-color: #46464680;
+    background-color: #464646;
     border: solid 1px white;
-    opacity: 100%;
+    opacity: 0.6;
     border-radius: 10px;
     margin: 0px;
+}
+
+.pinnedlist .v-list-item__title {
+    color: #757575 !important;
+    text-align: center;
+}
+
+.pinnedlist .v-list-item__subtitle {
+    color: #fff !important;
+    text-align: center;
 }
 
 .cornerstone-canvas {
