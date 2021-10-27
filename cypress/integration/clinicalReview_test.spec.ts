@@ -3,6 +3,8 @@ import { ExecutionData } from "../data/execution";
 import { RejectReason } from "../data/rejectReason";
 import ClinicalReviewPage from "../pages/clinicalReview";
 import { nodeTerminal, a11yConfig } from "utils/a11y_util";
+import ApiMocks from "fixtures/mockIndex";
+import { filterObject } from "utils/data_util";
 const reviewPage = new ClinicalReviewPage();
 const dianeName = ExecutionData.REVIEW_DIANE_ANDERSON.event.origin.series[0]["PatientName"];
 const kellyName = ExecutionData.REVIEW_KELLY_MALDONADO.event.origin.series[0]["PatientName"];
@@ -61,10 +63,10 @@ describe("Clinical review page", () => {
 
 
     it("Can view the dicom series selector'", () => {
-        reviewPage.waitForViewer()
+        reviewPage.waitForInitialViewerLoad()
         cy.dataCy(ClinicalReviewPage.SERIES_SELECTOR).percySnapshotElement("Series-selector")
         cy.get(".serieslist-header").then((el) => {
-            expect(el[0].textContent).to.eq("Series")
+            expect(el[0].textContent).to.eq("Series ")
         })
         cy.dataCy(ClinicalReviewPage.SERIES).eq(0).within(() => {
             cy.dataCy(ClinicalReviewPage.MODALITY_LENGTH).then((el) => {
@@ -77,7 +79,7 @@ describe("Clinical review page", () => {
 
 
     it("Can change dicom series selected", () => {
-        reviewPage.waitForViewer()
+        reviewPage.waitForInitialViewerLoad()
         cy.dataCy(ClinicalReviewPage.SERIES).eq(1).click().within(() => {
             cy.dataCy(ClinicalReviewPage.MODALITY_LENGTH).then((el) => {
                 expect(el[0].textContent).to.eq(`MR (100)`)
@@ -89,22 +91,30 @@ describe("Clinical review page", () => {
 
 
     it("Dicom Metadata can be viewed", () => {
-        // reviewPage.waitForViewer()
-        // cy.intercept('GET', "https://demo.orthanc-server.com/instances/*/simplified-tags", ApiMocks.REMOTE_DICOM_METADATA)
-        // cy.dataCy(ClinicalReviewPage.DICOM_METADATA).should("have.text", JSON.stringify(ApiMocks.REMOTE_DICOM_METADATA))
-        // To be completed once metadata is formatted
+        reviewPage.waitForInitialViewerLoad()
+        cy.intercept('GET', "https://demo.orthanc-server.com/instances/*/simplified-tags", ApiMocks.REMOTE_DICOM_METADATA)
+        reviewPage.assertMetadataValues(ApiMocks.REMOTE_DICOM_METADATA, ClinicalReviewPage.METADATA_SERIES)
+    })
+
+
+    it("Dicom Metadata can be pinned", () => {
+        reviewPage.waitForInitialViewerLoad()
+        let metadataToPin = filterObject(ApiMocks.REMOTE_DICOM_METADATA, k => k === "PatientName" || k === "SeriesDescription" || k === "SeriesDate");
+        Object.keys(metadataToPin).forEach(k => reviewPage.pinMetadata(k));
+        reviewPage.assertMetadataValues(metadataToPin, ClinicalReviewPage.PINNED_METADATA)
     })
 
 
     it("Dicom viewport displays correctly", () => {
-        reviewPage.waitForViewer()
+        reviewPage.waitForInitialViewerLoad()
         cy.get(ClinicalReviewPage.SELECTED_IMAGE).percySnapshotElement("Dicom-viewport")
     })
 
 
     it("Can scroll through dicom images", () => {
-        reviewPage.waitForViewer()
+        reviewPage.waitForInitialViewerLoad()
         cy.dataCy(ClinicalReviewPage.DICOM_VIEWPORT).trigger("wheel", "center", { deltaY: 100 })
+        reviewPage.waitForScrolledImageLoad(2)
         cy.get(ClinicalReviewPage.SELECTED_IMAGE).percySnapshotElement("Scrolled-dicom")
     })
 })

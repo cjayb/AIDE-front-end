@@ -16,6 +16,7 @@ export default class ClinicalReviewPage extends AbstractPage {
     public static REJECT_BUTTON: string = "reject-btn";
 
     //Custom Dicom viewer
+    private imageRenderCount: number = 0;
     public static SERIES_SELECTOR: string = "series-selector";
     public static SERIES: string = "dicom-series";
     public static MODALITY_LENGTH: string = "modality-length";
@@ -24,6 +25,8 @@ export default class ClinicalReviewPage extends AbstractPage {
     public static DICOM_VIEWPORT: string = "dicom-viewport";
     public static PDF_VIEWPORT: string = "pdf-viewport";
     public static SELECTED_IMAGE: string = "#dicomImage"
+    public static METADATA_SERIES: string = "metadata-series";
+    public static PINNED_METADATA: string = "pinned-metadata"
 
     //Clinical decision modal
     private static ACCEPT_MODAL: string = "modal-accept-btn";
@@ -41,10 +44,51 @@ export default class ClinicalReviewPage extends AbstractPage {
             //TODO: Remove this once uncaught exceptions have been removed
             return false;
         });
+        this.imageRenderCount = 0;
     }
 
-    public waitForViewer(): ClinicalReviewPage {
-        cy.wait(5000) // wait for dicom viewer to render
+    public pinMetadata(metadataKey: string) {
+        cy.dataCy(ClinicalReviewPage.METADATA_SERIES).filter(`:contains("${metadataKey}")`).within(($el) => {
+            cy.get("button").click()
+        })
+    }
+
+    public assertMetadataValues(metadata: object, metadataLocator: string) {
+        for (const [key, value] of Object.entries(metadata)) {
+            cy.get(`[data-cy=${metadataLocator}] > :contains("${key}")`).should("contain.text", value)
+        }
+    }
+
+    private waitForImageRender(): Cypress.Chainable<unknown> {
+        return cy.get(ClinicalReviewPage.SELECTED_IMAGE).then(($element) => {
+            return new Cypress.Promise(resolve => {
+                const onLoadEnd = () => {
+                    $element[0].removeEventListener("cornerstoneimagerendered", onLoadEnd)
+                    console.log("Render image fired")
+                    this.imageRenderCount += 1
+                    resolve()
+                }
+                $element[0].addEventListener("cornerstoneimagerendered", onLoadEnd)
+            })
+        })
+    }
+
+    public waitForInitialViewerLoad(): ClinicalReviewPage {
+        this.waitForImageRender().then(() => {
+            expect(this.imageRenderCount).to.eq(1, "Wait for two instances of cornerstoneimagerendered")
+        })
+        return this;
+    }
+
+    /**
+     * @param expectedImageLoads - number of instances of cornerstoneimagerendered expected 
+     * after scrolling (plus the initial 2 when the page loads)
+     * @returns this
+     */
+    public waitForScrolledImageLoad(expectedImageLoads: number): ClinicalReviewPage {
+        this.waitForImageRender().then(() => {
+            expect(this.imageRenderCount).to.eq(expectedImageLoads, `Wait for ${expectedImageLoads} instances of cornerstoneimagerendered`)
+        })
         return this;
     }
 
@@ -63,7 +107,7 @@ export default class ClinicalReviewPage extends AbstractPage {
     }
 
     public formatDob(text: string): string {
-        return moment(String(text)).format("MM/DD/YYYY");
+        return moment(String(text)).format("DD/MM/YYYY");
     }
 
     public assertViewerDetails(patientName: string, patientDob: string, patientId: string, patientSex: string): ClinicalReviewPage {
@@ -90,7 +134,7 @@ export default class ClinicalReviewPage extends AbstractPage {
     }
 
     public acceptRejectModal(decision: boolean): ClinicalReviewPage {
-        if (decision){
+        if (decision) {
             cy.dataCy(ClinicalReviewPage.ACCEPT_MODAL).click();
         } else {
             cy.dataCy(ClinicalReviewPage.REJECT_MODAL).click();
@@ -100,16 +144,16 @@ export default class ClinicalReviewPage extends AbstractPage {
     }
 
     public fillReviewModal(signed: boolean, reason?: RejectReason, description?: string): ClinicalReviewPage {
-        if (!!reason){
+        if (!!reason) {
             cy.get(ClinicalReviewPage.REJECT_REASON_SELECT).click();
             cy.get(ClinicalReviewPage.REJECT_REASONS).contains(reason).click();
         }
 
-        if (!!description){
+        if (!!description) {
             cy.dataCy(ClinicalReviewPage.DESCRIPTION).type(description);
         }
 
-        if (signed){
+        if (signed) {
             cy.get(ClinicalReviewPage.CHECKBOX).click();
         }
         return this;

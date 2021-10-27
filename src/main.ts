@@ -21,13 +21,13 @@ Vue.use(VueToast, {
 
 Vue.filter("formatDate", function (value: any) {
     if (value) {
-        return moment.tz(moment.utc(value), "Europe/London").format("MM/DD/YYYY HH:mm");
+        return moment.tz(moment.utc(value), "Europe/London").format("DD/MM/YYYY HH:mm");
     }
 });
 
 Vue.filter("formatAge", function (value: any) {
     if (value) {
-        return moment(String(value)).format("MM/DD/YYYY");
+        return moment(String(value)).format("DD/MM/YYYY");
     }
 });
 
