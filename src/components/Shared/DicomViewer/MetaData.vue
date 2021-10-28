@@ -2,23 +2,25 @@
     <v-container style="height: calc(100vh - 251px); overflow-y: hidden" class="ma-0 pa-0">
         <v-list class="metadatalist" style="clear: both">
             <v-list-item-group color="primary" class="pinnedlist">
-                <v-list-item
-                    v-for="item in pinnedInstanceMetadata"
-                    :key="item.name"
-                    data-cy="pinned-metadata"
-                >
-                    <v-list-item-content>
-                        <v-list-item-title>
-                            {{ item.name }}
-                        </v-list-item-title>
-                        <v-list-item-subtitle>{{ item.value }}</v-list-item-subtitle>
-                    </v-list-item-content>
-                    <v-list-item-action>
-                        <v-btn icon @click="unpinItem(item)">
-                            <v-icon color="grey lighten-1">mdi-pin</v-icon>
-                        </v-btn>
-                    </v-list-item-action>
-                </v-list-item>
+                <template v-for="item in pinnedInstanceMetadata">
+                    <v-list-item
+                        :key="item.name"
+                        data-cy="pinned-metadata"
+                        v-if="item.value != null"
+                    >
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                {{ item.value.Name }}
+                            </v-list-item-title>
+                            <v-list-item-subtitle>{{ item.value.Value }}</v-list-item-subtitle>
+                        </v-list-item-content>
+                        <v-list-item-action>
+                            <v-btn icon @click="unpinItem(item)">
+                                <v-icon color="grey lighten-1">mdi-pin</v-icon>
+                            </v-btn>
+                        </v-list-item-action>
+                    </v-list-item>
+                </template>
             </v-list-item-group>
         </v-list>
         <v-list class="metadatalist" style="height: 97%; overflow-y: auto; clear: both">
@@ -26,7 +28,7 @@
                 <template v-for="(value, name) in selectedInstanceMetadata">
                     <v-list-item
                         data-cy="metadata-series"
-                        v-if="value.Value != '' || value.Value != null"
+                        v-if="name != null && value != null && value.Value != ''"
                         :key="value"
                     >
                         <v-list-item-content>
@@ -92,6 +94,7 @@ export default class MetaData extends Vue {
     pinItem(name: any, value: any): void {
         this.selectedInstanceMetadata[name] = null;
         this.pinnedInstanceMetadata.push({ name: name, value: value });
+        console.log(this.pinnedInstanceMetadata);
         this.$store.commit("setPinnedMetadata", this.pinnedInstanceMetadata);
     }
 
