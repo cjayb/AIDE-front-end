@@ -24,24 +24,28 @@
         <v-list class="metadatalist" style="height: 97%; overflow-y: auto; clear: both">
             <v-list-item-group color="primary">
                 <template v-for="(value, name) in selectedInstanceMetadata">
-                    <v-list-item data-cy="metadata-series" v-if="!!value" :key="value">
+                    <v-list-item
+                        data-cy="metadata-series"
+                        v-if="value.Value != '' || value.Value != null"
+                        :key="value"
+                    >
                         <v-list-item-content>
                             <v-tooltip bottom open-delay="500">
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-list-item-title v-bind="attrs" v-on="on">
-                                        {{ name }}
+                                        {{ value.Name }}
                                     </v-list-item-title>
                                 </template>
-                                <span>{{ name }}</span>
+                                <span>{{ value.Name }}</span>
                             </v-tooltip>
 
                             <v-tooltip bottom open-delay="500">
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-list-item-subtitle v-bind="attrs" v-on="on">{{
-                                        value
+                                        value.Value
                                     }}</v-list-item-subtitle>
                                 </template>
-                                <span>{{ value }}</span>
+                                <span>{{ value.Value }}</span>
                             </v-tooltip>
                         </v-list-item-content>
                         <v-list-item-action>

@@ -51,7 +51,7 @@ export async function getInstance(StudyId: string): Promise<any> {
 }
 
 export async function getInstanceMetadata(StudyId: string): Promise<any> {
-    const response = await http.get(`/instances/${StudyId}/simplified-tags`);
+    const response = await http.get(`/instances/${StudyId}/tags`);
     return response.data;
 }
 
