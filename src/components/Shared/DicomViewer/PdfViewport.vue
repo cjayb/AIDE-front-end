@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <pdf
-            style="height: calc(100vh - 300px); overflow-y: auto"
+            style="height: calc(100vh - 253px); overflow-y: auto"
             v-if="
                 selectedSeries.MainDicomTags != undefined &&
                 selectedSeries.MainDicomTags.Modality == 'DOC'

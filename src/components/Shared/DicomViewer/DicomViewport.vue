@@ -50,6 +50,7 @@ export default class DicomViewport extends Vue {
     imageIds: Array<any> = [];
 
     async mounted(): Promise<void> {
+        console.log("viewport mounted");
         const file_name = this.$route.path.split("/");
 
         this.selectedStudyUrl = `${window.ORTHANC_API_URL}/stone-webviewer/index.html?study=${
@@ -57,6 +58,7 @@ export default class DicomViewport extends Vue {
         }`;
 
         EventBus.$on("updatedSelectedSeries", async (selectedSeries: any) => {
+            console.log("viewport updatedSelectedSeries event triggered");
             this.selectedStudyId = this.study[0].ID;
             this.selectedSeries = selectedSeries;
             this.selectedInstance = await getInstance(this.selectedSeries.Instances[0]);
@@ -93,6 +95,11 @@ export default class DicomViewport extends Vue {
                 cornerstoneTools.setToolActive("Angle", { mouseButtonMask: 1 });
             }
         });
+    }
+
+    beforeDestroy() {
+        console.log("viewport destroyed");
+        EventBus.$off("updatedSelectedSeries");
     }
 
     renderImage(): void {

@@ -1,5 +1,5 @@
 <template>
-    <v-container style="height: calc(100vh - 225px); overflow-y: hidden">
+    <v-container style="height: calc(100vh - 251px); overflow-y: hidden" class="ma-0 pa-0">
         <v-list class="metadatalist" style="clear: both">
             <v-list-item-group color="primary" class="pinnedlist">
                 <v-list-item
@@ -103,18 +103,6 @@ export default class MetaData extends Vue {
 .metadatalist {
     background: black !important;
     color: white !important;
-}
-
-.metadatalist-header {
-    color: white;
-}
-
-.metadatalist-header .v-icon {
-    color: white;
-}
-
-.metadatalist-header .v-icon {
-    color: white;
 }
 
 .metadatalist .v-list-item__title {

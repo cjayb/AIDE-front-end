@@ -1,8 +1,8 @@
 <template>
-    <v-container style="padding: 12px 5px">
+    <v-container style="padding: 12px 5px" class="ma-0 pa-0">
         <v-list
             class="serieslist"
-            style="height: calc(100vh - 237px); overflow-y: auto; clear: both"
+            style="height: calc(100vh - 251px); overflow-y: auto; clear: both"
         >
             <v-list-item-group v-model="selectedItem" color="primary">
                 <v-list-item
@@ -81,14 +81,6 @@ export default class SeriesSelector extends Vue {
 .serieslist {
     background: black !important;
     color: white !important;
-}
-
-.serieslist-header {
-    color: white;
-}
-
-.serieslist-header .v-icon {
-    color: white;
 }
 
 .serieslist .v-list-item__subtitle {

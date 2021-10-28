@@ -2,18 +2,18 @@
     <transition name="fade" mode="out-in">
         <v-toolbar class="mx-0 my-0 px-0 py-0" flat style="background: #fbfbfb">
             <span data-cy="patient-name">
-                <span class="headerLabel">Patient Name:</span>
+                <span class="headerLabel">Patient Name: </span>
                 <span class="headerValue">{{ selectedExecutionMetaData.PatientName }}</span>
             </span>
             <v-spacer></v-spacer>
             <v-divider class="mx-1" vertical></v-divider>
             <v-spacer></v-spacer>
             <span data-cy="patient-dob" v-if="selectedExecutionMetaData.PatientAge">
-                <span class="headerLabel">Age:</span>
+                <span class="headerLabel">Age: </span>
                 <span class="headerValue">{{ selectedExecutionMetaData.PatientAge }}</span>
             </span>
             <span data-cy="patient-dob" else>
-                <span class="headerLabel">DoB:</span>
+                <span class="headerLabel">DoB: </span>
                 <span class="headerValue">{{
                     selectedExecutionMetaData.PatientBirthDate | formatAge
                 }}</span>
@@ -22,25 +22,25 @@
             <v-divider class="mx-1" vertical></v-divider>
             <v-spacer></v-spacer>
             <span data-cy="patient-id" v-if="selectedExecutionMetaData.HospitalID">
-                <span class="headerLabel">HospitalID:</span>
+                <span class="headerLabel">HospitalID: </span>
                 <span class="headerValue">{{ selectedExecutionMetaData.HospitalID }}</span>
             </span>
             <span data-cy="patient-id" else>
-                <span class="headerLabel">PatientID:</span>
+                <span class="headerLabel">PatientID: </span>
                 <span class="headerValue">{{ selectedExecutionMetaData.PatientID }}</span>
             </span>
             <v-spacer></v-spacer>
             <v-divider class="mx-1" vertical></v-divider>
             <v-spacer></v-spacer>
             <span data-cy="patient-sex">
-                <span class="headerLabel">Gender:</span>
+                <span class="headerLabel">Sex: </span>
                 <span class="headerValue">{{ selectedExecutionMetaData.PatientSex }}</span>
             </span>
             <v-spacer></v-spacer>
             <v-divider class="mx-1" vertical></v-divider>
             <v-spacer></v-spacer>
             <span data-cy="patient-sex">
-                <span class="headerLabel">Study Date:</span>
+                <span class="headerLabel">Study Date: </span>
                 <span class="headerValue">{{
                     selectedExecutionMetaData.StudyDate | formatAge
                 }}</span>
@@ -57,6 +57,7 @@
                 >
                     Open Pipeline
                 </v-btn>
+                <PipelineDialog />
                 <v-btn
                     data-cy="accept-btn"
                     color="#0072CE"
