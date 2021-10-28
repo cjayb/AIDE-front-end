@@ -31,7 +31,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
 import { EventBus } from "@/event-bus";
-import { getInstance } from "../../../api/OrthancService";
+import { getSeriesOrderedSlices } from "../../../api/OrthancService";
 import * as cornerstone from "cornerstone-core";
 import * as cornerstoneWebImageLoader from "cornerstone-web-image-loader";
 import cornerstoneTools from "cornerstone-tools";
@@ -43,7 +43,7 @@ export default class DicomViewport extends Vue {
     @Prop() study: any = [];
     selectedStudyId = "";
     selectedSeries: any = {};
-    selectedInstance: any = {};
+    selectedSeriesSlices: any = {};
     selectedStudyUrl = "";
     orthanUrl = window.ORTHANC_API_URL;
     stack: any = {};
@@ -61,10 +61,10 @@ export default class DicomViewport extends Vue {
             console.log("viewport updatedSelectedSeries event triggered");
             this.selectedStudyId = this.study[0].ID;
             this.selectedSeries = selectedSeries;
-            this.selectedInstance = await getInstance(this.selectedSeries.Instances[0]);
+            this.selectedSeriesSlices = await getSeriesOrderedSlices(this.selectedSeries.ID);
 
-            this.imageIds = this.selectedSeries.Instances.map(
-                (seriesImage: any) => `${this.orthanUrl}/instances/${seriesImage}/preview`,
+            this.imageIds = this.selectedSeriesSlices.Dicom.map((seriesImage: any) =>
+                `${this.orthanUrl}${seriesImage}`.replace("file", "preview"),
             );
 
             this.renderImage();
