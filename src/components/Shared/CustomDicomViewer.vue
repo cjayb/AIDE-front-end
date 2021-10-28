@@ -4,6 +4,7 @@
             <v-col cols="2">
                 <v-btn
                     dark
+                    text
                     class="serieslist-header"
                     style="float: left"
                     v-if="seriesDisplay == true"
@@ -13,6 +14,7 @@
                 </v-btn>
                 <v-btn
                     dark
+                    text
                     class="serieslist-header"
                     style="float: left"
                     v-if="seriesDisplay == false"
@@ -123,21 +125,23 @@
             <v-col cols="2">
                 <v-btn
                     dark
+                    text
                     class="metadatalist-header"
                     style="float: right"
                     v-if="metadataDisplay == true"
                     @click.stop="metadataDisplay = !metadataDisplay"
                 >
-                    <v-icon>mdi-chevron-left</v-icon>Hide Metadata
+                    Hide Metadata<v-icon>mdi-chevron-right</v-icon>
                 </v-btn>
                 <v-btn
                     dark
+                    text
                     class="metadatalist-header"
                     style="float: right"
                     v-if="metadataDisplay == false"
                     @click.stop="metadataDisplay = !metadataDisplay"
                 >
-                    Show Metadata<v-icon>mdi-chevron-right</v-icon>
+                    <v-icon>mdi-chevron-left</v-icon>Show Metadata
                 </v-btn></v-col
             >
         </v-row>
@@ -151,6 +155,7 @@
                         left
                         v-model="seriesDisplay"
                         hide-overlay
+                        width="140px"
                         class="ma-0 pa-0"
                         style="background: none !important; opacity: 0.8"
                         ><SeriesSelector :series="series"></SeriesSelector

@@ -6,17 +6,16 @@
         >
             <v-list-item-group v-model="selectedItem" color="primary">
                 <v-list-item
-                    v-for="item in series"
+                    v-for="item in orderBy(series, 'LastUpdate')"
                     :key="item.ID"
                     @click="updatedSelectedSeries(item)"
                     data-cy="dicom-series"
                 >
                     <v-list-item-content>
-                        <v-list-item-subtitle data-cy="modality-length"
-                            >{{ item.MainDicomTags.Modality }} ({{
-                                item.Instances.length
-                            }})</v-list-item-subtitle
-                        >
+                        <v-list-item-subtitle data-cy="modality-length">
+                            <span style="float: left">{{ item.MainDicomTags.Modality }}</span>
+                            <span style="float: right">({{ item.Instances.length }})</span>
+                        </v-list-item-subtitle>
                         <v-list-item-title>
                             <v-sheet height="100" width="100" class="mx-auto">
                                 <v-img
@@ -57,10 +56,12 @@ import Component from "vue-class-component";
 import { EventBus } from "@/event-bus";
 import pdf from "vue-pdf";
 import { Prop } from "vue-property-decorator";
+import Vue2Filters from "vue2-filters";
 @Component({
     components: {
         pdf,
     },
+    mixins: [Vue2Filters.mixin],
 })
 export default class SeriesSelector extends Vue {
     @Prop() series: Array<any> = [];
@@ -85,7 +86,7 @@ export default class SeriesSelector extends Vue {
 
 .serieslist .v-list-item__subtitle {
     color: #fff !important;
-    text-align: center;
+    text-align: left;
 }
 
 .serieslist .v-list-item-group .v-list-item {
@@ -99,8 +100,14 @@ export default class SeriesSelector extends Vue {
     border: solid 1px white;
 }
 
-.serieslist .v-list-item--link:before {
+.serieslist .v-list-item--link:hover {
     background-color: #464646;
+    opacity: 1;
+    border-radius: 10px;
+}
+
+.serieslist .v-list-item--link:before {
+    background-color: rgba(70, 70, 70, 0.5);
     opacity: 0.6;
     border-radius: 10px;
     margin: 0px;

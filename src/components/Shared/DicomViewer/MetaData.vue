@@ -114,12 +114,12 @@ export default class MetaData extends Vue {
 
 .metadatalist .v-list-item__title {
     color: #757575 !important;
-    text-align: center;
+    text-align: left;
 }
 
 .metadatalist .v-list-item__subtitle {
     color: #fff !important;
-    text-align: center;
+    text-align: left;
 }
 
 .metadatalist .v-list-item-group .v-list-item {
@@ -139,14 +139,14 @@ export default class MetaData extends Vue {
 }
 
 .metadatalist .v-list-item--link:before {
-    background-color: #464646;
+    background-color: rgba(70, 70, 70, 0);
     opacity: 0.6;
     border-radius: 10px;
     margin: 0px;
 }
 
 .pinnedlist .v-list-item--link:before {
-    background-color: #464646;
+    background-color: rgba(70, 70, 70, 0.5);
     border: solid 1px white;
     opacity: 0.6;
     border-radius: 10px;

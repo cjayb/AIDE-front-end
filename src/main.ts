@@ -1,4 +1,5 @@
 import Vue from "vue";
+import Vue2Filters from "vue2-filters";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
@@ -18,6 +19,7 @@ Vue.use(VueToast, {
     // One of the options
     position: "bottom-right",
 });
+Vue.use(Vue2Filters);
 
 Vue.filter("formatDate", function (value: any) {
     if (value) {
