@@ -45,6 +45,11 @@ export async function getSeries(StudyId: string): Promise<any> {
     return response.data;
 }
 
+export async function getSeriesOrderedSlices(StudyId: string): Promise<any> {
+    const response = await http.get(`/series/${StudyId}/ordered-slices`);
+    return response.data;
+}
+
 export async function getInstance(StudyId: string): Promise<any> {
     const response = await http.get(`/instances/${StudyId}`);
     return response.data;
