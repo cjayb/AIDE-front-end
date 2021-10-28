@@ -1,6 +1,6 @@
 <template>
     <transition name="fade" mode="out-in">
-        <v-toolbar class="mx-0 my-0 px-0 py-0" flat style="background: #fbfbfb">
+        <v-toolbar class="mx-0 my-0 px-0 py-0" flat style="background: #fbfbfb" dense>
             <span data-cy="patient-name">
                 <span class="headerLabel">Patient Name: </span>
                 <span class="headerValue">{{ selectedExecutionMetaData.PatientName }}</span>

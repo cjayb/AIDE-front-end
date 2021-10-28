@@ -51,4 +51,8 @@ export default Vue.extend({
 .fade-leave-to {
     opacity: 0;
 }
+
+html {
+    overflow: hidden;
+}
 </style>
