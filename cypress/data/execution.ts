@@ -56,8 +56,7 @@ export class ExecutionData implements Execution {
 
     private getTimeDifference(start: string, end: string) {
         var diff = Math.abs(new Date(start).getTime() - new Date(end).getTime());
-        var minutes = Math.floor(diff / 1000 / 60);
-        return minutes;
+        return Math.floor(diff / 1000 / 60);
     }
 
     public static REVIEW_DIANE_ANDERSON: ExecutionData = new ExecutionData(<Execution>ApiMocks.CLINICAL_REVIEW[2]);

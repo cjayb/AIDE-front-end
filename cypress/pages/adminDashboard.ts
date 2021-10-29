@@ -17,7 +17,7 @@ export default class AdminDashboardPage extends AbstractPage {
     private static EXECUTIONS_TABLE: string = "execution-table"
     private static VIEW_LOGS: string = "open-logs"
     private static VIEW_PIPELINE: string = "open-pipeline"
-    private static PIPELINE_DIALOGUE: string = "pipeline-dialogue"
+    public static PIPELINE_DIALOGUE: string = "pipeline-dialogue"
 
     // Execution Results Pagination
     private static PREVIOUS_PAGE: string = ".mdi-chevron-left"
@@ -101,7 +101,7 @@ export default class AdminDashboardPage extends AbstractPage {
             .assertExecutionRowData(rowNumber, ExecutionTableColumn.TURNAROUND, executionData.getTurnaround().toString());
     }
 
-    private assertExecutionRowData(rowNumber: number, executionTableColumn: ExecutionTableColumn, expectedText: string): AdminDashboardPage {
+    public assertExecutionRowData(rowNumber: number, executionTableColumn: ExecutionTableColumn, expectedText: string): AdminDashboardPage {
         cy.dataCy(AdminDashboardPage.EXECUTIONS_TABLE).within(($div) => {
             cy.get("table").getTable().should((tableData => {
                 const rowData: object = tableData[rowNumber + 1];
