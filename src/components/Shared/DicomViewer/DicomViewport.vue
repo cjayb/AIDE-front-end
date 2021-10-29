@@ -22,6 +22,14 @@
             <span style="position: absolute; bottom: 0; left: 50%"
                 >Slice: {{ stack.currentImageIdIndex }}
             </span>
+
+            <!-- <v-progress-circular
+                style="position: absolute; bottom: 50%; left: 50%"
+                v-show="loading"
+                :size="100"
+                color="primary"
+                indeterminate
+            ></v-progress-circular> -->
         </div>
     </div>
 </template>
@@ -47,8 +55,10 @@ export default class DicomViewport extends Vue {
     selectedStudyUrl = "";
     orthanUrl = window.ORTHANC_API_URL;
     stack: any = {};
+    loadProgress: any = {};
     imageIds: Array<any> = [];
     timeout: any;
+    loading = true;
 
     async mounted(): Promise<void> {
         console.log("viewport mounted");
@@ -133,21 +143,16 @@ export default class DicomViewport extends Vue {
             imageIds: this.imageIds,
         };
 
+        this.loadProgress = {
+            remaining: this.imageIds.length,
+        };
+
         const stack = this.stack;
 
         const element = document.getElementById("dicomImage");
         cornerstone.enable(element);
 
-        // cornerstone.addEventListener(
-        //     cornerstoneTools.EVENTS.STACK_PREFETCH_IMAGE_LOADED,
-        //     function () {
-        //         console.log("prefetched image");
-        //     },
-        // );
-
-        // cornerstone.addEventListener(cornerstoneTools.EVENTS.STACK_PREFETCH_DONE, function () {
-        //     console.log("finished prefetch");
-        // });
+        // cornerstone.events.addEventListener("cornerstoneimageloaded", this.onImageLoaded);
 
         cornerstone.loadImage(this.imageIds[0]).then(function (image: any) {
             cornerstone.displayImage(element, image);
@@ -183,6 +188,16 @@ export default class DicomViewport extends Vue {
             // Scroll
             cornerstoneTools.setToolActive("StackScrollMouseWheel", {});
         });
+    }
+
+    onImageLoaded(event: any) {
+        this.loading = true;
+        this.loadProgress.remaining = this.loadProgress.remaining - 1;
+        if (this.loadProgress.remaining > 0) {
+            this.loading = true;
+        } else {
+            this.loading = false;
+        }
     }
 }
 </script>
