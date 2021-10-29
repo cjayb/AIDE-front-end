@@ -21,7 +21,7 @@ describe("Clinical review page", () => {
         reviewPage.searchWorklist("de")
             .worklistItemWithText(dianeName).click()
             .should("contain.text", dianeName);
-        
+
         cy.checkA11y(null, a11yConfig, nodeTerminal, true);
 
         reviewPage.clearWorklistSearch()
@@ -106,6 +106,7 @@ describe("Clinical review page", () => {
 
 
     it("Dicom viewport displays correctly", () => {
+        cy.checkA11y(null, a11yConfig, nodeTerminal, true);
         reviewPage.waitForInitialViewerLoad()
         cy.get(ClinicalReviewPage.SELECTED_IMAGE).percySnapshotElement("Dicom-viewport")
     })

@@ -29,7 +29,7 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import { Prop } from "vue-property-decorator";
+import { Prop, Watch } from "vue-property-decorator";
 import { EventBus } from "@/event-bus";
 import { getSeriesOrderedSlices } from "../../../api/OrthancService";
 import * as cornerstone from "cornerstone-core";
@@ -48,6 +48,7 @@ export default class DicomViewport extends Vue {
     orthanUrl = window.ORTHANC_API_URL;
     stack: any = {};
     imageIds: Array<any> = [];
+    timeout: any;
 
     async mounted(): Promise<void> {
         console.log("viewport mounted");
@@ -100,6 +101,15 @@ export default class DicomViewport extends Vue {
     beforeDestroy() {
         console.log("viewport destroyed");
         EventBus.$off("updatedSelectedSeries");
+    }
+
+    @Watch("stack.currentImageIdIndex")
+    onStackChanged(currentImageIdIndex: any, oldImageIdIndex: any) {
+        if (this.timeout) clearTimeout(this.timeout);
+
+        this.timeout = setTimeout(() => {
+            EventBus.$emit("updateSelectedInstance", this.imageIds[currentImageIdIndex]);
+        }, 200); // delay
     }
 
     renderImage(): void {
