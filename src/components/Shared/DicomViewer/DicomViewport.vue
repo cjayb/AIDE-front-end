@@ -20,7 +20,7 @@
     >
         <div id="dicomImage" style="width: 100%; height: calc(100vh - 263px)">
             <span style="position: absolute; bottom: 0; left: 50%"
-                >Slice: {{ stack.currentImageIdIndex }}
+                >Slice: {{ stack.currentImageIdIndex + 1 }}
             </span>
 
             <!-- <v-progress-circular
