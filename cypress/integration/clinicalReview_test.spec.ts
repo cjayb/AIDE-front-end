@@ -106,8 +106,8 @@ describe("Clinical review page", () => {
 
 
     it("Dicom viewport displays correctly", () => {
-        cy.checkA11y(null, a11yConfig, nodeTerminal, true);
         reviewPage.waitForInitialViewerLoad()
+        cy.checkA11y(null, a11yConfig, nodeTerminal, true);
         cy.get(ClinicalReviewPage.SELECTED_IMAGE).percySnapshotElement("Dicom-viewport")
     })
 

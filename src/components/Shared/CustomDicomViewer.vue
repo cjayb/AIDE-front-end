@@ -151,7 +151,7 @@
                     <v-navigation-drawer
                         absolute
                         temporary
-                        stateless="true"
+                        :stateless="true"
                         left
                         v-model="seriesDisplay"
                         hide-overlay
@@ -164,7 +164,7 @@
                     <PdfViewport data-cy="pdf-viewport"></PdfViewport>
                     <v-navigation-drawer
                         absolute
-                        stateless="true"
+                        :stateless="true"
                         temporary
                         right
                         v-model="metadataDisplay"

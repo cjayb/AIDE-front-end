@@ -29,7 +29,7 @@
                     <v-list-item
                         data-cy="metadata-series"
                         v-if="name != null && value != null && value.Value != ''"
-                        :key="value"
+                        :key="name"
                     >
                         <v-list-item-content>
                             <v-tooltip bottom open-delay="500">
