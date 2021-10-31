@@ -89,6 +89,7 @@
                                     v-bind="attrs"
                                     v-on="on"
                                     @click="updateSelectedTool('length')"
+                                    data-cy="length-tool"
                                 >
                                     <v-icon right> mdi-arrow-expand-horizontal </v-icon>
                                 </v-btn>
@@ -188,6 +189,7 @@ import MetaData from "./DicomViewer/MetaData.vue";
 import DicomViewport from "./DicomViewer/DicomViewport.vue";
 import PdfViewport from "./DicomViewer/PdfViewport.vue";
 import { findStudy, getSeries } from "../../api/OrthancService";
+import moment from "moment";
 
 @Component({
     components: {
@@ -224,7 +226,10 @@ export default class CustomDicomViewer extends Vue {
         this.study[0].Series.forEach(async (seriesId: string) => {
             let x = await getSeries(seriesId);
             this.series.push(x);
-            if (this.series.length == 1) {
+            if (this.series.length == this.study[0].Series.length) {
+                this.series = this.series.sort((a, b) => {
+                    return moment(a.LastUpdate).unix() - moment(b.LastUpdate).unix();
+                });
                 EventBus.$emit("updatedSelectedSeries", this.series[this.selectedItem]);
             }
         });

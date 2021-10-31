@@ -55,7 +55,6 @@ export default class DicomViewport extends Vue {
     selectedStudyUrl = "";
     orthanUrl = window.ORTHANC_API_URL;
     stack: any = {};
-    loadProgress: any = {};
     imageIds: Array<any> = [];
     timeout: any;
     loading = true;
@@ -143,16 +142,10 @@ export default class DicomViewport extends Vue {
             imageIds: this.imageIds,
         };
 
-        this.loadProgress = {
-            remaining: this.imageIds.length,
-        };
-
         const stack = this.stack;
 
         const element = document.getElementById("dicomImage");
         cornerstone.enable(element);
-
-        // cornerstone.events.addEventListener("cornerstoneimageloaded", this.onImageLoaded);
 
         cornerstone.loadImage(this.imageIds[0]).then(function (image: any) {
             cornerstone.displayImage(element, image);
@@ -188,16 +181,6 @@ export default class DicomViewport extends Vue {
             // Scroll
             cornerstoneTools.setToolActive("StackScrollMouseWheel", {});
         });
-    }
-
-    onImageLoaded(event: any) {
-        this.loading = true;
-        this.loadProgress.remaining = this.loadProgress.remaining - 1;
-        if (this.loadProgress.remaining > 0) {
-            this.loading = true;
-        } else {
-            this.loading = false;
-        }
     }
 }
 </script>

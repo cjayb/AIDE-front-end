@@ -53,6 +53,6 @@ export default Vue.extend({
 }
 
 html {
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 </style>

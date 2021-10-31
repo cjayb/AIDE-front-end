@@ -3,48 +3,77 @@
         <v-list
             class="serieslist"
             style="height: calc(100vh - 251px); overflow-y: auto; clear: both"
+            data-cy="series-selector"
         >
             <v-list-item-group v-model="selectedItem" color="primary">
-                <v-list-item
-                    v-for="item in orderBy(series, 'LastUpdate')"
-                    :key="item.ID"
-                    @click="updatedSelectedSeries(item)"
-                    data-cy="dicom-series"
-                >
-                    <v-list-item-content>
-                        <v-list-item-subtitle data-cy="modality-length">
-                            <span style="float: left">{{ item.MainDicomTags.Modality }}</span>
-                            <span style="float: right">({{ item.Instances.length }})</span>
-                        </v-list-item-subtitle>
-                        <v-list-item-title>
-                            <v-sheet height="100" width="100" class="mx-auto">
-                                <v-img
-                                    v-if="item.MainDicomTags.Modality != 'DOC'"
-                                    class="mx-auto"
-                                    :src="`${orthanUrl}/instances/${item.Instances[0]}/preview`"
-                                />
-                                <pdf
-                                    v-if="item.MainDicomTags.Modality == 'DOC'"
-                                    :src="`${orthanUrl}/instances/${item.Instances[0]}/pdf`"
-                                ></pdf>
-                            </v-sheet>
-                        </v-list-item-title>
+                <v-slide-y-transition class="py-0" group tag="v-list">
+                    <v-list-item
+                        v-for="item in orderBy(series, 'LastUpdate')"
+                        :key="item.ID"
+                        @click="updatedSelectedSeries(item)"
+                        data-cy="dicom-series"
+                    >
+                        <v-list-item-content>
+                            <v-list-item-subtitle data-cy="modality-length">
+                                <span style="float: left">{{ item.MainDicomTags.Modality }}</span>
+                                <span style="float: right">({{ item.Instances.length }})</span>
+                            </v-list-item-subtitle>
+                            <v-list-item-title>
+                                <v-sheet height="100" width="100" class="mx-auto">
+                                    <v-img
+                                        v-if="item.MainDicomTags.Modality != 'DOC'"
+                                        class="mx-auto"
+                                        :src="`${orthanUrl}/instances/${item.Instances[0]}/preview`"
+                                    >
+                                        <template v-slot:placeholder>
+                                            <v-row
+                                                class="fill-height ma-0"
+                                                align="center"
+                                                justify="center"
+                                            >
+                                                <v-progress-circular
+                                                    indeterminate
+                                                    color="grey lighten-5"
+                                                ></v-progress-circular>
+                                            </v-row>
+                                        </template>
+                                    </v-img>
+                                    <pdf
+                                        v-if="item.MainDicomTags.Modality == 'DOC'"
+                                        :src="`${orthanUrl}/instances/${item.Instances[0]}/pdf`"
+                                    >
+                                        <template v-slot:loading>
+                                            <v-row
+                                                class="fill-height ma-0"
+                                                align="center"
+                                                justify="center"
+                                            >
+                                                <v-progress-circular
+                                                    indeterminate
+                                                    color="grey lighten-5"
+                                                ></v-progress-circular>
+                                            </v-row>
+                                        </template>
+                                    </pdf>
+                                </v-sheet>
+                            </v-list-item-title>
 
-                        <v-tooltip bottom open-delay="500">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-list-item-subtitle
-                                    v-bind="attrs"
-                                    v-on="on"
-                                    data-cy="series-description"
-                                    >{{
-                                        item.MainDicomTags.SeriesDescription
-                                    }}</v-list-item-subtitle
-                                >
-                            </template>
-                            <span>{{ item.MainDicomTags.SeriesDescription }}</span>
-                        </v-tooltip>
-                    </v-list-item-content>
-                </v-list-item>
+                            <v-tooltip bottom open-delay="500">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-list-item-subtitle
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        data-cy="series-description"
+                                        >{{
+                                            item.MainDicomTags.SeriesDescription
+                                        }}</v-list-item-subtitle
+                                    >
+                                </template>
+                                <span>{{ item.MainDicomTags.SeriesDescription }}</span>
+                            </v-tooltip>
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-slide-y-transition>
             </v-list-item-group>
         </v-list>
     </v-container>
@@ -54,7 +83,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { EventBus } from "@/event-bus";
-import pdf from "vue-pdf";
+import pdf from "pdfvuer";
 import { Prop } from "vue-property-decorator";
 import Vue2Filters from "vue2-filters";
 @Component({
@@ -90,7 +119,7 @@ export default class SeriesSelector extends Vue {
 }
 
 .serieslist .v-list-item-group .v-list-item {
-    margin: 5px 0px;
+    margin: 5px 5px;
     padding: 5px;
 }
 
@@ -111,5 +140,15 @@ export default class SeriesSelector extends Vue {
     opacity: 0.6;
     border-radius: 10px;
     margin: 0px;
+}
+
+.list-enter-active,
+.list-leave-active {
+    transition: all 1s ease;
+}
+.list-enter-from,
+.list-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
 }
 </style>

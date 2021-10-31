@@ -16,7 +16,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
 import { EventBus } from "@/event-bus";
-import pdf from "vue-pdf";
+import pdf from "pdfvuer";
 import { getInstance } from "../../../api/OrthancService";
 @Component({
     components: {

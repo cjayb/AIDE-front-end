@@ -9,6 +9,7 @@ declare module "vue-json-pretty" {
 }
 
 declare module "vue-pdf";
+declare module "pdfvuer";
 declare module "cornerstone-core";
 declare module "cornerstone-web-image-loader";
 declare module "cornerstone-tools";

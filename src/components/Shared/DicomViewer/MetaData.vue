@@ -1,62 +1,73 @@
 <template>
     <v-container style="height: calc(100vh - 251px); overflow-y: hidden" class="ma-0 pa-0">
+        <v-progress-linear
+            color="#61366e"
+            indeterminate
+            rounded
+            height="6"
+            :active="loading"
+        ></v-progress-linear>
         <v-list class="metadatalist" style="clear: both">
             <v-list-item-group color="primary" class="pinnedlist">
-                <template v-for="item in pinnedInstanceMetadata">
-                    <v-list-item
-                        :key="item.name"
-                        data-cy="pinned-metadata"
-                        v-if="item.value != null"
-                    >
-                        <v-list-item-content>
-                            <v-list-item-title>
-                                {{ item.value.Name }}
-                            </v-list-item-title>
-                            <v-list-item-subtitle>{{ item.value.Value }}</v-list-item-subtitle>
-                        </v-list-item-content>
-                        <v-list-item-action>
-                            <v-btn icon @click="unpinItem(item)">
-                                <v-icon color="grey lighten-1">mdi-pin</v-icon>
-                            </v-btn>
-                        </v-list-item-action>
-                    </v-list-item>
-                </template>
+                <v-slide-y-transition class="py-0" group tag="v-list">
+                    <template v-for="item in pinnedInstanceMetadata">
+                        <v-list-item
+                            :key="item.name"
+                            data-cy="pinned-metadata"
+                            v-if="item.value != null"
+                        >
+                            <v-list-item-content>
+                                <v-list-item-title>
+                                    {{ item.value.Name }}
+                                </v-list-item-title>
+                                <v-list-item-subtitle>{{ item.value.Value }}</v-list-item-subtitle>
+                            </v-list-item-content>
+                            <v-list-item-action>
+                                <v-btn icon @click="unpinItem(item)">
+                                    <v-icon color="grey lighten-1">mdi-pin</v-icon>
+                                </v-btn>
+                            </v-list-item-action>
+                        </v-list-item>
+                    </template>
+                </v-slide-y-transition>
             </v-list-item-group>
         </v-list>
         <v-list class="metadatalist" style="height: 97%; overflow-y: auto; clear: both">
             <v-list-item-group color="primary">
-                <template v-for="(value, name) in selectedInstanceMetadata">
-                    <v-list-item
-                        data-cy="metadata-series"
-                        v-if="name != null && value != null && value.Value != ''"
-                        :key="name"
-                    >
-                        <v-list-item-content>
-                            <v-tooltip bottom open-delay="500">
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-list-item-title v-bind="attrs" v-on="on">
-                                        {{ value.Name }}
-                                    </v-list-item-title>
-                                </template>
-                                <span>{{ value.Name }}</span>
-                            </v-tooltip>
+                <v-slide-y-transition class="py-0" group tag="v-list">
+                    <template v-for="(value, name) in selectedInstanceMetadata">
+                        <v-list-item
+                            data-cy="metadata-series"
+                            v-if="name != null && value != null && value.Value != ''"
+                            :key="name"
+                        >
+                            <v-list-item-content>
+                                <v-tooltip bottom open-delay="500">
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-list-item-title v-bind="attrs" v-on="on">
+                                            {{ value.Name }}
+                                        </v-list-item-title>
+                                    </template>
+                                    <span>{{ value.Name }}</span>
+                                </v-tooltip>
 
-                            <v-tooltip bottom open-delay="500">
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-list-item-subtitle v-bind="attrs" v-on="on">{{
-                                        value.Value
-                                    }}</v-list-item-subtitle>
-                                </template>
-                                <span>{{ value.Value }}</span>
-                            </v-tooltip>
-                        </v-list-item-content>
-                        <v-list-item-action>
-                            <v-btn icon @click="pinItem(name, value)">
-                                <v-icon color="grey lighten-1">mdi-pin-off</v-icon>
-                            </v-btn>
-                        </v-list-item-action>
-                    </v-list-item>
-                </template>
+                                <v-tooltip bottom open-delay="500">
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-list-item-subtitle v-bind="attrs" v-on="on">{{
+                                            value.Value
+                                        }}</v-list-item-subtitle>
+                                    </template>
+                                    <span>{{ value.Value }}</span>
+                                </v-tooltip>
+                            </v-list-item-content>
+                            <v-list-item-action>
+                                <v-btn icon @click="pinItem(name, value)">
+                                    <v-icon color="grey lighten-1">mdi-pin-off</v-icon>
+                                </v-btn>
+                            </v-list-item-action>
+                        </v-list-item>
+                    </template>
+                </v-slide-y-transition>
             </v-list-item-group>
         </v-list>
     </v-container>
@@ -73,16 +84,30 @@ export default class MetaData extends Vue {
     selectedInstanceMetadata: Array<any> = [];
     pinnedInstanceMetadata: Array<any> = [];
     selectedItem: any = 0;
+    loading = true;
 
     async created(): Promise<void> {
+        EventBus.$on("updatedSelectedSeries", async (selectedSeries: any) => {
+            this.loading = true;
+            this.pinnedInstanceMetadata = this.$store.state.pinnedMetadata;
+            this.selectedInstanceMetadata = [];
+            this.selectedInstanceMetadata = await getInstanceMetadata(selectedSeries.Instances[0]);
+            this.loading = false;
+            this.pinnedInstanceMetadata.forEach((item) => {
+                item.value = this.selectedInstanceMetadata[item.name];
+                this.selectedInstanceMetadata[item.name] = null;
+            });
+        });
+
         EventBus.$on("updateSelectedInstance", async (currentInstanceId: any) => {
+            this.loading = true;
             this.pinnedInstanceMetadata = this.$store.state.pinnedMetadata;
             this.selectedInstanceMetadata = [];
 
             currentInstanceId = currentInstanceId.split("/instances/")[1].split("/preview")[0];
 
             this.selectedInstanceMetadata = await getInstanceMetadata(currentInstanceId);
-
+            this.loading = false;
             this.pinnedInstanceMetadata.forEach((item) => {
                 item.value = this.selectedInstanceMetadata[item.name];
                 this.selectedInstanceMetadata[item.name] = null;
@@ -169,5 +194,15 @@ export default class MetaData extends Vue {
 .cornerstone-canvas {
     width: 100% !important;
     height: 100% !important;
+}
+
+.list-enter-active,
+.list-leave-active {
+    transition: all 1s ease;
+}
+.list-enter-from,
+.list-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
 }
 </style>

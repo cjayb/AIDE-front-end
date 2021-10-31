@@ -39,7 +39,7 @@
             <v-spacer></v-spacer>
             <v-divider class="mx-1" vertical></v-divider>
             <v-spacer></v-spacer>
-            <span data-cy="patient-sex">
+            <span data-cy="study-date">
                 <span class="headerLabel">Study Date: </span>
                 <span class="headerValue">{{
                     selectedExecutionMetaData.StudyDate | formatAge
@@ -48,7 +48,7 @@
             <v-spacer></v-spacer>
             <v-divider class="mx-1" vertical></v-divider>
             <v-spacer></v-spacer>
-            <span data-cy="patient-sex">
+            <span data-cy="open-pipeline">
                 <v-btn
                     data-test="open-pipeline"
                     text

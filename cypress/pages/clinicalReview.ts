@@ -10,6 +10,7 @@ export default class ClinicalReviewPage extends AbstractPage {
     public static PATIENT_DOB_VIEWER: string = 'patient-dob';
     public static PATIENT_ID_VIEWER: string = 'patient-id'
     public static PATIENT_SEX_VIEWER: string = 'patient-sex'
+    public static STUDY_DATE_VIEWER: string = 'study-date'
     private static CLEAR_FREETEXT_SEARCH: string = ".v-input__icon--clear";
     private static WORKLIST_ITEM: string = "worklist-item";
     public static ACCEPT_BUTTON: string = "accept-btn";
@@ -26,7 +27,9 @@ export default class ClinicalReviewPage extends AbstractPage {
     public static PDF_VIEWPORT: string = "pdf-viewport";
     public static SELECTED_IMAGE: string = "#dicomImage"
     public static METADATA_SERIES: string = "metadata-series";
-    public static PINNED_METADATA: string = "pinned-metadata"
+    public static PINNED_METADATA: string = "pinned-metadata";
+    public static LENGTH_TOOL: string = "length-tool";
+    public static METADATA_PIN_BUTTON: string = "pin-metadata";
 
     //Clinical decision modal
     private static ACCEPT_MODAL: string = "modal-accept-btn";
@@ -49,7 +52,7 @@ export default class ClinicalReviewPage extends AbstractPage {
 
     public pinMetadata(metadataKey: string) {
         cy.dataCy(ClinicalReviewPage.METADATA_SERIES).filter(`:contains("${metadataKey}")`).within(($el) => {
-            cy.get("button").click()
+            cy.dataCy(ClinicalReviewPage.METADATA_PIN_BUTTON).click()
         })
     }
 
@@ -75,7 +78,7 @@ export default class ClinicalReviewPage extends AbstractPage {
 
     public waitForInitialViewerLoad(): ClinicalReviewPage {
         this.waitForImageRender().then(() => {
-            expect(this.imageRenderCount).to.eq(1, "Wait for two instances of cornerstoneimagerendered")
+            expect(this.imageRenderCount).to.eq(1, "Wait for first instance cornerstoneimagerendered")
         })
         return this;
     }
@@ -106,11 +109,11 @@ export default class ClinicalReviewPage extends AbstractPage {
         return cy.dataCy(ClinicalReviewPage.WORKLIST_ITEM).contains(text);
     }
 
-    public formatDob(text: string): string {
+    public formatDate(text: string): string {
         return moment(String(text)).format("DD/MM/YYYY");
     }
 
-    public assertViewerDetails(patientName: string, patientDob: string, patientId: string, patientSex: string): ClinicalReviewPage {
+    public assertHeaderDetails(patientName: string, patientDob: string, patientId: string, patientSex: string, studyDate: string): ClinicalReviewPage {
         cy.dataCy(ClinicalReviewPage.PATIENT_NAME_VIEWER)
             .should("contain.text", patientName);
         cy.dataCy(ClinicalReviewPage.PATIENT_DOB_VIEWER)
@@ -119,6 +122,8 @@ export default class ClinicalReviewPage extends AbstractPage {
             .should("contain.text", patientId);
         cy.dataCy(ClinicalReviewPage.PATIENT_SEX_VIEWER)
             .should("contain.text", patientSex);
+        cy.dataCy(ClinicalReviewPage.STUDY_DATE_VIEWER)
+            .should("contain.text", studyDate);
 
         return this;
     }

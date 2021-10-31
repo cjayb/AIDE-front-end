@@ -31,13 +31,14 @@ describe("Clinical review page", () => {
     })
 
 
-    it("Can view fields in the Orthanc viewer window", () => {
-        const patientDob: string = reviewPage.formatDob(ExecutionData.REVIEW_LEONE_GOODPASTURE.event.origin.series[0]["PatientBirthDate"]);
+    it("Can view patient data fields", () => {
+        const patientDob: string = reviewPage.formatDate(ExecutionData.REVIEW_LEONE_GOODPASTURE.event.origin.series[0]["PatientBirthDate"]);
         const patientId = ExecutionData.REVIEW_LEONE_GOODPASTURE.event.origin.series[0]["PatientID"];
         const patientSex = ExecutionData.REVIEW_LEONE_GOODPASTURE.event.origin.series[0]["PatientSex"];
+        const studyDate = reviewPage.formatDate(ExecutionData.REVIEW_LEONE_GOODPASTURE.event.origin.series[0]["StudyDate"])
         reviewPage.searchWorklist("leo")
             .worklistItemWithText(leoneName).click();
-        reviewPage.assertViewerDetails(leoneName, patientDob, patientId, patientSex);
+        reviewPage.assertHeaderDetails(leoneName, patientDob, patientId, patientSex, studyDate);
         cy.checkA11y(null, a11yConfig, nodeTerminal, true);
     })
 
@@ -66,11 +67,11 @@ describe("Clinical review page", () => {
         reviewPage.waitForInitialViewerLoad()
         cy.dataCy(ClinicalReviewPage.SERIES_SELECTOR).percySnapshotElement("Series-selector")
         cy.get(".serieslist-header").then((el) => {
-            expect(el[0].textContent).to.eq("Series ")
+            expect(el[0].textContent).to.eq("Hide Series ")
         })
         cy.dataCy(ClinicalReviewPage.SERIES).eq(0).within(() => {
             cy.dataCy(ClinicalReviewPage.MODALITY_LENGTH).then((el) => {
-                expect(el[0].textContent).to.eq(`${ExecutionData.REVIEW_KELLY_MALDONADO.event.origin.series[0]["Modality"]} (22)`)
+                expect(el[0].textContent).to.eq(`${ExecutionData.REVIEW_KELLY_MALDONADO.event.origin.series[0]["Modality"]}(22)`)
             })
             cy.dataCy(ClinicalReviewPage.SERIES_DESCRIPTION)
                 .should("have.text", ExecutionData.REVIEW_KELLY_MALDONADO.event.origin.series[0]["SeriesDescription"])
@@ -82,7 +83,9 @@ describe("Clinical review page", () => {
         reviewPage.waitForInitialViewerLoad()
         cy.dataCy(ClinicalReviewPage.SERIES).eq(1).click().within(() => {
             cy.dataCy(ClinicalReviewPage.MODALITY_LENGTH).then((el) => {
-                expect(el[0].textContent).to.eq(`MR (100)`)
+                expect(el[0].textContent).to.satisfy(function (string) {
+                    return string === "MR(22)" || string === "MR(100)"
+                })
             })
             cy.dataCy(ClinicalReviewPage.SERIES_DESCRIPTION)
                 .should("have.text", "T1/3D/FFE/C")
@@ -100,6 +103,7 @@ describe("Clinical review page", () => {
     it("Dicom Metadata can be pinned", () => {
         reviewPage.waitForInitialViewerLoad()
         let metadataToPin = filterObject(ApiMocks.REMOTE_DICOM_METADATA, k => k === "PatientName" || k === "SeriesDescription" || k === "SeriesDate");
+        cy.wait(1000) // Re-render issue
         Object.keys(metadataToPin).forEach(k => reviewPage.pinMetadata(k));
         reviewPage.assertMetadataValues(metadataToPin, ClinicalReviewPage.PINNED_METADATA)
     })
@@ -117,5 +121,13 @@ describe("Clinical review page", () => {
         cy.dataCy(ClinicalReviewPage.DICOM_VIEWPORT).trigger("wheel", "center", { deltaY: 100 })
         reviewPage.waitForScrolledImageLoad(2)
         cy.get(ClinicalReviewPage.SELECTED_IMAGE).percySnapshotElement("Scrolled-dicom")
+    })
+
+
+    it("Can use the viewer measure tool", () => {
+        reviewPage.waitForInitialViewerLoad()
+        cy.dataCy(ClinicalReviewPage.LENGTH_TOOL).click()
+        cy.get("canvas").click().trigger("mousemove", "top").click("top")
+        cy.dataCy(ClinicalReviewPage.DICOM_VIEWPORT).percySnapshotElement("Measure-tool")
     })
 })
