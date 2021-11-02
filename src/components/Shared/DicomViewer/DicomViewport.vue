@@ -19,17 +19,24 @@
         onmousedown="return false;"
     >
         <div id="dicomImage" style="width: 100%; height: calc(100vh - 263px)">
-            <span style="position: absolute; bottom: 0; left: 50%"
-                >Slice: {{ stack.currentImageIdIndex + 1 }}
-            </span>
-
-            <!-- <v-progress-circular
-                style="position: absolute; bottom: 50%; left: 50%"
-                v-show="loading"
-                :size="100"
-                color="primary"
-                indeterminate
-            ></v-progress-circular> -->
+            <v-layout justify-center>
+                <v-btn-toggle dense dark style="position: absolute; bottom: 0">
+                    <v-btn style="color: white" disabled>
+                        <span class="hidden-sm-and-down"
+                            >Slice: {{ stack.currentImageIdIndex + 1 }}</span
+                        >
+                    </v-btn>
+                </v-btn-toggle>
+            </v-layout>
+            <v-layout justify-center>
+                <v-progress-circular
+                    style="position: absolute; bottom: 50%"
+                    v-show="loading"
+                    :size="100"
+                    color="#61366e"
+                    indeterminate
+                ></v-progress-circular>
+            </v-layout>
         </div>
     </div>
 </template>
@@ -57,7 +64,7 @@ export default class DicomViewport extends Vue {
     stack: any = {};
     imageIds: Array<any> = [];
     timeout: any;
-    loading = true;
+    loading = false;
 
     async mounted(): Promise<void> {
         console.log("viewport mounted");
@@ -147,6 +154,10 @@ export default class DicomViewport extends Vue {
         const element = document.getElementById("dicomImage");
         cornerstone.enable(element);
 
+        element!.addEventListener("cornerstonetoolsstackprefetchimageloaded", this.startLoading);
+
+        element!.addEventListener("cornerstonetoolsstackprefetchdone", this.stopLoading);
+
         cornerstone.loadImage(this.imageIds[0]).then(function (image: any) {
             cornerstone.displayImage(element, image);
             cornerstoneTools.addStackStateManager(element, ["stack"]);
@@ -181,6 +192,14 @@ export default class DicomViewport extends Vue {
             // Scroll
             cornerstoneTools.setToolActive("StackScrollMouseWheel", {});
         });
+    }
+
+    startLoading(): void {
+        this.loading = true;
+    }
+
+    stopLoading(): void {
+        this.loading = false;
     }
 }
 </script>

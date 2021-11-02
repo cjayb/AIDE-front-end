@@ -1,6 +1,7 @@
 <template>
     <v-container>
         <pdf
+            :key="selectedInstance.ID"
             style="height: calc(100vh - 253px); overflow-y: auto"
             v-if="
                 selectedSeries.MainDicomTags != undefined &&

@@ -1,5 +1,13 @@
 <template>
-    <v-container style="height: calc(100vh - 251px); overflow-y: hidden" class="ma-0 pa-0">
+    <v-container
+        style="
+            height: calc(100vh - 251px);
+            overflow-y: hidden;
+            display: flex;
+            flex-direction: column;
+        "
+        class="ma-0 pa-0"
+    >
         <v-progress-linear
             color="#61366e"
             indeterminate
@@ -23,7 +31,7 @@
                                 <v-list-item-subtitle>{{ item.value.Value }}</v-list-item-subtitle>
                             </v-list-item-content>
                             <v-list-item-action>
-                                <v-btn icon @click="unpinItem(item)">
+                                <v-btn icon @click="unpinItem(item)" data-cy="pin-metadata">
                                     <v-icon color="grey lighten-1">mdi-pin</v-icon>
                                 </v-btn>
                             </v-list-item-action>
@@ -32,7 +40,7 @@
                 </v-slide-y-transition>
             </v-list-item-group>
         </v-list>
-        <v-list class="metadatalist" style="height: 97%; overflow-y: auto; clear: both">
+        <v-list class="metadatalist" style="height: 100%; overflow-y: auto; clear: both">
             <v-list-item-group color="primary">
                 <v-slide-y-transition class="py-0" group tag="v-list">
                     <template v-for="(value, name) in selectedInstanceMetadata">
@@ -61,7 +69,7 @@
                                 </v-tooltip>
                             </v-list-item-content>
                             <v-list-item-action>
-                                <v-btn icon @click="pinItem(name, value)">
+                                <v-btn icon @click="pinItem(name, value)" data-cy="pin-metadata">
                                     <v-icon color="grey lighten-1">mdi-pin-off</v-icon>
                                 </v-btn>
                             </v-list-item-action>

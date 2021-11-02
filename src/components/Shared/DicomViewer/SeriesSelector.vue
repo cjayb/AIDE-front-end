@@ -5,7 +5,7 @@
             style="height: calc(100vh - 251px); overflow-y: auto; clear: both"
             data-cy="series-selector"
         >
-            <v-list-item-group v-model="selectedItem" color="primary">
+            <v-list-item-group color="primary">
                 <v-slide-y-transition class="py-0" group tag="v-list">
                     <v-list-item
                         v-for="item in orderBy(series, 'LastUpdate')"
@@ -84,7 +84,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { EventBus } from "@/event-bus";
 import pdf from "pdfvuer";
-import { Prop } from "vue-property-decorator";
+import { Watch, Prop } from "vue-property-decorator";
 import Vue2Filters from "vue2-filters";
 @Component({
     components: {

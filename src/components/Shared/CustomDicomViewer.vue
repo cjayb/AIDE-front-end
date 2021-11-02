@@ -25,7 +25,15 @@
             >
             <v-col cols="8" class="text-xs-center">
                 <v-layout justify-center>
-                    <v-btn-toggle v-model="toggle_tool" dense dark>
+                    <v-btn-toggle
+                        v-model="toggle_tool"
+                        dense
+                        dark
+                        v-if="
+                            selectedSeries.MainDicomTags != undefined &&
+                            selectedSeries.MainDicomTags.Modality != 'DOC'
+                        "
+                    >
                         <v-tooltip bottom open-delay="1000">
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn
@@ -203,6 +211,7 @@ export default class CustomDicomViewer extends Vue {
     selectedStudyUrl = "";
     selectedStudyId = "";
     selectedItem = 0;
+    selectedSeries: any = {};
     study: any = {};
     series: Array<any> = [];
 
@@ -231,6 +240,14 @@ export default class CustomDicomViewer extends Vue {
                     return moment(a.LastUpdate).unix() - moment(b.LastUpdate).unix();
                 });
                 EventBus.$emit("updatedSelectedSeries", this.series[this.selectedItem]);
+            }
+        });
+
+        EventBus.$on("updatedSelectedSeries", async (selectedSeries: any) => {
+            this.selectedSeries = selectedSeries;
+            if (this.selectedSeries.MainDicomTags.Modality == "DOC") {
+                this.seriesDisplay = false;
+                this.metadataDisplay = false;
             }
         });
     }

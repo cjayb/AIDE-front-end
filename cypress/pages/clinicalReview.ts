@@ -63,7 +63,7 @@ export default class ClinicalReviewPage extends AbstractPage {
     }
 
     private waitForImageRender(): Cypress.Chainable<unknown> {
-        return cy.get(ClinicalReviewPage.SELECTED_IMAGE).then(($element) => {
+        return cy.get(ClinicalReviewPage.SELECTED_IMAGE, {timeout: 10000 }).then({ timeout: 10000 }, ($element) => {
             return new Cypress.Promise(resolve => {
                 const onLoadEnd = () => {
                     $element[0].removeEventListener("cornerstoneimagerendered", onLoadEnd)

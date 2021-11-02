@@ -53,6 +53,15 @@
 
                         <v-tooltip bottom open-delay="3000">
                             <template v-slot:activator="{ on, attrs }">
+                                <v-list-item-subtitle v-bind="attrs" v-on="on"
+                                    >Mode: {{ item.model.mode }}</v-list-item-subtitle
+                                >
+                            </template>
+                            <span>{{ item.model.mode }}</span>
+                        </v-tooltip>
+
+                        <v-tooltip bottom open-delay="3000">
+                            <template v-slot:activator="{ on, attrs }">
                                 <v-list-item-subtitle v-bind="attrs" v-on="on">
                                     Received:
                                     {{

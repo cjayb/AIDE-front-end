@@ -2,11 +2,11 @@
     <v-dialog
         transition="dialog-bottom-transition"
         v-model="dialog3"
-        max-width="60vw"
+        max-width="80vw"
         style="overflow-x: hidden"
     >
         <template v-slot:default="dialog3">
-            <v-card>
+            <v-card style="overflow-x: hidden">
                 <div v-show="loading" class="pa-1 pb-2">
                     Please Wait...
                     <v-progress-linear indeterminate color="blue" class=""></v-progress-linear>
