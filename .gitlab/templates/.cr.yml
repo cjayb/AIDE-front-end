@@ -1,8 +1,9 @@
 docker-build:
   stage: build-image
-  image: docker:19.03.12
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:19.03.12
   services:
-    - docker:19.03.12-dind
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:19.03.12-dind
+      alias: docker
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
@@ -20,9 +21,10 @@ docker-build:
 
 docker-build-branch:
   stage: build-image
-  image: docker:19.03.12
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:19.03.12
   services:
-    - docker:19.03.12-dind
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:19.03.12-dind
+      alias: docker
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
@@ -36,9 +38,10 @@ docker-build-branch:
 
 docker-build-dev:
   stage: build-image
-  image: docker:19.03.12
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:19.03.12
   services:
-    - docker:19.03.12-dind
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:19.03.12-dind
+      alias: docker
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
@@ -49,5 +52,3 @@ docker-build-dev:
     - docker push "$DOCKER_IMAGE_TAG"
   only:
     - develop
-
-

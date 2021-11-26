@@ -1,4 +1,3 @@
-image: node:14
 
 include:
   - /.gitlab/templates/.service.yml
@@ -13,8 +12,10 @@ cache:
     - paths:
         - "/node_modules"
 
-build-ui:
-    stage: build
+
+check build integrity:
+    stage: check-build-integrity
+    image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/node:14
     before_script:
         - npm ci
     script:
@@ -22,6 +23,7 @@ build-ui:
 
 lint:
     stage: lint
+    image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/node:14
     before_script:
         - npm ci
     script:
@@ -33,15 +35,15 @@ lint:
     only:
         - merge_requests
 
-test_ui_headless:
+test ui headless:
     # Cache modules in between jobs
     cache:
         key: $CI_COMMIT_REF_SLUG
         paths:
             - .npm/
 
-    stage: test_ui_integration
-    image: 
+    stage: test-ui-integration
+    image:
         name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/cypress/included:8.3.1
         entrypoint: [""]
     needs: []
@@ -60,12 +62,12 @@ test_ui_headless:
             - cypress-visual-report/
             - cypress-visual-screenshots/
         when: always
-    only: 
+    only:
         - merge_requests
 
 sonarqube-check:
     stage: sast
-    image: 
+    image:
         name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/sonarsource/sonar-scanner-cli:latest
         entrypoint: [""]
     variables:
@@ -75,7 +77,7 @@ sonarqube-check:
         key: "${CI_JOB_NAME}"
         paths:
         - .sonar/cache
-    script: 
+    script:
         - sonar-scanner
     dependencies:
         - lint
