@@ -53,6 +53,7 @@
                     data-test="open-pipeline"
                     text
                     class="ma-1"
+                    :disabled="!tasksNotEmpty"
                     @click="openPipelineDialog(correlation_id, selectedModel.model_uid)"
                 >
                     Open Pipeline
@@ -64,6 +65,7 @@
                     style="margin-right: 8px"
                     dark
                     class="ma-1"
+                    :disabled="!tasksNotEmpty"
                     @click.stop="
                         openApprovalDialog(
                             selectedModel.execution_uid,
@@ -79,6 +81,7 @@
                     color="#DA291C"
                     dark
                     class="ma-1"
+                    :disabled="!tasksNotEmpty"
                     @click.stop="
                         openApprovalDialog(
                             selectedModel.execution_uid,
@@ -205,6 +208,7 @@ export default class Header extends Vue {
     selectedModel = {};
     correlation_id = "";
     loaded = false;
+    tasksNotEmpty = true;
 
     created(): void {
         EventBus.$on("selectTask", (execution: any) => {
@@ -214,6 +218,10 @@ export default class Header extends Vue {
             if (this.selectedModel) {
                 this.loaded = true;
             }
+        });
+
+        EventBus.$on("tasksNotEmpty", (tasksEmpty: boolean) => {
+            this.tasksNotEmpty = tasksEmpty;
         });
     }
 
