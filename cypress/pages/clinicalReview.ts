@@ -39,8 +39,13 @@ export default class ClinicalReviewPage extends AbstractPage {
     private static DESCRIPTION: string = "modal-description";
     private static CHECKBOX: string = ".v-input--selection-controls__ripple";
 
+    //Pagination
+    public static PAGINATION: string = "pagination";
+
     public initPage() {
-        cy.intercept('GET', '/executions?*', ApiMocks.CLINICAL_REVIEW).as("Executions for review");
+        cy.intercept('GET', '/executions?approved=false', ApiMocks.CLINICAL_REVIEW_ALL_EXECUTIONS).as("All executions for review");
+        cy.intercept('GET', '/executions?from=0*', ApiMocks.CLINICAL_REVIEW_PAGE_1).as("Executions for review page 1");
+        cy.intercept('GET', '/executions?from=1*', ApiMocks.CLINICAL_REVIEW_PAGE_2).as("Executions for review page 2");
         cy.intercept('POST', '/executions/*/approvals?*', ApiMocks.CLINICAL_REVIEW_RESPONSE).as("Review response");
         cy.visit("#/clinical-review");
         Cypress.on("uncaught:exception", (err, runnable) => {
@@ -161,6 +166,21 @@ export default class ClinicalReviewPage extends AbstractPage {
         if (signed) {
             cy.get(ClinicalReviewPage.CHECKBOX).click();
         }
+        return this;
+    }
+
+    public selectExecutionsPage(number: number) {
+        cy.dataCy(ClinicalReviewPage.PAGINATION).contains(number.toString()).click()
+        return this;
+    }
+
+    public selectNextPage() {
+        cy.get("[aria-label='Next page']").click();
+        return this;
+    }
+
+    public selectPreviousPage() {
+        cy.get("[aria-label='Previous page']").click();
         return this;
     }
 }

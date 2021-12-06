@@ -108,7 +108,12 @@ export default class ApprovalDialog extends Vue {
     async acceptReview() {
         if (this.checkbox) {
             this.loading = true;
-            await updateClinicalReview(this.executionId, "true", "", this.description)
+            var response = await updateClinicalReview(
+                this.executionId,
+                "true",
+                "",
+                this.description,
+            )
                 .then(this.updateEventsAndClose)
                 .catch((err) => {
                     this.loading = false;
@@ -121,7 +126,12 @@ export default class ApprovalDialog extends Vue {
     async rejectReview() {
         if (this.checkbox && this.reason !== "") {
             this.loading = true;
-            await updateClinicalReview(this.executionId, "false", this.reason, this.description)
+            var response = await updateClinicalReview(
+                this.executionId,
+                "false",
+                this.reason,
+                this.description,
+            )
                 .then(this.updateEventsAndClose)
                 .catch((err) => {
                     this.loading = false;

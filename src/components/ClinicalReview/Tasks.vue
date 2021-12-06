@@ -1,5 +1,5 @@
 <template>
-    <v-card>
+    <v-card :loading="loading">
         <v-list-item>
             <v-list-item-content>
                 <v-list-item-title class="text-h6">Work List</v-list-item-title>
@@ -21,7 +21,7 @@
 
         <!-- <v-divider></v-divider> -->
 
-        <v-list dense nav style="height: calc(100vh - 282px); overflow-y: scroll">
+        <v-list dense nav style="height: calc(100vh - 323px); overflow-y: scroll">
             <v-list-item-group v-model="selectedItem">
                 <v-list-item
                     v-for="item in filteredTasks"
@@ -75,6 +75,15 @@
                 </v-list-item>
             </v-list-item-group>
         </v-list>
+        <v-pagination
+            :length="totalPages"
+            :total-visible="2"
+            :value="currentPage"
+            :disabled="totalPages <= 1"
+            @input="handlePageChange"
+            data-cy="pagination"
+        >
+        </v-pagination>
     </v-card>
 </template>
 
@@ -82,37 +91,25 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { EventBus } from "@/event-bus";
-import { getAllExecutions } from "../../api/ExecutionService";
+import { getAllExecutionsPage, getAllExecutions } from "../../api/ExecutionService";
+import { Execution } from "@/models/Execution";
 
 @Component({})
 export default class Tasks extends Vue {
     tasks: Array<any> = [];
     search = "";
     selectedItem = 0;
+    currentPage = 1;
+    allTasks: Array<Execution> = [];
+    loading = false;
 
     async created(): Promise<void> {
-        EventBus.$on("updateTaskList", (selectedTask: string) => {
-            var updatedList = this.tasks.filter(
-                (item) => item.model.execution_uid !== selectedTask,
-            );
-            this.tasks = updatedList;
-            if (this.tasks.length === 0) {
-                EventBus.$emit("tasksNotEmpty", false);
-            } else {
-                this.selectTask(this.tasks[0]);
-                this.selectedItem = 0;
-            }
+        EventBus.$on("updateTaskList", () => {
+            this.getNewTasks();
         });
 
-        this.tasks = await getAllExecutions("0", "10", "false");
-        if (this.tasks.length === 0) {
-            EventBus.$emit("tasksNotEmpty", false);
-        } else {
-            EventBus.$emit("tasksNotEmpty", true);
-        }
-        let study_id = this.tasks[0].event.origin.studyUID;
-        this.$router.push({ name: "ClinicalReviewViewer", params: { study_id: study_id } });
-        this.selectTask(this.tasks[0]);
+        this.getAllTasks();
+        EventBus.$emit("updateTaskList");
     }
 
     get filteredTasks() {
@@ -135,6 +132,35 @@ export default class Tasks extends Vue {
 
     clearSearch() {
         this.search = "";
+    }
+
+    async getNewTasks() {
+        this.loading = true;
+        this.tasks = await getAllExecutionsPage((this.currentPage - 1).toString(), "10", "false");
+        if (this.tasks.length === 0) {
+            EventBus.$emit("tasksNotEmpty", false);
+        } else {
+            EventBus.$emit("tasksNotEmpty", true);
+        }
+        let study_id = this.tasks[0].event.origin.studyUID;
+        this.$router.push({ name: "ClinicalReviewViewer", params: { study_id: study_id } });
+        this.selectTask(this.tasks[0]);
+        this.loading = false;
+    }
+
+    async getAllTasks() {
+        this.loading = true;
+        this.allTasks = await getAllExecutions("false");
+        this.loading = false;
+    }
+
+    handlePageChange(value: number) {
+        this.currentPage = value;
+        EventBus.$emit("updateTaskList");
+    }
+
+    get totalPages(): number {
+        return Math.ceil(this.allTasks.length / 10);
     }
 }
 </script>

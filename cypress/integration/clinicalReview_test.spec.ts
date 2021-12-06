@@ -9,6 +9,7 @@ const reviewPage = new ClinicalReviewPage();
 const dianeName = ExecutionData.REVIEW_DIANE_ANDERSON.event.origin.series[0]["PatientName"];
 const kellyName = ExecutionData.REVIEW_KELLY_MALDONADO.event.origin.series[0]["PatientName"];
 const leoneName = ExecutionData.REVIEW_LEONE_GOODPASTURE.event.origin.series[0]["PatientName"];
+const fionaName = "Fiona";
 
 describe("Clinical review page", () => {
     beforeEach(() => {
@@ -45,6 +46,7 @@ describe("Clinical review page", () => {
 
     it("Can accept worklist item", () => {
         reviewPage.acceptReject(true);
+        cy.intercept('GET', "/executions?from=0*", ApiMocks.CLINICAL_REVIEW_REVIEWED);
         cy.checkA11y(null, a11yConfig, nodeTerminal, true);
         reviewPage.fillReviewModal(true, undefined, "This looks really good!")
             .acceptRejectModal(true)
@@ -55,6 +57,7 @@ describe("Clinical review page", () => {
 
     it("Can reject worklist item", () => {
         reviewPage.acceptReject(false);
+        cy.intercept('GET', "/executions?from=0*", ApiMocks.CLINICAL_REVIEW_REVIEWED);
         cy.checkA11y(null, a11yConfig, nodeTerminal, true);
         reviewPage.fillReviewModal(true, RejectReason.WRONG_DIAGNOSIS, "The diagnosis is wrong!")
             .acceptRejectModal(false)
@@ -129,5 +132,19 @@ describe("Clinical review page", () => {
         cy.dataCy(ClinicalReviewPage.LENGTH_TOOL).click()
         cy.get("canvas").click().trigger("mousemove", "top").click("top")
         cy.dataCy(ClinicalReviewPage.DICOM_VIEWPORT).percySnapshotElement("Measure-tool")
+    })
+
+
+    it("Should paginate executions for review", () => {
+        reviewPage.worklistItemWithText(kellyName)
+            .should("exist")
+        cy.dataCy("pagination").contains("1").invoke("attr", "aria-current").should("eq", "true")
+        reviewPage.selectExecutionsPage(2);
+        cy.dataCy("pagination").contains("2").invoke("attr", "aria-current").should("eq", "true")
+        reviewPage.worklistItemWithText(fionaName)
+            .should("exist")
+        reviewPage.selectPreviousPage();
+        reviewPage.worklistItemWithText(kellyName)
+            .should("exist")
     })
 })

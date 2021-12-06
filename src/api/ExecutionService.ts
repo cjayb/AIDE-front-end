@@ -31,7 +31,13 @@ http.interceptors.response.use(
     },
 );
 
-export async function getAllExecutions(
+export async function getAllExecutions(approved: string): Promise<Array<Execution>> {
+    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
+    const response = await http.get(`/executions?approved=${approved}`);
+    return response.data;
+}
+
+export async function getAllExecutionsPage(
     from: string,
     size: string,
     approved: string,
