@@ -2,5 +2,6 @@
    "average_turnaround_time": null,
    "average_execution_time": null,
    "failures": 10,
-   "executions": 0
+   "executions": 0,
+   "errors": 4
    }

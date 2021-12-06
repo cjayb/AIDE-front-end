@@ -41,8 +41,9 @@
                                 x-small
                                 :loading="item.downloadLoading"
                                 class="x-small-icon"
+                                :disabled="!getResourceState(item.execution).resourceAvailable"
                             >
-                                Download Output
+                                {{ getResourceState(item.execution).label }}
                             </v-btn>
                         </template>
                         <v-list>
@@ -194,10 +195,27 @@ export default class ExecutionTable extends Vue {
         }
     }
 
-    getModelResources(item: any) {
+    getModelResources(item: any): Array<any> {
         return item.event.resources.filter(
             (resource: any) => resource.namespace === item.model.model_uid,
         );
+    }
+
+    getResourceState(item: any): any {
+        let label: string;
+        let resources = this.getModelResources(item);
+        let resourceAvailable = false;
+        if (resources.length > 0) {
+            label = "Download Output";
+            resourceAvailable = true;
+        } else {
+            label = "No output available";
+        }
+
+        return {
+            label: label,
+            resourceAvailable: resourceAvailable,
+        };
     }
 
     async updateExecutions(page: any, size: any): Promise<void> {

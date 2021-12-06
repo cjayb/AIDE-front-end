@@ -33,7 +33,7 @@ describe("Admin dashboard page", () => {
     it("On the admin page I can sort the model entries", () => {
         adminPage.sortModelTable(ModelTableColumn.EXECUTIONS)
             .sortModelTable(ModelTableColumn.EXECUTIONS)
-            .assertModelEntryContainsText(1, "1000")
+            .assertModelEntryContainsText(1, "4002")
             .searchDashboard("3000")
             .assertTableContainsModel(ModelData.HAEMORRHAGE_STROKE.model_name)
             .searchDashboard("")

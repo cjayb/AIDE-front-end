@@ -21,7 +21,7 @@
          },
          "resources": [
             {
-               "namespace": "dicomingestor/1.0.0",
+               "namespace": "ch_test_model_1/1.0.0",
                "file_path": "WORKDIR\\MyStudyID",
                "type": "dicom/origin"
             }
@@ -379,7 +379,7 @@
          },
          "resources": [
             {
-               "namespace": "dicomingestor/1.0.0",
+               "namespace": "ch_test_model_1/1.0.0",
                "file_path": "WORKDIR\\MyStudyID",
                "type": "dicom/origin"
             }

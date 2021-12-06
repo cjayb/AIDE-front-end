@@ -33,8 +33,6 @@
                         </v-toolbar>
                     </template>
                     <!-- eslint-disable-next-line  -->
-                    <template v-slot:item.errors> 0 </template>
-                    <!-- eslint-disable-next-line  -->
                     <template v-slot:item.successRate="{ item }">
                         {{ getSuccessRate(item.stats) }}
                     </template>
@@ -69,6 +67,7 @@ import { getModels } from "../../api/ModelService";
 import { getModelExecutionStats } from "../../api/ExecutionService";
 import { Model } from "@/models/Model";
 import { ExecutionStat } from "@/models/ExecutionStat";
+import { DataTableHeader } from "vuetify";
 
 @Component({
     components: {
@@ -83,7 +82,7 @@ export default class Models extends Vue {
     singleExpand = true;
     search = "";
     loading = true;
-    modelsHeaders = [
+    modelsHeaders: DataTableHeader[] = [
         {
             text: "Model Name",
             align: "start",
@@ -93,6 +92,7 @@ export default class Models extends Vue {
         {
             text: "Executions",
             value: "stats.executions",
+            sortable: true,
         },
         {
             text: "Failures",
@@ -100,7 +100,7 @@ export default class Models extends Vue {
         },
         {
             text: "Errors",
-            value: "errors",
+            value: "stats.errors",
         },
         {
             text: "Success Rate",
@@ -134,6 +134,8 @@ export default class Models extends Vue {
                 "1000",
                 model.model_name + "%2F" + model.model_version,
             );
+            model.stats.executions =
+                model.stats.executions + model.stats.failures + model.stats.errors;
 
             this.models.push(model);
         });
