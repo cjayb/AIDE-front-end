@@ -69,8 +69,6 @@ describe("Admin dashboard page", () => {
 
     it("A failing API call produces an error in the UI", () => {
         cy.intercept("/executions?*", { statusCode: 404 }).as("Executions not found");
-        //Wait for other error messages to disappear from the DOM
-        cy.get('[class=v-toast__text]').should("not.exist");
         adminPage.toggleModelRowWithName(ModelData.HAEMORRHAGE_BRUSH.model_name);
         cy.wait("@Executions not found")
         adminPage.assertLatestErrorContainsMessage("Something unexpected went wrong retrieving executions!");

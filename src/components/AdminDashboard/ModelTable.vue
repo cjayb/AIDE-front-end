@@ -129,16 +129,22 @@ export default class Models extends Vue {
 
         let tempModels = await getModels();
 
-        tempModels.forEach(async (model: Model) => {
-            model.stats = await getModelExecutionStats(
-                "1000",
-                model.model_name + "%2F" + model.model_version,
-            );
-            model.stats.executions =
-                model.stats.executions + model.stats.failures + model.stats.errors;
+        for (const model of tempModels) {
+            let failed = false;
+            await getModelExecutionStats("1000", model.model_name + "%2F" + model.model_version)
+                .then((stat) => {
+                    model.stats = stat;
+                    model.stats.executions =
+                        model.stats.executions + model.stats.failures + model.stats.errors;
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    failed = true;
+                });
+            if (failed) break;
+        }
 
-            this.models.push(model);
-        });
+        this.models = tempModels;
 
         this.loading = false;
     }

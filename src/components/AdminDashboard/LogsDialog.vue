@@ -6,7 +6,7 @@
                     Please Wait...
                     <v-progress-linear indeterminate color="blue" class=""></v-progress-linear>
                 </div>
-                <div v-show="!loading">
+                <div v-show="!loading && logs.length > 0">
                     <v-toolbar color="#61366e" dark>Log Viewer</v-toolbar>
                     <v-card-text style="height: 60vh; overflow: scroll !important">
                         <vue-json-pretty
@@ -43,18 +43,23 @@ export default class LogsDialog extends Vue {
     dialog2 = false;
     loading = true;
     executionId = "";
-    logs = "No logs found";
+    logs = "";
 
     created(): void {
         EventBus.$on("openLogsDialog", async (dialog2: boolean, execution_uid: string) => {
             this.executionId = execution_uid;
-            this.dialog2 = dialog2;
             this.loading = true;
             this.logs = "";
-            this.logs = await getLogs(execution_uid);
-            if (this.logs == undefined) {
-                this.logs = "No logs found";
-            }
+            this.dialog2 = dialog2;
+            await getLogs(execution_uid)
+                .then((log) => {
+                    this.logs = log;
+                })
+                .catch((err) => {
+                    this.dialog2 = false;
+                    this.loading = false;
+                });
+
             this.loading = false;
         });
     }

@@ -104,7 +104,7 @@ export default class AdminDashboardPage extends AbstractPage {
     public assertExecutionRowData(rowNumber: number, executionTableColumn: ExecutionTableColumn, expectedText: string): AdminDashboardPage {
         cy.dataCy(AdminDashboardPage.EXECUTIONS_TABLE).within(($div) => {
             cy.get("table").getTable().should((tableData => {
-                const rowData: object = tableData[rowNumber + 1];
+                const rowData: object = tableData[rowNumber];
                 const columnString: string = rowData[executionTableColumn].trim();
                 expect(expectedText).to.equal(columnString);
             }))

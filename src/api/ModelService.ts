@@ -21,6 +21,8 @@ http.interceptors.response.use(
     function (error) {
         if (401 === error.response.status) {
             Vue.$keycloak.logout({ redirectUri: `${window.location.origin}/#/` });
+        } else if (error.message == `Network Error`) {
+            Vue.$toast.error(`⚠ Connection error`);
         } else {
             Vue.$toast.error(`Something unexpected went wrong retrieving models!`);
             return Promise.reject(error);

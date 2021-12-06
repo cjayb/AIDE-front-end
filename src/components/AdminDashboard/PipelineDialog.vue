@@ -11,7 +11,7 @@
                     Please Wait...
                     <v-progress-linear indeterminate color="blue" class=""></v-progress-linear>
                 </div>
-                <div v-show="!loading" data-cy="pipeline-dialogue">
+                <div v-show="!loading && pipelines.length > 0" data-cy="pipeline-dialogue">
                     <v-toolbar color="#61366e" dark> Pipeline - {{ model_uid }} </v-toolbar>
                     <!-- <v-card-text> -->
                     <v-timeline align-top dense v-if="pipelines[0]" clipped>
@@ -88,7 +88,14 @@ export default class PipelineDialog extends Vue {
 
     async getPipeline(correlation_id: string): Promise<void> {
         this.loading = true;
-        this.pipelines = await getExecutionPipelines(correlation_id);
+        await getExecutionPipelines(correlation_id)
+            .then((executions) => {
+                this.pipelines = executions;
+            })
+            .catch((err) => {
+                this.loading = false;
+                this.dialog3 = false;
+            });
         this.loading = false;
     }
 

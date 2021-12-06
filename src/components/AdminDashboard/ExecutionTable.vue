@@ -220,15 +220,21 @@ export default class ExecutionTable extends Vue {
 
     async updateExecutions(page: any, size: any): Promise<void> {
         this.loading = true;
-        this.executions = await getAllModelExecutions(
+        await getAllModelExecutions(
             this.model.model_name + "%2F" + this.model.model_version,
             page,
             size,
-        );
+        )
+            .then((executions) => {
+                this.executions = executions;
+                this.items = this.executions.map((item) => {
+                    return { execution: item, downloadLoading: false };
+                });
+            })
+            .catch((err) => {
+                this.loading = false;
+            });
 
-        this.items = this.executions.map((item) => {
-            return { execution: item, downloadLoading: false };
-        });
         this.loading = false;
     }
 
