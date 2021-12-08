@@ -1,6 +1,6 @@
 import Vue from "vue";
 import axios from "axios";
-import { Execution } from "@/models/Execution";
+import { Execution, ExecutionPage } from "@/models/Execution";
 import { ExecutionStat } from "@/models/ExecutionStat";
 
 const http = axios.create({
@@ -31,17 +31,11 @@ http.interceptors.response.use(
     },
 );
 
-export async function getAllExecutions(approved: string): Promise<Array<Execution>> {
-    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
-    const response = await http.get(`/executions?approved=${approved}`);
-    return response.data;
-}
-
 export async function getAllExecutionsPage(
     from: string,
     size: string,
     approved: string,
-): Promise<Array<Execution>> {
+): Promise<ExecutionPage> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/executions?from=${from}&size=${size}&approved=${approved}`);
     return response.data;
@@ -51,7 +45,7 @@ export async function getAllModelExecutions(
     model_id: string,
     from: string,
     size: string,
-): Promise<Array<Execution>> {
+): Promise<ExecutionPage> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/executions?model_id=${model_id}&from=${from}&size=${size}`);
     return response.data;

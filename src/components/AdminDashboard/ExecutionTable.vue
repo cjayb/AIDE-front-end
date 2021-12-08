@@ -226,7 +226,7 @@ export default class ExecutionTable extends Vue {
             size,
         )
             .then((executions) => {
-                this.executions = executions;
+                this.executions = executions.results;
                 this.items = this.executions.map((item) => {
                     return { execution: item, downloadLoading: false };
                 });

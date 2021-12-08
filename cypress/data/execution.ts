@@ -59,8 +59,8 @@ export class ExecutionData implements Execution {
         return Math.floor(diff / 1000 / 60);
     }
 
-    public static REVIEW_DIANE_ANDERSON: ExecutionData = new ExecutionData(<Execution>ApiMocks.CLINICAL_REVIEW_PAGE_1[2]);
-    public static REVIEW_KELLY_MALDONADO = new ExecutionData(<Execution>ApiMocks.CLINICAL_REVIEW_PAGE_1[0]);
-    public static REVIEW_LEONE_GOODPASTURE = new ExecutionData(<Execution>ApiMocks.CLINICAL_REVIEW_PAGE_1[1]);
-    public static FIRST_EXECUTION_MODEL_1 = new ExecutionData(<Execution>ApiMocks.ADMIN_DASH_EXECUTION_RESULTS_MODEL_1[0]);
+    public static REVIEW_DIANE_ANDERSON: ExecutionData = new ExecutionData(<Execution>ApiMocks.CLINICAL_REVIEW_PAGE_1.results[2]);
+    public static REVIEW_KELLY_MALDONADO = new ExecutionData(<Execution>ApiMocks.CLINICAL_REVIEW_PAGE_1.results[0]);
+    public static REVIEW_LEONE_GOODPASTURE = new ExecutionData(<Execution>ApiMocks.CLINICAL_REVIEW_PAGE_1.results[1]);
+    public static FIRST_EXECUTION_MODEL_1 = new ExecutionData(<Execution>ApiMocks.ADMIN_DASH_EXECUTION_RESULTS_MODEL_1.results[0]);
 }

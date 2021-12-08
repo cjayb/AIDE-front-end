@@ -1,3 +1,10 @@
+export interface ExecutionPage {
+    total: number,
+    page: number,
+    size: number,
+    results: Execution[],
+}
+
 export interface Execution {
     correlation_id: string,
     event: Event,

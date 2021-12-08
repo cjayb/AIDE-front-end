@@ -91,8 +91,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { EventBus } from "@/event-bus";
-import { getAllExecutionsPage, getAllExecutions } from "../../api/ExecutionService";
-import { Execution } from "@/models/Execution";
+import { getAllExecutionsPage } from "../../api/ExecutionService";
 
 @Component({})
 export default class Tasks extends Vue {
@@ -100,7 +99,7 @@ export default class Tasks extends Vue {
     search = "";
     selectedItem = 0;
     currentPage = 1;
-    allTasks: Array<Execution> = [];
+    allTasks = 0;
     loading = false;
 
     async created(): Promise<void> {
@@ -108,7 +107,6 @@ export default class Tasks extends Vue {
             this.getNewTasks();
         });
 
-        this.getAllTasks();
         EventBus.$emit("updateTaskList");
     }
 
@@ -136,7 +134,9 @@ export default class Tasks extends Vue {
 
     async getNewTasks() {
         this.loading = true;
-        this.tasks = await getAllExecutionsPage((this.currentPage - 1).toString(), "10", "false");
+        let response = await getAllExecutionsPage((this.currentPage - 1).toString(), "10", "false");
+        this.tasks = response.results;
+        this.allTasks = response.total;
         if (this.tasks.length === 0) {
             EventBus.$emit("tasksNotEmpty", false);
         } else {
@@ -148,19 +148,13 @@ export default class Tasks extends Vue {
         this.loading = false;
     }
 
-    async getAllTasks() {
-        this.loading = true;
-        this.allTasks = await getAllExecutions("false");
-        this.loading = false;
-    }
-
     handlePageChange(value: number) {
         this.currentPage = value;
         EventBus.$emit("updateTaskList");
     }
 
     get totalPages(): number {
-        return Math.ceil(this.allTasks.length / 10);
+        return Math.ceil(this.allTasks / 10);
     }
 }
 </script>
