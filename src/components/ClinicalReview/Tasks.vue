@@ -101,10 +101,12 @@ export default class Tasks extends Vue {
     currentPage = 1;
     allTasks = 0;
     loading = false;
+    marker = 0;
 
     async created(): Promise<void> {
         EventBus.$on("updateTaskList", () => {
             this.getNewTasks();
+            this.selectedItem = 0;
         });
 
         EventBus.$emit("updateTaskList");
@@ -134,8 +136,9 @@ export default class Tasks extends Vue {
 
     async getNewTasks() {
         this.loading = true;
-        let response = await getAllExecutionsPage((this.currentPage - 1).toString(), "10", "false");
+        let response = await getAllExecutionsPage(String(this.marker), "10", "false");
         this.tasks = response.results;
+        this.marker = this.marker + this.tasks.length;
         this.allTasks = response.total;
         if (this.tasks.length === 0) {
             EventBus.$emit("tasksNotEmpty", false);
