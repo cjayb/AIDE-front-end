@@ -45,7 +45,7 @@ export default class ClinicalReviewPage extends AbstractPage {
     public initPage() {
         cy.intercept('GET', '/executions?approved=false', ApiMocks.CLINICAL_REVIEW_ALL_EXECUTIONS).as("All executions for review");
         cy.intercept('GET', '/executions?from=0*', ApiMocks.CLINICAL_REVIEW_PAGE_1).as("Executions for review page 1");
-        cy.intercept('GET', '/executions?from=1*', ApiMocks.CLINICAL_REVIEW_PAGE_2).as("Executions for review page 2");
+        cy.intercept('GET', '/executions?from=10*', ApiMocks.CLINICAL_REVIEW_PAGE_2).as("Executions for review page 2");
         cy.intercept('POST', '/executions/*/approvals?*', ApiMocks.CLINICAL_REVIEW_RESPONSE).as("Review response");
         cy.visit("#/clinical-review");
         Cypress.on("uncaught:exception", (err, runnable) => {

@@ -138,7 +138,6 @@ export default class Tasks extends Vue {
         this.loading = true;
         let response = await getAllExecutionsPage(String(this.marker), "10", "false");
         this.tasks = response.results;
-        this.marker = this.marker + this.tasks.length;
         this.allTasks = response.total;
         if (this.tasks.length === 0) {
             EventBus.$emit("tasksNotEmpty", false);
@@ -152,6 +151,13 @@ export default class Tasks extends Vue {
     }
 
     handlePageChange(value: number) {
+        if (value < this.currentPage) {
+            this.marker = this.marker - 10;
+            console.log(this.marker);
+        } else if (value > this.currentPage) {
+            this.marker = this.marker + 10;
+            console.log(this.marker);
+        }
         this.currentPage = value;
         EventBus.$emit("updateTaskList");
     }
