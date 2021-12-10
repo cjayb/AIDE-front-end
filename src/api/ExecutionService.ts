@@ -33,33 +33,33 @@ http.interceptors.response.use(
 
 export async function getAllExecutionsPage(
     from: string,
-    size: string,
+    to: string,
     approved: string,
 ): Promise<ExecutionPage> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
-    const response = await http.get(`/executions?from=${from}&size=${size}&approved=${approved}`);
+    const response = await http.get(`/executions?from=${from}&to=${to}&approved=${approved}`);
     return response.data;
 }
 
 export async function getAllModelExecutions(
     model_id: string,
     from: string,
-    size: string,
+    to: string,
 ): Promise<ExecutionPage> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
-    const response = await http.get(`/executions?model_id=${model_id}&from=${from}&size=${size}`);
+    const response = await http.get(`/executions?model_id=${model_id}&from=${from}&to=${to}`);
     return response.data;
 }
 
 export async function getModelExecutions(
     model_id: string,
     from: string,
-    size: string,
+    to: string,
     approved: string,
 ): Promise<Array<Execution>> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(
-        `/executions?model_id=${model_id}&from=${from}&size=${size}&approved=${approved}`,
+        `/executions?model_id=${model_id}&from=${from}&to=${to}&approved=${approved}`,
     );
     return response.data;
 }
