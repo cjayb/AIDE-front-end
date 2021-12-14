@@ -23,56 +23,62 @@
 
         <v-list dense nav style="height: calc(100vh - 323px); overflow-y: scroll">
             <v-list-item-group v-model="selectedItem">
-                <v-list-item
-                    v-for="item in filteredTasks"
-                    :key="item.event.executions[0].execution_uid"
-                    @click="selectTask(item)"
-                    :active="false"
-                    data-cy="worklist-item"
-                >
-                    <v-list-item-content>
-                        <v-tooltip bottom open-delay="3000">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-list-item-title v-bind="attrs" v-on="on">
-                                    {{ item.event.origin.series[0].PatientName }}</v-list-item-title
-                                >
-                            </template>
-                            <span>{{ item.event.origin.series[0].PatientName }}</span>
-                        </v-tooltip>
-                        <v-tooltip bottom open-delay="3000">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-list-item-subtitle v-bind="attrs" v-on="on"
+                <transition-group name="list" tag="v-list-item">
+                    <v-list-item
+                        v-for="item in filteredTasks"
+                        :key="item.event.executions[0].execution_uid"
+                        @click="selectTask(item)"
+                        :active="false"
+                        data-cy="worklist-item"
+                        class="list-item"
+                    >
+                        <v-list-item-content>
+                            <v-tooltip bottom open-delay="3000">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-list-item-title v-bind="attrs" v-on="on">
+                                        {{
+                                            item.event.origin.series[0].PatientName
+                                        }}</v-list-item-title
+                                    >
+                                </template>
+                                <span>{{ item.event.origin.series[0].PatientName }}</span>
+                            </v-tooltip>
+                            <v-tooltip bottom open-delay="3000">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-list-item-subtitle v-bind="attrs" v-on="on"
+                                        >{{ item.model.model_name }} -
+                                        {{ item.model.model_version }}</v-list-item-subtitle
+                                    >
+                                </template>
+                                <span
                                     >{{ item.model.model_name }} -
-                                    {{ item.model.model_version }}</v-list-item-subtitle
+                                    {{ item.model.model_version }}</span
                                 >
-                            </template>
-                            <span
-                                >{{ item.model.model_name }} - {{ item.model.model_version }}</span
-                            >
-                        </v-tooltip>
+                            </v-tooltip>
 
-                        <v-tooltip bottom open-delay="3000">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-list-item-subtitle v-bind="attrs" v-on="on"
-                                    >Mode: {{ item.model.mode }}</v-list-item-subtitle
-                                >
-                            </template>
-                            <span>{{ item.model.mode }}</span>
-                        </v-tooltip>
+                            <v-tooltip bottom open-delay="3000">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-list-item-subtitle v-bind="attrs" v-on="on"
+                                        >Mode: {{ item.model.mode }}</v-list-item-subtitle
+                                    >
+                                </template>
+                                <span>{{ item.model.mode }}</span>
+                            </v-tooltip>
 
-                        <v-tooltip bottom open-delay="3000">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-list-item-subtitle v-bind="attrs" v-on="on">
-                                    Received:
-                                    {{
-                                        item.timestamp.inference_finished | formatDate
-                                    }}</v-list-item-subtitle
-                                >
-                            </template>
-                            <span>{{ item.timestamp.inference_finished | formatDate }}</span>
-                        </v-tooltip>
-                    </v-list-item-content>
-                </v-list-item>
+                            <v-tooltip bottom open-delay="3000">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-list-item-subtitle v-bind="attrs" v-on="on">
+                                        Received:
+                                        {{
+                                            item.timestamp.inference_finished | formatDate
+                                        }}</v-list-item-subtitle
+                                    >
+                                </template>
+                                <span>{{ item.timestamp.inference_finished | formatDate }}</span>
+                            </v-tooltip>
+                        </v-list-item-content>
+                    </v-list-item>
+                </transition-group>
             </v-list-item-group>
         </v-list>
         <v-pagination
@@ -92,6 +98,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { EventBus } from "@/event-bus";
 import { getAllExecutionsPage } from "../../api/ExecutionService";
+import { ExecutionPage } from "@/models/Execution";
 
 @Component({})
 export default class Tasks extends Vue {
@@ -105,9 +112,8 @@ export default class Tasks extends Vue {
     to = 10;
 
     async created(): Promise<void> {
-        EventBus.$on("updateTaskList", () => {
-            this.getNewTasks();
-            this.selectedItem = 0;
+        EventBus.$on("updateTaskList", (idToRemove?: string) => {
+            this.getNewTasks(idToRemove);
         });
 
         EventBus.$emit("updateTaskList");
@@ -135,20 +141,37 @@ export default class Tasks extends Vue {
         this.search = "";
     }
 
-    async getNewTasks() {
+    async getNewTasks(idToRemove?: string) {
         this.loading = true;
-        let response = await getAllExecutionsPage(String(this.from), String(this.to), "false");
-        this.tasks = response.results;
-        this.allTasks = response.total;
-        if (this.tasks.length === 0) {
-            EventBus.$emit("tasksNotEmpty", false);
+        await getAllExecutionsPage(String(this.from), String(this.to), "false")
+            .then((response) => {
+                this.setTaskList(response, idToRemove);
+                this.allTasks = response.total;
+                EventBus.$emit("tasksNotEmpty", this.tasks.length > 0);
+                let study_id = this.tasks[0].event.origin.studyUID;
+                this.$router.push({ name: "ClinicalReviewViewer", params: { study_id: study_id } });
+                this.selectTask(this.tasks[0]);
+                this.loading = false;
+            })
+            .catch((err) => {
+                EventBus.$emit("tasksNotEmpty", false);
+                this.loading = false;
+            });
+    }
+
+    setTaskList(response: ExecutionPage, idToRemove?: string) {
+        if (typeof idToRemove !== "undefined") {
+            response.results.forEach((result) => {
+                var index = this.tasks.findIndex(
+                    (ex) => ex.model.execution_uid == result.model.execution_uid,
+                );
+                index === -1 && this.tasks.push(result);
+            });
+            var removeIndex = this.tasks.findIndex((ex) => ex.model.execution_uid == idToRemove);
+            this.tasks.splice(removeIndex, 1);
         } else {
-            EventBus.$emit("tasksNotEmpty", true);
+            this.tasks = response.results;
         }
-        let study_id = this.tasks[0].event.origin.studyUID;
-        this.$router.push({ name: "ClinicalReviewViewer", params: { study_id: study_id } });
-        this.selectTask(this.tasks[0]);
-        this.loading = false;
     }
 
     handlePageChange(value: number) {
@@ -168,3 +191,14 @@ export default class Tasks extends Vue {
     }
 }
 </script>
+
+<style scoped>
+.list-enter-active,
+.list-leave-active {
+    transition: all 1s;
+}
+.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+    opacity: 0;
+    transform: translateX(30px);
+}
+</style>

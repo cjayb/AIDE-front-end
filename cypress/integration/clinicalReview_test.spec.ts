@@ -148,3 +148,18 @@ describe("Clinical review page", () => {
             .should("exist")
     })
 })
+
+describe("Scenarios without standard data setup", () => {
+    beforeEach(() => {
+        Cypress.on("uncaught:exception", (err, runnable) => {
+            //TODO: Remove this once uncaught exceptions have been removed
+            return false;
+        });
+    })
+    it("Displays no tasks when there are no executions brought back from the API", () => {
+        cy.visit("/#/clinical-review")
+        cy.intercept("/executions*", { body: [], statusCode: 404 }).as("No executions")
+        cy.dataCy(ClinicalReviewPage.ACCEPT_BUTTON).should("be.disabled")
+        cy.dataCy(ClinicalReviewPage.REJECT_BUTTON).should("be.disabled")
+    })
+})

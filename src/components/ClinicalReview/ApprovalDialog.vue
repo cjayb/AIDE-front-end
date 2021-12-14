@@ -99,7 +99,7 @@ export default class ApprovalDialog extends Vue {
 
     updateEventsAndClose(response: any) {
         if (response.status === true) {
-            EventBus.$emit("updateTaskList");
+            EventBus.$emit("updateTaskList", this.executionId);
         }
         this.loading = false;
         this.closeDialog();
