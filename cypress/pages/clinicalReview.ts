@@ -169,11 +169,6 @@ export default class ClinicalReviewPage extends AbstractPage {
         return this;
     }
 
-    public selectExecutionsPage(number: number) {
-        cy.dataCy(ClinicalReviewPage.PAGINATION).contains(number.toString()).click()
-        return this;
-    }
-
     public selectNextPage() {
         cy.get("[aria-label='Next page']").click();
         return this;

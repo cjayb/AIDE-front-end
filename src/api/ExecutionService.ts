@@ -24,7 +24,7 @@ http.interceptors.response.use(
             Vue.$keycloak.logout({ redirectUri: `${window.location.origin}/#/` });
         } else if (error.message == `Network Error` && !error.response) {
             Vue.$toast.error(`⚠ Connection error`);
-        } else if (error.response.status != 404) {
+        } else {
             Vue.$toast.error(`Something unexpected went wrong retrieving executions!`);
             return Promise.reject(error);
         }

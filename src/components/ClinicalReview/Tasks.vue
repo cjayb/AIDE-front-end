@@ -83,9 +83,9 @@
         </v-list>
         <v-pagination
             :length="totalPages"
-            :total-visible="2"
+            :total-visible="0"
             :value="currentPage"
-            :disabled="totalPages <= 1"
+            :disabled="totalPages <= 1 && currentPage == 1"
             @input="handlePageChange"
             data-cy="pagination"
         >
@@ -169,6 +169,13 @@ export default class Tasks extends Vue {
             });
             var removeIndex = this.tasks.findIndex((ex) => ex.model.execution_uid == idToRemove);
             this.tasks.splice(removeIndex, 1);
+
+            if (this.allTasks > 0 && this.tasks.length == 0) {
+                this.currentPage--;
+                this.to = this.from;
+                this.from = this.from - 10;
+                EventBus.$emit("updateTaskList");
+            }
         } else {
             this.tasks = response.results;
         }

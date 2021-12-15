@@ -138,9 +138,11 @@ describe("Clinical review page", () => {
     it("Should paginate executions for review", () => {
         reviewPage.worklistItemWithText(kellyName)
             .should("exist")
-        cy.dataCy("pagination").contains("1").invoke("attr", "aria-current").should("eq", "true")
-        reviewPage.selectExecutionsPage(2);
-        cy.dataCy("pagination").contains("2").invoke("attr", "aria-current").should("eq", "true")
+        cy.get("[aria-label='Previous page']").should("be.disabled")
+        cy.get("[aria-label='Next page']").should("be.enabled")
+        reviewPage.selectNextPage();
+        cy.get("[aria-label='Previous page']").should("be.enabled")
+        cy.get("[aria-label='Next page']").should("be.disabled")
         reviewPage.worklistItemWithText(fionaName)
             .should("exist")
         reviewPage.selectPreviousPage();
