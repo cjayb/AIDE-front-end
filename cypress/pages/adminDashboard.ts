@@ -98,7 +98,8 @@ export default class AdminDashboardPage extends AbstractPage {
             .assertExecutionRowData(rowNumber, ExecutionTableColumn.SERIES_DESC, executionData.event.origin.series[0]["SeriesDescription"])
             .assertExecutionRowData(rowNumber, ExecutionTableColumn.STATUS, Helpers.capitaliseWord(executionData.result.status))
             .assertExecutionRowData(rowNumber, ExecutionTableColumn.DURATION, executionData.getDuration().toString())
-            .assertExecutionRowData(rowNumber, ExecutionTableColumn.TURNAROUND, executionData.getTurnaround().toString());
+            .assertExecutionRowData(rowNumber, ExecutionTableColumn.TURNAROUND, executionData.getTurnaround().toString())
+            .assertExecutionRowData(rowNumber, ExecutionTableColumn.DATE, Helpers.getDateFormat(executionData.timestamp.received_at));
     }
 
     public assertExecutionRowData(rowNumber: number, executionTableColumn: ExecutionTableColumn, expectedText: string): AdminDashboardPage {
@@ -106,12 +107,15 @@ export default class AdminDashboardPage extends AbstractPage {
             cy.get("table").getTable().should((tableData => {
                 const rowData: object = tableData[rowNumber];
                 const columnString: string = rowData[executionTableColumn].trim();
-                expect(expectedText).to.equal(columnString);
+                    if (executionTableColumn == ExecutionTableColumn.DATE) {
+                        expect(expectedText).to.equal(columnString.substring(0, 10));
+                    } else {
+                        expect(expectedText).to.equal(columnString);
+                    }
             }))
         })
         return this;
     }
-
 
     private assertModelRowData(rowNumber: number, modelTableColumn: ModelTableColumn, expectedText: string): AdminDashboardPage {
         cy.dataCy(AdminDashboardPage.MODEL_TABLE).within(($div) => {

@@ -18,4 +18,9 @@ export class Helpers {
         var minutes = Math.floor(time / 60);
         return minutes;
     }
+
+    public static getDateFormat(date: Date): string {
+        const d = new Date(date);
+        return d.toLocaleDateString("en-GB");
+    }
 }
