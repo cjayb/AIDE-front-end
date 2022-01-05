@@ -149,6 +149,12 @@ describe("Clinical review page", () => {
         reviewPage.worklistItemWithText(kellyName)
             .should("exist")
     })
+
+    it("Page refresh occurs without errors", () => {
+        reviewPage.waitForInitialViewerLoad();
+        cy.reload();
+        cy.contains("Something unexpected went wrong").should("not.exist");
+    });
 })
 
 describe("Scenarios without standard data setup", () => {
