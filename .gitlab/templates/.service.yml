@@ -6,6 +6,7 @@ stages:
   - sast
   - check-build-integrity
   - test-ui-integration
+  - contracts
   - build-image
   - deploy
 

@@ -51,19 +51,6 @@ export async function getAllModelExecutions(
     return response.data;
 }
 
-export async function getModelExecutions(
-    model_id: string,
-    from: string,
-    to: string,
-    approved: string,
-): Promise<Array<Execution>> {
-    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
-    const response = await http.get(
-        `/executions?model_id=${model_id}&from=${from}&to=${to}&approved=${approved}`,
-    );
-    return response.data;
-}
-
 export async function getExecutionPipelines(correlation_id: string): Promise<Array<Execution>> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/pipeline/${correlation_id}`);
