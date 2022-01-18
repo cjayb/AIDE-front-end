@@ -59,7 +59,11 @@
                             </v-btn>
                         </v-card-actions>
                         <v-img
-                            v-if="application.image != ''"
+                            v-if="
+                                application.image != '' ||
+                                application.image != null ||
+                                application.image != 'None'
+                            "
                             data-cy="application-image"
                             height="150"
                             width
@@ -68,7 +72,11 @@
                             :src="application.image"
                         ></v-img>
                         <v-img
-                            v-if="application.image == ''"
+                            v-if="
+                                application.image == '' ||
+                                application.image == null ||
+                                application.image == 'None'
+                            "
                             data-cy="application-image"
                             height="150"
                             width
