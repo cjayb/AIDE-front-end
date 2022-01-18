@@ -191,7 +191,7 @@ export default class ListView extends Vue {
 
         EventBus.$on("toggleSelectedSort", (selected_sort: string) => {
             if (selected_sort == null) {
-                this.selected_sort = "Ascending";
+                this.selected_sort = "az asc";
             } else {
                 this.selected_sort = selected_sort;
             }
@@ -219,7 +219,7 @@ export default class ListView extends Vue {
                 }
             })
             .sort((a, b) => {
-                if (this.selected_sort == "Ascending") {
+                if (this.selected_sort == "az asc") {
                     if (a.name < b.name) {
                         return -1;
                     }
@@ -227,7 +227,7 @@ export default class ListView extends Vue {
                         return 1;
                     }
                 }
-                if (this.selected_sort == "Descending") {
+                if (this.selected_sort == "az desc") {
                     if (a.name > b.name) {
                         return -1;
                     }
@@ -240,7 +240,6 @@ export default class ListView extends Vue {
     }
 
     viewDetails(id: string): void {
-        console.log(id);
         this.$router.push({ name: "ApplicationRepositoryDetail", params: { application_id: id } });
     }
 }

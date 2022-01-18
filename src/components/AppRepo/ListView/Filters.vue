@@ -48,7 +48,6 @@ export default class Filters extends Vue {
     selected_sort = "";
 
     mounted(): void {
-        console.log(this.applications);
         this.applications.forEach((application) => {
             console.log(application.medical_specialties);
             this.medical_specialties = this.medical_specialties.concat(
