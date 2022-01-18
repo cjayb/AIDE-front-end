@@ -130,7 +130,6 @@ export default class MetaData extends Vue {
     pinItem(name: any, value: any): void {
         this.selectedInstanceMetadata[name] = null;
         this.pinnedInstanceMetadata.push({ name: name, value: value });
-        console.log(this.pinnedInstanceMetadata);
         this.$store.commit("setPinnedMetadata", this.pinnedInstanceMetadata);
     }
 

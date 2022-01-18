@@ -53,14 +53,11 @@ test ui headless:
     script:
         - npm run tests:ui_ci
     after_script:
-        - cp -r $CI_PROJECT_DIR/cypress/videos ci_artifacts/
         - cp -r $CI_PROJECT_DIR/cypress/screenshots ci_artifacts/
     artifacts:
         name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME"
         paths:
             - ci_artifacts/
-            - cypress-visual-report/
-            - cypress-visual-screenshots/
         when: always
     only:
         - merge_requests

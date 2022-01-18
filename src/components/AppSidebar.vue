@@ -1,7 +1,13 @@
 <template>
     <v-navigation-drawer v-model="drawer" app permanent expand-on-hover clipped>
         <v-list dense nav>
-            <v-list-item v-for="item in items" :key="item.title" link :to="{ name: item.route }">
+            <v-list-item
+                v-for="item in items"
+                :key="item.title"
+                link
+                :to="{ name: item.route }"
+                :data-cy="item.datacy"
+            >
                 <v-list-item-icon>
                     <v-icon>{{ item.icon }}</v-icon>
                 </v-list-item-icon>
@@ -23,8 +29,27 @@ import { EventBus } from "@/event-bus";
 export default class AppSidebar extends Vue {
     // Declared as component data
     items = [
-        { title: "Admin", icon: "mdi-cog", route: "AdminDashboard", role: "admin" },
-        { title: "Clinical Review", icon: "mdi-eye", route: "ClinicalReview", role: "clinician" },
+        {
+            title: "Admin",
+            icon: "mdi-cog",
+            route: "AdminDashboard",
+            role: "admin",
+            datacy: "admin-button",
+        },
+        {
+            title: "Clinical Review",
+            icon: "mdi-eye",
+            route: "ClinicalReview",
+            role: "clinician",
+            datacy: "clinician-button",
+        },
+        {
+            title: "Application Repository",
+            icon: "mdi-storefront",
+            route: "ApplicationRepositoryList",
+            role: "deployer",
+            datacy: "app-store-button",
+        },
     ];
     roles: any = [];
     drawer = true;

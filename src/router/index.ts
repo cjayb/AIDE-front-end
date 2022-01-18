@@ -2,6 +2,9 @@ import Vue from "vue";
 import VueRouter, { NavigationGuardNext, Route, RouteConfig } from "vue-router";
 import AdminDashboard from "../views/AdminDashboard.vue";
 import ClinicalReview from "../views/ClinicalReview.vue";
+import AppRepo from "../views/AppRepo.vue";
+import ListView from "../components/AppRepo/ListView/ListView.vue";
+import DetailView from "../components/AppRepo/DetailView/DetailView.vue";
 import Unauthorized from "../views/Unauthorized.vue";
 
 Vue.use(VueRouter);
@@ -32,6 +35,52 @@ const routes: Array<RouteConfig> = [
         },
     },
     {
+        path: "/application-repository",
+        component: AppRepo,
+        children: [
+            {
+                path: "",
+                name: "ApplicationRepositoryList",
+                component: ListView,
+                meta: {
+                    breadCrumb: [
+                        {
+                            text: "Home",
+                        },
+                        {
+                            text: "Application Repository",
+                        },
+                    ],
+                },
+            },
+            {
+                path: ":application_id",
+                name: "ApplicationRepositoryDetail",
+                component: DetailView,
+                meta: {
+                    breadCrumb(route: Route) {
+                        const application_id = route.params.application_id;
+                        return [
+                            {
+                                text: "Home",
+                            },
+                            {
+                                text: "Application Repository",
+                                to: { name: "ApplicationRepositoryList" },
+                            },
+                            {
+                                text: application_id,
+                            },
+                        ];
+                    },
+                },
+            },
+        ],
+        beforeEnter: (to, from, next) => {
+            authenticated("deployer", to, next);
+        },
+    },
+    {
         path: "/unauthorized",
         name: "Unauthorized",
         component: Unauthorized,
@@ -48,7 +97,7 @@ const routes: Array<RouteConfig> = [
                             .then(() => {
                                 next({ name: "AdminDashboard" });
                             })
-                            .catch((err: any) => {
+                            .catch((err: Error) => {
                                 console.error(err);
                             });
                     } else if (Vue.$keycloak.hasResourceRole("clinician")) {
@@ -57,7 +106,16 @@ const routes: Array<RouteConfig> = [
                             .then(() => {
                                 next({ name: "ClinicalReview" });
                             })
-                            .catch((err: any) => {
+                            .catch((err: Error) => {
+                                console.error(err);
+                            });
+                    } else if (Vue.$keycloak.hasResourceRole("deployer")) {
+                        Vue.$keycloak
+                            .updateToken(70)
+                            .then(() => {
+                                next({ name: "ApplicationRepositoryList" });
+                            })
+                            .catch((err: Error) => {
                                 console.error(err);
                             });
                     } else {
@@ -82,7 +140,7 @@ function authenticated(role: string, to: Route, next: NavigationGuardNext<Vue>) 
                     .then(() => {
                         next();
                     })
-                    .catch((err: any) => {
+                    .catch((err: Error) => {
                         console.error(err);
                     });
             } else {

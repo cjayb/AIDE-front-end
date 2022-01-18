@@ -20,4 +20,5 @@ export default class ApiMocks {
     public static EXECUTION_LOGS = require("./executionLogs.json");
     public static OUTPUT_FILE = require("./outputFile.json");
     public static REMOTE_DICOM_METADATA = require("./remoteDicomMetadata");
+    public static APP_STORE_ALL_PERMUTATIONS = require("./appStoreAllPermutations.json");
 }

@@ -1,0 +1,131 @@
+{
+   "count": 1,
+   "next": "None",
+   "previous": "None",
+   "results": [
+      {
+         "id": "00bba135-5069-45e5-8d28-25a211c14afa",
+         "name": "Missing Image",
+         "latest_version": "1.2",
+         "short_description": "This is an application with no image",
+         "certification": {
+            "certifications": [],
+            "certification_details": "Certified to work everywhere in the world!"
+         },
+         "medical_specialties": [],
+         "developer_details": "Duis urna mi",
+         "developers": "John, Bill, and Harry",
+         "collaborators": [
+            "collaborators"
+         ],
+         "image": ""
+      },
+      {
+         "id": "00bba135-5069-45e5-8d28-25a211c14afa",
+         "name": "CE Application",
+         "latest_version": "1.9",
+         "short_description": "This is an application with CE certification",
+         "certification": {
+            "certifications": [
+               "ce"
+            ],
+            "certification_details": "Certified to work everywhere in the world!"
+         },
+         "medical_specialties": [],
+         "developer_details": "dignissim ac eros eu",
+         "developers": "John, Bill, and Harry",
+         "collaborators": [
+            "collaborators"
+         ],
+         "image": "/img/AI-centre.2d0be801.png"
+      },
+      {
+         "id": "00bba135-5069-45e5-8d28-25a211c14afa",
+         "name": "UKCA Application",
+         "latest_version": "2.1.3",
+         "short_description": "This is an application with UKCA certification",
+         "certification": {
+            "certifications": [
+               "ukca"
+            ],
+            "certification_details": "Certified to work everywhere in the world!"
+         },
+         "medical_specialties": [],
+         "developer_details": "consequat mattis leo",
+         "developers": "John, Bill, and Harry",
+         "collaborators": [
+            "collaborators"
+         ],
+         "image": "/img/AI-centre.2d0be801.png"
+      },
+      {
+         "id": "00bba135-5069-45e5-8d28-25a211c14afa",
+         "name": "FDA Application",
+         "latest_version": "1.2",
+         "short_description": "This is an application with FDA certification",
+         "certification": {
+            "certifications": [
+               "fda"
+            ],
+            "certification_details": "Certified to work everywhere in the world!"
+         },
+         "medical_specialties": [],
+         "developer_details": "Aliquam pellentesque",
+         "developers": "John, Bill, and Harry",
+         "collaborators": [
+            "collaborators"
+         ],
+         "image": "/img/AI-centre.2d0be801.png"
+      },
+      {
+         "id": "00bba135-5069-45e5-8d28-25a211c14afa",
+         "name": "Specialty Application",
+         "latest_version": "one.three",
+         "short_description": "This is an application with specialties",
+         "certification": {
+            "certifications": [
+               "ce",
+               "ukca",
+               "fda"
+            ],
+            "certification_details": "Certified to work everywhere in the world!"
+         },
+         "medical_specialties": [
+            "Cardiology",
+            "Radiology"
+         ],
+         "developer_details": "dui sit amet ",
+         "developers": "John, Bill, and Harry",
+         "collaborators": [
+            "collaborators"
+         ],
+         "image": "/img/AI-centre.2d0be801.png"
+      },
+      {
+         "id": "00bba135-5069-45e5-8d28-25a211c14afa",
+         "name": "Long Description Application",
+         "latest_version": "5.6",
+         "short_description": "This is an application with a long description. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id nisi in lorem mattis efficitur et non orci. Cras in tincidunt lorem. Curabitur ut sapien purus. Integer sodales, quam eget volutpat imperdiet, neque risus blandit dui, eget ultrices turpis massa vestibulum eros. Proin elit turpis, tempor eget egestas eget, hendrerit.",
+         "certification": {
+            "certifications": [
+               "ce",
+               "fda"
+            ],
+            "certification_details": "Certified to work everywhere in the world!"
+         },
+         "medical_specialties": [
+            "Cardiology",
+            "Radiology",
+            "Ophthalmology",
+            "Cardiology",
+            "General Medicine"
+         ],
+         "developer_details": "lacus viverra imperdiet",
+         "developers": "John, Bill, and Harry",
+         "collaborators": [
+            "collaborators"
+         ],
+         "image": "/img/AI-centre.2d0be801.png"
+      }
+   ]
+}

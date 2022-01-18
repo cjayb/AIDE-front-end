@@ -181,7 +181,7 @@ describe("Get Pipeline for correlation", () => {
 
     describe("Get pipeline, no auth", () => {
         before(() => {
-            provider.addInteraction(new Interaction()
+             return provider.addInteraction(new Interaction()
             .given("Multiple executions exist for a correlation")
             .uponReceiving("A request for the pipeline with no auth")
             .withRequest({

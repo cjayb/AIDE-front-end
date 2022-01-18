@@ -7,7 +7,7 @@
         <AppHeader />
 
         <!-- Main Content -->
-        <v-main>
+        <v-main style="background: #e5e5e5; padding: 64px 0px 0px 55px">
             <transition name="fade" mode="out-in">
                 <router-view />
             </transition>
@@ -38,9 +38,9 @@ export default Vue.extend({
 </script>
 
 <style>
-.row {
+/* .row {
     margin: -12px !important;
-}
+} */
 
 .fade-enter-active,
 .fade-leave-active {

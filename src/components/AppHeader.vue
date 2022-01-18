@@ -1,6 +1,9 @@
 <template>
     <v-app-bar app color="#fff" clipped-left class="elevation-1">
         <div class="mr-4" data-cy="logo">
+            <v-img class="mx-auto" src="@/assets/nhs.png" height="40px" width="97px" />
+        </div>
+        <div class="mr-4" data-cy="logo">
             <v-img class="mx-auto" src="@/assets/AI-centre.png" height="64px" width="97px" />
         </div>
 
@@ -66,6 +69,12 @@ export default class AppHeader extends Vue {
         }
         if (this.$route.name == "ClinicalReviewViewer") {
             this.pageTitle = "Model outputs for clinical review";
+        }
+        if (this.$route.name == "ApplicationRepositoryList") {
+            this.pageTitle = "Application Repository";
+        }
+        if (this.$route.name == "ApplicationRepositoryDetail") {
+            this.pageTitle = "Application Repository";
         }
     }
 

@@ -37,6 +37,12 @@ declare namespace Cypress {
        * @example cy.get("table").getTable().should(($tableData) => ...)
        */
        getTable(): Chainable<Element>
+
+       /**
+       * Custom command to screenshot and element using Percy.
+       * @example cy.get("table").percySnapshotElement("nameOfScreenshot") => ...)
+       */
+      percySnapshotElement(): void
     }
   }
 
