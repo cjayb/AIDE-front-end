@@ -38,10 +38,13 @@ export class ApplicationData implements Application {
     public static FDA_APP: ApplicationData = new ApplicationData(
         <Application>ApiMocks.APP_STORE_ALL_PERMUTATIONS["results"][3],
     );
-    public static SPECIALTY_APP: ApplicationData = new ApplicationData(
+    public static SPECIALITY_APP: ApplicationData = new ApplicationData(
         <Application>ApiMocks.APP_STORE_ALL_PERMUTATIONS["results"][4],
     );
     public static LONG_DESCRIPTION_APP: ApplicationData = new ApplicationData(
         <Application>ApiMocks.APP_STORE_ALL_PERMUTATIONS["results"][5],
+    );
+    public static UNIQUE_SPECIALITY_APP: ApplicationData = new ApplicationData(
+        <Application>ApiMocks.APP_STORE_ALL_PERMUTATIONS["results"][6],
     );
 }

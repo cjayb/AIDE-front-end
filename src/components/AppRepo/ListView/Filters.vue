@@ -1,7 +1,7 @@
 <template>
     <v-row style="">
         <v-spacer></v-spacer>
-        <v-col class="d-flex" cols="3">
+        <v-col class="d-flex" cols="3" data-cy="medical-speciality-filter">
             <v-select
                 dense
                 hide-details
@@ -11,10 +11,9 @@
                 @change="toggleSelectedSpeciality()"
                 label="Medical Speciality"
                 solo
-                data-cy="medical-speciality-filter"
             ></v-select>
         </v-col>
-        <v-col class="d-flex" cols="3">
+        <v-col class="d-flex" cols="3" data-cy="sort-by">
             <v-select
                 dense
                 hide-details
@@ -24,7 +23,6 @@
                 @change="toggleSelectedSort()"
                 label="Sort by"
                 solo
-                data-cy="sort-by"
             ></v-select>
         </v-col>
     </v-row>

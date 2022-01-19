@@ -60,8 +60,8 @@
                         </v-card-actions>
                         <v-img
                             v-if="
-                                application.image != '' ||
-                                application.image != null ||
+                                application.image != '' &&
+                                application.image != null &&
                                 application.image != 'None'
                             "
                             data-cy="application-image"
@@ -90,7 +90,7 @@
                                     x-small
                                     dark
                                     :color="hex[index]"
-                                    data-cy="specialty"
+                                    data-cy="speciality"
                                     v-for="(speciality, index) in application.medical_specialties"
                                     v-bind:key="speciality"
                                     >{{ speciality }}</v-chip

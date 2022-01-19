@@ -18,7 +18,7 @@
          "collaborators": [
             "collaborators"
          ],
-         "image": ""
+         "image": null
       },
       {
          "id": "00bba135-5069-45e5-8d28-25a211c14afa",
@@ -121,6 +121,30 @@
             "General Medicine"
          ],
          "developer_details": "lacus viverra imperdiet",
+         "developers": "John, Bill, and Harry",
+         "collaborators": [
+            "collaborators"
+         ],
+         "image": "/img/AI-centre.2d0be801.png"
+      },
+      {
+         "id": "00bba135-5069-45e5-8d28-25a211c14afa",
+         "name": "Unique Speciality Application",
+         "latest_version": "5.6",
+         "short_description": "This is an application with a unique speciality",
+         "certification": {
+            "certifications": [
+               "ce",
+               "fda"
+            ],
+            "certification_details": "Certified to work everywhere in the world!"
+         },
+         "medical_specialties": [
+            "Cardiology",
+            "Radiology",
+            "unique"
+         ],
+         "developer_details": "lacus paluminus",
          "developers": "John, Bill, and Harry",
          "collaborators": [
             "collaborators"

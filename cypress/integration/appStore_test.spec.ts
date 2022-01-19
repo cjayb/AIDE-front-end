@@ -4,6 +4,8 @@ import appStorePage from "../pages/appStore";
 import { ApplicationData } from "../data/application";
 import { nodeTerminal, a11yConfig } from "utils/a11y_util";
 import scrollToBottom from "scroll-to-bottomjs";
+import AppStorePage from "../pages/appStore";
+import Order from "data/enums/order";
 
 const appPage = new appStorePage();
 
@@ -20,8 +22,8 @@ describe("App Store Page", () => {
     });
 
     it("A Percy screenshot test for the application table", () => {
-        cy.window().then((cyWindow) => scrollToBottom({ remoteWindow: cyWindow }));
-        cy.dataCy("application-table").percySnapshotElement("Application Table");
+        cy.window().then((cyWindow) => scrollToBottom({ timing: 20, remoteWindow: cyWindow }));
+        cy.percySnapshot("Application Table");
     });
 
     it("An app missing an image displays correctly", () => {
@@ -41,11 +43,29 @@ describe("App Store Page", () => {
     });
 
     it("An app with specialties displays correctly", () => {
-        appPage.assertApp(ApplicationData.SPECIALTY_APP);
+        appPage.assertApp(ApplicationData.SPECIALITY_APP);
     });
 
     it("A long short description is shortened with ellipses", () => {
         appPage.assertApp(ApplicationData.LONG_DESCRIPTION_APP);
+    });
+
+    it("A speciality filtered app displays correctly", () => {
+        appPage.clickDropdown(AppStorePage.MEDICAL_SPECIALITY_FILTER, "unique");
+        appPage.assertApp(ApplicationData.UNIQUE_SPECIALITY_APP);
+        cy.dataCy(AppStorePage.APPLICATION_CARD).should("have.length", 1);
+    });
+
+    it("A sorted app list displays correctly", () => {
+        appPage.assertAlphabeticalOrdering(Order.Ascending);
+        appPage.assertAlphabeticalOrdering(Order.Descending);
+    });
+
+    it("A text searched app displays correctly", () => {
+        const searchedApp = ApplicationData.UNIQUE_SPECIALITY_APP;
+        cy.dataCy(AppStorePage.SEARCH_APPLICATION_REPOSITORY).type(searchedApp.name);
+        appPage.assertApp(searchedApp);
+        cy.dataCy(AppStorePage.APPLICATION_CARD).should("have.length", 1);
     });
 });
 
