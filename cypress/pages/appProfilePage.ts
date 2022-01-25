@@ -118,10 +118,11 @@ export default class AppProfilePage extends AbstractPage {
 
     public assertVersions(versions: Array<string>): void {
         if (versions != null) {
-            versions.forEach((version) => {
+            versions.forEach(() => {
                 cy.dataCy(AppProfilePage.GOTO_VERSION).should("be.visible");
                 cy.dataCy(AppProfilePage.HISTORY_VERSION).should("be.visible");
                 cy.dataCy(AppProfilePage.VERSION_DATE).should("be.visible");
+                cy.dataCy(AppProfilePage.VERSIONS).should("be.visible");
             });
         } else {
             cy.log("No versions were provided");
