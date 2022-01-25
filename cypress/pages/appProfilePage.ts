@@ -3,12 +3,14 @@ import { AppProfileData } from "data/appProfile";
 import { ApplicationDetail } from "../../src/models/ApplicationResult";
 import ApiMocks from "../fixtures/mockIndex";
 import { AbstractPage } from "./abstractPage";
+import scrollToBottom from "scroll-to-bottomjs";
 
 export default class AppProfilePage extends AbstractPage {
     // Default Screen
     static APPLICATION_ID = "v-breadcrumbs__item";
     static APPLICATION_NAME = "name";
     static VERSION = "version-selector";
+    static VERSIONS = "versions";
     static APPLICATION_VERSION_ID = "version-id";
     static IMAGE = "application-image";
     static SHORT_DESCRIPTION = "short-description";
@@ -16,9 +18,9 @@ export default class AppProfilePage extends AbstractPage {
     static LONG_DESCRIPTION = "model-details";
     static MEDICAL_SPECIALTIES = "speciality";
     static LOGO = ["ce-logo", "fda-logo", "ukca-logo"];
-    static CE_LOGO = "ce-logo";
-    static FDA_LOGO = "fda-logo";
-    static UKCA_LOGO = "ukca-logo";
+    static CE_CERTIFICATION = "ce-title";
+    static FDA_CERTIFICATION = "fda-title";
+    static UKCA_CERTIFICATION = "ukca-title";
     static CERTIFICATION_DETAILS = "certification-details";
     static GPU_MEMORY = "min-gpu-memory-value";
     static NUMBER_OF_CORES = "min-cpu-cores-value";
@@ -35,14 +37,17 @@ export default class AppProfilePage extends AbstractPage {
     static UPDATED_AT = "updated-at";
     static SPECIFICATIONS = "specification-table";
     static SPECIALTY = "specialty";
+    static GOTO_VERSION = "goto-version";
 
     public assertAppDetails(application_detail: ApplicationDetail): AppProfilePage {
         cy.dataCy(AppProfilePage.APPLICATION_NAME)
             .should("be.visible")
             .should("contains.text", application_detail.name);
+        cy.dataCy(AppProfilePage.IMAGE).should("be.visible");
         cy.dataCy(AppProfilePage.INTENDED_USE)
             .should("be.visible")
             .should("contains.text", application_detail.intended_use);
+        this.assertCertificationsAreDisplayed(application_detail.certification.certifications);
         cy.dataCy(AppProfilePage.SHORT_DESCRIPTION)
             .should("be.visible")
             .should("contains.text", application_detail.short_description);
@@ -57,10 +62,10 @@ export default class AppProfilePage extends AbstractPage {
             .should("contains.text", application_detail.developer_details);
 
         this.assertSpecialityIsDisplayed(application_detail.medical_specialties);
-        this.assertCertificationLogoIsDisplayed(application_detail.certification.certifications);
         this.assertFilesAreDisplayed(application_detail.files);
         this.assertSystemRequirements2(application_detail.specification.input_types);
         this.assertSystemRequirements2(application_detail.specification.output_types);
+        this.assertVersions(application_detail.versions);
     }
     public assertVersion(application_detail: ApplicationDetail): AppProfilePage {
         this.clickDropdown("version-selector", "12");
@@ -109,6 +114,17 @@ export default class AppProfilePage extends AbstractPage {
         }
     }
 
+    public assertVersions(versions: Array<string>): void {
+        if (versions != null) {
+            versions.forEach((version) => {
+                cy.dataCy(AppProfilePage.GOTO_VERSION).should("be.visible");
+                cy.dataCy(AppProfilePage.VERSIONS).should("have.text", version);
+            });
+        } else {
+            cy.log("No versions were provided");
+        }
+    }
+
     private assertSpecialityIsDisplayed(specialties: Array<string>): AppProfilePage {
         if (specialties != []) {
             specialties.forEach((specialty) => {
@@ -136,18 +152,18 @@ export default class AppProfilePage extends AbstractPage {
             cy.log("No files were provided");
         }
     }
-    public assertCertificationLogoIsDisplayed(logos: Array<string>): void {
+    public assertCertificationsAreDisplayed(logos: Array<string>): void {
         if (logos != null) {
             logos.forEach((logo) => {
                 switch (logo) {
                     case "ce": {
-                        return cy.dataCy(AppProfilePage.CE_LOGO).should("be.visible");
+                        return cy.dataCy(AppProfilePage.CE_CERTIFICATION).should("be.visible");
                     }
                     case "ukca": {
-                        return cy.dataCy(AppProfilePage.UKCA_LOGO).should("be.visible");
+                        return cy.dataCy(AppProfilePage.UKCA_CERTIFICATION).should("be.visible");
                     }
                     case "fda": {
-                        return cy.dataCy(AppProfilePage.FDA_LOGO).should("be.visible");
+                        return cy.dataCy(AppProfilePage.FDA_CERTIFICATION).should("be.visible");
                     }
                 }
             });

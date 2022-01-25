@@ -13,8 +13,8 @@
                     </thead>
                     <tbody>
                         <tr v-for="version in application.versions" :key="version">
-                            <td>{{ version.version }}</td>
-                            <td>{{ version.created_at | formatDate }}</td>
+                            <td data-cy="history-version">{{ version.version }}</td>
+                            <td>data-cy="version-date"{{ version.created_at | formatDate }}</td>
                             <td>
                                 <v-btn
                                     data-cy="goto-version"

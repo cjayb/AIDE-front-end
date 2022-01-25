@@ -20,7 +20,7 @@
                     height="130px"
                     :class="{ 'on-hover': hover }"
                     style="background: #f5f5f5"
-                    data-cy="min-cpu-cores-card"
+                    data-cy="ce-certification"
                     v-if="certification.includes('ce')"
                 >
                     <v-row justify="center">
@@ -34,9 +34,7 @@
                         />
                     </v-row>
                     <v-row justify="center">
-                        <v-card-title class="mx-0 my-0" data-cy="min-cpu-cores-title"
-                            >CE</v-card-title
-                        >
+                        <v-card-title class="mx-0 my-0" data-cy="ce-title">CE</v-card-title>
                     </v-row>
                 </v-card>
 
@@ -48,7 +46,7 @@
                     height="130px"
                     :class="{ 'on-hover': hover }"
                     style="background: #f5f5f5"
-                    data-cy="min-cpu-cores-card"
+                    data-cy="ukca-certification"
                     v-if="certification.includes('ukca')"
                 >
                     <v-row justify="center">
@@ -62,9 +60,7 @@
                         />
                     </v-row>
                     <v-row justify="center">
-                        <v-card-title class="mx-0 my-0" data-cy="min-cpu-cores-title"
-                            >UKCA</v-card-title
-                        >
+                        <v-card-title class="mx-0 my-0" data-cy="ukca-title">UKCA</v-card-title>
                     </v-row>
                 </v-card>
 
@@ -76,7 +72,7 @@
                     height="130px"
                     :class="{ 'on-hover': hover }"
                     style="background: #f5f5f5"
-                    data-cy="min-cpu-cores-card"
+                    data-cy="fda-certification"
                     v-if="certification.includes('fda')"
                 >
                     <v-row justify="center">
@@ -90,9 +86,7 @@
                         />
                     </v-row>
                     <v-row justify="center">
-                        <v-card-title class="mx-0 my-0" data-cy="min-cpu-cores-title"
-                            >FDA</v-card-title
-                        >
+                        <v-card-title class="mx-0 my-0" data-cy="fda-title">FDA</v-card-title>
                     </v-row>
                 </v-card>
             </v-col>

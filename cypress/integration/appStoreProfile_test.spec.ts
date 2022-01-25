@@ -2,8 +2,8 @@
 
 import AppProfilePage from "pages/appProfilePage";
 import { AppProfileData } from "data/appProfile";
-import { ApplicationData } from "data/application";
 import ApiMocks from "fixtures/mockIndex";
+import scrollToBottom from "scroll-to-bottomjs";
 
 const appProfilePage = new AppProfilePage();
 
@@ -13,7 +13,7 @@ describe("App profile page version 1 ", () => {
         cy.injectAxe();
     });
 
-    it("displays application version 1 details correctly", () => {
+    it.only("displays application version 1 details correctly", () => {
         return appProfilePage.assertAppDetails(AppProfileData.APPLICATION_DETAILS1);
     });
 
@@ -23,6 +23,11 @@ describe("App profile page version 1 ", () => {
 
     it("asserts system requirements are displayed correctly", () => {
         appProfilePage.assertSystemRequirements(AppProfileData.APPLICATION_DETAILS1);
+    });
+
+    it("A Percy screenshot test for the application profile page1", () => {
+        cy.window().then((cyWindow) => scrollToBottom({ timing: 20, remoteWindow: cyWindow }));
+        cy.percySnapshot("Application Profile Page1");
     });
 });
 describe("application page with version 2", () => {
@@ -53,6 +58,11 @@ describe("application page with version 2", () => {
 
     it("asserts system requirements are displayed correctly", () => {
         appProfilePage.assertSystemRequirements(AppProfileData.APPLICATION_DETAILS2);
+    });
+
+    it("A Percy screenshot test for the application profile page2", () => {
+        cy.window().then((cyWindow) => scrollToBottom({ timing: 20, remoteWindow: cyWindow }));
+        cy.percySnapshot("Application Profile Page2");
     });
 });
 describe("Error codes on app store profile page", () => {
