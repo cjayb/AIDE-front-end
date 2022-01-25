@@ -118,11 +118,21 @@ export default class AppProfilePage extends AbstractPage {
 
     public assertVersions(versions: Array<string>): void {
         if (versions != null) {
-            versions.forEach((each) => {
-                cy.dataCy(AppProfilePage.GOTO_VERSION).should("exist", each);
-                cy.dataCy(AppProfilePage.HISTORY_VERSION).should("exist", each);
-                cy.dataCy(AppProfilePage.VERSION_DATE).should("exist", each);
-                cy.dataCy(AppProfilePage.VERSIONS).should("exist", each);
+            versions.forEach((version) => {
+                const dateTime = new Date(version["created_at"]);
+                const dateTimeString =
+                    dateTime.getDate() +
+                    "/" +
+                    (dateTime.getMonth() + "1") +
+                    "/" +
+                    dateTime.getFullYear() +
+                    " " +
+                    dateTime.getHours() +
+                    ":" +
+                    dateTime.getMinutes();
+                cy.dataCy(AppProfilePage.GOTO_VERSION).should("exist");
+                cy.dataCy(AppProfilePage.HISTORY_VERSION).should("contain", version["version"]);
+                cy.dataCy(AppProfilePage.VERSION_DATE).should("contain", dateTimeString);
             });
         } else {
             cy.log("No versions were provided");
