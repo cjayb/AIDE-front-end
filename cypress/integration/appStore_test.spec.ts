@@ -21,6 +21,12 @@ describe("App Store Page", () => {
         appPage.clickAppStoreButton().assertAppStorePageShows();
     });
 
+    it("A user can access the app detailed view via the button", () => {
+        cy.dataCy(AppStorePage.VIEW_APPLICATION_BUTTON).first().click();
+        cy.url().should("include", "/#/application-repository/");
+        cy.url().should("include", "?application_version_id=");
+    });
+
     it("A Percy screenshot test for the application table", () => {
         cy.window().then((cyWindow) => scrollToBottom({ timing: 20, remoteWindow: cyWindow }));
         cy.percySnapshot("Application Table");
@@ -69,7 +75,7 @@ describe("App Store Page", () => {
     });
 });
 
-describe("Error codes on app store page", () => {
+describe("Error handling on app store page", () => {
     beforeEach(() => {
         cy.injectAxe();
         Cypress.on("uncaught:exception", (err, runnable) => {
@@ -79,11 +85,11 @@ describe("Error codes on app store page", () => {
     });
     it("A blank list of apps displays correctly", () => {
         cy.intercept("/app_store/api/application_summaries", {
-            statusCode: 204,
+            statusCode: 200,
             body: '{"count": 1, "next": "None", "previous": "None", "results": []}',
-        }).as("twoHundredFour");
+        }).as("twoHundred");
         cy.visit("/#/application-repository");
-        cy.wait("@twoHundredFour");
+        cy.wait("@twoHundred");
         appPage.assertBlankAppList();
     });
 
