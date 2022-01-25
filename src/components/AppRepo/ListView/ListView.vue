@@ -1,6 +1,9 @@
 <template>
     <v-container style="max-width: 100%">
         <AppRepoHeader></AppRepoHeader>
+        <v-row v-if="loading">
+            <v-progress-linear indeterminate></v-progress-linear>
+        </v-row>
         <Filters
             :applications="applicationResult.results"
             v-if="applicationResult.results.length > 0"
@@ -36,7 +39,7 @@
                                         cols="5"
                                         data-cy="version"
                                         ><span style="font-weight: bold">Version:</span>
-                                        <span>{{ application.latest_version }}</span></v-col
+                                        <span>{{ application.version }}</span></v-col
                                     >
                                 </v-row>
                             </div>
@@ -49,7 +52,9 @@
                         <v-card-actions>
                             <v-btn
                                 color="#1976D2"
-                                @click="viewDetails(application.id)"
+                                @click="
+                                    viewDetails(application.id, application.application_version_id)
+                                "
                                 dark
                                 small
                                 class="mx-3"
@@ -149,7 +154,7 @@
             v-else
             class="d-flex justify-center my-12"
             data-cy="no-results-message"
-            ><h2>No Results</h2></v-row
+            ><h2 v-if="!loading">No Results</h2></v-row
         >
     </v-container>
 </template>
@@ -162,6 +167,7 @@ import AppRepoHeader from "../Shared/AppRepoHeader.vue";
 import Filters from "../ListView/Filters.vue";
 import { getAllApplications } from "../../../api/ApplicationService";
 import { ApplicationResult } from "@/models/ApplicationResult";
+import { Application } from "vuetify/types/services/application";
 
 @Component({
     components: { AppRepoHeader, Filters },
@@ -180,9 +186,11 @@ export default class ListView extends Vue {
     hex = ["#2196F3", "#6383D2", "#797CC7", "#A66FB1", "#BC69A6", "#D2629B", "#E85C90"];
 
     async created(): Promise<void> {
+        this.loading = true;
         await getAllApplications()
             .then((applicationResult: ApplicationResult) => {
                 this.applicationResult = applicationResult;
+                this.loading = false;
             })
             .catch((err) => {
                 console.log(err);
@@ -247,8 +255,12 @@ export default class ListView extends Vue {
             });
     }
 
-    viewDetails(id: string): void {
-        this.$router.push({ name: "ApplicationRepositoryDetail", params: { application_id: id } });
+    viewDetails(id: string, application_version_id: string): void {
+        this.$router.push({
+            name: "ApplicationRepositoryDetail",
+            params: { application_id: id },
+            query: { application_version_id: application_version_id },
+        });
     }
 }
 </script>

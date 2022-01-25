@@ -6,7 +6,8 @@
       {
          "id": "00bba135-5069-45e5-8d28-25a211c14afa",
          "name": "Missing Image",
-         "latest_version": "1.2",
+         "version": "1.2",
+         "application_version_id":"fc8a188b-0e5a-498c-b775-2f24f2fc600a",
          "short_description": "This is an application with no image",
          "certification": {
             "certifications": [],
@@ -23,7 +24,8 @@
       {
          "id": "00bba135-5069-45e5-8d28-25a211c14afa",
          "name": "CE Application",
-         "latest_version": "1.9",
+         "version": "1.9",
+         "application_version_id":"fc8a188b-0e5a-498c-b775-2f24f2fc600a",
          "short_description": "This is an application with CE certification",
          "certification": {
             "certifications": [
@@ -42,7 +44,8 @@
       {
          "id": "00bba135-5069-45e5-8d28-25a211c14afa",
          "name": "UKCA Application",
-         "latest_version": "2.1.3",
+         "version": "2.1.3",
+         "application_version_id":"fc8a188b-0e5a-498c-b775-2f24f2fc600a",
          "short_description": "This is an application with UKCA certification",
          "certification": {
             "certifications": [
@@ -61,7 +64,8 @@
       {
          "id": "00bba135-5069-45e5-8d28-25a211c14afa",
          "name": "FDA Application",
-         "latest_version": "1.2",
+         "version": "1.2",
+         "application_version_id":"fc8a188b-0e5a-498c-b775-2f24f2fc600a",
          "short_description": "This is an application with FDA certification",
          "certification": {
             "certifications": [
@@ -80,7 +84,8 @@
       {
          "id": "00bba135-5069-45e5-8d28-25a211c14afa",
          "name": "Specialty Application",
-         "latest_version": "one.three",
+         "version": "one.three",
+         "application_version_id":"fc8a188b-0e5a-498c-b775-2f24f2fc600a",
          "short_description": "This is an application with specialties",
          "certification": {
             "certifications": [
@@ -104,7 +109,8 @@
       {
          "id": "00bba135-5069-45e5-8d28-25a211c14afa",
          "name": "Long Description Application",
-         "latest_version": "5.6",
+         "version": "5.6",
+         "application_version_id":"fc8a188b-0e5a-498c-b775-2f24f2fc600a",
          "short_description": "This is an application with a long description. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id nisi in lorem mattis efficitur et non orci. Cras in tincidunt lorem. Curabitur ut sapien purus. Integer sodales, quam eget volutpat imperdiet, neque risus blandit dui, eget ultrices turpis massa vestibulum eros. Proin elit turpis, tempor eget egestas eget, hendrerit.",
          "certification": {
             "certifications": [
@@ -130,7 +136,8 @@
       {
          "id": "00bba135-5069-45e5-8d28-25a211c14afa",
          "name": "Unique Speciality Application",
-         "latest_version": "5.6",
+         "version": "5.6",
+         "application_version_id":"fc8a188b-0e5a-498c-b775-2f24f2fc600a",
          "short_description": "This is an application with a unique speciality",
          "certification": {
             "certifications": [

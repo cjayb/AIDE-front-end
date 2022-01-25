@@ -1,9 +1,10 @@
 <template>
     <v-row style="border: 1px solid #eeeeee; background: #fff">
         <v-col class="d-flex" cols="6">
-            <v-breadcrumbs :items="breadcrumbs" class="px-0 py-0">
+            <v-breadcrumbs :items="breadcrumbs" class="px-0 py-0" data-cy="breadcrumbs">
                 <template v-slot:item="{ item }">
                     <v-breadcrumbs-item
+                        data-cy="breadcrumb-item"
                         :to="item.to"
                         class="text-subtitle-2 crumb-item"
                         :disabled="item.disabled"
@@ -49,10 +50,6 @@ export default class AppRepoHeader extends Vue {
             return this.$route!.meta!.breadCrumb.call(this, this.$route);
         }
         return this.$route!.meta!.breadCrumb;
-    }
-
-    created(): void {
-        console.log();
     }
 
     search(): void {

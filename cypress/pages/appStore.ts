@@ -76,10 +76,7 @@ export default class AppStorePage extends AbstractPage {
                 "have.text",
                 application.developer_details,
             );
-            cy.dataCy(AppStorePage.VERSION).should(
-                "have.text",
-                "Version:" + application.latest_version,
-            );
+            cy.dataCy(AppStorePage.VERSION).should("have.text", "Version:" + application.version);
             cy.dataCy(AppStorePage.VIEW_APPLICATION_BUTTON).should("be.visible");
             cy.dataCy(AppStorePage.SHORT_DESCRIPTION).should(
                 "contains.text",
@@ -128,13 +125,8 @@ export default class AppStorePage extends AbstractPage {
         }
     }
 
-    clickDropdown(dropdownId: string, selection: string): void {
-        cy.dataCy(dropdownId).click();
-        cy.get(".v-menu__content").contains(selection).click();
-    }
-
     public async initPage() {
-        cy.intercept("/app_store/api/applications", ApiMocks.APP_STORE_ALL_PERMUTATIONS).as(
+        cy.intercept("/app_store/api/application_summaries", ApiMocks.APP_STORE_ALL_PERMUTATIONS).as(
             "ApplicationList",
         );
         cy.visit("/#/application-repository");

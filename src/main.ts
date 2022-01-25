@@ -5,6 +5,7 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import moment from "moment-timezone";
+import numeral from "numeral";
 import authentication from "@/plugins/authentication";
 import VueToast from "vue-toast-notification";
 // import "vue-toast-notification/dist/theme-default.css";
@@ -31,6 +32,10 @@ Vue.filter("formatAge", function (value: any) {
     if (value) {
         return moment(String(value)).format("DD/MM/YYYY");
     }
+});
+
+Vue.filter("formatNumber", function (value: any) {
+    return numeral(value).format("0,0"); // displaying other groupings/separators is possible, look at the docs
 });
 
 Vue.config.errorHandler = (err, vm, info) => {

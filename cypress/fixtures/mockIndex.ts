@@ -21,4 +21,6 @@ export default class ApiMocks {
     public static OUTPUT_FILE = require("./outputFile.json");
     public static REMOTE_DICOM_METADATA = require("./remoteDicomMetadata");
     public static APP_STORE_ALL_PERMUTATIONS = require("./appStoreAllPermutations.json");
+    public static APP_PROFILE_PAGE1 = require("./appProfilePage1.json");
+    public static APP_PROFILE_PAGE2 = require("./appProfilePage2.json");
 }

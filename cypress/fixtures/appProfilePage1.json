@@ -1,0 +1,59 @@
+{
+   "id": "4cf54533-c2d6-474b-b32a-c1c4dc257eff",
+   "name": "Stroke Pathway",
+   "version": "12",
+   "application_version_id":"fda51e65-946d-4e65-a791-e92f2a1350da",
+   "short_description": "Benefits of deploying this AI application within NHS trust.Benefits of deploying this app.",
+   "certification": {
+       "certifications": [
+           "ce",
+           "fda",
+           "ukca"
+       ],
+       "certification_details": "certification details"
+   },
+   "medical_specialties": [
+       "Radiology",
+       "Ophthalmology",
+       "Cancer",
+       "General Medicine",
+       "Cardiology"
+   ],
+   "developer_details": "developer details",
+   "developers": "AI Centre",
+   "collaborators": [
+       "collaborators"
+   ],
+   "image": "https://via.placeholder.com/1000x372",
+   "files": [
+       {
+           "file_id": 1,
+           "label": "technical_file",
+           "url": "/ml.jpg",
+           "created_at": "2022-01-14T12:48:41Z"
+       }
+   ],
+   "specification": {
+       "min_gpu_memory": 10,
+       "min_cpu_cores": 5,
+       "min_disk_space": 6,
+       "min_ram_mb": 3,
+       "input_types": [
+           "DICOM"
+       ],
+       "output_types": [
+           "DICOM"
+       ]
+   },
+   "versions": [
+       {
+           "version": "12",
+           "application_version_id": 2,
+           "created_at": "2022-01-19T15:26:25Z"
+       }
+   ],
+   "intended_use": "intended use",
+   "long_description": "long description about this application",
+   "updated_at": "2022-01-19T15:26:24Z",
+   "created_at": "2022-01-19T15:26:25Z"
+}

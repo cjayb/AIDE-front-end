@@ -1,0 +1,62 @@
+{
+    "id": "54b43bb7-8f93-450a-9e9d-2f72b3d90d61",
+    "name": "Stroke Pathway2",
+    "version": "12",
+    "application_version_id":"66d62991-f1f2-4027-a6fa-03e3bb9c4833",
+    "short_description": "Benefits of deploying this AI application within NHS trust.Benefits of deploying this app.",
+    "certification": {
+        "certifications": [
+            "ce",
+            "ukca"
+        ],
+        "certification_details": "certification details"
+    },
+    "medical_specialties": [
+        "Radiology",
+        "Ophthalmology"
+    ],
+    "developer_details": "developer details",
+    "developers": "AI Centre",
+    "collaborators": [
+        "collaborators"
+    ],
+    "image": "https://via.placeholder.com/1000x372",
+    "files": [
+        {
+            "file_id": 1,
+            "label": "technical_file",
+            "url": "/ml.jpg",
+            "created_at": "2022-01-14T12:48:41Z"
+        },
+        {
+            "file_id": 1,
+            "label": "technical_file2",
+            "url": "/ml.jpg",
+            "created_at": "2022-01-14T12:48:41Z"
+        }
+    ],
+    "specification": {
+        "min_gpu_memory": 1,
+        "min_cpu_cores": 1,
+        "min_disk_space": 1,
+        "min_ram_mb": 1,
+        "input_types": [
+            "DICOM"
+        ],
+        "output_types": [
+            "DICOM",
+            "PDF"
+        ]
+    },
+    "versions": [
+        {
+            "version": "12",
+            "application_version_id": 2,
+            "created_at": "2022-01-19T15:26:25Z"
+        }
+    ],
+    "intended_use": "intended use",
+    "long_description": "long description about this application",
+    "updated_at": "2022-01-19T15:26:24Z",
+    "created_at": "2022-01-19T15:26:25Z"
+ }

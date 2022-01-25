@@ -4,7 +4,8 @@ import ApiMocks from "../fixtures/mockIndex";
 export class ApplicationData implements Application {
     id: string;
     name: string;
-    latest_version: string;
+    version: string;
+    application_version_id: string;
     short_description: string;
     image: string;
     medical_specialties: string[];
@@ -16,7 +17,8 @@ export class ApplicationData implements Application {
     constructor(application: Application) {
         this.id = application.id;
         this.name = application.name;
-        this.latest_version = application.latest_version;
+        this.version = application.version;
+        this.application_version_id = application.application_version_id;
         this.short_description = application.short_description;
         this.image = application.image;
         this.medical_specialties = application.medical_specialties;

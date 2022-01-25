@@ -47,7 +47,6 @@ export default class Filters extends Vue {
 
     mounted(): void {
         this.applications.forEach((application) => {
-            console.log(application.medical_specialties);
             this.medical_specialties = this.medical_specialties.concat(
                 application.medical_specialties,
             );

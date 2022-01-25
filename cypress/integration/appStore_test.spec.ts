@@ -78,7 +78,7 @@ describe("Error codes on app store page", () => {
         });
     });
     it("A blank list of apps displays correctly", () => {
-        cy.intercept("/app_store/api/applications", {
+        cy.intercept("/app_store/api/application_summaries", {
             statusCode: 204,
             body: '{"count": 1, "next": "None", "previous": "None", "results": []}',
         }).as("twoHundredFour");
@@ -88,29 +88,29 @@ describe("Error codes on app store page", () => {
     });
 
     it("Application store page handles 400 error code gracefully", () => {
-        cy.intercept("/app_store/api/applications", { statusCode: 400 }).as("fourHundred");
+        cy.intercept("/app_store/api/application_summaries", { statusCode: 400 }).as("fourHundred");
         cy.visit("/#/application-repository");
         cy.wait("@fourHundred");
         appPage.assertLatestErrorContainsMessage(
-            "Something unexpected went wrong retrieving applications!",
+            "Something unexpected went wrong retrieving application!",
         );
     });
 
     it("Application store page handles 403 error code gracefully", () => {
-        cy.intercept("/app_store/api/applications", { statusCode: 403 }).as("fourHundredThree");
+        cy.intercept("/app_store/api/application_summaries", { statusCode: 403 }).as("fourHundredThree");
         cy.visit("/#/application-repository");
         cy.wait("@fourHundredThree");
         appPage.assertLatestErrorContainsMessage(
-            "Something unexpected went wrong retrieving applications!",
+            "Something unexpected went wrong retrieving application!",
         );
     });
 
     it("Application store page handles 500 error code gracefully", () => {
-        cy.intercept("/app_store/api/applications", { statusCode: 500 }).as("fiveHundred");
+        cy.intercept("/app_store/api/application_summaries", { statusCode: 500 }).as("fiveHundred");
         cy.visit("/#/application-repository");
         cy.wait("@fiveHundred");
         appPage.assertLatestErrorContainsMessage(
-            "Something unexpected went wrong retrieving applications!",
+            "Something unexpected went wrong retrieving application!",
         );
     });
 });
