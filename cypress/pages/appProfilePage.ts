@@ -43,24 +43,24 @@ export default class AppProfilePage extends AbstractPage {
 
     public assertAppDetails(application_detail: ApplicationDetail): AppProfilePage {
         cy.dataCy(AppProfilePage.APPLICATION_NAME)
-            .should("be.visible")
+            .should("exist")
             .should("contains.text", application_detail.name);
-        cy.dataCy(AppProfilePage.IMAGE).should("be.visible");
+        cy.dataCy(AppProfilePage.IMAGE).should("exist");
         cy.dataCy(AppProfilePage.INTENDED_USE)
-            .should("be.visible")
+            .should("exist")
             .should("contains.text", application_detail.intended_use);
         this.assertCertificationsAreDisplayed(application_detail.certification.certifications);
         cy.dataCy(AppProfilePage.SHORT_DESCRIPTION)
-            .should("be.visible")
+            .should("exist")
             .should("contains.text", application_detail.short_description);
         cy.dataCy(AppProfilePage.LONG_DESCRIPTION)
-            .should("be.visible")
+            .should("exist")
             .should("contains.text", application_detail.long_description);
         cy.dataCy(AppProfilePage.DEVELOPERS)
-            .should("be.visible")
+            .should("exist")
             .should("contains.text", application_detail.developers);
         cy.dataCy(AppProfilePage.DEVELOPER_DETAILS)
-            .should("be.visible")
+            .should("exist")
             .should("contains.text", application_detail.developer_details);
 
         this.assertSpecialityIsDisplayed(application_detail.medical_specialties);
@@ -118,11 +118,11 @@ export default class AppProfilePage extends AbstractPage {
 
     public assertVersions(versions: Array<string>): void {
         if (versions != null) {
-            versions.forEach(() => {
-                cy.dataCy(AppProfilePage.GOTO_VERSION).should("be.visible");
-                cy.dataCy(AppProfilePage.HISTORY_VERSION).should("be.visible");
-                cy.dataCy(AppProfilePage.VERSION_DATE).should("be.visible");
-                cy.dataCy(AppProfilePage.VERSIONS).should("be.visible");
+            versions.forEach((each) => {
+                cy.dataCy(AppProfilePage.GOTO_VERSION).should("exist", each);
+                cy.dataCy(AppProfilePage.HISTORY_VERSION).should("exist", each);
+                cy.dataCy(AppProfilePage.VERSION_DATE).should("exist", each);
+                cy.dataCy(AppProfilePage.VERSIONS).should("exist", each);
             });
         } else {
             cy.log("No versions were provided");
@@ -161,13 +161,13 @@ export default class AppProfilePage extends AbstractPage {
             logos.forEach((logo) => {
                 switch (logo) {
                     case "ce": {
-                        return cy.dataCy(AppProfilePage.CE_CERTIFICATION).should("be.visible");
+                        return cy.dataCy(AppProfilePage.CE_CERTIFICATION).should("exist");
                     }
                     case "ukca": {
-                        return cy.dataCy(AppProfilePage.UKCA_CERTIFICATION).should("be.visible");
+                        return cy.dataCy(AppProfilePage.UKCA_CERTIFICATION).should("exist");
                     }
                     case "fda": {
-                        return cy.dataCy(AppProfilePage.FDA_CERTIFICATION).should("be.visible");
+                        return cy.dataCy(AppProfilePage.FDA_CERTIFICATION).should("exist");
                     }
                 }
             });
