@@ -38,6 +38,10 @@ Vue.filter("formatNumber", function (value: any) {
     return numeral(value).format("0,0"); // displaying other groupings/separators is possible, look at the docs
 });
 
+Vue.filter("formatFileTitle", function (value: string) {
+    return value.replaceAll(/[\W_]+/g, " "); // displaying other groupings/separators is possible, look at the docs
+});
+
 Vue.config.errorHandler = (err, vm, info) => {
     // err: error trace
     // vm: component in which error occured

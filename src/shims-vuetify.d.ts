@@ -15,3 +15,4 @@ declare module "cornerstone-web-image-loader";
 declare module "cornerstone-tools";
 declare module "cornerstone-math";
 declare module "hammerjs";
+declare module "numeral";
