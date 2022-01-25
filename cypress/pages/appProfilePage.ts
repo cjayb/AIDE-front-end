@@ -38,6 +38,8 @@ export default class AppProfilePage extends AbstractPage {
     static SPECIFICATIONS = "specification-table";
     static SPECIALTY = "specialty";
     static GOTO_VERSION = "goto-version";
+    static HISTORY_VERSION = "history-version";
+    static VERSION_DATE = "version-date";
 
     public assertAppDetails(application_detail: ApplicationDetail): AppProfilePage {
         cy.dataCy(AppProfilePage.APPLICATION_NAME)
@@ -118,7 +120,8 @@ export default class AppProfilePage extends AbstractPage {
         if (versions != null) {
             versions.forEach((version) => {
                 cy.dataCy(AppProfilePage.GOTO_VERSION).should("be.visible");
-                cy.dataCy(AppProfilePage.VERSIONS).should("have.text", version);
+                cy.dataCy(AppProfilePage.HISTORY_VERSION).should("be.visible");
+                cy.dataCy(AppProfilePage.VERSION_DATE).should("be.visible");
             });
         } else {
             cy.log("No versions were provided");
