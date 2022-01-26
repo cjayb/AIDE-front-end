@@ -16,6 +16,20 @@ export class AbstractPage implements IPage {
         cy.dataCy(dropdownId).click();
         cy.get(".v-menu__content").contains(selection).click();
     }
+    dateTimeConvertor(givenDateTime: string) {
+        const dateTime = new Date(givenDateTime);
+        const convertedDateTime =
+            dateTime.getDate() +
+            "/" +
+            (dateTime.getMonth() + "1") +
+            "/" +
+            dateTime.getFullYear() +
+            " " +
+            dateTime.getHours() +
+            ":" +
+            dateTime.getMinutes();
+        return convertedDateTime;
+    }
 
     initPage(){
         // To be overridden by each page

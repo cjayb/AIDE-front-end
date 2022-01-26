@@ -1,9 +1,6 @@
-import { ApplicationData } from "data/application";
-import { AppProfileData } from "data/appProfile";
 import { ApplicationDetail } from "../../src/models/ApplicationResult";
 import ApiMocks from "../fixtures/mockIndex";
 import { AbstractPage } from "./abstractPage";
-import scrollToBottom from "scroll-to-bottomjs";
 
 export default class AppProfilePage extends AbstractPage {
     // Default Screen
@@ -119,20 +116,12 @@ export default class AppProfilePage extends AbstractPage {
     public assertVersions(versions: Array<string>): void {
         if (versions != null) {
             versions.forEach((version) => {
-                const dateTime = new Date(version["created_at"]);
-                const dateTimeString =
-                    dateTime.getDate() +
-                    "/" +
-                    (dateTime.getMonth() + "1") +
-                    "/" +
-                    dateTime.getFullYear() +
-                    " " +
-                    dateTime.getHours() +
-                    ":" +
-                    dateTime.getMinutes();
                 cy.dataCy(AppProfilePage.GOTO_VERSION).should("exist");
                 cy.dataCy(AppProfilePage.HISTORY_VERSION).should("contain", version["version"]);
-                cy.dataCy(AppProfilePage.VERSION_DATE).should("contain", dateTimeString);
+                cy.dataCy(AppProfilePage.VERSION_DATE).should(
+                    "contain",
+                    this.dateTimeConvertor(version["created_at"]),
+                );
             });
         } else {
             cy.log("No versions were provided");
