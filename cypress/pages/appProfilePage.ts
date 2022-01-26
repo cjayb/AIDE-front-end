@@ -37,7 +37,6 @@ export default class AppProfilePage extends AbstractPage {
     static GOTO_VERSION = "goto-version";
     static HISTORY_VERSION = "history-version";
     static VERSION_DATE = "version-date";
-    static DETAIL_SUB_MODULE = "detail-sub-module";
 
     public assertAppDetails(application_detail: ApplicationDetail): AppProfilePage {
         cy.dataCy(AppProfilePage.APPLICATION_NAME)

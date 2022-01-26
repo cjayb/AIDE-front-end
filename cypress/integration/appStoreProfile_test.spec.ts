@@ -3,7 +3,6 @@
 import AppProfilePage from "pages/appProfilePage";
 import { AppProfileData } from "data/appProfile";
 import ApiMocks from "fixtures/mockIndex";
-import scrollToBottom from "scroll-to-bottomjs";
 
 const appProfilePage = new AppProfilePage();
 
@@ -25,11 +24,8 @@ describe("App profile page version 1 ", () => {
         appProfilePage.assertSystemRequirements(AppProfileData.APPLICATION_DETAILS1);
     });
 
-    it.only("A Percy screenshot test for the application profile page1", () => {
+    it("A Percy screenshot test for the application profile page1", () => {
         cy.percySnapshot("Application Profile Page1");
-        cy.dataCy(AppProfilePage.DETAIL_SUB_MODULE).percySnapshotElement(
-            "Application Profile details",
-        );
     });
 });
 describe("application page with version 2", () => {
