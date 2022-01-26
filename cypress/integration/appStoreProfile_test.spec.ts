@@ -25,9 +25,11 @@ describe("App profile page version 1 ", () => {
         appProfilePage.assertSystemRequirements(AppProfileData.APPLICATION_DETAILS1);
     });
 
-    it("A Percy screenshot test for the application profile page1", () => {
-        cy.window().then((cyWindow) => scrollToBottom({ timing: 20, remoteWindow: cyWindow }));
+    it.only("A Percy screenshot test for the application profile page1", () => {
         cy.percySnapshot("Application Profile Page1");
+        cy.dataCy(AppProfilePage.DETAIL_SUB_MODULE).percySnapshotElement(
+            "Application Profile details",
+        );
     });
 });
 describe("application page with version 2", () => {

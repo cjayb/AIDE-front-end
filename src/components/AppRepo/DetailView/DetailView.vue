@@ -5,7 +5,10 @@
             <v-progress-linear indeterminate></v-progress-linear>
         </v-row>
         <DetailActionBar :application="application"></DetailActionBar>
-        <v-container style="max-width: 100%; height: calc(100vh - 210px); overflow: auto">
+        <v-container
+            style="max-width: 100%; height: calc(100vh - 210px); overflow: auto"
+            data-cy="detail-sub-module"
+        >
             <v-container style="max-width: 75%">
                 <DetailHeader :application="application"></DetailHeader>
                 <v-tabs v-model="tab">
