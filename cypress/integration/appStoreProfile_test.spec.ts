@@ -61,11 +61,6 @@ describe("application page with version 2", () => {
     it("asserts system requirements are displayed correctly", () => {
         appProfilePage.assertSystemRequirements(AppProfileData.APPLICATION_DETAILS2);
     });
-
-    it("A Percy screenshot test for the application profile page2", () => {
-        cy.window().then((cyWindow) => scrollToBottom({ timing: 20, remoteWindow: cyWindow }));
-        cy.percySnapshot("Application Profile Page2");
-    });
 });
 describe("Error codes on app store profile page", () => {
     const application_id = "9e5d4728-e73d-4ef1-ac56-69f682453316";
