@@ -10,7 +10,10 @@
                         :disabled="item.disabled"
                         exact
                     >
-                        {{ item.text }}
+                        <span v-if="application && item.text.includes(application.id)">{{
+                            application.name
+                        }}</span>
+                        <span v-else>{{ item.text }}</span>
                     </v-breadcrumbs-item>
                 </template>
             </v-breadcrumbs>
@@ -18,6 +21,7 @@
         <v-spacer></v-spacer>
         <v-col class="d-flex" cols="3">
             <v-text-field
+                :disabled="searchDisabled"
                 dense
                 hide-details
                 v-model="searchTerm"
@@ -34,6 +38,7 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import { Watch, Prop } from "vue-property-decorator";
 import { EventBus } from "@/event-bus";
 import { ApplicationDetail } from "@/models/ApplicationResult";
 
@@ -41,15 +46,26 @@ import { ApplicationDetail } from "@/models/ApplicationResult";
     components: {},
 })
 export default class AppRepoHeader extends Vue {
+    @Prop() application!: ApplicationDetail;
     medical_specialties = ["General Medicine", "Radiology"];
     sorts = ["alphabetical", "date"];
     searchTerm = "";
+    searchDisabled = true;
 
     get breadcrumbs() {
         if (typeof this.$route!.meta!.breadCrumb === "function") {
             return this.$route!.meta!.breadCrumb.call(this, this.$route);
         }
         return this.$route!.meta!.breadCrumb;
+    }
+
+    @Watch("$route", { immediate: true, deep: true })
+    onUrlChange(): void {
+        if (this.$route.name?.includes("ApplicationRepositoryDetail")) {
+            this.searchDisabled = true;
+        } else {
+            this.searchDisabled = false;
+        }
     }
 
     search(): void {

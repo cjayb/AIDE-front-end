@@ -1,4 +1,6 @@
-import { ApplicationDetail } from "../../src/models/ApplicationResult";
+import { version } from "chai";
+import { versions } from "process";
+import { ApplicationDetail, Version } from "../../src/models/ApplicationResult";
 import ApiMocks from "../fixtures/mockIndex";
 import { AbstractPage } from "./abstractPage";
 
@@ -73,19 +75,19 @@ export default class AppProfilePage extends AbstractPage {
     }
     public assertSystemRequirements(application_detail: ApplicationDetail): AppProfilePage {
         cy.dataCy(AppProfilePage.GPU_MEMORY).should(
-            "have.text",
-            application_detail.specification.min_gpu_memory + " GB",
+            "contain",
+            application_detail.specification.min_gpu_memory,
         );
         cy.dataCy(AppProfilePage.NUMBER_OF_CORES).should(
-            "have.text",
+            "contain",
             application_detail.specification.min_cpu_cores,
         );
         cy.dataCy(AppProfilePage.DISK_SPACE).should(
-            "have.text",
+            "contain",
             application_detail.specification.min_disk_space,
         );
         cy.dataCy(AppProfilePage.RAM).should(
-            "have.text",
+            "contain",
             application_detail.specification.min_ram_mb,
         );
         return this;

@@ -13,7 +13,7 @@
                 <DetailHeader :application="application"></DetailHeader>
                 <v-tabs v-model="tab">
                     <v-tab>{{ application.name }} Overview</v-tab>
-                    <v-tab>Model Card</v-tab>
+                    <!-- <v-tab>Model Card</v-tab> -->
                 </v-tabs>
                 <v-tabs-items v-model="tab">
                     <v-tab-item>
@@ -25,7 +25,7 @@
                         <VersionHistory :application="application"></VersionHistory>
                         <AboutTheDeveloper :application="application"></AboutTheDeveloper>
                     </v-tab-item>
-                    <v-tab-item>test</v-tab-item>
+                    <!-- <v-tab-item>No Data</v-tab-item> -->
                 </v-tabs-items>
             </v-container>
         </v-container>
@@ -96,3 +96,14 @@ export default class DetailView extends Vue {
     }
 }
 </script>
+<style>
+.custom-card {
+    height: 130px;
+    width: 130px;
+    background-color: #f5f5f5 !important;
+}
+.custom-card .v-card__title {
+    font-size: 0.9rem;
+    line-height: 1rem;
+}
+</style>

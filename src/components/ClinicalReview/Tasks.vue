@@ -1,5 +1,5 @@
 <template>
-    <v-card :loading="loading">
+    <v-card :loading="loading" elevation="0" class="my-0">
         <v-list-item>
             <v-list-item-content>
                 <v-list-item-title class="text-h6">Work List</v-list-item-title>

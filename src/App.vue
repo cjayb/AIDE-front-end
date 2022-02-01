@@ -7,7 +7,7 @@
         <AppHeader />
 
         <!-- Main Content -->
-        <v-main style="background: #e5e5e5; padding: 64px 0px 0px 55px">
+        <v-main style="padding: 64px 0px 0px 55px">
             <transition name="fade" mode="out-in">
                 <router-view />
             </transition>
@@ -38,6 +38,10 @@ export default Vue.extend({
 </script>
 
 <style>
+html {
+    overflow: auto;
+    min-width: 1000px;
+}
 /* .row {
     margin: -12px !important;
 } */
@@ -52,7 +56,26 @@ export default Vue.extend({
     opacity: 0;
 }
 
-html {
-    /* overflow: hidden; */
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #61366e;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #5f2e6e;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <v-row style="">
+    <v-row class="my-2">
         <v-spacer></v-spacer>
         <v-col class="d-flex" cols="3" data-cy="medical-speciality-filter">
             <v-select

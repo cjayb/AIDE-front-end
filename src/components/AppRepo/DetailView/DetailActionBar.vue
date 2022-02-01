@@ -1,18 +1,27 @@
 <template>
     <v-row style="border: 1px solid #eeeeee; margin-bottom: 0px">
-        <v-col
-            cols="2"
-            style="color: #23212a; font-weight: bold; font-size: 24px; line-height: 40px"
-            data-cy="name"
-            >{{ application.name }}</v-col
-        >
+        <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+                <v-col cols="2" class="app-name" data-cy="name" v-bind="attrs" v-on="on"
+                    >{{ application.name }}
+                </v-col>
+            </template>
+            <span>{{ application.name }}</span>
+        </v-tooltip>
         <v-divider vertical></v-divider>
-        <v-col
-            cols="2"
-            style="color: #615f69; font-weight: bold; font-size: 24px; line-height: 40px"
-            data-cy="developers"
-            >{{ application.developers }}</v-col
-        >
+        <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+                <v-col
+                    cols="2"
+                    class="app-developers"
+                    data-cy="developers"
+                    v-bind="attrs"
+                    v-on="on"
+                    >{{ application.developers }}</v-col
+                >
+            </template>
+            <span>{{ application.developers }}</span>
+        </v-tooltip>
         <v-divider vertical></v-divider>
         <v-col cols="2" data-cy="version-selector"
             ><v-select
@@ -107,3 +116,31 @@ export default class DetailActionBar extends Vue {
     }
 }
 </script>
+
+<style>
+.app-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    white-space: normal;
+    color: #23212a;
+    font-weight: bold;
+    font-size: 24px;
+    height: 40px;
+}
+
+.app-developers {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    white-space: normal;
+    color: #615f69;
+    font-weight: bold;
+    font-size: 24px;
+    height: 40px;
+}
+</style>

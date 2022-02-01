@@ -1,5 +1,5 @@
 <template>
-    <v-container style="max-width: 100%">
+    <v-container style="max-width: 100%; min-height: calc(100vh - 64px); background: #e5e5e5">
         <AppRepoHeader></AppRepoHeader>
         <v-row v-if="loading">
             <v-progress-linear indeterminate></v-progress-linear>
@@ -38,7 +38,7 @@
                                         class="py-0 my-0 text-right subTitle"
                                         cols="5"
                                         data-cy="version"
-                                        ><span style="font-weight: bold">Version:</span>
+                                        ><span style="font-weight: bold">Version: </span>
                                         <span>{{ application.version }}</span></v-col
                                     >
                                 </v-row>

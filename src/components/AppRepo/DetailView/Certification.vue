@@ -12,83 +12,78 @@
                 v-for="certification in application.certification.certifications"
                 :key="certification"
             >
-                <!-- CE -->
-                <v-card
-                    class="mx-auto my-5"
-                    :elevation="0"
-                    width="130px"
-                    height="130px"
-                    :class="{ 'on-hover': hover }"
-                    style="background: #f5f5f5"
-                    data-cy="ce-certification"
-                    v-if="certification.includes('ce')"
-                >
-                    <v-row justify="center">
-                        <v-img
-                            width="80px"
-                            height="80px"
-                            data-cy="certifications"
-                            contain
-                            class="mx-auto"
-                            src="@/assets/CE.png"
-                        />
-                    </v-row>
-                    <v-row justify="center">
-                        <v-card-title class="mx-0 my-0" data-cy="ce-title">CE</v-card-title>
-                    </v-row>
-                </v-card>
-
-                <!-- UKCA -->
-                <v-card
-                    class="mx-auto my-5"
-                    :elevation="0"
-                    width="130px"
-                    height="130px"
-                    :class="{ 'on-hover': hover }"
-                    style="background: #f5f5f5"
-                    data-cy="ukca-certification"
-                    v-if="certification.includes('ukca')"
-                >
-                    <v-row justify="center">
-                        <v-img
-                            width="80px"
-                            height="80px"
-                            data-cy="certifications"
-                            contain
-                            class="mx-auto"
-                            src="@/assets/UKCA.png"
-                        />
-                    </v-row>
-                    <v-row justify="center">
-                        <v-card-title class="mx-0 my-0" data-cy="ukca-title">UKCA</v-card-title>
-                    </v-row>
-                </v-card>
-
-                <!-- FDA -->
-                <v-card
-                    class="mx-auto my-5"
-                    :elevation="0"
-                    width="130px"
-                    height="130px"
-                    :class="{ 'on-hover': hover }"
-                    style="background: #f5f5f5"
-                    data-cy="fda-certification"
-                    v-if="certification.includes('fda')"
-                >
-                    <v-row justify="center">
-                        <v-img
-                            width="80px"
-                            height="80px"
-                            data-cy="certifications"
-                            contain
-                            class="mx-auto"
-                            src="@/assets/FDA.png"
-                        />
-                    </v-row>
-                    <v-row justify="center">
-                        <v-card-title class="mx-0 my-0" data-cy="fda-title">FDA</v-card-title>
-                    </v-row>
-                </v-card>
+                <v-hover v-slot="{ hover }">
+                    <!-- CE -->
+                    <v-card
+                        class="custom-card mx-auto my-5"
+                        :elevation="hover ? 2 : 0"
+                        :class="{ 'on-hover': hover }"
+                        data-cy="ce-certification"
+                        v-if="certification.includes('ce')"
+                    >
+                        <v-row justify="center">
+                            <v-img
+                                width="80px"
+                                height="80px"
+                                data-cy="certifications"
+                                contain
+                                class="mx-auto"
+                                src="@/assets/CE.png"
+                            />
+                        </v-row>
+                        <v-row justify="center">
+                            <v-card-title class="mx-0 my-0" data-cy="ce-title">CE</v-card-title>
+                        </v-row>
+                    </v-card>
+                </v-hover>
+                <v-hover v-slot="{ hover }">
+                    <!-- UKCA -->
+                    <v-card
+                        class="custom-card mx-auto my-5"
+                        :elevation="hover ? 2 : 0"
+                        :class="{ 'on-hover': hover }"
+                        data-cy="ukca-certification"
+                        v-if="certification.includes('ukca')"
+                    >
+                        <v-row justify="center">
+                            <v-img
+                                width="80px"
+                                height="80px"
+                                data-cy="certifications"
+                                contain
+                                class="mx-auto"
+                                src="@/assets/UKCA.png"
+                            />
+                        </v-row>
+                        <v-row justify="center">
+                            <v-card-title class="mx-0 my-0" data-cy="ukca-title">UKCA</v-card-title>
+                        </v-row>
+                    </v-card>
+                </v-hover>
+                <v-hover v-slot="{ hover }">
+                    <!-- FDA -->
+                    <v-card
+                        class="custom-card mx-auto my-5"
+                        :elevation="hover ? 2 : 0"
+                        :class="{ 'on-hover': hover }"
+                        data-cy="fda-certification"
+                        v-if="certification.includes('fda')"
+                    >
+                        <v-row justify="center">
+                            <v-img
+                                width="80px"
+                                height="80px"
+                                data-cy="certifications"
+                                contain
+                                class="mx-auto"
+                                src="@/assets/FDA.png"
+                            />
+                        </v-row>
+                        <v-row justify="center">
+                            <v-card-title class="mx-0 my-0" data-cy="fda-title">FDA</v-card-title>
+                        </v-row>
+                    </v-card>
+                </v-hover>
             </v-col>
         </v-row>
     </v-col>

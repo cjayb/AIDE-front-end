@@ -259,28 +259,6 @@ export default class CustomDicomViewer extends Vue {
 </script>
 
 <style>
-/* width */
-::-webkit-scrollbar {
-    width: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px grey;
-    border-radius: 10px;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: #61366e;
-    border-radius: 10px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: #5f2e6e;
-}
-
 .serieslist-header {
     color: white;
 }

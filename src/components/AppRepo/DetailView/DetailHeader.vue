@@ -4,12 +4,30 @@
             ><v-row
                 ><v-col cols="12"
                     ><v-img
+                        v-if="
+                            application.image != '' &&
+                            application.image != null &&
+                            application.image != 'None'
+                        "
                         data-cy="application-image"
                         height="372"
                         width
                         style="border-radius: 10px"
                         class="ma-5"
                         :src="application.image"
+                    ></v-img>
+                    <v-img
+                        v-if="
+                            application.image == '' ||
+                            application.image == null ||
+                            application.image == 'None'
+                        "
+                        data-cy="application-image"
+                        height="372"
+                        width
+                        style="border-radius: 10px"
+                        class="ma-5"
+                        src="@/assets/test-stock.jpg"
                     ></v-img></v-col
             ></v-row>
             <v-row
