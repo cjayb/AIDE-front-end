@@ -75,13 +75,17 @@ sonarqube-check:
         paths:
         - .sonar/cache
     script:
-        - sonar-scanner
+        - sonar-scanner -Dsonar.projectVersion="$RELEASE_VERSION"
     dependencies:
         - lint
-    allow_failure: true
-    only:
-        - merge_requests
-        - master # or the name of your main branch
+    rules:
+        - if: '$CI_PIPELINE_SOURCE == "web" && ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH =~ /^release-.*$/)'
+          variables:
+            RELEASE_VERSION: $CI_COMMIT_BRANCH
+          when: always
+        - if: '$CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "master"'
+          when: always
+        - when: never
 
 create_pacts:
     stage: contracts
