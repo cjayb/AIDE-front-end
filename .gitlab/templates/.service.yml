@@ -120,17 +120,17 @@ deploy uat:
     - chmod 400 ~/.ssh/$UAT_ANSIBLE_CONTROL_KEY
     - echo -e "\nIdentityFile ~/.ssh/$UAT_ANSIBLE_CONTROL_KEY" >> ~/.ssh/config
     - ssh-keyscan -H $UAT_ANSIBLE_CONTROL_IP >> ~/.ssh/known_hosts
-    - ssh ubuntu@$UAT_ANSIBLE_CONTROL_KEY "mkdir $TEMP_DIR"
-    - scp ansible-deploy-extra-vars.yml ubuntu@$UAT_ANSIBLE_CONTROL_KEY:$TEMP_DIR
-    - ssh ubuntu@$UAT_ANSIBLE_CONTROL_KEY "
+    - ssh ubuntu@$UAT_ANSIBLE_CONTROL_IP "mkdir $TEMP_DIR"
+    - scp ansible-deploy-extra-vars.yml ubuntu@$UAT_ANSIBLE_CONTROL_IP:$TEMP_DIR
+    - ssh ubuntu@$UAT_ANSIBLE_CONTROL_IP "
       cd $TEMP_DIR;
-      sudo aws s3 cp s3://ansible-tools-$UAT_ANSIBLE_CONTROL_KEY/ansible-schedule-ubuntu.sh /home/ubuntu/$TEMP_DIR;
+      sudo aws s3 cp s3://ansible-tools-$UAT_ANSIBLE_TOOLS_BUCKET/ansible-schedule-ubuntu.sh /home/ubuntu/$TEMP_DIR;
       sudo apt -y install dos2unix;
       sudo dos2unix /home/ubuntu/$TEMP_DIR/ansible-schedule-ubuntu.sh;
       sudo chmod +x /home/ubuntu/$TEMP_DIR/ansible-schedule-ubuntu.sh;
       sudo /home/ubuntu/$TEMP_DIR/ansible-schedule-ubuntu.sh -a create -e uat -p aws-deploy-service.yml -v @/home/ubuntu/$TEMP_DIR/ansible-deploy-extra-vars.yml"
   after_script:
-    - ssh ubuntu@$UAT_ANSIBLE_CONTROL_KEY "sudo rm -r /home/ubuntu/$TEMP_DIR"
+    - ssh ubuntu@$UAT_ANSIBLE_CONTROL_IP "sudo rm -r /home/ubuntu/$TEMP_DIR"
   rules:
       - if: '$CI_PIPELINE_SOURCE == "web" && ($CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH =~ /^release-.*$/)'
         when: always
