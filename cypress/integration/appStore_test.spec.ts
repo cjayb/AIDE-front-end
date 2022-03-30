@@ -9,7 +9,7 @@ import Order from "data/enums/order";
 
 const appPage = new appStorePage();
 
-describe("App Store Page", () => {
+describe.skip("App Store Page", () => {
     beforeEach(() => {
         appPage.initPage();
         cy.injectAxe();
@@ -75,7 +75,7 @@ describe("App Store Page", () => {
     });
 });
 
-describe("Error handling on app store page", () => {
+describe.skip("Error handling on app store page", () => {
     beforeEach(() => {
         cy.injectAxe();
         Cypress.on("uncaught:exception", (err, runnable) => {

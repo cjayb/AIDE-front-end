@@ -13,12 +13,12 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
-import { ApplicationDetail } from "@/models/ApplicationResult";
+import { Application } from "@/models/Application";
 
 @Component({
     components: {},
 })
 export default class AboutTheDeveloper extends Vue {
-    @Prop() application!: ApplicationDetail;
+    @Prop() application!: Application;
 }
 </script>

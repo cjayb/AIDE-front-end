@@ -17,60 +17,70 @@
                     data-cy="developers"
                     v-bind="attrs"
                     v-on="on"
-                    >{{ application.developers }}</v-col
+                    >{{ versionDetails.developer_name }}</v-col
                 >
             </template>
-            <span>{{ application.developers }}</span>
+            <span>{{ versionDetails.developer_name }}</span>
         </v-tooltip>
         <v-divider vertical></v-divider>
         <v-col cols="2" data-cy="version-selector"
             ><v-select
                 dense
                 hide-details
-                v-model="selected_version.application_version_id"
+                v-model="selected_version"
                 :items="application.versions"
                 @change="selectVersion()"
-                item-text="version"
-                item-value="application_version_id"
+                item-text="version_string"
+                return-object
                 label="Version"
                 outlined
                 data-cy="version-filter"
             ></v-select
         ></v-col>
         <v-divider vertical></v-divider>
-        <!-- <v-col cols="2"
-            ><v-chip dark color="#615F69" data-cy="deployed-version" v-bind:key="speciality"
-                >V1.0 deployed</v-chip
+        <v-col cols="2" align="center"
+            ><v-chip
+                class="my-2"
+                small
+                dark
+                color="#615F69"
+                data-cy="deployed-version"
+                v-bind:key="speciality"
+                >Not Deployed</v-chip
             ></v-col
-        > -->
-        <v-spacer></v-spacer>
-        <v-col cols="2"
+        >
+        <v-divider vertical></v-divider>
+        <!-- <v-spacer></v-spacer> -->
+        <v-col cols="2" align="center"
             ><v-img
-                v-if="application.certification.certifications.includes('ce')"
+                v-if="versionDetails.ce_certified"
                 data-cy="ce-logo"
+                style="float: left"
                 contain
                 class="mx-auto"
                 src="@/assets/CE.png"
-                style="float: right"
                 height="40px" />
             <v-img
-                v-if="application.certification.certifications.includes('ukca')"
+                v-if="versionDetails.ukca_certified"
                 data-cy="ukca-logo"
+                style="float: left"
                 contain
                 class="mx-auto"
                 src="@/assets/UKCA.png"
-                style="float: right"
                 height="40px" />
             <v-img
-                v-if="application.certification.certifications.includes('fda')"
+                v-if="versionDetails.fda_certified"
                 data-cy="fda-logo"
+                style="float: left"
                 contain
                 class="mx-auto"
                 src="@/assets/FDA.png"
-                style="float: right"
                 height="40px"
         /></v-col>
-        <v-col cols="2"><v-btn disabled dark color="#2196F3">Configure & Deploy</v-btn></v-col>
+        <v-divider vertical></v-divider>
+        <v-col cols="2" align="center"
+            ><v-btn disabled color="#2196F3">Configure & Deploy</v-btn></v-col
+        >
     </v-row>
 </template>
 
@@ -79,39 +89,40 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
 import { EventBus } from "@/event-bus";
-import { ApplicationDetail } from "@/models/ApplicationResult";
-
-export interface SelectedVersion {
-    application_version_id: string | (string | null)[];
-}
+import { Application, Version, VersionDetails } from "@/models/Application";
 
 @Component({
     components: {},
 })
 export default class DetailActionBar extends Vue {
-    @Prop() application!: ApplicationDetail;
-    selected_version: SelectedVersion = {
-        application_version_id: "",
-    };
+    @Prop() application!: Application;
+    @Prop() version!: Version;
+    @Prop() versionDetails!: VersionDetails;
+    selected_version: Version = {} as Version;
 
     mounted() {
-        this.selected_version.application_version_id = this.$route.query.application_version_id;
+        this.selected_version = this.version;
 
-        EventBus.$on("selectVersion", (application_id: string, application_version_id: string) => {
-            this.selected_version.application_version_id = application_version_id;
-        });
+        EventBus.$on(
+            "selectVersion",
+            (
+                application_id: string,
+                application_version_id: string,
+                application_version_details_id: string,
+            ) => {
+                this.selected_version = this.application.versions.filter((version) => {
+                    return version.id == application_version_id;
+                })[0];
+            },
+        );
     }
 
     selectVersion(): void {
-        EventBus.$emit(
-            "selectVersion",
-            this.application.id,
-            this.selected_version.application_version_id,
-        );
+        EventBus.$emit("selectVersion", this.application.application_id, this.selected_version.id);
         this.$router.push({
             name: "ApplicationRepositoryDetail",
-            params: { application_id: this.application.id },
-            query: { application_version_id: this.selected_version.application_version_id },
+            params: { application_id: this.application.application_id },
+            query: { application_version_id: this.selected_version.id },
         });
     }
 }
@@ -128,7 +139,7 @@ export default class DetailActionBar extends Vue {
     color: #23212a;
     font-weight: bold;
     font-size: 24px;
-    height: 40px;
+    height: 50px;
 }
 
 .app-developers {
@@ -141,6 +152,6 @@ export default class DetailActionBar extends Vue {
     color: #615f69;
     font-weight: bold;
     font-size: 24px;
-    height: 40px;
+    height: 50px;
 }
 </style>

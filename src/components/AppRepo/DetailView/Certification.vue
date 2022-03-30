@@ -3,23 +3,19 @@
         <v-row><h2>Certification</h2></v-row>
         <v-row
             ><p data-cy="certification-details">
-                {{ application.certification.certification_details }}
+                {{ versionDetails.certification_details }}
             </p></v-row
         >
         <v-row justify="left" data-cy="specification-table">
-            <v-col
-                md="auto"
-                v-for="certification in application.certification.certifications"
-                :key="certification"
-            >
+            <v-col md="auto">
                 <v-hover v-slot="{ hover }">
                     <!-- CE -->
                     <v-card
                         class="custom-card mx-auto my-5"
-                        :elevation="hover ? 2 : 0"
+                        :elevation="hover ? 0 : 0"
                         :class="{ 'on-hover': hover }"
                         data-cy="ce-certification"
-                        v-if="certification.includes('ce')"
+                        v-if="versionDetails.ce_certified"
                     >
                         <v-row justify="center">
                             <v-img
@@ -36,14 +32,16 @@
                         </v-row>
                     </v-card>
                 </v-hover>
+            </v-col>
+            <v-col md="auto">
                 <v-hover v-slot="{ hover }">
                     <!-- UKCA -->
                     <v-card
                         class="custom-card mx-auto my-5"
-                        :elevation="hover ? 2 : 0"
+                        :elevation="hover ? 0 : 0"
                         :class="{ 'on-hover': hover }"
                         data-cy="ukca-certification"
-                        v-if="certification.includes('ukca')"
+                        v-if="certification.ukca_certified"
                     >
                         <v-row justify="center">
                             <v-img
@@ -60,14 +58,16 @@
                         </v-row>
                     </v-card>
                 </v-hover>
+            </v-col>
+            <v-col md="auto">
                 <v-hover v-slot="{ hover }">
                     <!-- FDA -->
                     <v-card
                         class="custom-card mx-auto my-5"
-                        :elevation="hover ? 2 : 0"
+                        :elevation="hover ? 0 : 0"
                         :class="{ 'on-hover': hover }"
                         data-cy="fda-certification"
-                        v-if="certification.includes('fda')"
+                        v-if="certification.fda_certified"
                     >
                         <v-row justify="center">
                             <v-img
@@ -93,12 +93,12 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
-import { ApplicationDetail } from "@/models/ApplicationResult";
+import { VersionDetails } from "@/models/Application";
 
 @Component({
     components: {},
 })
 export default class Certification extends Vue {
-    @Prop() application!: ApplicationDetail;
+    @Prop() versionDetails!: VersionDetails;
 }
 </script>

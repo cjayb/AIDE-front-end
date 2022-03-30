@@ -181,7 +181,7 @@ export default class AppProfilePage extends AbstractPage {
         const application_id = "4cf54533-c2d6-474b-b32a-c1c4dc257eff";
         const application_version_id = "fda51e65-946d-4e65-a791-e92f2a1350da";
         cy.intercept(
-            `/app_store/api/applications/${application_id}?application_version_id=${application_version_id}`,
+            `/app_store/api/application_details/${application_id}?application_version_id=${application_version_id}`,
             ApiMocks.APP_PROFILE_PAGE1,
         ).as("AppProfilePage");
         cy.visit(

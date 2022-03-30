@@ -1,6 +1,6 @@
 import Vue from "vue";
 import axios from "axios";
-import { ApplicationResult, Application, ApplicationDetail } from "@/models/ApplicationResult";
+import { Application } from "@/models/Application";
 
 const http = axios.create({
     baseURL: window.FRONTEND_API_HOST,
@@ -30,19 +30,43 @@ http.interceptors.response.use(
     },
 );
 
-export async function getAllApplications(): Promise<ApplicationResult> {
+export async function getAllApplications(): Promise<Application[]> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
-    const response = await http.get(`/app_store/api/application_summaries/`);
+    const response = await http.get(`/app_store/api/applications/`);
     return response.data;
 }
 
-export async function getApplication(
+export async function getAllApplicationsFilteredByStatus(status: string): Promise<Application[]> {
+    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
+    const response = await http.get(`/app_store/api/applications?status=${status}`);
+    return response.data;
+}
+
+export async function getApplication(application_id: string): Promise<Application> {
+    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
+    const response = await http.get(`/app_store/api/applications/${application_id}`);
+    return response.data;
+}
+
+export async function getApplicationFilteredByStatus(
     application_id: string,
-    application_version_id: string | (string | null)[],
-): Promise<ApplicationDetail> {
+    status: string,
+): Promise<Application> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(
-        `/app_store/api/applications/${application_id}?application_version_id=${application_version_id}`,
+        `/app_store/api/applications/${application_id}?status=${status}`,
     );
+    return response.data;
+}
+
+export async function createApplication(application: Application): Promise<Application> {
+    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
+    const response = await http.post(`//app_store/api/applications/`, application);
+    return response.data;
+}
+
+export async function updateApplication(application: Application): Promise<Application> {
+    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
+    const response = await http.put(`/app_store/api/applications/`, application);
     return response.data;
 }

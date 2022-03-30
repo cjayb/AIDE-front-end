@@ -5,8 +5,8 @@
             <v-progress-linear indeterminate></v-progress-linear>
         </v-row>
         <Filters
-            :applications="applicationResult.results"
-            v-if="applicationResult.results.length > 0"
+            :selected_speciality="selected_speciality"
+            v-if="applications.length > 0"
         ></Filters>
         <v-row justify="center" v-if="filteredApplications.length > 0" data-cy="application-table">
             <v-col v-for="application in filteredApplications" :key="application.id" md="auto">
@@ -19,41 +19,76 @@
                         :class="{ 'on-hover': hover }"
                         data-cy="application-card"
                     >
-                        <v-card-title
-                            ><div class="title" data-cy="application-name">
-                                {{ application.name }}
-                            </div></v-card-title
+                        <v-card-title>
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{ on, attrs }"
+                                    ><div
+                                        class="title"
+                                        data-cy="application-name"
+                                        v-bind="attrs"
+                                        v-on="on"
+                                    >
+                                        {{ application.name }}
+                                    </div> </template
+                                ><span>{{ application.name }}</span></v-tooltip
+                            ></v-card-title
                         >
                         <v-card-subtitle>
                             <div>
                                 <v-row>
-                                    <v-col
-                                        class="py-0 my-0 text-left subTitle"
-                                        cols="7"
-                                        style="font-weight: bold"
-                                        data-cy="developer-name"
-                                        >{{ application.developer_details }}</v-col
+                                    <v-tooltip bottom>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-col
+                                                class="py-0 my-0 text-left subTitle"
+                                                cols="7"
+                                                style="font-weight: bold"
+                                                data-cy="developer-name"
+                                                v-bind="attrs"
+                                                v-on="on"
+                                                >{{
+                                                    application.versions[0].version_details[0]
+                                                        .developer_name
+                                                }}</v-col
+                                            ></template
+                                        ><span>{{
+                                            application.versions[0].version_details[0]
+                                                .developer_name
+                                        }}</span></v-tooltip
                                     >
-                                    <v-col
-                                        class="py-0 my-0 text-right subTitle"
-                                        cols="5"
-                                        data-cy="version"
-                                        ><span style="font-weight: bold">Version: </span>
-                                        <span>{{ application.version }}</span></v-col
+                                    <v-tooltip bottom>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-col
+                                                class="py-0 my-0 text-right subTitle"
+                                                cols="5"
+                                                data-cy="version"
+                                                v-bind="attrs"
+                                                v-on="on"
+                                                ><span style="font-weight: bold">Version: </span>
+                                                <span>{{
+                                                    application.versions[0].version_string
+                                                }}</span></v-col
+                                            > </template
+                                        ><span>{{
+                                            application.versions[0].version_string
+                                        }}</span></v-tooltip
                                     >
                                 </v-row>
                             </div>
                         </v-card-subtitle>
                         <v-card-text>
                             <div class="shortDescription" data-cy="short-description">
-                                {{ application.short_description }}
+                                {{ application.versions[0].version_details[0].short_desc }}
                             </div>
                         </v-card-text>
                         <v-card-actions>
                             <v-btn
                                 color="#1976D2"
                                 @click="
-                                    viewDetails(application.id, application.application_version_id)
+                                    viewDetails(
+                                        application.application_id,
+                                        application.versions[0].id,
+                                        application.versions[0].version_details[0].id,
+                                    )
                                 "
                                 dark
                                 small
@@ -63,42 +98,43 @@
                                 View Application
                             </v-btn>
                         </v-card-actions>
-                        <v-img
-                            v-if="
-                                application.image != '' &&
-                                application.image != null &&
-                                application.image != 'None'
-                            "
-                            data-cy="application-image"
-                            height="150"
-                            width
-                            style="border-radius: 10px"
-                            class="ma-4"
-                            :src="application.image"
-                        ></v-img>
-                        <v-img
-                            v-if="
-                                application.image == '' ||
-                                application.image == null ||
-                                application.image == 'None'
-                            "
-                            data-cy="application-image"
-                            height="150"
-                            width
-                            style="border-radius: 10px"
-                            class="ma-5"
-                            src="@/assets/test-stock.jpg"
-                        ></v-img>
+                        <template
+                            v-for="file in application.versions[0].version_details[0]
+                                .application_version_files"
+                        >
+                            <v-img
+                                v-bind:key="file.id"
+                                v-if="file.label == 'hero_image'"
+                                data-cy="application-image"
+                                height="150"
+                                width
+                                style="border-radius: 10px"
+                                class="ma-4"
+                                :src="file.url"
+                            ></v-img>
+                            <v-img
+                                v-bind:key="file.id"
+                                v-else
+                                data-cy="application-image"
+                                height="150"
+                                width
+                                style="border-radius: 10px"
+                                class="ma-5"
+                                src="@/assets/test-stock.jpg"
+                            ></v-img>
+                        </template>
                         <v-card-text class="py-0">
                             <v-chip-group active-class="deep-purple accent-4 white--text" column>
                                 <v-chip
                                     x-small
                                     dark
                                     :color="hex[index]"
+                                    @click="toggleSelectedSpeciality(speciality)"
                                     data-cy="speciality"
-                                    v-for="(speciality, index) in application.medical_specialties"
+                                    v-for="(speciality, index) in application.versions[0]
+                                        .version_details[0].medical_specialities"
                                     v-bind:key="speciality"
-                                    >{{ speciality }}</v-chip
+                                    >{{ speciality.name }}</v-chip
                                 >
                             </v-chip-group>
                         </v-card-text>
@@ -106,15 +142,12 @@
                             <v-item-group>
                                 <v-container>
                                     <v-row>
-                                        <v-col
-                                            cols="4"
-                                            md="4"
-                                            v-for="certification in application.certification
-                                                .certifications"
-                                            :key="certification"
-                                        >
+                                        <v-col cols="4" md="4">
                                             <v-img
-                                                v-if="certification.includes('ce')"
+                                                v-if="
+                                                    application.versions[0].version_details[0]
+                                                        .ce_certified
+                                                "
                                                 data-cy="ce-logo"
                                                 contain
                                                 class="mx-auto"
@@ -122,8 +155,13 @@
                                                 style="color: red"
                                                 height="40px"
                                             />
+                                        </v-col>
+                                        <v-col cols="4" md="4">
                                             <v-img
-                                                v-if="certification.includes('ukca')"
+                                                v-if="
+                                                    application.versions[0].version_details[0]
+                                                        .ukca_certified
+                                                "
                                                 data-cy="ukca-logo"
                                                 contain
                                                 class="mx-auto"
@@ -131,8 +169,13 @@
                                                 style="color: red"
                                                 height="40px"
                                             />
+                                        </v-col>
+                                        <v-col cols="4" md="4">
                                             <v-img
-                                                v-if="certification.includes('fda')"
+                                                v-if="
+                                                    application.versions[0].version_details[0]
+                                                        .fda_certified
+                                                "
                                                 data-cy="fda-logo"
                                                 contain
                                                 class="mx-auto"
@@ -165,31 +208,25 @@ import Component from "vue-class-component";
 import { EventBus } from "@/event-bus";
 import AppRepoHeader from "../Shared/AppRepoHeader.vue";
 import Filters from "../ListView/Filters.vue";
-import { getAllApplications } from "../../../api/ApplicationService";
-import { ApplicationResult } from "@/models/ApplicationResult";
-import { Application } from "vuetify/types/services/application";
+import { getAllApplicationsFilteredByStatus } from "../../../api/ApplicationService";
+import { Application, MedicalSpeciality, Version } from "@/models/Application";
 
 @Component({
     components: { AppRepoHeader, Filters },
 })
 export default class ListView extends Vue {
     loading = true;
-    applicationResult: ApplicationResult = {
-        count: 0,
-        next: 0,
-        previous: 0,
-        results: [],
-    };
+    applications: Application[] = [];
     searchTerm = "";
-    selected_speciality = "";
-    selected_sort = "az asc";
+    selected_speciality: MedicalSpeciality | null = null;
+    selected_sort = "Ascending (A to Z)";
     hex = ["#2196F3", "#6383D2", "#797CC7", "#A66FB1", "#BC69A6", "#D2629B", "#E85C90"];
 
     async created(): Promise<void> {
         this.loading = true;
-        await getAllApplications()
-            .then((applicationResult: ApplicationResult) => {
-                this.applicationResult = applicationResult;
+        await getAllApplicationsFilteredByStatus("Live")
+            .then((applications: Application[]) => {
+                this.applications = applications;
                 this.loading = false;
             })
             .catch((err) => {
@@ -197,9 +234,9 @@ export default class ListView extends Vue {
                 this.loading = false;
             });
 
-        EventBus.$on("toggleSelectedSpeciality", (selected_speciality: string) => {
+        EventBus.$on("toggleSelectedSpeciality", (selected_speciality: MedicalSpeciality) => {
             if (selected_speciality == null) {
-                this.selected_speciality = "";
+                this.selected_speciality = null;
             } else {
                 this.selected_speciality = selected_speciality;
             }
@@ -207,7 +244,7 @@ export default class ListView extends Vue {
 
         EventBus.$on("toggleSelectedSort", (selected_sort: string) => {
             if (selected_sort == null) {
-                this.selected_sort = "az asc";
+                this.selected_sort = "Ascending (A to Z)";
             } else {
                 this.selected_sort = selected_sort;
             }
@@ -218,11 +255,28 @@ export default class ListView extends Vue {
         });
     }
 
+    // @Watch("$route", { immediate: true, deep: true })
+    // onUrlChange(route: Route) {
+    //     console.log(route.query.selected_speciality);
+    //     if (route.query.selected_speciality == null) {
+    //         this.selected_speciality = null;
+    //     } else {
+    //         this.selected_speciality = route.query.selected_speciality as string;
+    //     }
+    // }
+
     get filteredApplications() {
-        return this.applicationResult.results
+        // filter the latest version
+        for (const application of this.applications) {
+            application.versions = [application.versions.pop()] as Version[];
+        }
+
+        return this.applications
             .filter((application) => {
-                if (this.selected_speciality != "") {
-                    return application.medical_specialties.includes(this.selected_speciality);
+                if (this.selected_speciality != null) {
+                    return application.versions[0].version_details[0].medical_specialities.includes(
+                        this.selected_speciality,
+                    );
                 } else {
                     return true;
                 }
@@ -235,7 +289,7 @@ export default class ListView extends Vue {
                 }
             })
             .sort((a, b) => {
-                if (this.selected_sort == "az asc") {
+                if (this.selected_sort == "Ascending (A to Z)") {
                     if (a.name < b.name) {
                         return -1;
                     }
@@ -243,7 +297,7 @@ export default class ListView extends Vue {
                         return 1;
                     }
                 }
-                if (this.selected_sort == "az desc") {
+                if (this.selected_sort == "Descending (Z to A)") {
                     if (a.name > b.name) {
                         return -1;
                     }
@@ -255,12 +309,24 @@ export default class ListView extends Vue {
             });
     }
 
-    viewDetails(id: string, application_version_id: string): void {
+    viewDetails(
+        id: string,
+        application_version_id: string,
+        application_version_details_id: string,
+    ): void {
         this.$router.push({
             name: "ApplicationRepositoryDetail",
             params: { application_id: id },
-            query: { application_version_id: application_version_id },
+            query: {
+                application_version_id: application_version_id,
+                application_version_details_id: application_version_details_id,
+            },
         });
+    }
+
+    toggleSelectedSpeciality(selected_speciality: MedicalSpeciality): void {
+        this.selected_speciality = selected_speciality;
+        EventBus.$emit("toggleSelectedSpeciality", selected_speciality);
     }
 }
 </script>

@@ -17,7 +17,6 @@ Vue.prototype.$window = window;
 
 Vue.use(authentication);
 Vue.use(VueToast, {
-    // One of the options
     position: "bottom-right",
 });
 Vue.use(Vue2Filters);

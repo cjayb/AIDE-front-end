@@ -109,14 +109,14 @@ export default class AppStorePage extends AbstractPage {
             originalOrder.push($el.text());
         });
         if (order == Order.Ascending) {
-            this.clickDropdown(AppStorePage.SORT_BY, "az asc");
+            this.clickDropdown(AppStorePage.SORT_BY, "Ascending (A to Z)");
             cy.dataCy(AppStorePage.APPLICATION_NAME).each(($el, i) => {
                 originalOrder.sort();
                 expect($el.text()).to.equal(originalOrder[i]);
             });
         }
         if (order == Order.Descending) {
-            this.clickDropdown(AppStorePage.SORT_BY, "az desc");
+            this.clickDropdown(AppStorePage.SORT_BY, "Descending (Z to A)");
             cy.dataCy(AppStorePage.APPLICATION_NAME).each(($el, i) => {
                 originalOrder.sort();
                 originalOrder.reverse();

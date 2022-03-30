@@ -40,7 +40,7 @@ export default Vue.extend({
 <style>
 html {
     overflow: auto;
-    min-width: 1000px;
+    min-width: 1300px;
 }
 /* .row {
     margin: -12px !important;

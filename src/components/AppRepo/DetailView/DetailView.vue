@@ -4,26 +4,30 @@
         <v-row v-if="loading">
             <v-progress-linear indeterminate></v-progress-linear>
         </v-row>
-        <DetailActionBar :application="application"></DetailActionBar>
+        <DetailActionBar
+            :application="application"
+            :version="version"
+            :versionDetails="version_details"
+        ></DetailActionBar>
         <v-container
             style="max-width: 100%; height: calc(100vh - 210px); overflow: auto"
             data-cy="detail-sub-module"
         >
             <v-container style="max-width: 75%">
-                <DetailHeader :application="application"></DetailHeader>
-                <v-tabs v-model="tab">
-                    <v-tab>{{ application.name }} Overview</v-tab>
+                <DetailHeader :versionDetails="version_details"></DetailHeader>
+                <v-tabs v-model="tab" color="#222129">
+                    <v-tab color="#222129">{{ application.name }} Overview</v-tab>
                     <!-- <v-tab>Model Card</v-tab> -->
                 </v-tabs>
                 <v-tabs-items v-model="tab">
                     <v-tab-item>
-                        <IntendedUse :application="application"></IntendedUse>
-                        <ModelDetails :application="application"></ModelDetails>
-                        <Certification :application="application"></Certification>
-                        <SystemRequirements :application="application"></SystemRequirements>
-                        <Files :application="application"></Files>
+                        <IntendedUse :versionDetails="version_details"></IntendedUse>
+                        <ModelDetails :versionDetails="version_details"></ModelDetails>
+                        <Certification :versionDetails="version_details"></Certification>
+                        <SystemRequirements :versionDetails="version_details"></SystemRequirements>
+                        <Files :versionDetails="version_details"></Files>
                         <VersionHistory :application="application"></VersionHistory>
-                        <AboutTheDeveloper :application="application"></AboutTheDeveloper>
+                        <AboutTheDeveloper :versionDetails="version_details"></AboutTheDeveloper>
                     </v-tab-item>
                     <!-- <v-tab-item>No Data</v-tab-item> -->
                 </v-tabs-items>
@@ -47,8 +51,8 @@ import Files from "../DetailView/Files.vue";
 import VersionHistory from "../DetailView/VersionHistory.vue";
 import AboutTheDeveloper from "../DetailView/AboutTheDeveloper.vue";
 
-import { getApplication } from "../../../api/ApplicationService";
-import { ApplicationDetail } from "@/models/ApplicationResult";
+import { getApplicationFilteredByStatus } from "../../../api/ApplicationService";
+import { Application, Version, VersionDetails } from "@/models/Application";
 
 @Component({
     components: {
@@ -66,7 +70,9 @@ import { ApplicationDetail } from "@/models/ApplicationResult";
 })
 export default class DetailView extends Vue {
     loading = true;
-    application: ApplicationDetail | null = null;
+    application: Application | null = null;
+    version: Version | null = null;
+    version_details: VersionDetails | null = null;
     tab = null;
 
     async created(): Promise<void> {
@@ -84,10 +90,14 @@ export default class DetailView extends Vue {
         application_version_id: string | (string | null)[],
     ): Promise<void> {
         this.loading = true;
-        await getApplication(application_id, application_version_id)
-            .then((application: ApplicationDetail) => {
+        await getApplicationFilteredByStatus(application_id, "Live")
+            .then((application: Application) => {
                 this.loading = false;
                 this.application = application;
+                this.version = application.versions.filter((version) => {
+                    return version.id == application_version_id;
+                })[0];
+                this.version_details = this.version.version_details[0];
             })
             .catch((err) => {
                 console.log(err);

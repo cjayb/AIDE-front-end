@@ -22,6 +22,7 @@
         <v-col class="d-flex" cols="3">
             <v-text-field
                 :disabled="searchDisabled"
+                :dark="searchDisabled"
                 dense
                 hide-details
                 v-model="searchTerm"
@@ -40,13 +41,13 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { Watch, Prop } from "vue-property-decorator";
 import { EventBus } from "@/event-bus";
-import { ApplicationDetail } from "@/models/ApplicationResult";
+import { Application } from "@/models/Application";
 
 @Component({
     components: {},
 })
 export default class AppRepoHeader extends Vue {
-    @Prop() application!: ApplicationDetail;
+    @Prop() application!: Application;
     medical_specialties = ["General Medicine", "Radiology"];
     sorts = ["alphabetical", "date"];
     searchTerm = "";

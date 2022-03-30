@@ -45,9 +45,6 @@ const routes: Array<RouteConfig> = [
                 meta: {
                     breadCrumb: [
                         {
-                            text: "Home",
-                        },
-                        {
                             text: "Application Repository",
                         },
                     ],
@@ -61,9 +58,6 @@ const routes: Array<RouteConfig> = [
                     breadCrumb(route: Route) {
                         const application_id = route.params.application_id;
                         return [
-                            {
-                                text: "Home",
-                            },
                             {
                                 text: "Application Repository",
                                 to: { name: "ApplicationRepositoryList" },

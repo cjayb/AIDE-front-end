@@ -2,7 +2,7 @@
     <v-col cols="12">
         <v-row><h2>Files</h2></v-row>
         <v-row justify="start" data-cy="specification-table" v-if="checkStandardFiles()">
-            <template v-for="file in application.files">
+            <template v-for="file in versionDetails.application_version_files">
                 <v-col :key="file.label" md="auto" v-if="checkValidFileType(file.label)">
                     <v-hover v-slot="{ hover }">
                         <v-card
@@ -31,8 +31,8 @@
                 </v-col>
             </template>
         </v-row>
-        <v-row v-else><p>No files uploaded</p></v-row>
-        <v-row><h2>Additional Files</h2></v-row>
+        <v-row v-else><p>No Standard files uploaded</p></v-row>
+        <v-row><h2>Custom Files</h2></v-row>
         <v-row v-if="checkAdditionalFiles()">
             <v-col cols="12">
                 <v-simple-table data-cy="custom-files">
@@ -45,7 +45,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <template v-for="file in application.files">
+                            <template v-for="file in versionDetails.application_version_files">
                                 <tr :key="file.label" v-if="!checkValidFileType(file.label)">
                                     <td
                                         data-cy="custom-file-label"
@@ -54,7 +54,7 @@
                                         {{ file.label | formatFileTitle }}
                                     </td>
                                     <td data-cy="custom-file-date">
-                                        {{ file.created_at | formatDate }}
+                                        {{ file.createdAt | formatDate }}
                                     </td>
                                     <td>
                                         <v-btn
@@ -80,13 +80,13 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
-import { ApplicationDetail } from "@/models/ApplicationResult";
+import { VersionDetails } from "@/models/Application";
 
 @Component({
     components: {},
 })
 export default class Files extends Vue {
-    @Prop() application!: ApplicationDetail;
+    @Prop() versionDetails!: VersionDetails;
     fileTypes = [
         { name: "clinical-safety-case", icon: "mdi-briefcase" },
         { name: "datasheet-for-datasets", icon: "mdi-book-open-page-variant" },
@@ -110,7 +110,7 @@ export default class Files extends Vue {
     }
 
     checkStandardFiles() {
-        for (const file of this.application.files) {
+        for (const file of this.versionDetails.application_version_files) {
             if (this.fileTypes.some((fileType) => fileType.name.includes(file.label))) {
                 return true;
             }
@@ -119,7 +119,7 @@ export default class Files extends Vue {
     }
 
     checkAdditionalFiles() {
-        for (const file of this.application.files) {
+        for (const file of this.versionDetails.application_version_files) {
             if (!this.fileTypes.some((fileType) => fileType.name.includes(file.label))) {
                 return true;
             }

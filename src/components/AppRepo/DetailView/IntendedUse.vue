@@ -3,7 +3,7 @@
         ><v-col cols="12"
             ><h2 data-cy="intended-use-title">Intended Use</h2>
             <p data-cy="intended-use">
-                {{ application.intended_use }}
+                {{ versionDetails.intended_use }}
             </p></v-col
         ></v-row
     >
@@ -13,12 +13,12 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
-import { ApplicationDetail } from "@/models/ApplicationResult";
+import { VersionDetails } from "@/models/Application";
 
 @Component({
     components: {},
 })
 export default class IntendedUse extends Vue {
-    @Prop() application!: ApplicationDetail;
+    @Prop() versionDetails!: VersionDetails;
 }
 </script>
