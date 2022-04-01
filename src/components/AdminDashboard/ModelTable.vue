@@ -10,7 +10,7 @@
                     :hide-default-footer="true"
                     :search="search"
                     :sort-by="['model_name']"
-                    item-key="model_name"
+                    item-key="id"
                     show-expand
                     class="elevation-1"
                     :loading="loading"
