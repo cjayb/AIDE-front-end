@@ -8,6 +8,7 @@
                     :single-expand="singleExpand"
                     :expanded.sync="expanded"
                     :hide-default-footer="true"
+                    :disable-pagination="true"
                     :search="search"
                     :sort-by="['model_name']"
                     item-key="id"
