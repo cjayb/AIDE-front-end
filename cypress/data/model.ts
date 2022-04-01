@@ -2,6 +2,7 @@ import { Model } from "../../src/models/Model";
 import ApiMocks from "../fixtures/mockIndex";
 
 export class ModelData implements Model {
+    private _id: string;
     private _model_version: string;
     private _mode: string;
     private _predicate: string;
@@ -10,6 +11,7 @@ export class ModelData implements Model {
     private _model_name: string;
 
     constructor(model: Model){
+        this._id = model.id;
         this._model_version = model.model_version;
         this._mode = model.mode;
         this._predicate = model.predicate;
@@ -53,6 +55,9 @@ export class ModelData implements Model {
     }
     public set mode(value: string) {
         this._mode = value;
+    }
+    public set id(value: string) {
+        this._id = value;
     }
 
     public static HAEMORRHAGE_BRUSH: ModelData = new ModelData(<Model>ApiMocks.ADMIN_DASHBOARD_MODELS[0]);
