@@ -87,33 +87,33 @@ sonarqube-check:
           when: always
         - when: never
 
-create_pacts:
-    stage: contracts
-    image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/node:14
-    needs: []
-    before_script:
-      - npm ci --cache .npm --prefer-offline
-    script:
-      - npm run tests:consumer
-    artifacts:
-        name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME"
-        paths:
-            - pact/pacts/
-        when: always
-    only:
-      - merge_requests
+# create_pacts:
+#     stage: contracts
+#     image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/node:14
+#     needs: []
+#     before_script:
+#       - npm ci --cache .npm --prefer-offline
+#     script:
+#       - npm run tests:consumer
+#     artifacts:
+#         name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME"
+#         paths:
+#             - pact/pacts/
+#         when: always
+#     only:
+#       - merge_requests
 
-publish_pacts:
-    stage: contracts
-    image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/node:14
-    needs: ["create_pacts"]
-    before_script:
-      - npm ci --cache .npm --prefer-offline
-      - export PACT_BROKER_USERNAME=broker
-      - export PACT_BROKER_PASSWORD=Password01!
-    script:
-      - npm run pact:publish
-    dependencies:
-      - create_pacts
-    only:
-      - merge_requests
+# publish_pacts:
+#     stage: contracts
+#     image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/node:14
+#     needs: ["create_pacts"]
+#     before_script:
+#       - npm ci --cache .npm --prefer-offline
+#       - export PACT_BROKER_USERNAME=broker
+#       - export PACT_BROKER_PASSWORD=Password01!
+#     script:
+#       - npm run pact:publish
+#     dependencies:
+#       - create_pacts
+#     only:
+#       - merge_requests
