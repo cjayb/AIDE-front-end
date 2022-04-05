@@ -191,7 +191,7 @@ export default class ExecutionTable extends Vue {
         if (pagination.pageStart == 0) {
             this.updateExecutions(0, pagination.itemsPerPage);
         } else {
-            this.updateExecutions(pagination.pageStart + 1, pagination.pageStop);
+            this.updateExecutions(pagination.pageStart, pagination.pageStop);
         }
     }
 
