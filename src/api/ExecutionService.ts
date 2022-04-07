@@ -88,6 +88,9 @@ export async function updateClinicalReview(
 export async function getFile(file_path: string): Promise<any> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.post("/file", { file_path: file_path }, { responseType: "blob" });
+    if (response.headers["content-type"] === "application/zip") {
+        file_path = file_path + ".zip";
+    }
     const file_name = file_path.split("/");
     const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement("a");
