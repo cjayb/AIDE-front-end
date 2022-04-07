@@ -95,18 +95,6 @@ export default class MetaData extends Vue {
     loading = true;
 
     async created(): Promise<void> {
-        EventBus.$on("updatedSelectedSeries", async (selectedSeries: any) => {
-            this.loading = true;
-            this.pinnedInstanceMetadata = this.$store.state.pinnedMetadata;
-            this.selectedInstanceMetadata = [];
-            this.selectedInstanceMetadata = await getInstanceMetadata(selectedSeries.Instances[0]);
-            this.loading = false;
-            this.pinnedInstanceMetadata.forEach((item) => {
-                item.value = this.selectedInstanceMetadata[item.name];
-                this.selectedInstanceMetadata[item.name] = null;
-            });
-        });
-
         EventBus.$on("updateSelectedInstance", async (currentInstanceId: any) => {
             this.loading = true;
             this.pinnedInstanceMetadata = this.$store.state.pinnedMetadata;

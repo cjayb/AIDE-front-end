@@ -85,6 +85,8 @@ export default class DicomViewport extends Vue {
             );
 
             this.renderImage();
+
+            EventBus.$emit("updateSelectedInstance", this.imageIds[this.stack.currentImageIdIndex]);
         });
 
         EventBus.$on("updateSelectedTool", async (tool: any) => {
@@ -122,7 +124,6 @@ export default class DicomViewport extends Vue {
     @Watch("stack.currentImageIdIndex")
     onStackChanged(currentImageIdIndex: any, oldImageIdIndex: any) {
         if (this.timeout) clearTimeout(this.timeout);
-
         this.timeout = setTimeout(() => {
             EventBus.$emit("updateSelectedInstance", this.imageIds[currentImageIdIndex]);
         }, 200); // delay
