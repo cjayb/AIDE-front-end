@@ -33,6 +33,7 @@ export default class PdfViewport extends Vue {
         EventBus.$on("updatedSelectedSeries", async (selectedSeries: any) => {
             this.selectedSeries = selectedSeries;
             this.selectedInstance = await getInstance(this.selectedSeries.Instances[0]);
+            EventBus.$emit("updateSelectedInstance", this.selectedSeries.Instances[0]);
         });
     }
 }

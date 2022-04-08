@@ -86,7 +86,10 @@ export default class DicomViewport extends Vue {
 
             this.renderImage();
 
-            EventBus.$emit("updateSelectedInstance", this.imageIds[this.stack.currentImageIdIndex]);
+            let currentInstanceId = this.imageIds[this.stack.currentImageIdIndex]
+                .split("/instances/")[1]
+                .split("/preview")[0];
+            EventBus.$emit("updateSelectedInstance", currentInstanceId);
         });
 
         EventBus.$on("updateSelectedTool", async (tool: any) => {
@@ -125,7 +128,10 @@ export default class DicomViewport extends Vue {
     onStackChanged(currentImageIdIndex: any, oldImageIdIndex: any) {
         if (this.timeout) clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
-            EventBus.$emit("updateSelectedInstance", this.imageIds[currentImageIdIndex]);
+            let currentInstanceId = this.imageIds[this.stack.currentImageIdIndex]
+                .split("/instances/")[1]
+                .split("/preview")[0];
+            EventBus.$emit("updateSelectedInstance", currentInstanceId);
         }, 200); // delay
     }
 

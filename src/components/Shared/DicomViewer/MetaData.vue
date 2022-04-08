@@ -99,9 +99,6 @@ export default class MetaData extends Vue {
             this.loading = true;
             this.pinnedInstanceMetadata = this.$store.state.pinnedMetadata;
             this.selectedInstanceMetadata = [];
-
-            currentInstanceId = currentInstanceId.split("/instances/")[1].split("/preview")[0];
-
             this.selectedInstanceMetadata = await getInstanceMetadata(currentInstanceId);
             this.loading = false;
             this.pinnedInstanceMetadata.forEach((item) => {
