@@ -133,7 +133,7 @@ export default class ClinicalReviewPage extends AbstractPage {
         return this;
     }
 
-    public acceptReject(decision: boolean): ClinicalReviewPage {
+    public acceptRejects(decision: boolean): ClinicalReviewPage {
         if (decision) {
             cy.dataCy(ClinicalReviewPage.ACCEPT_BUTTON).click();
         } else {

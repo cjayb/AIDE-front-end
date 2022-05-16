@@ -46,7 +46,7 @@
                             @click="toggleSelectedSpeciality(speciality)"
                             :color="hex[index]"
                             data-cy="specialty"
-                            v-for="(speciality, index) in versionDetails.medical_specialties"
+                            v-for="(speciality, index) in versionDetails.medical_specialities"
                             v-bind:key="speciality"
                             >{{ speciality }}</v-chip
                         >

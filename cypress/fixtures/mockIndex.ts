@@ -23,4 +23,5 @@ export default class ApiMocks {
     public static APP_STORE_ALL_PERMUTATIONS = require("./appStoreAllPermutations.json");
     public static APP_PROFILE_PAGE1 = require("./appProfilePage1.json");
     public static APP_PROFILE_PAGE2 = require("./appProfilePage2.json");
+    public static APP_STORE_SPECIALITY_DROP_DOWN = require("./appStoreSpecialityDropDown.json");
 }

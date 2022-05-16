@@ -1,162 +1,455 @@
-{
-   "count": 1,
-   "next": "None",
-   "previous": "None",
-   "results": [
-      {
-         "id": "00bba135-5069-45e5-8d28-25a211c14afa",
-         "name": "Missing Image",
-         "version": "1.2",
-         "application_version_id":"fc8a188b-0e5a-498c-b775-2f24f2fc600a",
-         "short_description": "This is an application with no image",
-         "certification": {
-            "certifications": [],
-            "certification_details": "Certified to work everywhere in the world!"
-         },
-         "medical_specialties": [],
-         "developer_details": "Duis urna mi",
-         "developers": "John, Bill, and Harry",
-         "collaborators": [
-            "collaborators"
-         ],
-         "image": null
-      },
-      {
-         "id": "00bba135-5069-45e5-8d28-25a211c14afa",
-         "name": "CE Application",
-         "version": "1.9",
-         "application_version_id":"fc8a188b-0e5a-498c-b775-2f24f2fc600a",
-         "short_description": "This is an application with CE certification",
-         "certification": {
-            "certifications": [
-               "ce"
-            ],
-            "certification_details": "Certified to work everywhere in the world!"
-         },
-         "medical_specialties": [],
-         "developer_details": "dignissim ac eros eu",
-         "developers": "John, Bill, and Harry",
-         "collaborators": [
-            "collaborators"
-         ],
-         "image": "/img/AI-centre.2d0be801.png"
-      },
-      {
-         "id": "00bba135-5069-45e5-8d28-25a211c14afa",
-         "name": "UKCA Application",
-         "version": "2.1.3",
-         "application_version_id":"fc8a188b-0e5a-498c-b775-2f24f2fc600a",
-         "short_description": "This is an application with UKCA certification",
-         "certification": {
-            "certifications": [
-               "ukca"
-            ],
-            "certification_details": "Certified to work everywhere in the world!"
-         },
-         "medical_specialties": [],
-         "developer_details": "consequat mattis leo",
-         "developers": "John, Bill, and Harry",
-         "collaborators": [
-            "collaborators"
-         ],
-         "image": "/img/AI-centre.2d0be801.png"
-      },
-      {
-         "id": "00bba135-5069-45e5-8d28-25a211c14afa",
-         "name": "FDA Application",
-         "version": "1.2",
-         "application_version_id":"fc8a188b-0e5a-498c-b775-2f24f2fc600a",
-         "short_description": "This is an application with FDA certification",
-         "certification": {
-            "certifications": [
-               "fda"
-            ],
-            "certification_details": "Certified to work everywhere in the world!"
-         },
-         "medical_specialties": [],
-         "developer_details": "Aliquam pellentesque",
-         "developers": "John, Bill, and Harry",
-         "collaborators": [
-            "collaborators"
-         ],
-         "image": "/img/AI-centre.2d0be801.png"
-      },
-      {
-         "id": "00bba135-5069-45e5-8d28-25a211c14afa",
-         "name": "Specialty Application",
-         "version": "one.three",
-         "application_version_id":"fc8a188b-0e5a-498c-b775-2f24f2fc600a",
-         "short_description": "This is an application with specialties",
-         "certification": {
-            "certifications": [
-               "ce",
-               "ukca",
-               "fda"
-            ],
-            "certification_details": "Certified to work everywhere in the world!"
-         },
-         "medical_specialties": [
-            "Cardiology",
-            "Radiology"
-         ],
-         "developer_details": "dui sit amet ",
-         "developers": "John, Bill, and Harry",
-         "collaborators": [
-            "collaborators"
-         ],
-         "image": "/img/AI-centre.2d0be801.png"
-      },
-      {
-         "id": "00bba135-5069-45e5-8d28-25a211c14afa",
-         "name": "Long Description Application",
-         "version": "5.6",
-         "application_version_id":"fc8a188b-0e5a-498c-b775-2f24f2fc600a",
-         "short_description": "This is an application with a long description. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id nisi in lorem mattis efficitur et non orci. Cras in tincidunt lorem. Curabitur ut sapien purus. Integer sodales, quam eget volutpat imperdiet, neque risus blandit dui, eget ultrices turpis massa vestibulum eros. Proin elit turpis, tempor eget egestas eget, hendrerit.",
-         "certification": {
-            "certifications": [
-               "ce",
-               "fda"
-            ],
-            "certification_details": "Certified to work everywhere in the world!"
-         },
-         "medical_specialties": [
-            "Cardiology",
-            "Radiology",
-            "Ophthalmology",
-            "Cardiology",
-            "General Medicine"
-         ],
-         "developer_details": "lacus viverra imperdiet",
-         "developers": "John, Bill, and Harry",
-         "collaborators": [
-            "collaborators"
-         ],
-         "image": "/img/AI-centre.2d0be801.png"
-      },
-      {
-         "id": "00bba135-5069-45e5-8d28-25a211c14afa",
-         "name": "Unique Speciality Application",
-         "version": "5.6",
-         "application_version_id":"fc8a188b-0e5a-498c-b775-2f24f2fc600a",
-         "short_description": "This is an application with a unique speciality",
-         "certification": {
-            "certifications": [
-               "ce",
-               "fda"
-            ],
-            "certification_details": "Certified to work everywhere in the world!"
-         },
-         "medical_specialties": [
-            "Cardiology",
-            "Radiology",
-            "unique"
-         ],
-         "developer_details": "lacus paluminus",
-         "developers": "John, Bill, and Harry",
-         "collaborators": [
-            "collaborators"
-         ],
-         "image": "/img/AI-centre.2d0be801.png"
-      }
-   ]
-}
+[
+    {
+        "application_id": "06e5e7fc-f1b6-4a09-8c8a-32d6bee02fdc",
+        "name": "No image",
+        "versions": [
+            {
+                "id": "9c562c07-d2c6-48c6-a016-48f6f46caa32",
+                "application_id": "06e5e7fc-f1b6-4a09-8c8a-32d6bee02fdc",
+                "version_string": "V1",
+                "version_details": [
+                    {
+                        "id": "d6b918fa-fdfc-4a99-91ee-50358e36bd24",
+                        "version_id": "9c562c07-d2c6-48c6-a016-48f6f46caa32",
+                        "long_desc": "This model intends to help diagnose patients with suspected strokes by analysing brain images",
+                        "short_desc": "This is a stroke model",
+                        "intended_use": "This is the intended use of my app",
+                        "collaborators": ["joe@email.com", "alex@email.com"],
+                        "certification_details": "These are certification details",
+                        "developer_details": "Details of a developer",
+                        "developer_name": "Alex Bazin",
+                        "ce_certified": false,
+                        "fda_certified": false,
+                        "ukca_certified": false,
+                        "min_gpu_memory": 12,
+                        "min_cpu_cores": 8,
+                        "min_disk_space": 1024,
+                        "min_ram": 4096,
+                        "status": "Draft",
+                        "public": false,
+                        "application_version_files": [],
+                        "medical_specialities": [],
+                        "input_types": [
+                            {
+                                "id": "599ac77c-9c08-4cc6-a5f6-09668f6cd7dd",
+                                "name": "dicom"
+                            },
+                            {
+                                "id": "67b63701-fa45-49ad-bdae-754fe6530026",
+                                "name": "email"
+                            }
+                        ],
+                        "output_types": [
+                            {
+                                "id": "8ba38a69-bce6-4233-b679-e339f5a7662e",
+                                "name": "email"
+                            },
+                            {
+                                "id": "c6a84a40-3277-486f-ae32-8e57c773de83",
+                                "name": "dicom"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+
+    {
+        "application_id": "06e5e7fc-f1b6-4a09-8c8a-32d6bee02fdc",
+        "name": "CE",
+        "versions": [
+            {
+                "id": "9c562c07-d2c6-48c6-a016-48f6f46caa32",
+                "application_id": "06e5e7fc-f1b6-4a09-8c8a-32d6bee02fdc",
+                "version_string": "V1",
+                "version_details": [
+                    {
+                        "id": "d6b918fa-fdfc-4a99-91ee-50358e36bd24",
+                        "version_id": "9c562c07-d2c6-48c6-a016-48f6f46caa32",
+                        "long_desc": "This model intends to help diagnose patients with suspected strokes by analysing brain images",
+                        "short_desc": "This is a stroke model",
+                        "intended_use": "This is the intended use of my app",
+                        "collaborators": ["joe@email.com", "alex@email.com"],
+                        "certification_details": "These are certification details",
+                        "developer_details": "Details of a developer",
+                        "developer_name": "Alex Bazin",
+                        "ce_certified": true,
+                        "fda_certified": false,
+                        "ukca_certified": false,
+                        "min_gpu_memory": 12,
+                        "min_cpu_cores": 8,
+                        "min_disk_space": 1024,
+                        "min_ram": 4096,
+                        "status": "Draft",
+                        "public": false,
+                        "application_version_files": [
+                            {
+                                "file_id": "b20ebab2-8e8c-4d90-b90e-15e1c4470326",
+                                "label": "hero_image",
+                                "url": "https://via.placeholder.com/300"
+                            }
+                        ],
+                        "medical_specialities": [],
+                        "input_types": [
+                            {
+                                "id": "599ac77c-9c08-4cc6-a5f6-09668f6cd7dd",
+                                "name": "dicom"
+                            },
+                            {
+                                "id": "67b63701-fa45-49ad-bdae-754fe6530026",
+                                "name": "email"
+                            }
+                        ],
+                        "output_types": [
+                            {
+                                "id": "8ba38a69-bce6-4233-b679-e339f5a7662e",
+                                "name": "email"
+                            },
+                            {
+                                "id": "c6a84a40-3277-486f-ae32-8e57c773de83",
+                                "name": "dicom"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+
+    {
+        "application_id": "06e5e7fc-f1b6-4a09-8c8a-32d6bee02fdc",
+        "name": "FDA",
+        "versions": [
+            {
+                "id": "9c562c07-d2c6-48c6-a016-48f6f46caa32",
+                "application_id": "06e5e7fc-f1b6-4a09-8c8a-32d6bee02fdc",
+                "version_string": "V1",
+                "version_details": [
+                    {
+                        "id": "d6b918fa-fdfc-4a99-91ee-50358e36bd24",
+                        "version_id": "9c562c07-d2c6-48c6-a016-48f6f46caa32",
+                        "long_desc": "This model intends to help diagnose patients with suspected strokes by analysing brain images",
+                        "short_desc": "This is a stroke model",
+                        "intended_use": "This is the intended use of my app",
+                        "collaborators": ["joe@email.com", "alex@email.com"],
+                        "certification_details": "These are certification details",
+                        "developer_details": "Details of a developer",
+                        "developer_name": "Alex Bazin",
+                        "ce_certified": false,
+                        "fda_certified": true,
+                        "ukca_certified": false,
+                        "min_gpu_memory": 12,
+                        "min_cpu_cores": 8,
+                        "min_disk_space": 1024,
+                        "min_ram": 4096,
+                        "status": "Draft",
+                        "public": false,
+                        "application_version_files": [
+                            {
+                                "id": "b20ebab2-8e8c-4d90-b90e-15e1c4470326",
+                                "version_details_id": "d6b918fa-fdfc-4a99-91ee-50358e36bd24",
+                                "label": "hero_image",
+                                "url": "https://via.placeholder.com/300"
+                            }
+                        ],
+                        "medical_specialities": [],
+                        "input_types": [
+                            {
+                                "id": "599ac77c-9c08-4cc6-a5f6-09668f6cd7dd",
+                                "name": "dicom"
+                            },
+                            {
+                                "id": "67b63701-fa45-49ad-bdae-754fe6530026",
+                                "name": "email"
+                            }
+                        ],
+                        "output_types": [
+                            {
+                                "id": "8ba38a69-bce6-4233-b679-e339f5a7662e",
+                                "name": "email"
+                            },
+                            {
+                                "id": "c6a84a40-3277-486f-ae32-8e57c773de83",
+                                "name": "dicom"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+
+    {
+        "application_id": "06e5e7fc-f1b6-4a09-8c8a-32d6bee02fdc",
+        "name": "UKCA",
+        "versions": [
+            {
+                "id": "9c562c07-d2c6-48c6-a016-48f6f46caa32",
+                "application_id": "06e5e7fc-f1b6-4a09-8c8a-32d6bee02fdc",
+                "version_string": "V1",
+                "version_details": [
+                    {
+                        "id": "d6b918fa-fdfc-4a99-91ee-50358e36bd24",
+                        "version_id": "9c562c07-d2c6-48c6-a016-48f6f46caa32",
+                        "long_desc": "This model intends to help diagnose patients with suspected strokes by analysing brain images",
+                        "short_desc": "This is a stroke model",
+                        "intended_use": "This is the intended use of my app",
+                        "collaborators": ["joe@email.com", "alex@email.com"],
+                        "certification_details": "These are certification details",
+                        "developer_details": "Details of a developer",
+                        "developer_name": "Alex Bazin",
+                        "ce_certified": false,
+                        "fda_certified": false,
+                        "ukca_certified": true,
+                        "min_gpu_memory": 12,
+                        "min_cpu_cores": 8,
+                        "min_disk_space": 1024,
+                        "min_ram": 4096,
+                        "status": "Draft",
+                        "public": false,
+                        "application_version_files": [
+                            {
+                                "id": "b20ebab2-8e8c-4d90-b90e-15e1c4470326",
+                                "version_details_id": "d6b918fa-fdfc-4a99-91ee-50358e36bd24",
+                                "label": "hero_image",
+                                "url": "https://via.placeholder.com/300"
+                            }
+                        ],
+                        "medical_specialities": [],
+                        "input_types": [
+                            {
+                                "id": "599ac77c-9c08-4cc6-a5f6-09668f6cd7dd",
+                                "name": "dicom"
+                            },
+                            {
+                                "id": "67b63701-fa45-49ad-bdae-754fe6530026",
+                                "name": "email"
+                            }
+                        ],
+                        "output_types": [
+                            {
+                                "id": "8ba38a69-bce6-4233-b679-e339f5a7662e",
+                                "name": "email"
+                            },
+                            {
+                                "id": "c6a84a40-3277-486f-ae32-8e57c773de83",
+                                "name": "dicom"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+
+    {
+        "application_id": "06e5e7fc-f1b6-4a09-8c8a-32d6bee02fdc",
+        "name": "Medical specialities",
+        "versions": [
+            {
+                "id": "9c562c07-d2c6-48c6-a016-48f6f46caa32",
+                "application_id": "06e5e7fc-f1b6-4a09-8c8a-32d6bee02fdc",
+                "version_string": "V1",
+                "version_details": [
+                    {
+                        "id": "d6b918fa-fdfc-4a99-91ee-50358e36bd24",
+                        "version_id": "9c562c07-d2c6-48c6-a016-48f6f46caa32",
+                        "long_desc": "This model intends to help diagnose patients with suspected strokes by analysing brain images",
+                        "short_desc": "This is a stroke model",
+                        "intended_use": "This is the intended use of my app",
+                        "collaborators": ["joe@email.com", "alex@email.com"],
+                        "certification_details": "These are certification details",
+                        "developer_details": "Details of a developer",
+                        "developer_name": "Alex Bazin",
+                        "ce_certified": true,
+                        "fda_certified": true,
+                        "ukca_certified": true,
+                        "min_gpu_memory": 12,
+                        "min_cpu_cores": 8,
+                        "min_disk_space": 1024,
+                        "min_ram": 4096,
+                        "status": "Draft",
+                        "public": false,
+                        "application_version_files": [
+                            {
+                                "id": "b20ebab2-8e8c-4d90-b90e-15e1c4470326",
+                                "version_details_id": "d6b918fa-fdfc-4a99-91ee-50358e36bd24",
+                                "label": "hero_image",
+                                "url": "https://via.placeholder.com/300"
+                            }
+                        ],
+                        "medical_specialities": [
+                            {
+                                "id": "1b7a95c7-ed02-4b14-9c94-2fb0bbd15578",
+                                "name": "Surgery"
+                            },
+                            {
+                                "id": "63a77be8-b7b0-47cf-b7e3-16ac3db42b67",
+                                "name": "Cancer"
+                            },
+                            {
+                                "id": "63a77be8-b7b0-47cf-b7e3-16ac3db42b68",
+                                "name": "Other"
+                            },
+                            {
+                                "id": "63a77be8-b7b0-47cf-b7e3-16ac3db42b69",
+                                "name": "Stroke"
+                            },
+                            {
+                                "id": "63a77be8-b7b0-47cf-b7e3-16ac3db42b70",
+                                "name": "Geriatric "
+                            }
+                        ],
+                        "input_types": [
+                            {
+                                "id": "599ac77c-9c08-4cc6-a5f6-09668f6cd7dd",
+                                "name": "dicom"
+                            },
+                            {
+                                "id": "67b63701-fa45-49ad-bdae-754fe6530026",
+                                "name": "email"
+                            }
+                        ],
+                        "output_types": [
+                            {
+                                "id": "8ba38a69-bce6-4233-b679-e339f5a7662e",
+                                "name": "email"
+                            },
+                            {
+                                "id": "c6a84a40-3277-486f-ae32-8e57c773de83",
+                                "name": "dicom"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+
+    {
+        "application_id": "06e5e7fc-f1b6-4a09-8c8a-32d6bee02fdc",
+        "name": "Long short name",
+        "versions": [
+            {
+                "id": "9c562c07-d2c6-48c6-a016-48f6f46caa32",
+                "application_id": "06e5e7fc-f1b6-4a09-8c8a-32d6bee02fdc",
+                "version_string": "V1",
+                "version_details": [
+                    {
+                        "id": "d6b918fa-fdfc-4a99-91ee-50358e36bd24",
+                        "version_id": "9c562c07-d2c6-48c6-a016-48f6f46caa32",
+                        "long_desc": "This model intends to help diagnose patients with suspected strokes by analysing brain images",
+                        "short_desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ante odio, tempus a pharetra ornare, facilisis ac est. Vivamus ac libero elit. Nam et eros pulvinar, posuere justo quis erat curae.",
+                        "intended_use": "This is the intended use of my app",
+                        "collaborators": ["joe@email.com", "alex@email.com"],
+                        "certification_details": "These are certification details",
+                        "developer_details": "Details of a developer",
+                        "developer_name": "Alex Bazin",
+                        "ce_certified": true,
+                        "fda_certified": true,
+                        "ukca_certified": true,
+                        "min_gpu_memory": 12,
+                        "min_cpu_cores": 8,
+                        "min_disk_space": 1024,
+                        "min_ram": 4096,
+                        "status": "Draft",
+                        "public": false,
+                        "application_version_files": [
+                            {
+                                "id": "b20ebab2-8e8c-4d90-b90e-15e1c4470326",
+                                "version_details_id": "d6b918fa-fdfc-4a99-91ee-50358e36bd24",
+                                "label": "hero_image",
+                                "url": "https://via.placeholder.com/300"
+                            }
+                        ],
+                        "medical_specialities": [],
+                        "input_types": [
+                            {
+                                "id": "599ac77c-9c08-4cc6-a5f6-09668f6cd7dd",
+                                "name": "dicom"
+                            },
+                            {
+                                "id": "67b63701-fa45-49ad-bdae-754fe6530026",
+                                "name": "email"
+                            }
+                        ],
+                        "output_types": [
+                            {
+                                "id": "8ba38a69-bce6-4233-b679-e339f5a7662e",
+                                "name": "email"
+                            },
+                            {
+                                "id": "c6a84a40-3277-486f-ae32-8e57c773de83",
+                                "name": "dicom"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+
+    {
+        "application_id": "06e5e7fc-f1b6-4a09-8c8a-32d6bee02fdc",
+        "name": "Long long name",
+        "versions": [
+            {
+                "id": "9c562c07-d2c6-48c6-a016-48f6f46caa32",
+                "application_id": "06e5e7fc-f1b6-4a09-8c8a-32d6bee02fdc",
+                "version_string": "V1",
+                "version_details": [
+                    {
+                        "id": "d6b918fa-fdfc-4a99-91ee-50358e36bd24",
+                        "version_id": "9c562c07-d2c6-48c6-a016-48f6f46caa32",
+                        "long_desc": "This model intends to help diagnose patients with suspected strokes by analysing brain images",
+                        "short_desc": "This is a stroke model",
+                        "intended_use": "This is the intended use of my app",
+                        "collaborators": ["joe@email.com", "alex@email.com"],
+                        "certification_details": "These are certification details",
+                        "developer_details": "Details of a developer",
+                        "developer_name": "Alex Bazin",
+                        "ce_certified": true,
+                        "fda_certified": true,
+                        "ukca_certified": true,
+                        "min_gpu_memory": 12,
+                        "min_cpu_cores": 8,
+                        "min_disk_space": 1024,
+                        "min_ram": 4096,
+                        "status": "Draft",
+                        "public": false,
+                        "application_version_files": [
+                            {
+                                "id": "b20ebab2-8e8c-4d90-b90e-15e1c4470326",
+                                "version_details_id": "d6b918fa-fdfc-4a99-91ee-50358e36bd24",
+                                "label": "hero_image",
+                                "url": "https://via.placeholder.com/300"
+                            }
+                        ],
+                        "medical_specialities": [],
+                        "input_types": [
+                            {
+                                "id": "599ac77c-9c08-4cc6-a5f6-09668f6cd7dd",
+                                "name": "dicom"
+                            },
+                            {
+                                "id": "67b63701-fa45-49ad-bdae-754fe6530026",
+                                "name": "email"
+                            }
+                        ],
+                        "output_types": [
+                            {
+                                "id": "8ba38a69-bce6-4233-b679-e339f5a7662e",
+                                "name": "email"
+                            },
+                            {
+                                "id": "c6a84a40-3277-486f-ae32-8e57c773de83",
+                                "name": "dicom"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

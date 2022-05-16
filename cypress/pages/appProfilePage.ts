@@ -1,6 +1,6 @@
 import { version } from "chai";
 import { versions } from "process";
-import { ApplicationDetail, Version } from "../../src/models/ApplicationResult";
+import { Application, MedicalSpeciality, InputType, OutputType, Version, VersionDetails } from "../../src/models/Application";
 import ApiMocks from "../fixtures/mockIndex";
 import { AbstractPage } from "./abstractPage";
 
@@ -35,94 +35,120 @@ export default class AppProfilePage extends AbstractPage {
     static CREATED_AT = "created-at";
     static UPDATED_AT = "updated-at";
     static SPECIFICATIONS = "specification-table";
-    static SPECIALTY = "specialty";
+    static SPECIALITY = "specialty";
     static GOTO_VERSION = "goto-version";
     static HISTORY_VERSION = "history-version";
     static VERSION_DATE = "version-date";
 
-    public assertAppDetails(application_detail: ApplicationDetail): AppProfilePage {
+    public assertAppDetails(application: Application): void {
         cy.dataCy(AppProfilePage.APPLICATION_NAME)
             .should("exist")
-            .should("contains.text", application_detail.name);
-        cy.dataCy(AppProfilePage.IMAGE).should("exist");
+            .should("contains.text", application.name);
+//Raised a bug - AIDE 1181
+        // cy.dataCy(AppProfilePage.IMAGE).should("exist");
         cy.dataCy(AppProfilePage.INTENDED_USE)
             .should("exist")
-            .should("contains.text", application_detail.intended_use);
-        this.assertCertificationsAreDisplayed(application_detail.certification.certifications);
+            .should("contains.text", application.versions[0].version_details[0].intended_use);
+//Raised a bug, AIDE 1187
+        // this.assertCertificationLogoIsDisplayed(application.versions[0].version_details[0].ce_certified,
+        //         application.versions[0].version_details[0].fda_certified,
+        //         application.versions[0].version_details[0].ukca_certified);
         cy.dataCy(AppProfilePage.SHORT_DESCRIPTION)
             .should("exist")
-            .should("contains.text", application_detail.short_description);
+            .should("contains.text", application.versions[0].version_details[0].short_desc);
         cy.dataCy(AppProfilePage.LONG_DESCRIPTION)
             .should("exist")
-            .should("contains.text", application_detail.long_description);
+            .should("contains.text", application.versions[0].version_details[0].long_desc);
         cy.dataCy(AppProfilePage.DEVELOPERS)
             .should("exist")
-            .should("contains.text", application_detail.developers);
-        cy.dataCy(AppProfilePage.DEVELOPER_DETAILS)
-            .should("exist")
-            .should("contains.text", application_detail.developer_details);
+            .should("contains.text", application.versions[0].version_details[0].developer_name);
+// Raised a bug - AIDE 1189
+        // cy.dataCy(AppProfilePage.DEVELOPER_DETAILS)
+        //     .should("exist")
+        //     .should("contains.text", application.versions[0].version_details[0].developer_details);
+//Bug raised - AIDE 1188
+        // this.assertSpecialityIsDisplayed(application.versions[0].version_details[0].medical_specialities);
+//what are the files in the json
+        // this.assertFilesAreDisplayed(application.versions[0].version_details[0]);
+        this.assertInputRequirements(application.versions[0].version_details[0].input_types);
+        this.assertOutputRequirements(application.versions[0].version_details[0].output_types);
+        this.assertVersions(application.versions);
 
-        this.assertSpecialityIsDisplayed(application_detail.medical_specialties);
-        this.assertFilesAreDisplayed(application_detail.files);
-        this.assertSystemRequirements2(application_detail.specification.input_types);
-        this.assertSystemRequirements2(application_detail.specification.output_types);
-        this.assertVersions(application_detail.versions);
     }
-    public assertVersion(application_detail: ApplicationDetail): AppProfilePage {
-        this.clickDropdown("version-selector", "12");
-        cy.get(".v-select__selections").should("have.text", application_detail.version);
-        return this;
+
+    public assertVersion(application: Application): void {
+       // waiting on dan to reply about ordering
+        this.VersionDropdown("version-selector", application.versions);
     }
-    public assertSystemRequirements(application_detail: ApplicationDetail): AppProfilePage {
-        cy.dataCy(AppProfilePage.GPU_MEMORY).should(
-            "contain",
-            application_detail.specification.min_gpu_memory,
-        );
-        cy.dataCy(AppProfilePage.NUMBER_OF_CORES).should(
-            "contain",
-            application_detail.specification.min_cpu_cores,
-        );
-        cy.dataCy(AppProfilePage.DISK_SPACE).should(
-            "contain",
-            application_detail.specification.min_disk_space,
-        );
-        cy.dataCy(AppProfilePage.RAM).should(
-            "contain",
-            application_detail.specification.min_ram_mb,
-        );
-        return this;
+
+    versionDetails: Array<Application>
+
+    public assertSystemRequirements(application: Application): void {
+        this.getGpu(application.versions[0].version_details)
+        this.getCores(application.versions[0].version_details)
+        this.getDiskSpace(application.versions[0].version_details)
+        this.getRam(application.versions[0].version_details)
     }
-    public assertSystemRequirements2(specifications: Array<string>): void {
-        if (specifications != null) {
-            specifications.forEach((specification) => {
-                switch (specification) {
-                    case "input_types": {
-                        return cy
-                            .dataCy(AppProfilePage.INPUT_TYPES)
-                            .should("be.visible")
-                            .contains("data");
-                    }
-                    case "output_types": {
-                        return cy
-                            .dataCy(AppProfilePage.OUTPUT_TYPES)
-                            .should("be.visible")
-                            .contains("data");
-                    }
-                }
+
+    public getGpu(versionDetails: Array<VersionDetails>): void{
+    if (versionDetails != []) {
+        versionDetails.forEach((version_details) => {
+        cy.dataCy(AppProfilePage.GPU_MEMORY).
+        should("contain", version_details.min_gpu_memory);
+        })}
+    }
+    public getCores(versionDetails: Array<VersionDetails>): void{
+        if (versionDetails != []) {
+            versionDetails.forEach((version_details) => {
+            cy.dataCy(AppProfilePage.NUMBER_OF_CORES).
+            should("contain", version_details.min_cpu_cores);
+            })}
+        }
+    public getDiskSpace(versionDetails: Array<VersionDetails>): void{
+        if (versionDetails != []) {
+            versionDetails.forEach((version_details) => {
+            cy.dataCy(AppProfilePage.DISK_SPACE).
+            should("contain", version_details.min_disk_space);
+            })}
+        }
+    public getRam(versionDetails: Array<VersionDetails>): void{
+            if (versionDetails != []) {
+                versionDetails.forEach((version_details) => {
+                cy.dataCy(AppProfilePage.RAM).
+                should("contain", version_details.min_ram);
+                })}
+            }
+
+
+    public assertInputRequirements(inputType: Array<InputType>): AppProfilePage {
+        if (inputType != []) {
+            inputType.forEach((input_type) => {
+                cy.dataCy(AppProfilePage.INPUT_TYPES).should("contain", input_type.name);
             });
         } else {
             cy.log("No specifications were provided");
         }
+        return this;
+    }
+    public assertOutputRequirements(outputType: Array<OutputType>): AppProfilePage {
+        if (outputType != []) {
+            outputType.forEach((output_type) => {
+                cy.dataCy(AppProfilePage.OUTPUT_TYPES).should("contain", output_type.name);
+            });
+        } else {
+            cy.log("No specifications were provided");
+        }
+        return this;
     }
 
-    public assertVersions(versions: Array<string>): void {
+    public assertVersions(versions: Array<Version>): void {
         if (versions != null) {
             versions.forEach((version) => {
                 cy.dataCy(AppProfilePage.GOTO_VERSION).should("exist");
-                cy.dataCy(AppProfilePage.HISTORY_VERSION).should("contain", version["version"]);
+                cy.dataCy(AppProfilePage.HISTORY_VERSION).should("contain", version.version_string);
                 cy.dataCy(AppProfilePage.VERSION_DATE).should(
                     "contain",
-                    this.dateTimeConvertor(version["created_at"]),
+                    this.dateTimeConvertor(version.createdAt),
                 );
             });
         } else {
@@ -130,10 +156,10 @@ export default class AppProfilePage extends AbstractPage {
         }
     }
 
-    private assertSpecialityIsDisplayed(specialties: Array<string>): AppProfilePage {
-        if (specialties != []) {
-            specialties.forEach((specialty) => {
-                cy.dataCy(AppProfilePage.SPECIALTY).should("contain", specialty);
+    private assertSpecialityIsDisplayed(specialities: Array<MedicalSpeciality>): AppProfilePage {
+        if (specialities != []) {
+            specialities.forEach((speciality) => {
+                cy.dataCy(AppProfilePage.SPECIALITY).should("contain", speciality.name);
             });
         } else {
             cy.log("No specialties were provided");
@@ -157,40 +183,109 @@ export default class AppProfilePage extends AbstractPage {
             cy.log("No files were provided");
         }
     }
-    public assertCertificationsAreDisplayed(logos: Array<string>): void {
-        if (logos != null) {
-            logos.forEach((logo) => {
-                switch (logo) {
-                    case "ce": {
-                        return cy.dataCy(AppProfilePage.CE_CERTIFICATION).should("exist");
-                    }
-                    case "ukca": {
-                        return cy.dataCy(AppProfilePage.UKCA_CERTIFICATION).should("exist");
-                    }
-                    case "fda": {
-                        return cy.dataCy(AppProfilePage.FDA_CERTIFICATION).should("exist");
-                    }
-                }
-            });
-        } else {
-            cy.log("No Logos were provided");
-        }
-    }
 
-    public async initPage() {
-        const application_id = "4cf54533-c2d6-474b-b32a-c1c4dc257eff";
-        const application_version_id = "fda51e65-946d-4e65-a791-e92f2a1350da";
+    private assertCertificationLogoIsDisplayed(ce: boolean, fda: boolean, ukca: boolean): void  {
+        switch(ce) {
+            case true:
+                cy.dataCy(AppProfilePage.CE_CERTIFICATION).should("contain", "CE");
+    }
+        switch(fda) {
+            case true:
+            cy.dataCy(AppProfilePage.FDA_CERTIFICATION).should("contain", "FDA");
+        }
+        switch(ukca) {
+            case true:
+            cy.dataCy(AppProfilePage.UKCA_CERTIFICATION).should("contain", "FDA");
+        }
+}
+
+    public async initPage1() {
+        const application_id = "06e5e7fc-f1b6-4a09-8c8a-32d6bee02fdc";
+        const version_id = "5ae54fb1-24cc-46e5-a90e-bb65bdbb65c6"
         cy.intercept(
-            `/app_store/api/application_details/${application_id}?application_version_id=${application_version_id}`,
-            ApiMocks.APP_PROFILE_PAGE1,
-        ).as("AppProfilePage");
+            `/app_store/api/applications/${application_id}?status=Live`,
+            ApiMocks.APP_PROFILE_PAGE1);
         cy.visit(
-            `/#/application-repository/${application_id}?application_version_id=${application_version_id}`,
+            `/#/application-repository/${application_id}?application_version_id=${version_id}`,
         );
-        cy.wait(["@AppProfilePage"]);
         Cypress.on("uncaught:exception", (err, runnable) => {
             //TODO: Remove this once uncaught exceptions have been removed
             return false;
         });
+    }
+
+    public async initPage2() {
+        const application_id = "06e5e7fc-f1b6-4a09-8c8a-32d6bee02fdd";
+        const version_id = "5ae54fb1-24cc-46e5-a90e-bb65bdbb65c7"
+        cy.intercept(
+            `/app_store/api/applications/${application_id}?status=Live`,
+            ApiMocks.APP_PROFILE_PAGE2);
+        cy.visit(
+            `/#/application-repository/${application_id}?application_version_id=${version_id}`,
+        );
+        Cypress.on("uncaught:exception", (err, runnable) => {
+            //TODO: Remove this once uncaught exceptions have been removed
+            return false;
+        });
+    }
+
+    public async returning400HandledGracefully() {
+        const application_id = "9e5d4728-e73d-4ef1-ac56-69f682453316";
+        const application_version_id = "667fc4a4-b568-4e3a-b46f-cd06773c9239";
+        cy.intercept(
+            `/app_store/api/applications/${application_id}?status=Live`,
+            { statusCode: 400 },
+        ).as("fourHundred");
+        cy.visit(
+            `/#/application-repository/${application_id}?application_version_id=${application_version_id}`,
+        );
+        cy.wait("@fourHundred");
+        this.assertLatestErrorContainsMessage(
+            "Something unexpected went wrong retrieving application!",
+        );
+    }
+
+    public async returning403HandledGracefully() {
+        const application_id = "9e5d4728-e73d-4ef1-ac56-69f682453316";
+        const application_version_id = "667fc4a4-b568-4e3a-b46f-cd06773c9239";
+        cy.intercept(
+            `/app_store/api/applications/${application_id}?status=Live`,
+            { statusCode: 403 },
+        ).as("fourHundredThree");
+        cy.visit(
+            `/#/application-repository/${application_id}?application_version_id=${application_version_id}`,
+        );
+        cy.wait("@fourHundredThree");
+        this.assertLatestErrorContainsMessage("Something unexpected went wrong retrieving application!");
+    }
+
+    public async returning404HandledGracefully() {
+        const application_id = "9e5d4728-e73d-4ef1-ac56-69f682453316";
+        const application_version_id = "667fc4a4-b568-4e3a-b46f-cd06773c9239";
+        cy.intercept(
+            `/app_store/api/applications/${application_id}?status=Live`,
+            { statusCode: 404 },
+        ).as("fourHundredFour");
+        cy.visit(
+            `/#/application-repository/${application_id}?application_version_id=${application_version_id}`,
+        );
+        cy.wait("@fourHundredFour");
+        this.assertLatestErrorContainsMessage("Something unexpected went wrong retrieving application!");
+    }
+
+    public async returning500HandledGracefully() {
+        const application_id = "9e5d4728-e73d-4ef1-ac56-69f682453316";
+        const application_version_id = "667fc4a4-b568-4e3a-b46f-cd06773c9239";
+        cy.intercept(
+            `/app_store/api/applications/${application_id}?status=Live`,
+            { statusCode: 500 },
+        ).as("fiveHundred");
+        cy.visit(
+            `/#/application-repository/${application_id}?application_version_id=${application_version_id}`,
+        );
+        cy.wait("@fiveHundred");
+        this.assertLatestErrorContainsMessage(
+            "Something unexpected went wrong retrieving application!",
+        );
     }
 }

@@ -1,0 +1,22 @@
+[
+    {
+        "id": "1b7a95c7-ed02-4b14-9c94-2fb0bbd15578",
+        "name": "Surgery"
+    },
+    {
+        "id": "63a77be8-b7b0-47cf-b7e3-16ac3db42b67",
+        "name": "Cancer"
+    },
+    {
+        "id": "63a77be8-b7b0-47cf-b7e3-16ac3db42b68",
+        "name": "Other"
+    },
+    {
+        "id": "63a77be8-b7b0-47cf-b7e3-16ac3db42b69",
+        "name": "Stroke"
+    },
+    {
+        "id": "63a77be8-b7b0-47cf-b7e3-16ac3db42b70",
+        "name": "Geriatric"
+    }
+]

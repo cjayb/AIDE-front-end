@@ -12,7 +12,7 @@ import { nodeTerminal, a11yConfig } from "utils/a11y_util";
 const adminPage = new AdminDashboardPage();
 const noMatchingRecords = "No matching records found"
 
-describe("Admin dashboard page", () => {
+describe.skip("Admin dashboard page", () => {
     beforeEach(() => {
         adminPage.initPage();
         cy.injectAxe()

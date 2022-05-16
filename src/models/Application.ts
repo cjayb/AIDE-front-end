@@ -44,6 +44,8 @@ export interface VersionDetails {
     public: boolean;
     createdAt: string;
     updatedAt: string;
+    developer_details: string;
+    developer_name: string;
 }
 
 export interface MedicalSpeciality {

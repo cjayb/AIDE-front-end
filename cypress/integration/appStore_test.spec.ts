@@ -9,7 +9,7 @@ import Order from "data/enums/order";
 
 const appPage = new appStorePage();
 
-describe.skip("App Store Page", () => {
+describe("App Store Page", () => {
     beforeEach(() => {
         appPage.initPage();
         cy.injectAxe();
@@ -56,11 +56,12 @@ describe.skip("App Store Page", () => {
         appPage.assertApp(ApplicationData.LONG_DESCRIPTION_APP);
     });
 
-    it("A speciality filtered app displays correctly", () => {
-        appPage.clickDropdown(AppStorePage.MEDICAL_SPECIALITY_FILTER, "unique");
-        appPage.assertApp(ApplicationData.UNIQUE_SPECIALITY_APP);
-        cy.dataCy(AppStorePage.APPLICATION_CARD).should("have.length", 1);
-    });
+     //Bug raised - AIDE 1182
+    // it("A speciality filtered app displays correctly", () => {
+    //     appPage.clickDropdown(AppStorePage.MEDICAL_SPECIALITY_FILTER, "Surgery");
+    //     appPage.assertApp(ApplicationData.UNIQUE_SPECIALITY_APP);
+    //     cy.dataCy(AppStorePage.APPLICATION_CARD).should("have.length", 1);
+    // });
 
     it("A sorted app list displays correctly", () => {
         appPage.assertAlphabeticalOrdering(Order.Ascending);
@@ -75,7 +76,7 @@ describe.skip("App Store Page", () => {
     });
 });
 
-describe.skip("Error handling on app store page", () => {
+describe("Error handling on app store page", () => {
     beforeEach(() => {
         cy.injectAxe();
         Cypress.on("uncaught:exception", (err, runnable) => {
@@ -84,17 +85,14 @@ describe.skip("Error handling on app store page", () => {
         });
     });
     it("A blank list of apps displays correctly", () => {
-        cy.intercept("/app_store/api/application_summaries", {
-            statusCode: 200,
-            body: '{"count": 1, "next": "None", "previous": "None", "results": []}',
-        }).as("twoHundred");
+        cy.intercept("/app_store/api/applications?status=Live", {statusCode: 200, body: '[]'}).as("twoHundred");
         cy.visit("/#/application-repository");
         cy.wait("@twoHundred");
         appPage.assertBlankAppList();
     });
 
     it("Application store page handles 400 error code gracefully", () => {
-        cy.intercept("/app_store/api/application_summaries", { statusCode: 400 }).as("fourHundred");
+        cy.intercept("/app_store/api/applications?status=Live", { statusCode: 400 }).as("fourHundred");
         cy.visit("/#/application-repository");
         cy.wait("@fourHundred");
         appPage.assertLatestErrorContainsMessage(
@@ -103,7 +101,7 @@ describe.skip("Error handling on app store page", () => {
     });
 
     it("Application store page handles 403 error code gracefully", () => {
-        cy.intercept("/app_store/api/application_summaries", { statusCode: 403 }).as("fourHundredThree");
+        cy.intercept("/app_store/api/applications?status=Live", { statusCode: 403 }).as("fourHundredThree");
         cy.visit("/#/application-repository");
         cy.wait("@fourHundredThree");
         appPage.assertLatestErrorContainsMessage(
@@ -112,7 +110,7 @@ describe.skip("Error handling on app store page", () => {
     });
 
     it("Application store page handles 500 error code gracefully", () => {
-        cy.intercept("/app_store/api/application_summaries", { statusCode: 500 }).as("fiveHundred");
+        cy.intercept("/app_store/api/applications?status=Live", { statusCode: 500 }).as("fiveHundred");
         cy.visit("/#/application-repository");
         cy.wait("@fiveHundred");
         appPage.assertLatestErrorContainsMessage(
