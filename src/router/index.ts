@@ -1,6 +1,8 @@
 import Vue from "vue";
 import VueRouter, { NavigationGuardNext, Route, RouteConfig } from "vue-router";
 import AdminDashboard from "../views/AdminDashboard.vue";
+import AdminHealthDashboard from "../views/AdminHealthDashboard.vue";
+import AdminPayloadDashboard from "../views/AdminPayloadDashboard.vue";
 import ClinicalReview from "../views/ClinicalReview.vue";
 import AppRepo from "../views/AppRepo.vue";
 import ListView from "../components/AppRepo/ListView/ListView.vue";
@@ -17,6 +19,22 @@ const routes: Array<RouteConfig> = [
         beforeEnter: (to, from, next) => {
             authenticated("admin", to, next);
         },
+    },
+    {
+        path: "/admin-health-dashboard",
+        name: "AdminHealthDashboard",
+        component: AdminHealthDashboard,
+        // beforeEnter: (to, from, next) => {
+        //     authenticated("admin", to, next);
+        // },
+    },
+    {
+        path: "/admin-payload-dashboard",
+        name: "AdminPayloadDashboard",
+        component: AdminPayloadDashboard,
+        // beforeEnter: (to, from, next) => {
+        //     authenticated("admin", to, next);
+        // },
     },
     {
         path: "/clinical-review",
