@@ -24,5 +24,3 @@ export default class AdminPayloadDashboard extends Vue {
     // Declared as component data
 }
 </script>
-
-<style scoped></style>

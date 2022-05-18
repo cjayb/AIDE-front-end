@@ -42,6 +42,34 @@ html {
     overflow: auto;
     min-width: 1300px;
 }
+
+.section-title {
+    font-family: "Bai Jamjuree", sans-serif !important;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 32px;
+}
+
+h1 {
+    font-family: "Bai Jamjuree", sans-serif !important;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 36px;
+    color: #000;
+}
+
+h2 {
+    font-family: "Open Sans", sans-serif !important;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    color: #000;
+}
+
+.no-uppercase {
+    text-transform: unset !important;
+}
+
 /* .row {
     margin: -12px !important;
 } */

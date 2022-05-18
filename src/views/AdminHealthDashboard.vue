@@ -1,22 +1,9 @@
 <template>
     <v-container>
         <!-- Overview -->
-        <v-row>
-            <v-col cols="12">
-                <h2 class="mx-auto">Overview</h2>
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col cols="3">
-                <v-skeleton-loader class="mx-auto" type="card"></v-skeleton-loader>
-            </v-col>
-            <v-col cols="3">
-                <v-skeleton-loader class="mx-auto" type="card"></v-skeleton-loader>
-            </v-col>
-            <v-col cols="3">
-                <v-skeleton-loader class="mx-auto" type="card"></v-skeleton-loader>
-            </v-col>
-        </v-row>
+        <DashboardOverview />
+
+        <v-divider />
 
         <!-- Issues -->
         <v-row>
@@ -50,13 +37,14 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import DashboardOverview from "../components/AdminHealthDashboard/DashboardOverview.vue";
 
 @Component({
-    components: {},
+    components: {
+        DashboardOverview,
+    },
 })
 export default class AdminHealthDashboard extends Vue {
     // Declared as component data
 }
 </script>
-
-<style scoped></style>
