@@ -99,7 +99,7 @@ export default class AdminDashboardPage extends AbstractPage {
             .assertExecutionRowData(rowNumber, ExecutionTableColumn.STATUS, Helpers.capitaliseWord(executionData.result.status))
             .assertExecutionRowData(rowNumber, ExecutionTableColumn.DURATION, executionData.getDuration().toString())
             .assertExecutionRowData(rowNumber, ExecutionTableColumn.TURNAROUND, executionData.getTurnaround().toString())
-            .assertExecutionRowData(rowNumber, ExecutionTableColumn.DATE, Helpers.getDateFormat(executionData.timestamp.received_at));
+            // .assertExecutionRowData(rowNumber, ExecutionTableColumn.DATE, Helpers.getDateFormat(executionData.timestamp.received_at));
     }
 
     public assertExecutionRowData(rowNumber: number, executionTableColumn: ExecutionTableColumn, expectedText: string): AdminDashboardPage {
@@ -129,7 +129,7 @@ export default class AdminDashboardPage extends AbstractPage {
     }
 
     public async initPage() {
-        cy.intercept("/models", ApiMocks.ADMIN_DASHBOARD_MODELS).as("All models");
+        // cy.intercept("/models", ApiMocks.ADMIN_DASHBOARD_MODELS).as("All models");
         cy.intercept("/queues/input", ApiMocks.INPUT_QUEUE_STATS).as("Input queue stats");
         cy.intercept("/queues/output", ApiMocks.OUTPUT_QUEUE_STATS).as("Output queue stats");
         cy.intercept("/execution_stats?days=1", ApiMocks.ADMIN_DASH_AGG_EXECUTION_STATS_DAY).as("Today's execution stats");

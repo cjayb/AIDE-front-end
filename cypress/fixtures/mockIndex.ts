@@ -1,6 +1,14 @@
 // Placed here so that mock data can be read while tests are in progress
 export default class ApiMocks {
-    public static ADMIN_DASHBOARD_MODELS = require("./adminDashboardModels.json");
+    public static ADMIN_DASHBOARD_EXECUTION_LOGS = require("./adminDashboardExecutionLogs.json");
+    public static ADMIN_DASHBOARD_NO_FAILED_MODELS = require("./adminDashboardNoFailedModels.json");
+    public static ADMIN_DASHBOARD_FAILED_MODELS = require("./adminDashboardFailedModels.json");
+    public static ADMIN_DASHBOARD_ISSUES = require("./adminDashboardIssues.json")
+    // public static ADMIN_DASHBOARD_MODELS_NO_FAIL_WEEK= require("./adminDashboardModelsNoFailsWeek.json");
+    // public static ADMIN_DASHBOARD_MODELS_NO_FAIL_MONTH = require("./adminDashboardModelsNoFailsDay.json");
+    // public static ADMIN_DASHBOARD_MODELS = require("./adminDashboardModels.json");
+    // public static ADMIN_DASHBOARD_MODELS_FAIL_WEEK= require("./adminDashboardModelsOneFailWeek.json");
+    // public static ADMIN_DASHBOARD_MODELS_FAIL_MONTH = require("./adminDashboardModelsOneFailMonth.json");
     public static INPUT_QUEUE_STATS = require("./inputQueueStats.json");
     public static OUTPUT_QUEUE_STATS = require("./outputQueueStats.json");
     public static ADMIN_DASH_EXECUTION_STATS_MODEL_1 = require("./adminDashboardExecutionStatsModel1.json");

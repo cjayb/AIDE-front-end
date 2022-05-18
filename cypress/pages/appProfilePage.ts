@@ -209,7 +209,6 @@ export default class AppProfilePage extends AbstractPage {
             `/#/application-repository/${application_id}?application_version_id=${version_id}`,
         );
         Cypress.on("uncaught:exception", (err, runnable) => {
-            //TODO: Remove this once uncaught exceptions have been removed
             return false;
         });
     }
@@ -224,7 +223,6 @@ export default class AppProfilePage extends AbstractPage {
             `/#/application-repository/${application_id}?application_version_id=${version_id}`,
         );
         Cypress.on("uncaught:exception", (err, runnable) => {
-            //TODO: Remove this once uncaught exceptions have been removed
             return false;
         });
     }

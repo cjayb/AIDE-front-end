@@ -1,0 +1,7 @@
+[
+    {
+        "deployed_models": "30",
+        "model_executions": "30",
+        "model_fails": "1"
+    }
+]

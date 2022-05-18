@@ -32,12 +32,12 @@ http.interceptors.response.use(
 
 export async function getModelExecutionStatistics(): Promise<IExecutionStatistics> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
-    //const response = await http.get(`/app_store/api/model-execution-stats?period=${filterPeriod}`);
+    const response = await http.get(`/api/model-execution-stats?period=day`);
 
-    return {
-        deployed_models: 5,
-        model_executions: 158,
-        model_failures: 5,
-    };
-    //return response.data;
+    // return {
+    //     deployed_models: 5,
+    //     model_executions: 158,
+    //     model_failures: 5,
+    // };
+    return response.data;
 }

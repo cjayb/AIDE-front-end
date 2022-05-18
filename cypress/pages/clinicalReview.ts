@@ -89,7 +89,7 @@ export default class ClinicalReviewPage extends AbstractPage {
     }
 
     /**
-     * @param expectedImageLoads - number of instances of cornerstoneimagerendered expected 
+     * @param expectedImageLoads - number of instances of cornerstoneimagerendered expected
      * after scrolling (plus the initial 2 when the page loads)
      * @returns this
      */
