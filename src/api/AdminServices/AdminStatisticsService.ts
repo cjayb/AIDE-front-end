@@ -1,6 +1,6 @@
 import Vue from "vue";
 import axios from "axios";
-import { IExecutionStatistics } from "@/models/AdminStatistics/ExecutionStatistics";
+import { IExecutionStatistics, IIssue, ILogs } from "@/models/AdminStatistics/ExecutionStatistics";
 
 const http = axios.create({
     baseURL: window.FRONTEND_API_HOST,
@@ -30,14 +30,32 @@ http.interceptors.response.use(
     },
 );
 
-export async function getModelExecutionStatistics(): Promise<IExecutionStatistics> {
+export async function getModelExecutionStatistics(
+    filterPeriod: string,
+): Promise<IExecutionStatistics> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
-    const response = await http.get(`/api/model-execution-stats?period=day`);
+    const response = await http.get(`/api/model-execution-stats?period=${filterPeriod}`);
 
-    // return {
-    //     deployed_models: 5,
-    //     model_executions: 158,
-    //     model_failures: 5,
-    // };
+    return response.data;
+}
+
+export async function getModelExecutionIssues(): Promise<IIssue[]> {
+    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
+    const response = await http.get(`/app_store/api/tasks`);
+
+    return response.data;
+}
+
+export async function getTaskLogs(task_id: number): Promise<ILogs[]> {
+    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
+    const response = await http.get(`/app_store/api/logs/${task_id}`);
+
+    return response.data;
+}
+
+export async function dismissTasks(taskIDs: number[]): Promise<number[]> {
+    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
+    const response = await http.post(`/app_store/api/tasks/dismiss`, taskIDs);
+
     return response.data;
 }

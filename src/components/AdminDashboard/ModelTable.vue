@@ -48,7 +48,6 @@
                     <template v-slot:expanded-item="{ headers, item }">
                         <td :colspan="headers.length" class="elevation-0 pa-0">
                             <ExecutionTable :model="item" :key="item" />
-                            <LogsDialog />
                             <PipelineDialog />
                         </td>
                     </template>
@@ -62,7 +61,6 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import ExecutionTable from "./ExecutionTable.vue";
-import LogsDialog from "../AdminDashboard/LogsDialog.vue";
 import PipelineDialog from "../AdminDashboard/PipelineDialog.vue";
 import { getModels } from "../../api/ModelService";
 import { getModelExecutionStats } from "../../api/ExecutionService";
@@ -73,7 +71,6 @@ import { DataTableHeader } from "vuetify";
 @Component({
     components: {
         ExecutionTable,
-        LogsDialog,
         PipelineDialog,
     },
 })

@@ -6,16 +6,9 @@
         <v-divider />
 
         <!-- Issues -->
-        <v-row>
-            <v-col cols="12">
-                <h2 class="mx-auto">Issues</h2>
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col cols="12">
-                <v-skeleton-loader class="mx-auto" type="table"></v-skeleton-loader>
-            </v-col>
-        </v-row>
+        <IssuesTable />
+
+        <v-divider />
 
         <!-- Models -->
         <v-row>
@@ -35,13 +28,15 @@
 </template>
 
 <script lang="ts">
+import DashboardOverview from "../components/AdminHealthDashboard/DashboardOverview.vue";
+import IssuesTable from "@/components/AdminHealthDashboard/IssuesTable.vue";
 import Vue from "vue";
 import Component from "vue-class-component";
-import DashboardOverview from "../components/AdminHealthDashboard/DashboardOverview.vue";
 
 @Component({
     components: {
         DashboardOverview,
+        IssuesTable,
     },
 })
 export default class AdminHealthDashboard extends Vue {

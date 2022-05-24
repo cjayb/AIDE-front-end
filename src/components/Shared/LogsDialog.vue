@@ -35,6 +35,7 @@ import { EventBus } from "@/event-bus";
 import VueJsonPretty from "vue-json-pretty";
 import "vue-json-pretty/lib/styles.css";
 import { getLogs } from "../../api/LogService";
+import { getTaskLogs } from "@/api/AdminServices/AdminStatisticsService";
 
 @Component({
     components: { VueJsonPretty },
@@ -42,26 +43,43 @@ import { getLogs } from "../../api/LogService";
 export default class LogsDialog extends Vue {
     dialog2 = false;
     loading = true;
-    executionId = "";
-    logs = "";
+    executionId: string | undefined = "";
+    logs: any;
 
     created(): void {
-        EventBus.$on("openLogsDialog", async (dialog2: boolean, execution_uid: string) => {
-            this.executionId = execution_uid;
-            this.loading = true;
-            this.logs = "";
-            this.dialog2 = dialog2;
-            await getLogs(execution_uid)
-                .then((log) => {
-                    this.logs = log;
-                })
-                .catch((err) => {
-                    this.dialog2 = false;
-                    this.loading = false;
-                });
+        EventBus.$on(
+            "openLogsDialog",
+            async (dialog2: boolean, task_id?: number, execution_uid?: string) => {
+                this.loading = true;
+                this.logs = "";
+                this.dialog2 = dialog2;
 
-            this.loading = false;
-        });
+                if (typeof execution_uid !== "undefined") {
+                    this.executionId = execution_uid;
+
+                    await getLogs(execution_uid)
+                        .then((log) => {
+                            this.logs = log;
+                        })
+                        .catch((err) => {
+                            this.dialog2 = false;
+                            this.loading = false;
+                        });
+                }
+                if (typeof task_id !== "undefined") {
+                    await getTaskLogs(task_id)
+                        .then((log) => {
+                            this.logs = log;
+                        })
+                        .catch((err) => {
+                            this.dialog2 = false;
+                            this.loading = false;
+                        });
+                }
+
+                this.loading = false;
+            },
+        );
     }
 
     downloadFile(): void {
@@ -86,6 +104,6 @@ export default class LogsDialog extends Vue {
 
 <style>
 .v-toast__text {
-    font-family: "Roboto", sans-serif !important;
+    font-family: "Open Sans", sans-serif !important;
 }
 </style>

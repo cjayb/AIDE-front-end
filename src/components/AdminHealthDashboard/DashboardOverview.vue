@@ -135,12 +135,12 @@ export default class DashboardOverview extends Vue {
     loading = false;
 
     async created(): Promise<void> {
-        this.getExecutionStatistics();
+        this.getExecutionStatistics(this.selectedFilterPeriod);
     }
 
-    async getExecutionStatistics(): Promise<void> {
+    async getExecutionStatistics(selectedFilterPeriod: FilterPeriod): Promise<void> {
         this.loading = true;
-        await getModelExecutionStatistics()
+        await getModelExecutionStatistics(selectedFilterPeriod)
             .then((executionStats) => {
                 this.modelExecutionStatistics = executionStats;
             })

@@ -12,6 +12,7 @@
                 <router-view />
             </transition>
         </v-main>
+        <LogsDialog />
     </v-app>
 </template>
 
@@ -19,6 +20,7 @@
 import Vue from "vue";
 import AppHeader from "./components/AppHeader.vue";
 import AppSidebar from "./components/AppSidebar.vue";
+import LogsDialog from "./components/Shared/LogsDialog.vue";
 
 export default Vue.extend({
     name: "App",
@@ -33,6 +35,7 @@ export default Vue.extend({
     components: {
         AppHeader,
         AppSidebar,
+        LogsDialog,
     },
 });
 </script>
@@ -68,6 +71,7 @@ h2 {
 
 .no-uppercase {
     text-transform: unset !important;
+    letter-spacing: normal;
 }
 
 /* .row {
