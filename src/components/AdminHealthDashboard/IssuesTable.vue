@@ -40,28 +40,40 @@
                         class="elevation-1"
                         data-cy="task"
                     >
-                        <template v-slot:[`item.task_id`]="{ item }" data-cy="task-id">
-                            <strong class="grey--text text--darken-3">{{ item.task_id }}</strong>
+                        <template v-slot:[`item.task_id`]="{ item }">
+                            <strong class="grey--text text--darken-3" data-cy="task-id">
+                                {{ item.task_id }}
+                            </strong>
                         </template>
-                        <template v-slot:[`item.status`]="{ item }" data-cy="status">
-                            <v-chip class="ma-2" color="red lighten-5" text-color="red darken-3">
+                        <template v-slot:[`item.status`]="{ item }">
+                            <v-chip
+                                class="ma-2"
+                                color="red lighten-5"
+                                text-color="red darken-3"
+                                data-cy="status"
+                            >
                                 <strong>{{ item.status }}</strong>
                             </v-chip>
                         </template>
-                        <template v-slot:[`item.model_name`]="{ item }" data-cy="model-name">
-                            <span class="grey--text text--darken-1">{{ item.model_name }}</span>
+                        <template v-slot:[`item.model_name`]="{ item }">
+                            <span class="grey--text text--darken-1" data-cy="model-name">
+                                {{ item.model_name }}
+                            </span>
                         </template>
-                        <template v-slot:[`item.patient_name`]="{ item }" data-cy="patient-name">
-                            <span class="grey--text text--darken-1">{{ item.patient_name }}</span>
+                        <template v-slot:[`item.patient_name`]="{ item }">
+                            <span class="grey--text text--darken-1" data-cy="patient-name">
+                                {{ item.patient_name }}
+                            </span>
                         </template>
-                        <template v-slot:[`item.patient_id`]="{ item }" data-cy="patient-id">
-                            <span class="grey--text text--darken-1">{{ item.patient_id }}</span>
+                        <template v-slot:[`item.patient_id`]="{ item }">
+                            <span class="grey--text text--darken-1" data-cy="patient-id">
+                                {{ item.patient_id }}
+                            </span>
                         </template>
-                        <template
-                            v-slot:[`item.execution_time`]="{ item }"
-                            data-cy="execution-date-time"
-                        >
-                            <span class="grey--text text--darken-1">{{ item.execution_time }}</span>
+                        <template v-slot:[`item.execution_time`]="{ item }">
+                            <span class="grey--text text--darken-1" data-cy="execution-date-time">
+                                {{ item.execution_time }}
+                            </span>
                         </template>
                         <template v-slot:[`item.actions`]="{ item }">
                             <v-btn
@@ -234,7 +246,7 @@ export default class IssuesTable extends Vue {
             const hour = Number(issue.execution_time.split("T")[1].substr(0, 2));
             const suffix: string = hour >= 12 ? "PM" : "AM";
             const formattedHour = (hour % 12 || 12).toString();
-            const minutes = Number(issue.execution_time.split("T")[1].substr(3, 2)).toString();
+            const minutes = issue.execution_time.split("T")[1].substr(2, 2).toString();
             issue.execution_time = date + " " + formattedHour + ":" + minutes + " " + suffix;
         });
     }

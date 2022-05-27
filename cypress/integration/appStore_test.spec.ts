@@ -32,7 +32,7 @@ describe("App Store Page", () => {
         cy.percySnapshot("Application Table");
     });
 
-    it("An app missing an image displays correctly", () => {
+    it.only("An app missing an image displays correctly", () => {
         appPage.assertApp(ApplicationData.MISSING_IMAGE_APP);
     });
 

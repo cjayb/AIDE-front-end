@@ -8,7 +8,7 @@
                 </div>
                 <div v-show="!loading && logs.length > 0">
                     <v-toolbar color="#61366e" dark>Log Viewer</v-toolbar>
-                    <v-card-text style="height: 60vh; overflow: scroll !important">
+                    <v-card-text style="height: 60vh; overflow: scroll !important" data-cy="logs">
                         <vue-json-pretty
                             :path="'res'"
                             :data="logs"

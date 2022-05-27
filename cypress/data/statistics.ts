@@ -6,7 +6,6 @@ export class ExecStatistics implements IExecutionStatistics {
     model_executions: number;
     model_failures: number;
 
-
     constructor(executionStatistics: IExecutionStatistics) {
         this.deployed_models = executionStatistics.deployed_models;
         this.model_executions = executionStatistics.model_executions;
@@ -14,8 +13,10 @@ export class ExecStatistics implements IExecutionStatistics {
     }
 
     public static NO_FAILED_MODELS_DATA: ExecStatistics = new ExecStatistics(
-        <IExecutionStatistics>ApiMocks.ADMIN_DASHBOARD_NO_FAILED_MODELS);
+        <IExecutionStatistics>ApiMocks.ADMIN_DASHBOARD_NO_FAILED_MODELS,
+    );
 
     public static FAILED_MODELS_DATA: ExecStatistics = new ExecStatistics(
-            <IExecutionStatistics>ApiMocks.ADMIN_DASHBOARD_FAILED_MODELS);
+        <IExecutionStatistics>ApiMocks.ADMIN_DASHBOARD_FAILED_MODELS,
+    );
 }

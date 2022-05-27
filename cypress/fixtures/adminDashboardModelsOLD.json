@@ -1,0 +1,34 @@
+[
+    {
+        "id": "61dda398-f4c9-4e17-a8e5-65f0be0a8ee7",
+        "model_name": "Haemorrhage-Brush",
+        "predicate": "DICOM_Modality == 'ABC'",
+        "mode": "QA",
+        "model_version": "1.0.0",
+        "active": true
+    },
+    {
+        "id": "ee18790f-3348-4b87-b085-83eb502866fb",
+        "model_name": "ch_test_model_1",
+        "predicate": "test == 1 and case < 2",
+        "mode": "QA",
+        "model_version": "1.0.0",
+        "active": true
+    },
+    {
+        "id": "9fbb0ea2-c7ca-4b12-b7f7-51b1a00cfe25",
+        "model_name": "ch_test_model_2",
+        "predicate": "modality < 1",
+        "mode": "QA",
+        "model_version": "1.0.0",
+        "active": true
+    },
+    {
+        "id": "3b0b87f9-f5f8-4127-ba60-89c8305a0238",
+        "model_name": "Haemorrhage-Stroke",
+        "predicate": "DICOM_Modality == 'CT'",
+        "mode": "QA",
+        "model_version": "1.0.0",
+        "active": true
+    }
+]

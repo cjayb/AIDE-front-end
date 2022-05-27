@@ -1,0 +1,10 @@
+[
+    {
+        "task_id": 1,
+        "status": "Error",
+        "model_name": "Test model",
+        "patient_name": "Test patient",
+        "patient_id": "1",
+        "execution_time": "20220516T151114"
+    }
+]

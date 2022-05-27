@@ -12,7 +12,7 @@ describe("App profile page version 1 ", () => {
         cy.injectAxe();
     });
 
-    it("displays application version 1 details correctly", () => {
+    it.only("displays application version 1 details correctly", () => {
         return appProfilePage.assertAppDetails(AppProfileData.APPLICATION_DETAILS1);
     });
 

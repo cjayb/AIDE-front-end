@@ -1,31 +1,36 @@
-// import { Task } from "../../src/models/Application/AdminStatistics/Task";
-// import ApiMocks from "../fixtures/mockIndex";
+import { IIssue } from "../../src/models/AdminStatistics/ExecutionStatistics";
+import ApiMocks from "../fixtures/mockIndex";
 
-// export class TaskData implements Task {
-//     task_id: number;
-//     model_name: string;
-//     patient_name: string;
-//     patient_id: number;
-//     execution_time: string;
+export class TaskData implements IIssue {
+    task_id: number;
+    status: string;
+    model_name: string;
+    patient_name: string;
+    patient_id: string;
+    execution_time: string;
 
-//     constructor(task: Task) {
-//         this.task_id = task.task_id;
-//         this.model_name = task.model_name;
-//         this.patient_name = task.patient_name;
-//         this.patient_id = task.patient_id;
-//         this.execution_time = task.execution_time;
-//     }
+    constructor(task: IIssue) {
+        this.task_id = task.task_id;
+        this.status = task.status;
+        this.model_name = task.model_name;
+        this.patient_name = task.patient_name;
+        this.patient_id = task.patient_id;
+        this.execution_time = task.execution_time;
+    }
 
-//     public static TASK_DATA: TaskData = new TaskData(
-//         <Task>ApiMocks.ADMIN_DASHBOARD_ISSUES
-//     );
-//     // public static TASK_DATA_2: TaskData = new TaskData(
-//     //     <Task>ApiMocks.ADMIN_DASHBOARD_ISSUES[1],
-//     // );
-//     // public static TASK_DATA_3: TaskData = new TaskData(
-//     //     <Task>ApiMocks.ADMIN_DASHBOARD_ISSUES[2],
-//     // );
-//     // public static TASK_DATA_4: TaskData = new TaskData(
-//     //     <Task>ApiMocks.ADMIN_DASHBOARD_ISSUES[3],
-//     // );
-// }
+    public static TASK_DATA_1: TaskData = new TaskData(
+        <IIssue>ApiMocks.ADMIN_DASHBOARD_TASKS[0]
+    );
+    public static TASK_DATA_2: TaskData = new TaskData(
+        <IIssue>ApiMocks.ADMIN_DASHBOARD_TASKS[1],
+    );
+    public static TASK_DATA_3: TaskData = new TaskData(
+        <IIssue>ApiMocks.ADMIN_DASHBOARD_TASKS[2],
+    );
+    public static TASK_DATA_4: TaskData = new TaskData(
+        <IIssue>ApiMocks.ADMIN_DASHBOARD_TASKS[3],
+    );
+    public static TASK_DATA_5: TaskData = new TaskData(
+        <IIssue>ApiMocks.ADMIN_DASHBOARD_TASKS[4]
+    );
+}

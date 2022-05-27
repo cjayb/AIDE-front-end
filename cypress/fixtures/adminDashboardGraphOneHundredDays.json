@@ -1,0 +1,642 @@
+{
+    "model_id": 100,
+    "model_name": "Ten days",
+    "total_executions": 2256,
+    "total_failures": 1388,
+    "days": [
+        {
+            "date": "20220216",
+            "total_executions": 200,
+            "total_failures": 10
+        },
+        {
+            "date": "20220217",
+            "total_executions": 100,
+            "total_failures": 5
+        },
+        {
+            "date": "20220220",
+            "total_executions": 50,
+            "total_failures": 3
+        },
+        {
+            "date": "20220221",
+            "total_executions": 25,
+            "total_failures": 1
+        },
+        {
+            "date": "20220222",
+            "total_executions": 1,
+            "total_failures": 1
+        },
+        {
+            "date": "20220223",
+            "total_executions": 1000,
+            "total_failures": 1000
+        },
+        {
+            "date": "20220224",
+            "total_executions": 700,
+            "total_failures": 349
+        },
+        {
+            "date": "20220225",
+            "total_executions": 80,
+            "total_failures": 9
+        },
+        {
+            "date": "20220226",
+            "total_executions": 23,
+            "total_failures": 10
+        },
+        {
+            "date": "20220227",
+            "total_executions": 77,
+            "total_failures": 0
+        },
+        {
+            "date": "20220316",
+            "total_executions": 200,
+            "total_failures": 10
+        },
+        {
+            "date": "20220317",
+            "total_executions": 100,
+            "total_failures": 5
+        },
+        {
+            "date": "20220320",
+            "total_executions": 50,
+            "total_failures": 3
+        },
+        {
+            "date": "20220321",
+            "total_executions": 25,
+            "total_failures": 1
+        },
+        {
+            "date": "20220322",
+            "total_executions": 1,
+            "total_failures": 1
+        },
+        {
+            "date": "20220323",
+            "total_executions": 1000,
+            "total_failures": 1000
+        },
+        {
+            "date": "20220324",
+            "total_executions": 700,
+            "total_failures": 349
+        },
+        {
+            "date": "20220325",
+            "total_executions": 80,
+            "total_failures": 9
+        },
+        {
+            "date": "20220326",
+            "total_executions": 23,
+            "total_failures": 10
+        },
+        {
+            "date": "20220427",
+            "total_executions": 77,
+            "total_failures": 0
+        },
+        {   "date": "20220416",
+            "total_executions": 200,
+            "total_failures": 10
+        },
+        {
+            "date": "20220417",
+            "total_executions": 100,
+            "total_failures": 5
+        },
+        {
+            "date": "20220420",
+            "total_executions": 50,
+            "total_failures": 3
+        },
+        {
+            "date": "20220421",
+            "total_executions": 25,
+            "total_failures": 1
+        },
+        {
+            "date": "20220422",
+            "total_executions": 1,
+            "total_failures": 1
+        },
+        {
+            "date": "20220423",
+            "total_executions": 1000,
+            "total_failures": 1000
+        },
+        {
+            "date": "20220424",
+            "total_executions": 700,
+            "total_failures": 349
+        },
+        {
+            "date": "20220425",
+            "total_executions": 80,
+            "total_failures": 9
+        },
+        {
+            "date": "20220526",
+            "total_executions": 23,
+            "total_failures": 10
+        },
+        {
+            "date": "20220527",
+            "total_executions": 77,
+            "total_failures": 0
+        },
+        {
+            "date": "20220528",
+            "total_executions": 77,
+            "total_failures": 0
+        },
+        {
+            "date": "20220529",
+            "total_executions": 77,
+            "total_failures": 0
+        },
+        {
+            "date": "20220530",
+            "total_executions": 100,
+            "total_failures": 5
+        },
+        {
+            "date": "20220531",
+            "total_executions": 50,
+            "total_failures": 3
+        },
+        {
+            "date": "20220501",
+            "total_executions": 25,
+            "total_failures": 1
+        },
+        {
+            "date": "20220502",
+            "total_executions": 1,
+            "total_failures": 1
+        },
+        {
+            "date": "20220503",
+            "total_executions": 1000,
+            "total_failures": 1000
+        },
+        {
+            "date": "20220624",
+            "total_executions": 700,
+            "total_failures": 349
+        },
+        {
+            "date": "20220625",
+            "total_executions": 80,
+            "total_failures": 9
+        },
+        {
+            "date": "20220626",
+            "total_executions": 23,
+            "total_failures": 10
+        },
+        {
+            "date": "20220627",
+            "total_executions": 77,
+            "total_failures": 0
+        },
+        {
+            "date": "20220628",
+            "total_executions": 23,
+            "total_failures": 10
+        },
+        {
+            "date": "20220629",
+            "total_executions": 77,
+            "total_failures": 0
+        },
+        {
+            "date": "20220630",
+            "total_executions": 77,
+            "total_failures": 0
+        },
+        {
+            "date": "20220601",
+            "total_executions": 77,
+            "total_failures": 0
+        },
+        {
+            "date": "20220602",
+            "total_executions": 100,
+            "total_failures": 5
+        },
+        {
+            "date": "20220701",
+            "total_executions": 50,
+            "total_failures": 3
+        },
+        {
+            "date": "20220702",
+            "total_executions": 25,
+            "total_failures": 1
+        },
+        {
+            "date": "20220703",
+            "total_executions": 1,
+            "total_failures": 1
+        },
+        {
+            "date": "20220704",
+            "total_executions": 1000,
+            "total_failures": 1000
+        },
+        {
+            "date": "20220705",
+            "total_executions": 700,
+            "total_failures": 349
+        },
+        {
+            "date": "20220706",
+            "total_executions": 80,
+            "total_failures": 9
+        },
+        {
+            "date": "20220707",
+            "total_executions": 77,
+            "total_failures": 0
+        },
+        {
+            "date": "20220708",
+            "total_executions": 77,
+            "total_failures": 0
+        },
+        {
+            "date": "20220709",
+            "total_executions": 77,
+            "total_failures": 0
+        },
+        {
+            "date": "20220801",
+            "total_executions": 100,
+            "total_failures": 5
+        },
+        {
+            "date": "20220802",
+            "total_executions": 50,
+            "total_failures": 3
+        },
+        {
+            "date": "20220803",
+            "total_executions": 25,
+            "total_failures": 1
+        },
+        {
+            "date": "20220804",
+            "total_executions": 1,
+            "total_failures": 1
+        },
+        {
+            "date": "20220805",
+            "total_executions": 1000,
+            "total_failures": 1000
+        },
+        {
+            "date": "20220806",
+            "total_executions": 700,
+            "total_failures": 349
+        },
+        {
+            "date": "20220807",
+            "total_executions": 80,
+            "total_failures": 9
+        },
+        {
+            "date": "20220808",
+            "total_executions": 50,
+            "total_failures": 3
+        },
+        {
+            "date": "20220809",
+            "total_executions": 25,
+            "total_failures": 1
+        },
+        {
+            "date": "20220810",
+            "total_executions": 1,
+            "total_failures": 1
+        },
+        {
+            "date": "20220811",
+            "total_executions": 1000,
+            "total_failures": 1000
+        },
+        {
+            "date": "20220812",
+            "total_executions": 700,
+            "total_failures": 349
+        },
+        {
+            "date": "20220813",
+            "total_executions": 80,
+            "total_failures": 9
+        },
+        {
+            "date": "20220814",
+            "total_executions": 77,
+            "total_failures": 0
+        },
+        {
+            "date": "20220815",
+            "total_executions": 77,
+            "total_failures": 0
+        },
+        {
+            "date": "20220902",
+            "total_executions": 50,
+            "total_failures": 3
+         },
+         {
+            "date": "20220902",
+            "total_executions": 50,
+            "total_failures": 3
+        },
+        {
+            "date": "20220903",
+            "total_executions": 25,
+            "total_failures": 1
+        },
+        {
+            "date": "20220904",
+            "total_executions": 1,
+            "total_failures": 1
+        },
+        {
+            "date": "20220905",
+            "total_executions": 1000,
+            "total_failures": 1000
+        },
+        {
+            "date": "20220906",
+            "total_executions": 700,
+            "total_failures": 349
+        },
+        {
+            "date": "20220907",
+            "total_executions": 80,
+            "total_failures": 9
+        },
+        {
+            "date": "20220909",
+            "total_executions": 50,
+            "total_failures": 3
+        },
+        {
+            "date": "20220909",
+            "total_executions": 25,
+            "total_failures": 1
+        },
+        {
+            "date": "20220910",
+            "total_executions": 1,
+            "total_failures": 1
+        },
+        {
+            "date": "20220911",
+            "total_executions": 1000,
+            "total_failures": 1000
+        },
+        {
+            "date": "20220912",
+            "total_executions": 700,
+            "total_failures": 349
+        },
+        {
+            "date": "20220913",
+            "total_executions": 80,
+            "total_failures": 9
+        },
+        {
+            "date": "20220914",
+            "total_executions": 77,
+            "total_failures": 0
+        },
+        {
+            "date": "20220915",
+            "total_executions": 77,
+            "total_failures": 0
+        },
+        {
+            "date": "20221002",
+            "total_executions": 50,
+            "total_failures": 3
+        },
+        {
+            "date": "20221003",
+            "total_executions": 25,
+            "total_failures": 1
+        },
+        {
+            "date": "20221004",
+            "total_executions": 1,
+            "total_failures": 1
+        },
+        {
+            "date": "20221005",
+            "total_executions": 1000,
+            "total_failures": 1000
+        },
+        {
+            "date": "20221006",
+            "total_executions": 700,
+            "total_failures": 349
+        },
+        {
+            "date": "20221007",
+            "total_executions": 80,
+            "total_failures": 9
+        },
+        {
+            "date": "20221008",
+            "total_executions": 50,
+            "total_failures": 3
+        },
+        {
+            "date": "20221009",
+            "total_executions": 25,
+            "total_failures": 1
+        },
+        {
+            "date": "20220910",
+            "total_executions": 1,
+            "total_failures": 1
+        },
+        {
+            "date": "20221011",
+            "total_executions": 1000,
+            "total_failures": 1000
+        },
+        {
+            "date": "20221012",
+            "total_executions": 700,
+            "total_failures": 349
+        },
+        {
+            "date": "20221013",
+            "total_executions": 80,
+            "total_failures": 9
+        },
+        {
+            "date": "20221014",
+            "total_executions": 77,
+            "total_failures": 0
+        },
+        {
+            "date": "20221015",
+            "total_executions": 77,
+            "total_failures": 0
+        },
+        {
+            "date": "20221102",
+            "total_executions": 50,
+            "total_failures": 3
+        },
+        {
+            "date": "20221103",
+            "total_executions": 25,
+            "total_failures": 1
+        },
+        {
+            "date": "20221104",
+            "total_executions": 1,
+            "total_failures": 1
+        },
+        {
+            "date": "20221105",
+            "total_executions": 1100,
+            "total_failures": 1100
+        },
+        {
+            "date": "20221106",
+            "total_executions": 700,
+            "total_failures": 349
+        },
+        {
+            "date": "20221107",
+            "total_executions": 80,
+            "total_failures": 9
+        },
+        {
+            "date": "20221108",
+            "total_executions": 50,
+            "total_failures": 3
+        },
+        {
+            "date": "20221109",
+            "total_executions": 25,
+            "total_failures": 1
+        },
+        {
+            "date": "20221110",
+            "total_executions": 1,
+            "total_failures": 1
+        },
+        {
+            "date": "20221111",
+            "total_executions": 1000,
+            "total_failures": 1000
+        },
+        {
+            "date": "20221112",
+            "total_executions": 700,
+            "total_failures": 349
+        },
+        {
+            "date": "20221113",
+            "total_executions": 80,
+            "total_failures": 9
+        },
+        {
+            "date": "20221114",
+            "total_executions": 77,
+            "total_failures": 0
+        },
+        {
+            "date": "20221115",
+            "total_executions": 77,
+            "total_failures": 0
+        },
+        {
+            "date": "20221202",
+            "total_executions": 50,
+            "total_failures": 3
+        },
+        {
+            "date": "20221203",
+            "total_executions": 25,
+            "total_failures": 1
+        },
+        {
+            "date": "20221204",
+            "total_executions": 1,
+            "total_failures": 1
+        },
+        {
+            "date": "20221205",
+            "total_executions": 1200,
+            "total_failures": 1200
+        },
+        {
+            "date": "20221206",
+            "total_executions": 700,
+            "total_failures": 349
+        },
+        {
+            "date": "20221207",
+            "total_executions": 80,
+            "total_failures": 9
+        },
+        {
+            "date": "20221208",
+            "total_executions": 50,
+            "total_failures": 3
+        },
+        {
+            "date": "20221209",
+            "total_executions": 25,
+            "total_failures": 1
+        },
+        {
+            "date": "20221210",
+            "total_executions": 1,
+            "total_failures": 1
+        },
+        {
+            "date": "20221211",
+            "total_executions": 1000,
+            "total_failures": 1000
+        },
+        {
+            "date": "20221212",
+            "total_executions": 700,
+            "total_failures": 349
+        },
+        {
+            "date": "20221213",
+            "total_executions": 80,
+            "total_failures": 9
+        },
+        {
+            "date": "20221214",
+            "total_executions": 77,
+            "total_failures": 0
+        },
+        {
+            "date": "20221215",
+            "total_executions": 77,
+            "total_failures": 0
+        }
+    ]
+}

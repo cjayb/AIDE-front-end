@@ -41,14 +41,14 @@ export async function getModelExecutionStatistics(
 
 export async function getModelExecutionIssues(): Promise<IIssue[]> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
-    const response = await http.get(`/app_store/api/tasks`);
+    const response = await http.get(`/api/tasks`);
 
     return response.data;
 }
 
 export async function getTaskLogs(task_id: number): Promise<ILogs[]> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
-    const response = await http.get(`/app_store/api/logs/${task_id}`);
+    const response = await http.get(`/api/logs/${task_id}`);
 
     return response.data;
 }
