@@ -264,6 +264,35 @@ export default class ModelStatistics extends Vue {
         );
     }
 
+    calculateTotalExecutions() {
+        let executions: number[] = [];
+
+        if (this.modelDetails) {
+            this.modelDetails.days.forEach((stat: IModelStatistics) => {
+                executions.push(stat.total_executions);
+            });
+        }
+
+        this.totalExecutions = executions.reduce((partialSum, a) => partialSum + a, 0);
+        return this.totalExecutions;
+    }
+
+    calculateFailureRate() {
+        let failures: number[] = [];
+        let sumOfFailures: number;
+
+        if (this.modelDetails) {
+            this.modelDetails.days.forEach((stat: IModelStatistics) => {
+                failures.push(stat.total_failures);
+            });
+        }
+
+        sumOfFailures = failures.reduce((partialSum, a) => partialSum + a, 0);
+
+        this.totalFailureRate = Number(((sumOfFailures / this.totalExecutions) * 100).toFixed(2));
+        return this.totalFailureRate;
+    }
+
     changeSelectedModel() {
         const modelIndex = this.modelNames.findIndex(
             (model: string) => model === this.selectedModel?.model_name,
