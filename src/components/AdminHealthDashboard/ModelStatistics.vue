@@ -310,7 +310,7 @@ export default class ModelStatistics extends Vue {
     }
 
     formatDateStringForLabel(date: string) {
-        date = date.replace(/(\d{4})(\d{2})(\d+)/, "$1-$2-$3");
+        date = date.replace(/(\d{4})(\d{2})(\d+)/, "$3-$2-$1");
         return date;
     }
 }
