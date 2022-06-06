@@ -47,7 +47,7 @@
                         </template>
                         <template v-slot:[`item.status`]="{ item }">
                             <v-chip
-                                class="ma-2"
+                                class="my-2"
                                 color="red lighten-5"
                                 text-color="red darken-3"
                                 data-cy="status"
@@ -162,7 +162,6 @@ export default class IssuesTable extends Vue {
     dialogDelete = false;
 
     headers = [
-        { text: " ", sortable: false, value: "checkbox" },
         { text: "Task ID", value: "task_id" },
         { text: "Status", value: "status" },
         { text: "Model", value: "model_name" },
