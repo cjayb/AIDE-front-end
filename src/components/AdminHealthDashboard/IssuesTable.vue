@@ -40,10 +40,10 @@
                         class="elevation-1"
                         data-cy="task"
                     >
-                        <template v-slot:[`header.data-table-select`]="{ value }">
+                        <template v-slot:[`header.data-table-select`]="{ value, indeterminate }">
                             <v-checkbox
                                 :value="value"
-                                :indeterminate="props.indeterminate"
+                                :indeterminate="indeterminate"
                                 hide-details
                                 class="mt-0"
                                 @change="onSelectAllChange"
