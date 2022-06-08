@@ -1,6 +1,12 @@
 import Vue from "vue";
 import axios from "axios";
-import { IExecutionStatistics, IIssue, ILogs } from "@/models/AdminStatistics/ExecutionStatistics";
+import {
+    IExecutionStatistics,
+    IIssue,
+    ILogs,
+    IModelDetails,
+    IModelSummary,
+} from "@/models/AdminStatistics/ExecutionStatistics";
 
 const http = axios.create({
     baseURL: window.FRONTEND_API_HOST,
@@ -55,7 +61,27 @@ export async function getTaskLogs(task_id: number): Promise<ILogs[]> {
 
 export async function dismissTasks(taskIDs: number[]): Promise<number[]> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
-    const response = await http.post(`/app_store/api/tasks/dismiss`, taskIDs);
+    const response = await http.post(`/api/tasks/dismiss`, taskIDs);
+
+    return response.data;
+}
+
+export async function getModels(): Promise<IModelSummary[]> {
+    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
+    const response = await http.get(`/api/models`);
+
+    return response.data;
+}
+
+export async function getModelStatsForGraphs(
+    model_id: number,
+    start_date: string,
+    end_date: string,
+): Promise<IModelDetails> {
+    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
+    const response = await http.get(
+        `/api/graph/${model_id}?start_date=${start_date}&end_date=${end_date}`,
+    );
 
     return response.data;
 }
