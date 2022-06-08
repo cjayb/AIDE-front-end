@@ -40,9 +40,9 @@
                         class="elevation-1"
                         data-cy="task"
                     >
-                        <template v-slot:[`header.data-table-select`]="{ value, indeterminate }">
+                        <template v-slot:[`header.data-table-select`]="{ selectAllSelected, indeterminate }">
                             <v-checkbox
-                                :value="value"
+                                :value="selectAllSelected"
                                 :indeterminate="indeterminate"
                                 hide-details
                                 class="mt-0"
@@ -55,7 +55,9 @@
                                 :value="isSelected"
                                 hide-details
                                 class="mt-0"
+                                :key="item.task_id"
                                 @change="onItemSelect({ item, value: !isSelected })"
+                                label=""
                             />
                         </template>
                         <template v-slot:[`item.task_id`]="{ item }">
@@ -181,7 +183,6 @@ export default class IssuesTable extends Vue {
     selectAllSelected = false;
 
     headers = [
-        { text: "Checkbox", value: "data-table-select" },
         { text: "Task ID", value: "task_id" },
         { text: "Status", value: "status" },
         { text: "Model", value: "model_name" },
