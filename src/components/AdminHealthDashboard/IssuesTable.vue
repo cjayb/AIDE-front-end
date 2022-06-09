@@ -40,7 +40,7 @@
                         class="elevation-1"
                         data-cy="task"
                     >
-                        <template v-slot:[`header.data-table-select`]="{ selectAllSelected, indeterminate }">
+                        <!-- <template v-slot:[`header.data-table-select`]="{ selectAllSelected, indeterminate }">
                             <v-checkbox
                                 :value="selectAllSelected"
                                 :indeterminate="indeterminate"
@@ -59,7 +59,7 @@
                                 @change="onItemSelect({ item, value: !isSelected })"
                                 label=""
                             />
-                        </template>
+                        </template> -->
                         <template v-slot:[`item.task_id`]="{ item }">
                             <strong class="grey--text text--darken-3" data-cy="task-id">
                                 {{ item.task_id }}
@@ -225,15 +225,16 @@ export default class IssuesTable extends Vue {
         if (this.selectedTasks.length < this.issues.length) {
             this.selectAllSelected = true;
             this.selectedTasks = this.issues;
-        }
-        else if (this.selectedTasks.length === this.issues.length) {
+        } else if (this.selectedTasks.length === this.issues.length) {
             this.selectAllSelected = false;
             this.selectedTasks = [];
         }
     }
 
     onItemSelect(item: IIssue): void {
-        const itemSelected = this.selectedTasks.some((selectedTask: IIssue) => selectedTask.task_id === item.task_id);
+        const itemSelected = this.selectedTasks.some(
+            (selectedTask: IIssue) => selectedTask.task_id === item.task_id,
+        );
         if (!itemSelected) {
             this.selectedTasks.push(item);
             console.log("checkbox selected" + item.task_id);
