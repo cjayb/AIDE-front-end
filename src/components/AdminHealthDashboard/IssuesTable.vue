@@ -1,5 +1,6 @@
 <template>
-    <v-container class="mt-3 mb-7">
+    <v-container fluid class="mt-3 mb-7 px-7">
+        <!-- <v-container class="mt-3 mb-7 mx-lg-auto" :fluid="$vuetify.breakpoint.mdAndDown"> -->
         <v-row>
             <v-col class="col-sm-8 col-xl-9">
                 <h2 class="mx-auto section-title">Issues</h2>
@@ -40,28 +41,8 @@
                         class="elevation-1"
                         data-cy="task"
                     >
-                        <!-- <template v-slot:[`header.data-table-select`]="{ selectAllSelected, indeterminate }">
-                            <v-checkbox
-                                :value="selectAllSelected"
-                                :indeterminate="indeterminate"
-                                hide-details
-                                class="mt-0"
-                                @change="onSelectAllChange"
-                            >
-                            </v-checkbox>
-                        </template>
-                        <template v-slot:[`item.data-table-select`]="{ item, isSelected }">
-                            <v-checkbox
-                                :value="isSelected"
-                                hide-details
-                                class="mt-0"
-                                :key="item.task_id"
-                                @change="onItemSelect({ item, value: !isSelected })"
-                                label=""
-                            />
-                        </template> -->
                         <template v-slot:[`item.task_id`]="{ item }">
-                            <strong class="grey--text text--darken-3" data-cy="task-id">
+                            <strong data-cy="task-id">
                                 {{ item.task_id }}
                             </strong>
                         </template>
@@ -76,29 +57,29 @@
                             </v-chip>
                         </template>
                         <template v-slot:[`item.model_name`]="{ item }">
-                            <span class="grey--text text--darken-1" data-cy="model-name">
+                            <span data-cy="model-name">
                                 {{ item.model_name }}
                             </span>
                         </template>
                         <template v-slot:[`item.patient_name`]="{ item }">
-                            <span class="grey--text text--darken-1" data-cy="patient-name">
+                            <span data-cy="patient-name">
                                 {{ item.patient_name }}
                             </span>
                         </template>
                         <template v-slot:[`item.patient_id`]="{ item }">
-                            <span class="grey--text text--darken-1" data-cy="patient-id">
+                            <span data-cy="patient-id">
                                 {{ item.patient_id }}
                             </span>
                         </template>
                         <template v-slot:[`item.execution_time`]="{ item }">
-                            <span class="grey--text text--darken-1" data-cy="execution-date-time">
+                            <span data-cy="execution-date-time">
                                 {{ item.execution_time }}
                             </span>
                         </template>
                         <template v-slot:[`item.actions`]="{ item }">
                             <v-btn
                                 elevation="0"
-                                class="ma-1 no-uppercase purple--text text--darken-4"
+                                class="my-1 mr-1 no-uppercase purple--text text--darken-4"
                                 color="purple lighten-5"
                                 @click.stop="openLogsDialog(item.task_id)"
                                 data-cy="view-logs-button"
@@ -108,7 +89,7 @@
                             <v-btn
                                 elevation="0"
                                 outlined
-                                class="ma-1 no-uppercase grey--text text--darken-3"
+                                class="my-1 ml-1 no-uppercase grey--text text--darken-3"
                                 color="grey lighten-1"
                                 @click="deleteItem(item)"
                                 data-cy="dismiss-button"

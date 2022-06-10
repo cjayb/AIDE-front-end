@@ -1,5 +1,5 @@
 <template>
-    <v-container class="mt-3 mb-7">
+    <v-container fluid class="mt-3 mb-7 px-7">
         <v-row>
             <v-col cols="12">
                 <h2 class="mx-auto section-title">Models</h2>
@@ -7,7 +7,7 @@
         </v-row>
         <v-row v-if="!loading">
             <v-col cols="12">
-                <v-card class="mx-1 px-5 py-2 rounded-lg" height="100%" elevation="1" shaped tile>
+                <v-card class="px-5 py-2 rounded-lg" height="100%" elevation="1" shaped tile>
                     <v-row>
                         <v-col cols="8">
                             <v-col cols="5" class="header py-2">
@@ -66,7 +66,7 @@
                                         v-on:change="changeSelectedModel"
                                     ></v-date-picker>
                                 </v-menu>
-                                <p class="my-auto mx-4">to</p>
+                                <p class="my-auto mx-4 mx-sm-2">to</p>
                                 <v-menu
                                     v-model="endDateMenu"
                                     :close-on-content-click="false"
@@ -303,7 +303,7 @@ export default class ModelStatistics extends Vue {
     }
 
     formatDate(date: Date) {
-        const day = date.getDate() < 10 ? "0" + (date.getDate() + 1) : date.getDate();
+        const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
         const month = date.getMonth() < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
         const year = date.getFullYear();
         return year + "-" + month + "-" + day;

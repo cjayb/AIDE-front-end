@@ -1,5 +1,5 @@
 <template>
-    <v-container class="mt-3 mb-7">
+    <v-container fluid class="mt-3 mb-7 px-7">
         <v-row>
             <v-col class="col-sm-8 col-xl-9">
                 <h2 class="mx-auto section-title">Overview</h2>

@@ -43,7 +43,7 @@ export default Vue.extend({
 <style>
 html {
     overflow: auto;
-    min-width: 1300px;
+    min-width: 1000px;
 }
 
 .section-title {
