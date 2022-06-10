@@ -1,6 +1,5 @@
 <template>
     <v-container fluid class="mt-3 mb-7 px-7">
-        <!-- <v-container class="mt-3 mb-7 mx-lg-auto" :fluid="$vuetify.breakpoint.mdAndDown"> -->
         <v-row>
             <v-col class="col-sm-8 col-xl-9">
                 <h2 class="mx-auto section-title">Issues</h2>
@@ -89,7 +88,7 @@
                             <v-btn
                                 elevation="0"
                                 outlined
-                                class="my-1 ml-1 no-uppercase grey--text text--darken-3"
+                                class="my-1 ml-md-0 ml-1 no-uppercase grey--text text--darken-3"
                                 color="grey lighten-1"
                                 @click="deleteItem(item)"
                                 data-cy="dismiss-button"
