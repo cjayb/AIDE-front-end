@@ -160,7 +160,6 @@ export default class IssuesTable extends Vue {
     itemsToDismiss: number[] = [];
     issues: IIssue[] = [];
     dialogDelete = false;
-    
     headers = [
         { text: "Task ID", value: "task_id" },
         { text: "Status", value: "status" },

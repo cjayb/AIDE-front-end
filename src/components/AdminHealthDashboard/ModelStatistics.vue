@@ -264,19 +264,6 @@ export default class ModelStatistics extends Vue {
         );
     }
 
-    calculateTotalExecutions() {
-        let executions: number[] = [];
-
-        if (this.modelDetails) {
-            this.modelDetails.days.forEach((stat: IModelStatistics) => {
-                executions.push(stat.total_executions);
-            });
-        }
-
-        this.totalExecutions = executions.reduce((partialSum, a) => partialSum + a, 0);
-        return this.totalExecutions;
-    }
-
     calculateFailureRate() {
         let failures: number[] = [];
         let sumOfFailures: number;
