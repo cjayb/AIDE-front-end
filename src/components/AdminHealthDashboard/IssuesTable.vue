@@ -160,8 +160,7 @@ export default class IssuesTable extends Vue {
     itemsToDismiss: number[] = [];
     issues: IIssue[] = [];
     dialogDelete = false;
-    selectAllSelected = false;
-
+    
     headers = [
         { text: "Task ID", value: "task_id" },
         { text: "Status", value: "status" },
@@ -199,28 +198,6 @@ export default class IssuesTable extends Vue {
             console.log(err);
         });
         this.loading = false;
-    }
-
-    onSelectAllChange(): void {
-        if (this.selectedTasks.length < this.issues.length) {
-            this.selectAllSelected = true;
-            this.selectedTasks = this.issues;
-        } else if (this.selectedTasks.length === this.issues.length) {
-            this.selectAllSelected = false;
-            this.selectedTasks = [];
-        }
-    }
-
-    onItemSelect(item: IIssue): void {
-        const itemSelected = this.selectedTasks.some(
-            (selectedTask: IIssue) => selectedTask.task_id === item.task_id,
-        );
-        if (!itemSelected) {
-            this.selectedTasks.push(item);
-            console.log("checkbox selected" + item.task_id);
-        }
-        console.log(item.task_id);
-        console.log(this.selectedTasks);
     }
 
     deleteItem(item?: IIssue): void {
