@@ -144,11 +144,11 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import { IIssue } from "@/models/AdminStatistics/ExecutionStatistics";
 import { dismissTasks, getModelExecutionIssues } from "@/api/AdminServices/AdminStatisticsService";
 import { Watch } from "vue-property-decorator";
 import { formatDateAndTime } from "@/utils/dateFormattingUtils";
 import { EventBus } from "@/event-bus";
+import { IIssue } from "@/models/AdminStatistics/IIssue";
 
 @Component({
     components: {},

@@ -1,13 +1,10 @@
 import Vue from "vue";
 import axios from "axios";
-import {
-    IExecutionStatistics,
-    IIssue,
-    ILogs,
-    IModelDetails,
-    IModelSummary,
-    IPayload,
-} from "@/models/AdminStatistics/ExecutionStatistics";
+import { IExecutionStatistics } from "@/models/AdminStatistics/IExecutionStatistics";
+import { IIssue } from "@/models/AdminStatistics/IIssue";
+import { ILogs } from "@/models/AdminStatistics/ILogs";
+import { IModelSummary, IModelDetails } from "@/models/AdminStatistics/IModel";
+import { IPayload } from "@/models/AdminStatistics/IPayload";
 
 const http = axios.create({
     baseURL: window.FRONTEND_API_HOST,

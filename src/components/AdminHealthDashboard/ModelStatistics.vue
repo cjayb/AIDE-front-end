@@ -148,11 +148,7 @@
 
 <script lang="ts">
 import { getModels, getModelStatsForGraphs } from "@/api/AdminServices/AdminStatisticsService";
-import {
-    IModelDetails,
-    IModelStatistics,
-    IModelSummary,
-} from "@/models/AdminStatistics/ExecutionStatistics";
+import { IModelDetails, IModelSummary, IModelStatistics } from "@/models/AdminStatistics/IModel";
 import Vue from "vue";
 import Component from "vue-class-component";
 import LineChart from "../Charts/Line.vue";

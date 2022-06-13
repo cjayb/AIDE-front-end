@@ -1,6 +1,13 @@
 import ApiMocks from "../fixtures/mockIndex";
 // import { AbstractPage } from "./abstractPage";
-import { IExecutionStatistics, IIssue, ILog, IModelDetails, IModelStatistics, IModelSummary} from "../../src/models/AdminStatistics/ExecutionStatistics";
+import { IExecutionStatistics } from "../../src/models/AdminStatistics/IExecutionStatistics";
+import { IIssue } from "../../src/models/AdminStatistics/IIssue";
+import { ILog } from "../../src/models/AdminStatistics/ILogs";
+import {
+    IModelDetails,
+    IModelStatistics,
+    IModelSummary,
+} from "../../src/models/AdminStatistics/IModel";
 import { ExecStatistics } from "data/statistics";
 import { ModelDetailsData } from "../data/graph";
 

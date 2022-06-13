@@ -1,4 +1,4 @@
-import { IExecutionStatistics } from "../../src/models/AdminStatistics/ExecutionStatistics";
+import { IExecutionStatistics } from "../../src/models/AdminStatistics/IExecutionStatistics";
 import ApiMocks from "../fixtures/mockIndex";
 
 export class ExecStatistics implements IExecutionStatistics {

@@ -67,9 +67,9 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import { IPayload } from "@/models/AdminStatistics/ExecutionStatistics";
 import { getPayloads } from "@/api/AdminServices/AdminStatisticsService";
 import { formatDateAndTime } from "@/utils/dateFormattingUtils";
+import { IPayload } from "@/models/AdminStatistics/IPayload";
 
 @Component({
     components: {},

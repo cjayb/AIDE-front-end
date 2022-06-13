@@ -1,4 +1,4 @@
-import { IPayload } from "../../src/models/AdminStatistics/ExecutionStatistics";
+import { IPayload } from "../../src/models/AdminStatistics/IPayload";
 import ApiMocks from "../fixtures/mockIndex";
 
 export class PayloadData implements IPayload {

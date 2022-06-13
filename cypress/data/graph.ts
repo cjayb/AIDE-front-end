@@ -1,4 +1,8 @@
-import { IModelDetails, IModelStatistics, IModelSummary } from "../../src/models/AdminStatistics/ExecutionStatistics";
+import {
+    IModelDetails,
+    IModelStatistics,
+    IModelSummary,
+} from "../../src/models/AdminStatistics/IModel";
 import ApiMocks from "../fixtures/mockIndex";
 
 export class ModelDetailsData implements IModelDetails {

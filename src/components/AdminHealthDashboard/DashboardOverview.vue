@@ -116,7 +116,7 @@
 
 <script lang="ts">
 import { getModelExecutionStatistics } from "@/api/AdminServices/AdminStatisticsService";
-import { IExecutionStatistics } from "@/models/AdminStatistics/ExecutionStatistics";
+import { IExecutionStatistics } from "@/models/AdminStatistics/IExecutionStatistics";
 import Vue from "vue";
 import Component from "vue-class-component";
 

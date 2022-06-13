@@ -1,4 +1,4 @@
-import { ILog } from "../../src/models/AdminStatistics/ExecutionStatistics";
+import { ILog } from "../../src/models/AdminStatistics/ILogs";
 import ApiMocks from "../fixtures/mockIndex";
 
 

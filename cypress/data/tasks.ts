@@ -1,4 +1,4 @@
-import { IIssue } from "../../src/models/AdminStatistics/ExecutionStatistics";
+import { IIssue } from "../../src/models/AdminStatistics/IIssue";
 import ApiMocks from "../fixtures/mockIndex";
 
 export class TaskData implements IIssue {
