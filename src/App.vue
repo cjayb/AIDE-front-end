@@ -110,4 +110,8 @@ h2 {
 ::-webkit-scrollbar-thumb:hover {
     background: #5f2e6e;
 }
+
+.v-data-table-header th {
+    white-space: nowrap;
+}
 </style>

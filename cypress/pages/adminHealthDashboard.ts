@@ -59,7 +59,7 @@ export default class AdminHealthDashboardPage {
         const suffix: string = hour >= 12 ? "PM" : "AM";
         const formattedHour = (hour % 12 || 12).toString();
         const minutes = task.split("T")[1].substring(4, 2).toString();
-        task = date + " " + formattedHour + ":" + minutes + " " + suffix;
+        task = date + " " + (Number(formattedHour) < 10 ? "0" + formattedHour : formattedHour) + ":" + minutes + " " + suffix;
         return task;
     }
 

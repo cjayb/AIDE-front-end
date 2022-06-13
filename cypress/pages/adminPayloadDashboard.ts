@@ -44,7 +44,7 @@ export default class AdminPayloadDashboardPage {
         const suffix: string = hour >= 12 ? "PM" : "AM";
         const formattedHour = (hour % 12 || 12).toString();
         const minutes = payload.split("T")[1].substring(4, 2).toString();
-        payload = date + " " + formattedHour + ":" + minutes + " " + suffix;
+        payload = date + " " + (Number(formattedHour) < 10 ? "0" + formattedHour : formattedHour) + ":" + minutes + " " + suffix;
         return payload;
     }
 

@@ -176,7 +176,7 @@ describe(`Admin Payload - Table`, () => {
         [`1`, PayloadData.PAYLOAD_DATA_1, `Payload ID`],
         [`Louiza Van-Der-Varintaford`, PayloadData.PAYLOAD_DATA_2, `patient name`],
         [`423 323 2235`, PayloadData.PAYLOAD_DATA_3, `patient ID`],
-        [`2022-05-26 8:05 AM`, PayloadData.PAYLOAD_DATA_5, `execution data/time`],
+        [`2022-05-26 08:05 AM`, PayloadData.PAYLOAD_DATA_5, `execution data/time`],
     ];
     tuple2.forEach(($type) => {
         const [search_text, payload_data, test_name] = $type;

@@ -5,6 +5,13 @@ export const formatDateAndTime = (items: any, itemProperty: string): void[] => {
         const suffix: string = hour >= 12 ? "PM" : "AM";
         const formattedHour = (hour % 12 || 12).toString();
         const minutes = item[itemProperty].split("T")[1].substr(2, 2).toString();
-        item[itemProperty] = date + " " + formattedHour + ":" + minutes + " " + suffix;
+        item[itemProperty] =
+            date +
+            " " +
+            (Number(formattedHour) < 10 ? "0" + formattedHour : formattedHour) +
+            ":" +
+            minutes +
+            " " +
+            suffix;
     });
 };
