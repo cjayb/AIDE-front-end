@@ -147,6 +147,7 @@ import Component from "vue-class-component";
 import { IIssue } from "@/models/AdminStatistics/ExecutionStatistics";
 import { dismissTasks, getModelExecutionIssues } from "@/api/AdminServices/AdminStatisticsService";
 import { Watch } from "vue-property-decorator";
+import { formatDateAndTime } from "@/utils/dateFormattingUtils";
 import { EventBus } from "@/event-bus";
 
 @Component({
@@ -183,7 +184,7 @@ export default class IssuesTable extends Vue {
         this.loading = true;
         await getModelExecutionIssues()
             .then((executionIssues) => {
-                this.formatTaskDate(executionIssues);
+                formatDateAndTime(executionIssues, "execution_time");
                 this.issues = executionIssues;
             })
             .catch((err) => {
@@ -235,19 +236,6 @@ export default class IssuesTable extends Vue {
 
         this.$nextTick(() => {
             this.itemsToDismiss = [];
-        });
-    }
-
-    formatTaskDate(executionIssues: IIssue[]): void[] {
-        return executionIssues.map((issue: IIssue) => {
-            const date = issue.execution_time
-                .split("T")[0]
-                .replace(/(\d{4})(\d{2})(\d+)/, "$1-$2-$3");
-            const hour = Number(issue.execution_time.split("T")[1].substr(0, 2));
-            const suffix: string = hour >= 12 ? "PM" : "AM";
-            const formattedHour = (hour % 12 || 12).toString();
-            const minutes = issue.execution_time.split("T")[1].substr(2, 2).toString();
-            issue.execution_time = date + " " + formattedHour + ":" + minutes + " " + suffix;
         });
     }
 

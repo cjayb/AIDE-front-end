@@ -1,24 +1,16 @@
 <template>
-    <v-container>
-        <v-row>
-            <v-col cols="12">
-                <h2 class="mx-auto">Payloads/Inputs</h2>
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col cols="12">
-                <v-skeleton-loader class="mx-auto" type="table"></v-skeleton-loader>
-            </v-col>
-        </v-row>
-    </v-container>
+    <PayloadsTable />
 </template>
 
 <script lang="ts">
+import PayloadsTable from "@/components/AdminPayloadDashboard/PayloadsTable.vue";
 import Vue from "vue";
 import Component from "vue-class-component";
 
 @Component({
-    components: {},
+    components: {
+        PayloadsTable,
+    },
 })
 export default class AdminPayloadDashboard extends Vue {
     // Declared as component data

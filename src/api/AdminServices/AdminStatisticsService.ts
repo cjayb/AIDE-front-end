@@ -6,6 +6,7 @@ import {
     ILogs,
     IModelDetails,
     IModelSummary,
+    IPayload,
 } from "@/models/AdminStatistics/ExecutionStatistics";
 
 const http = axios.create({
@@ -82,6 +83,20 @@ export async function getModelStatsForGraphs(
     const response = await http.get(
         `/api/graph/${model_id}?start_date=${start_date}&end_date=${end_date}`,
     );
+
+    return response.data;
+}
+
+export async function getPayloads(): Promise<IPayload[]> {
+    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
+    const response = await http.get(`/api/payloads`);
+
+    return response.data;
+}
+
+export async function getPayloadExecutions(payload_id: number): Promise<IPayload[]> {
+    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
+    const response = await http.get(`/api/payloads/${payload_id}/executions`);
 
     return response.data;
 }

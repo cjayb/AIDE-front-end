@@ -20,7 +20,7 @@ export interface ILogs {
 export interface ILog {
     execution_id: string;
     level: string;
-    line_no: number
+    line_no: number;
     logger: string;
     model_name: string;
     model_version: string;
@@ -50,4 +50,11 @@ export interface IModelStatistics {
     date: string;
     total_executions: number;
     total_failures: number;
+}
+
+export interface IPayload {
+    payload_id: number;
+    patient_name: string;
+    patient_id: string;
+    payload_received: string;
 }
