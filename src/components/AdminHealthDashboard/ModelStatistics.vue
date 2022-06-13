@@ -264,22 +264,6 @@ export default class ModelStatistics extends Vue {
         );
     }
 
-    calculateFailureRate() {
-        let failures: number[] = [];
-        let sumOfFailures: number;
-
-        if (this.modelDetails) {
-            this.modelDetails.days.forEach((stat: IModelStatistics) => {
-                failures.push(stat.total_failures);
-            });
-        }
-
-        sumOfFailures = failures.reduce((partialSum, a) => partialSum + a, 0);
-
-        this.totalFailureRate = Number(((sumOfFailures / this.totalExecutions) * 100).toFixed(2));
-        return this.totalFailureRate;
-    }
-
     changeSelectedModel() {
         const modelIndex = this.modelNames.findIndex(
             (model: string) => model === this.selectedModel?.model_name,
@@ -297,7 +281,7 @@ export default class ModelStatistics extends Vue {
     }
 
     formatDateStringForLabel(date: string) {
-        date = date.replace(/(\d{4})(\d{2})(\d+)/, "$3-$2-$1");
+        date = date.replace(/(\d{4})(\d{2})(\d+)/, "$1-$2-$3");
         return date;
     }
 }
