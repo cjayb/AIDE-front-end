@@ -1,20 +1,23 @@
-import { IModels } from "../../src/models/AdminStatistics/Models";
+import { IModelSummary } from "../../src/models/AdminStatistics/ExecutionStatistics";
 import ApiMocks from "../fixtures/mockIndex";
 
-export class ModelData implements IModels {
+export class ModelSummaryData implements IModelSummary {
     model_id: number;
     model_name: string;
 
 
-    constructor(Model: IModels) {
-        this.model_id = Model.model_id;
-        this.model_name = Model.model_name;
+    constructor(ModelSummary: IModelSummary) {
+        this.model_id = ModelSummary.model_id;
+        this.model_name = ModelSummary.model_name;
     }
 
-    public static MODEL_ONE_YEAR: ModelData = new ModelData(
-        <IModels>ApiMocks.ADMIN_DASHBOARD_MODELS
+    public static MODEL_ASDA: ModelSummaryData = new ModelSummaryData(
+        <IModelSummary>ApiMocks.ADMIN_DASHBOARD_MODELS[0]
     );
-    public static MODEL_TEN_DAYS: ModelData = new ModelData(
-        <IModels>ApiMocks.ADMIN_DASHBOARD_MODELS
+    public static MODEL_BANANA: ModelSummaryData = new ModelSummaryData(
+        <IModelSummary>ApiMocks.ADMIN_DASHBOARD_MODELS[1]
+    );
+    public static MODEL_CRAYON: ModelSummaryData = new ModelSummaryData(
+        <IModelSummary>ApiMocks.ADMIN_DASHBOARD_MODELS[2]
     );
 }

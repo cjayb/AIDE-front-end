@@ -2,14 +2,15 @@
 export default class ApiMocks {
     //New Admin Dashboard
     public static ADMIN_DASHBOARD_MODELS = require("./adminDashboardModels.json");
-    public static ADMIN_DASHBOARD_GRAPH_ONE_DAY = require("./adminDashboardGraphOneDay");
-    public static ADMIN_DASHBOARD_GRAPH_TEN_DAYS = require("./adminDashboardGraphTenDays");
-    public static ADMIN_DASHBOARD_GRAPH_ONE_HUNDRED_DAYS = require("./adminDashboardGraphOneHundredDays");
+    public static ADMIN_DASHBOARD_MODEL_DETAILS_ONE_DAY = require("./adminDashboardModelDetailsOneDay");
+    public static ADMIN_DASHBOARD_MODEL_DETAILS_TEN_DAYS = require("./adminDashboardModelDetailsTenDays");
+    public static ADMIN_DASHBOARD_MODEL_DETAILS_ONE_HUNDRED_DAYS = require("./adminDashboardModelDetailsOneHundredDays");
     public static ADMIN_DASHBOARD_EXECUTION_LOGS = require("./adminDashboardExecutionLogs.json");
     public static ADMIN_DASHBOARD_NO_FAILED_MODELS = require("./adminDashboardNoFailedModels.json");
     public static ADMIN_DASHBOARD_FAILED_MODELS = require("./adminDashboardFailedModels.json");
     public static ADMIN_DASHBOARD_TASKS = require("./adminDashboardTasks.json");
     public static ADMIN_DASHBOARD_SINGLE_TASK = require("./adminDashboardSingleTask.json")
+    public static ADMIN_DASHBOARD_PAYLOAD_TABLE = require("./adminDashboardPayloadTable.json");
     //Previously added
     public static INPUT_QUEUE_STATS = require("./inputQueueStats.json");
     public static OUTPUT_QUEUE_STATS = require("./outputQueueStats.json");

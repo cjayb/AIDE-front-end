@@ -1,28 +1,30 @@
-import { IGraph, Days } from "../../src/models/AdminStatistics/Graph";
+import { IModelDetails, IModelStatistics, IModelSummary } from "../../src/models/AdminStatistics/ExecutionStatistics";
 import ApiMocks from "../fixtures/mockIndex";
 
-export class GraphData implements IGraph {
+export class ModelDetailsData implements IModelDetails {
     model_id: number;
     status: string;
     model_name: string;
     total_executions: number;
     total_failures: number;
-    days: Days [];
+    days: IModelStatistics[];
 
-    constructor(graph: IGraph) {
-        this.model_id = graph.model_id;
-        this.status = graph.status;
-        this.model_name = graph.model_name;
-        this.total_executions = graph.total_executions;
-        this.total_failures = graph.total_failures;
-        this.days = graph.days;
+    constructor(modelDetails: IModelDetails) {
+        this.model_id = modelDetails.model_id;
+        this.status = modelDetails.status;
+        this.model_name = modelDetails.model_name;
+        this.total_executions = modelDetails.total_executions;
+        this.total_failures = modelDetails.total_failures;
+        this.days = modelDetails.days;
     }
 
-    public static GRAPH_ONE_YEAR: GraphData = new GraphData(
-        <IGraph>ApiMocks.ADMIN_DASHBOARD_GRAPH_ONE_YEAR
+    public static MODEL_DETAILS_ASDA: ModelDetailsData = new ModelDetailsData(
+        <IModelDetails>ApiMocks.ADMIN_DASHBOARD_MODEL_DETAILS_ONE_DAY
     );
-
-    public static GRAPH_TEN_DAYS: GraphData = new GraphData(
-        <IGraph>ApiMocks.ADMIN_DASHBOARD_GRAPH_TEN_DAYS
+    public static MODEL_DETAILS_BANANA: ModelDetailsData = new ModelDetailsData(
+        <IModelDetails>ApiMocks.ADMIN_DASHBOARD_MODEL_DETAILS_TEN_DAYS
+    );
+    public static MODEL_DETAILS_CRAYON: ModelDetailsData = new ModelDetailsData(
+        <IModelDetails>ApiMocks.ADMIN_DASHBOARD_MODEL_DETAILS_ONE_HUNDRED_DAYS
     );
 }

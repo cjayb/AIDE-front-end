@@ -1,0 +1,59 @@
+{
+    "model_id": 4,
+    "model_name": "Banana",
+    "total_executions": 2256,
+    "total_failures": 1388,
+    "status": "Active",
+    "days": [
+        {
+            "date": "20220516",
+            "total_executions": 200,
+            "total_failures": 10
+        },
+        {
+            "date": "20220517",
+            "total_executions": 100,
+            "total_failures": 5
+        },
+        {
+            "date": "20220520",
+            "total_executions": 50,
+            "total_failures": 3
+        },
+        {
+            "date": "20220521",
+            "total_executions": 25,
+            "total_failures": 1
+        },
+        {
+            "date": "20220522",
+            "total_executions": 1,
+            "total_failures": 1
+        },
+        {
+            "date": "20220523",
+            "total_executions": 1000,
+            "total_failures": 1000
+        },
+        {
+            "date": "20220524",
+            "total_executions": 700,
+            "total_failures": 349
+        },
+        {
+            "date": "20220525",
+            "total_executions": 80,
+            "total_failures": 9
+        },
+        {
+            "date": "20220526",
+            "total_executions": 23,
+            "total_failures": 10
+        },
+        {
+            "date": "20220527",
+            "total_executions": 77,
+            "total_failures": 0
+        }
+    ]
+}

@@ -104,8 +104,9 @@
                                         class="mx-2"
                                         color="light-green lighten-4"
                                         text-color="light-green darken-4"
+                                        data-cy="status2"
                                     >
-                                        <strong data-cy="status2">{{ modelDetails.status }}</strong>
+                                        <strong>{{ modelDetails.status }}</strong>
                                     </v-chip>
                                 </div>
                                 <div class="my-3 d-flex flex-no-wrap">
@@ -262,6 +263,35 @@ export default class ModelStatistics extends Vue {
         this.totalFailureRate = Number(
             ((this.totalFailures / this.totalExecutions) * 100).toFixed(2),
         );
+    }
+
+    calculateFailureRate() {
+        let failures: number[] = [];
+        let sumOfFailures: number;
+
+        if (this.modelDetails) {
+            this.modelDetails.days.forEach((stat: IModelStatistics) => {
+                failures.push(stat.total_failures);
+            });
+        }
+
+        sumOfFailures = failures.reduce((partialSum, a) => partialSum + a, 0);
+
+        this.totalFailureRate = Number(((sumOfFailures / this.totalExecutions) * 100).toFixed(2));
+        return this.totalFailureRate;
+    }
+
+    calculateTotalExecutions() {
+        let executions: number[] = [];
+
+        if (this.modelDetails) {
+            this.modelDetails.days.forEach((stat: IModelStatistics) => {
+                executions.push(stat.total_executions);
+            });
+        }
+
+        this.totalExecutions = executions.reduce((partialSum, a) => partialSum + a, 0);
+        return this.totalExecutions;
     }
 
     changeSelectedModel() {

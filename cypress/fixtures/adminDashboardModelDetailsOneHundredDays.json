@@ -1,8 +1,9 @@
 {
     "model_id": 100,
-    "model_name": "Ten days",
-    "total_executions": 2256,
-    "total_failures": 1388,
+    "model_name": "Crayon",
+    "total_executions": 31199,
+    "total_failures": 20858,
+    "status": "Active",
     "days": [
         {
             "date": "20220216",
@@ -104,7 +105,8 @@
             "total_executions": 77,
             "total_failures": 0
         },
-        {   "date": "20220416",
+        {
+            "date": "20220416",
             "total_executions": 200,
             "total_failures": 10
         },
@@ -357,8 +359,8 @@
             "date": "20220902",
             "total_executions": 50,
             "total_failures": 3
-         },
-         {
+        },
+        {
             "date": "20220902",
             "total_executions": 50,
             "total_failures": 3
