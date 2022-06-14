@@ -40,6 +40,12 @@
                         class="elevation-1"
                         data-cy="task"
                     >
+                        <template v-slot:no-data>
+                            <span class="grey--text text--darken-3">No data available</span>
+                        </template>
+                        <template v-slot:no-results>
+                            <span class="grey--text text--darken-3">No results found</span>
+                        </template>
                         <template v-slot:[`item.task_id`]="{ item }">
                             <strong data-cy="task-id">
                                 {{ item.task_id }}

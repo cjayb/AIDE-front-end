@@ -29,26 +29,29 @@
                         class="elevation-1"
                         data-cy="payload"
                     >
+                        <template v-slot:no-data>
+                            <span class="grey--text text--darken-3">No data available</span>
+                        </template>
+                        <template v-slot:no-results>
+                            <span class="grey--text text--darken-3">No results found</span>
+                        </template>
                         <template v-slot:[`item.patient_name`]="{ item }">
-                            <strong
-                                class="grey--text text--darken-3"
-                                data-cy="patient-name-payload"
-                            >
+                            <strong data-cy="patient-name-payload">
                                 {{ item.patient_name }}
                             </strong>
                         </template>
                         <template v-slot:[`item.patient_id`]="{ item }">
-                            <span class="grey--text text--darken-1" data-cy="patient-id-payload">
+                            <span data-cy="patient-id-payload">
                                 {{ item.patient_id }}
                             </span>
                         </template>
                         <template v-slot:[`item.payload_id`]="{ item }">
-                            <span class="grey--text text--darken-1" data-cy="payload-id">
+                            <span data-cy="payload-id">
                                 {{ item.payload_id }}
                             </span>
                         </template>
                         <template v-slot:[`item.payload_received`]="{ item }">
-                            <span class="grey--text text--darken-1" data-cy="payload-received">
+                            <span data-cy="payload-received">
                                 {{ item.payload_received }}
                             </span>
                         </template>
