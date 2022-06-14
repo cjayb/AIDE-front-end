@@ -1,4 +1,4 @@
-import { Model } from '../../../src/models/Model';
+import { Model } from "../../../src/models/ClinicalReview/Model";
 import AbstractClient from './AbstractClient';
 
 export default class Models {

@@ -64,8 +64,8 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { EventBus } from "@/event-bus";
-import { getExecutionPipelines } from "../../api/ExecutionService";
-import { Execution } from "@/models/Execution";
+import { getExecutionPipelines } from "../../api/ClinicalReview/ExecutionService";
+import { Execution } from "@/models/ClinicalReview/Execution";
 
 @Component({})
 export default class PipelineDialog extends Vue {

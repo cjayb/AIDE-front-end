@@ -1,6 +1,6 @@
 import Vue from "vue";
 import axios from "axios";
-import { Application } from "@/models/Application";
+import { Application } from "@/models/AppRepo/Application";
 
 const http = axios.create({
     baseURL: window.FRONTEND_API_HOST,

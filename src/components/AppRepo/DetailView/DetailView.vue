@@ -51,8 +51,8 @@ import Files from "../DetailView/Files.vue";
 import VersionHistory from "../DetailView/VersionHistory.vue";
 import AboutTheDeveloper from "../DetailView/AboutTheDeveloper.vue";
 
-import { getApplicationFilteredByStatus } from "../../../api/ApplicationService";
-import { Application, Version, VersionDetails } from "@/models/Application";
+import { getApplicationFilteredByStatus } from "../../../api/AppRepo/ApplicationService";
+import { Application, Version, VersionDetails } from "@/models/AppRepo/Application";
 
 @Component({
     components: {

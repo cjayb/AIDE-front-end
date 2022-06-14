@@ -1,4 +1,4 @@
-import { ExecutionStat } from "@/models/ExecutionStat";
+import { ExecutionStat } from "@/models/ClinicalReview/ExecutionStat";
 
 export interface Model {
     id: string;

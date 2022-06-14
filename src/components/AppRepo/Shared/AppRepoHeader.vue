@@ -41,7 +41,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { Watch, Prop } from "vue-property-decorator";
 import { EventBus } from "@/event-bus";
-import { Application } from "@/models/Application";
+import { Application } from "@/models/AppRepo/Application";
 
 @Component({
     components: {},

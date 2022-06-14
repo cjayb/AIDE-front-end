@@ -67,7 +67,7 @@ import Component from "vue-class-component";
 import { EventBus } from "@/event-bus";
 import VueJsonPretty from "vue-json-pretty";
 import "vue-json-pretty/lib/styles.css";
-import { updateClinicalReview } from "../../api/ExecutionService";
+import { updateClinicalReview } from "../../api/ClinicalReview/ExecutionService";
 
 @Component({
     components: { VueJsonPretty },

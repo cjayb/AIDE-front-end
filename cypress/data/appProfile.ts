@@ -1,4 +1,4 @@
-import { Application, Version } from "../../src/models/Application";
+import { Application, Version } from "../../src/models/AppRepo/Application";
 import ApiMocks from "../fixtures/mockIndex";
 
 export class AppProfileData implements Application {

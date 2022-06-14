@@ -1,6 +1,5 @@
 import Vue from "vue";
 import VueRouter, { NavigationGuardNext, Route, RouteConfig } from "vue-router";
-import AdminDashboard from "../views/AdminDashboard.vue";
 import AdminHealthDashboard from "../views/AdminHealthDashboard.vue";
 import AdminPayloadDashboard from "../views/AdminPayloadDashboard.vue";
 import ClinicalReview from "../views/ClinicalReview.vue";
@@ -12,14 +11,6 @@ import Unauthorized from "../views/Unauthorized.vue";
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
-    {
-        path: "/admin-dashboard",
-        name: "AdminDashboard",
-        component: AdminDashboard,
-        beforeEnter: (to, from, next) => {
-            authenticated("admin", to, next);
-        },
-    },
     {
         path: "/admin-health-dashboard",
         name: "AdminHealthDashboard",
@@ -107,7 +98,7 @@ const routes: Array<RouteConfig> = [
                         Vue.$keycloak
                             .updateToken(70)
                             .then(() => {
-                                next({ name: "AdminDashboard" });
+                                next({ name: "AdminHealthDashboard" });
                             })
                             .catch((err: Error) => {
                                 console.error(err);
@@ -137,7 +128,7 @@ const routes: Array<RouteConfig> = [
                     Vue.$keycloak.login({ redirectUri: `${window.location.origin}/#${to.path}` });
                 }
             } else {
-                next({ name: "AdminDashboard" });
+                next({ name: "AdminHealthDashboard" });
             }
         },
     },

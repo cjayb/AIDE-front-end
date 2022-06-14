@@ -1,6 +1,6 @@
 import { version } from "chai";
 import { versions } from "process";
-import { Application, MedicalSpeciality, InputType, OutputType, Version, VersionDetails } from "../../src/models/Application";
+import { Application, MedicalSpeciality, InputType, OutputType, Version, VersionDetails } from "../../src/models/AppRepo/Application";
 import ApiMocks from "../fixtures/mockIndex";
 import { AbstractPage } from "./abstractPage";
 

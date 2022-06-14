@@ -89,7 +89,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
 import { EventBus } from "@/event-bus";
-import { Application, Version, VersionDetails } from "@/models/Application";
+import { Application, Version, VersionDetails } from "@/models/AppRepo/Application";
 
 @Component({
     components: {},

@@ -13,7 +13,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
-import { Application } from "@/models/Application";
+import { Application } from "@/models/AppRepo/Application";
 
 @Component({
     components: {},

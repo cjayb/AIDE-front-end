@@ -192,11 +192,11 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { EventBus } from "@/event-bus";
-import SeriesSelector from "./DicomViewer/SeriesSelector.vue";
-import MetaData from "./DicomViewer/MetaData.vue";
-import DicomViewport from "./DicomViewer/DicomViewport.vue";
-import PdfViewport from "./DicomViewer/PdfViewport.vue";
-import { findStudy, getSeries } from "../../api/OrthancService";
+import SeriesSelector from "../../ClinicalReview/DicomViewer/SeriesSelector.vue";
+import MetaData from "../../ClinicalReview/DicomViewer/MetaData.vue";
+import DicomViewport from "../../ClinicalReview/DicomViewer/DicomViewport.vue";
+import PdfViewport from "../../ClinicalReview/DicomViewer/PdfViewport.vue";
+import { findStudy, getSeries } from "../../../api/ClinicalReview/OrthancService";
 import moment from "moment";
 
 @Component({

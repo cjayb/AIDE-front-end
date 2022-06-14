@@ -93,7 +93,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
-import { VersionDetails } from "@/models/Application";
+import { VersionDetails } from "@/models/AppRepo/Application";
 
 @Component({
     components: {},

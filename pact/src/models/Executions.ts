@@ -1,5 +1,5 @@
 import AbstractClient from "./AbstractClient";
-import { ExecutionPage } from "../../../src/models/Execution"
+import { ExecutionPage } from "../../../src/models/ClinicalReview/Execution"
 
 export class ExecutionsPage {
     private executionPage: ExecutionPage;

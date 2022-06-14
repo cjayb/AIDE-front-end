@@ -1,7 +1,7 @@
 import Vue from "vue";
 import axios from "axios";
-import { Execution, ExecutionPage } from "@/models/Execution";
-import { ExecutionStat } from "@/models/ExecutionStat";
+import { Execution, ExecutionPage } from "@/models/ClinicalReview/Execution";
+import { ExecutionStat } from "@/models/ClinicalReview/ExecutionStat";
 
 const http = axios.create({
     baseURL: window.FRONTEND_API_HOST,

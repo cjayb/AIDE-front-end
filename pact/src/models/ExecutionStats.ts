@@ -1,5 +1,5 @@
 import AbstractClient from "./AbstractClient";
-import { ExecutionStat } from "../../../src/models/ExecutionStat"
+import { ExecutionStat } from "../../../src/models/ClinicalReview/ExecutionStat"
 
 export class ExecutionsStat {
     private executionStat: ExecutionStat;

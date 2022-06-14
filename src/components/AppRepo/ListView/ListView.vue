@@ -208,8 +208,8 @@ import Component from "vue-class-component";
 import { EventBus } from "@/event-bus";
 import AppRepoHeader from "../Shared/AppRepoHeader.vue";
 import Filters from "../ListView/Filters.vue";
-import { getAllApplicationsFilteredByStatus } from "../../../api/ApplicationService";
-import { Application, MedicalSpeciality, Version } from "@/models/Application";
+import { getAllApplicationsFilteredByStatus } from "../../../api/AppRepo/ApplicationService";
+import { Application, MedicalSpeciality, Version } from "@/models/AppRepo/Application";
 
 @Component({
     components: { AppRepoHeader, Filters },

@@ -1,6 +1,6 @@
 import Vue from "vue";
 import axios from "axios";
-import { Version } from "@/models/Application";
+import { InputType } from "@/models/AppRepo/Application";
 
 const http = axios.create({
     baseURL: window.FRONTEND_API_HOST,
@@ -30,30 +30,14 @@ http.interceptors.response.use(
     },
 );
 
-export async function getAllVersions(): Promise<Version[]> {
+export async function getAllInputType(): Promise<InputType[]> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
-    const response = await http.get(`/app_store/api/versions`);
+    const response = await http.get(`/app_store/api/input_types`);
     return response.data;
 }
 
-export async function getVersion(version_id: string): Promise<Version> {
+export async function createInputType(inputType: InputType): Promise<InputType> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
-    const response = await http.get(`/app_store/api/versions/${version_id}`);
-    return response.data;
-}
-
-export async function createVersion(version: Version): Promise<Version> {
-    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
-    const response = await http.post(`/app_store/api/versions/`, version);
-    return response.data;
-}
-
-export async function updateVersion(
-    application_id: string,
-    version_id: string,
-    version: Version,
-): Promise<Version> {
-    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
-    const response = await http.put(`/app_store/api/versions/${version_id}`, version);
+    const response = await http.post(`/app_store/api/input_types`, inputType);
     return response.data;
 }

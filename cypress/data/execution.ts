@@ -1,4 +1,4 @@
-import { Execution, Event, ExecutionModel, Result, Timestamp } from "../../src/models/Execution"
+import { Execution, Event, ExecutionModel, Result, Timestamp } from "../../src/models/ClinicalReview/Execution"
 import ApiMocks from "../fixtures/mockIndex";
 export class ExecutionData implements Execution {
     private _correlation_id: string;

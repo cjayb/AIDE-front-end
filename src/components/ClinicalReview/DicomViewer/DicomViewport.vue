@@ -46,7 +46,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
 import { EventBus } from "@/event-bus";
-import { getSeriesOrderedSlices } from "../../../api/OrthancService";
+import { getSeriesOrderedSlices } from "../../../api/ClinicalReview/OrthancService";
 import * as cornerstone from "cornerstone-core";
 import * as cornerstoneWebImageLoader from "cornerstone-web-image-loader";
 import cornerstoneTools from "cornerstone-tools";

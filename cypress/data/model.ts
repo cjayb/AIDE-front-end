@@ -1,4 +1,4 @@
-import { Model } from "../../src/models/Model";
+import { Model } from "../../src/models/ClinicalReview/Model";
 import ApiMocks from "../fixtures/mockIndex";
 
 export class ModelData implements Model {

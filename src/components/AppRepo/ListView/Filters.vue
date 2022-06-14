@@ -36,8 +36,8 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
-import { getAllMedicalSpeciality } from "../../../api/MedicalSpecialityService";
-import { MedicalSpeciality } from "@/models/Application";
+import { getAllMedicalSpeciality } from "../../../api/AppRepo/MedicalSpecialityService";
+import { MedicalSpeciality } from "@/models/AppRepo/Application";
 import { EventBus } from "@/event-bus";
 
 @Component({

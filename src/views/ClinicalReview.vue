@@ -39,7 +39,7 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import CustomDicomViewer from "../components/Shared/CustomDicomViewer.vue";
+import CustomDicomViewer from "../components/ClinicalReview/DicomViewer/CustomDicomViewer.vue";
 import Header from "../components/ClinicalReview/Header.vue";
 import Tasks from "../components/ClinicalReview/Tasks.vue";
 import ApprovalDialog from "../components/ClinicalReview/ApprovalDialog.vue";

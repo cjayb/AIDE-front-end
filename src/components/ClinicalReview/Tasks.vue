@@ -97,8 +97,8 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { EventBus } from "@/event-bus";
-import { getAllExecutionsPage } from "../../api/ExecutionService";
-import { ExecutionPage } from "@/models/Execution";
+import { getAllExecutionsPage } from "../../api/ClinicalReview/ExecutionService";
+import { ExecutionPage } from "@/models/ClinicalReview/Execution";
 
 @Component({})
 export default class Tasks extends Vue {

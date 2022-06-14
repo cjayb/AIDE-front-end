@@ -195,7 +195,7 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import PipelineDialog from "../AdminDashboard/PipelineDialog.vue";
+import PipelineDialog from "./PipelineDialog.vue";
 import { EventBus } from "@/event-bus";
 
 @Component({

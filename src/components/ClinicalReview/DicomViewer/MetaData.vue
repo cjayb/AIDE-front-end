@@ -86,7 +86,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { EventBus } from "@/event-bus";
 import { Prop } from "vue-property-decorator";
-import { getInstanceMetadata } from "../../../api/OrthancService";
+import { getInstanceMetadata } from "../../../api/ClinicalReview/OrthancService";
 @Component
 export default class MetaData extends Vue {
     selectedInstanceMetadata: Array<any> = [];

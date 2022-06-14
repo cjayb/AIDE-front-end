@@ -1,6 +1,6 @@
 import Vue from "vue";
 import axios from "axios";
-import { InputType } from "@/models/Application";
+import { MedicalSpeciality } from "@/models/AppRepo/Application";
 
 const http = axios.create({
     baseURL: window.FRONTEND_API_HOST,
@@ -30,14 +30,16 @@ http.interceptors.response.use(
     },
 );
 
-export async function getAllInputType(): Promise<InputType[]> {
+export async function getAllMedicalSpeciality(): Promise<MedicalSpeciality[]> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
-    const response = await http.get(`/app_store/api/input_types`);
+    const response = await http.get(`/app_store/api/medical_specialities`);
     return response.data;
 }
 
-export async function createInputType(inputType: InputType): Promise<InputType> {
+export async function createMedicalSpeciality(
+    medicalSpeciality: MedicalSpeciality,
+): Promise<MedicalSpeciality> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
-    const response = await http.post(`/app_store/api/input_types`, inputType);
+    const response = await http.post(`/app_store/api/medical_specialities`, medicalSpeciality);
     return response.data;
 }

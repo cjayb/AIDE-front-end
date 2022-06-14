@@ -1,5 +1,5 @@
 import Order from "data/enums/order";
-import { Application, MedicalSpeciality } from "../../src/models/Application";
+import { Application, MedicalSpeciality } from "../../src/models/AppRepo/Application";
 import ApiMocks from "../fixtures/mockIndex";
 import { AbstractPage } from "./abstractPage";
 export default class AppStorePage extends AbstractPage {

@@ -1,5 +1,5 @@
 import ApiMocks from "../fixtures/mockIndex";
-import { Version } from "../../src/models/Application";
+import { Version } from "../../src/models/AppRepo/Application";
 export interface IPage {
 
     /**

@@ -1,4 +1,4 @@
-import { ExecutionStat } from "../../src/models/ExecutionStat";
+import { ExecutionStat } from "../../src/models/ClinicalReview/ExecutionStat";
 
 export class Helpers {
     public static capitaliseWord(word: string): string {

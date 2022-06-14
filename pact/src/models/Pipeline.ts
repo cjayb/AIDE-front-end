@@ -1,4 +1,4 @@
-import { Execution } from "../../../src/models/Execution";
+import { Execution } from "../../../src/models/ClinicalReview/Execution";
 import AbstractClient from "./AbstractClient";
 
 export class Executions {
