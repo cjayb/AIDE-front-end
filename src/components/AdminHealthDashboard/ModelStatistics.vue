@@ -147,8 +147,8 @@
 </template>
 
 <script lang="ts">
-import { getModels, getModelStatsForGraphs } from "@/api/AdminServices/AdminStatisticsService";
-import { IModelDetails, IModelSummary, IModelStatistics } from "@/models/AdminStatistics/IModel";
+import { getModels, getModelStatsForGraphs } from "@/api/Admin/AdminStatisticsService";
+import { IModelDetails, IModelSummary, IModelStatistics } from "@/models/Admin/IModel";
 import Vue from "vue";
 import Component from "vue-class-component";
 import LineChart from "../Charts/Line.vue";

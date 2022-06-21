@@ -2,7 +2,7 @@ import {
     IModelDetails,
     IModelStatistics,
     IModelSummary,
-} from "../../src/models/AdminStatistics/IModel";
+} from "../../src/models/Admin/IModel";
 import ApiMocks from "../fixtures/mockIndex";
 
 export class ModelDetailsData implements IModelDetails {

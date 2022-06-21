@@ -14,7 +14,7 @@
                             class="ma-1 no-uppercase purple--text text--darken-4"
                             color="white"
                             @click="deleteItem(item)"
-                            :disabled="selectedTasks.length === 0"
+                            :disabled="selectedIssues.length === 0"
                             data-cy="dismiss-selected"
                         >
                             Dismiss selected
@@ -34,7 +34,7 @@
                         :items="issues"
                         :search="search"
                         :items-per-page="5"
-                        v-model="selectedTasks"
+                        v-model="selectedIssues"
                         show-select
                         item-key="task_id"
                         class="elevation-1"
@@ -144,11 +144,11 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import { dismissTasks, getModelExecutionIssues } from "@/api/AdminServices/AdminStatisticsService";
+import { dismissIssues, getIssues } from "@/api/Admin/AdminStatisticsService";
 import { Watch } from "vue-property-decorator";
 import { formatDateAndTime } from "@/utils/dateFormattingUtils";
 import { EventBus } from "@/event-bus";
-import { IIssue } from "@/models/AdminStatistics/IIssue";
+import { IIssue } from "@/models/Admin/IIssue";
 
 @Component({
     components: {},
@@ -156,7 +156,7 @@ import { IIssue } from "@/models/AdminStatistics/IIssue";
 export default class IssuesTable extends Vue {
     loading = false;
     search = "";
-    selectedTasks: IIssue[] = [];
+    selectedIssues: IIssue[] = [];
     itemsToDismiss: number[] = [];
     issues: IIssue[] = [];
     dialogDelete = false;
@@ -180,7 +180,7 @@ export default class IssuesTable extends Vue {
 
     async getExecutionIssues(): Promise<void> {
         this.loading = true;
-        await getModelExecutionIssues()
+        await getIssues()
             .then((executionIssues) => {
                 formatDateAndTime(executionIssues, "execution_time");
                 this.issues = executionIssues;
@@ -193,7 +193,7 @@ export default class IssuesTable extends Vue {
     }
 
     async dismissItems(taskIDs: number[]): Promise<void> {
-        await dismissTasks(taskIDs).catch((err) => {
+        await dismissIssues(taskIDs).catch((err) => {
             console.log(err);
         });
         this.loading = false;
@@ -203,7 +203,7 @@ export default class IssuesTable extends Vue {
         if (typeof item !== "undefined") {
             this.itemsToDismiss.push(this.issues.indexOf(item));
         } else {
-            this.selectedTasks.forEach((selectedItem: IIssue) =>
+            this.selectedIssues.forEach((selectedItem: IIssue) =>
                 this.itemsToDismiss.push(this.issues.indexOf(selectedItem)),
             );
         }
@@ -213,8 +213,8 @@ export default class IssuesTable extends Vue {
     deleteItemConfirm(): void {
         this.dismissItems(this.itemsToDismiss);
 
-        if (this.selectedTasks.length !== 0) {
-            this.selectedTasks.forEach((task: IIssue) => {
+        if (this.selectedIssues.length !== 0) {
+            this.selectedIssues.forEach((task: IIssue) => {
                 const indexOfTask = this.issues.indexOf(task);
                 this.issues.splice(indexOfTask, 1);
             });
@@ -225,7 +225,7 @@ export default class IssuesTable extends Vue {
 
         this.$nextTick(() => {
             this.itemsToDismiss = [];
-            this.selectedTasks = [];
+            this.selectedIssues = [];
         });
     }
 

@@ -1,5 +1,5 @@
 import ApiMocks from "../fixtures/mockIndex";
-import { IPayload } from "../../src/models/AdminStatistics/IPayload";
+import { IPayload } from "../../src/models/Admin/IPayload";
 
 export default class AdminPayloadDashboardPage {
     //PAYLOADS TABLE

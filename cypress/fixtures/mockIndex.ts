@@ -8,18 +8,18 @@ export default class ApiMocks {
     public static ADMIN_DASHBOARD_EXECUTION_LOGS = require("./adminDashboardExecutionLogs.json");
     public static ADMIN_DASHBOARD_NO_FAILED_MODELS = require("./adminDashboardNoFailedModels.json");
     public static ADMIN_DASHBOARD_FAILED_MODELS = require("./adminDashboardFailedModels.json");
-    public static ADMIN_DASHBOARD_TASKS = require("./adminDashboardTasks.json");
-    public static ADMIN_DASHBOARD_SINGLE_TASK = require("./adminDashboardSingleTask.json")
+    public static ADMIN_DASHBOARD_TASKS = require("./adminDashboardIssues.json");
+    public static ADMIN_DASHBOARD_SINGLE_TASK = require("./adminDashboardSingleIssue.json")
     public static ADMIN_DASHBOARD_PAYLOAD_TABLE = require("./adminDashboardPayloadTable.json");
     //Previously added
     public static INPUT_QUEUE_STATS = require("./inputQueueStats.json");
     public static OUTPUT_QUEUE_STATS = require("./outputQueueStats.json");
-    public static ADMIN_DASH_EXECUTION_STATS_MODEL_1 = require("./adminDashboardExecutionStatsModel1.json");
-    public static ADMIN_DASH_EXECUTION_STATS_MODEL_2 = require("./adminDashboardExecutionStatsModel2.json");
-    public static ADMIN_DASH_EXECUTION_STATS_MODEL_3 = require("./adminDashboardExecutionStatsModel3.json");
-    public static ADMIN_DASH_EXECUTION_STATS_MODEL_4 = require("./adminDashboardExecutionStatsModel4.json");
-    public static ADMIN_DASH_AGG_EXECUTION_STATS_DAY = require("./adminDashboardAggregatedExecutionStatsDay.json");
-    public static ADMIN_DASH_AGG_EXECUTION_STATS_WEEK = require("./adminDashboardAggregatedExecutionStatsWeek.json");
+    public static ADMIN_DASH_EXECUTION_STATS_MODEL_1 = require("./adminDashboardOverviewModel1.json");
+    public static ADMIN_DASH_EXECUTION_STATS_MODEL_2 = require("./adminDashboardOverviewModel2.json");
+    public static ADMIN_DASH_EXECUTION_STATS_MODEL_3 = require("./adminDashboardOverviewModel3.json");
+    public static ADMIN_DASH_EXECUTION_STATS_MODEL_4 = require("./adminDashboardOverviewModel4.json");
+    public static ADMIN_DASH_AGG_EXECUTION_STATS_DAY = require("./adminDashboardAggregatedOverviewDay.json");
+    public static ADMIN_DASH_AGG_EXECUTION_STATS_WEEK = require("./adminDashboardAggregatedOverviewWeek.json");
     public static ADMIN_DASH_EXECUTION_RESULTS_MODEL_1 = require("./adminDashboardExecutionResultsModel1.json");
     public static ADMIN_DASH_EXECUTION_RESULTS_MODEL_2 = require("./adminDashboardExecutionResultsModel2.json");
     public static ADMIN_DASH_PIPELINES_MODEL_1 = require("./adminDashboardPipelinesModel1.json");

@@ -14,7 +14,7 @@ export class ExecutionsStat {
 }
 
 export default class ExecutionStatClient extends AbstractClient {
-    public fetchExecutionStats(days: string, model_id?: string) {
+    public fetchOverview(days: string, model_id?: string) {
         let url = `/execution_stats?days=${days}`
         if(model_id !== undefined) {
             url = `${url}&model_id=${model_id}`

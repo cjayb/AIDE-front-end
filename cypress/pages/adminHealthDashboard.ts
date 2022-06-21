@@ -1,13 +1,13 @@
 import ApiMocks from "../fixtures/mockIndex";
 // import { AbstractPage } from "./abstractPage";
-import { IExecutionStatistics } from "../../src/models/AdminStatistics/IExecutionStatistics";
-import { IIssue } from "../../src/models/AdminStatistics/IIssue";
-import { ILog } from "../../src/models/AdminStatistics/ILogs";
+import { IOverview } from "../../src/models/Admin/IOverview";
+import { IIssue } from "../../src/models/Admin/IIssue";
+import { ILog } from "../../src/models/Admin/ILogs";
 import {
     IModelDetails,
     IModelStatistics,
     IModelSummary,
-} from "../../src/models/AdminStatistics/IModel";
+} from "../../src/models/Admin/IModel";
 import { ExecStatistics } from "data/statistics";
 import { ModelDetailsData } from "../data/graph";
 
@@ -95,7 +95,7 @@ export default class AdminHealthDashboardPage {
         cy.dataCy(AdminHealthDashboardPage.TASK_ID).should(`not.exist`);
     }
 
-    public assertOverviewModelDataCorrect(executionStatistics: IExecutionStatistics): void {
+    public assertOverviewModelDataCorrect(executionStatistics: IOverview): void {
         cy.dataCy(AdminHealthDashboardPage.MODEL_NUMBERS).should(
             `contain`,
             executionStatistics.deployed_models,
@@ -126,7 +126,7 @@ export default class AdminHealthDashboardPage {
         }
     }
 
-    public selectAllTasks(): void {
+    public selectAllIssues(): void {
         cy.get(AdminHealthDashboardPage.SELECT_ALL).click();
     }
 
@@ -142,7 +142,7 @@ export default class AdminHealthDashboardPage {
         return cy.get(`tbody > :nth-child(${taskId})`);
     }
 
-    public unselectAllTasks(): void {
+    public unselectAllIssues(): void {
         cy.get(AdminHealthDashboardPage.SELECT_ALL).click();
     }
 
@@ -154,7 +154,7 @@ export default class AdminHealthDashboardPage {
             cy.get(`.v-data-table__selected`).should(`not.exist`);;
     }
 
-    public assertNoTasks(): void {
+    public assertNoIssues(): void {
         cy.dataCy(AdminHealthDashboardPage.TASK_ID).should(`not.exist`);
     }
 
@@ -233,12 +233,12 @@ export default class AdminHealthDashboardPage {
     public async initPage() {
         const startDate = this.formatDate(new Date(Date.now() - 604800000));
         const endDate = this.formatDate(new Date());
-        cy.intercept(`/api/model-execution-stats?period=day`, ApiMocks.ADMIN_DASHBOARD_FAILED_MODELS).as(`Model stats`);
-        cy.intercept(`/api/tasks`, ApiMocks.ADMIN_DASHBOARD_TASKS).as(`Tasks`);
+        cy.intercept(`/api/overview?period=day`, ApiMocks.ADMIN_DASHBOARD_FAILED_MODELS).as(`Model stats`);
+        cy.intercept(`/api/issues`, ApiMocks.ADMIN_DASHBOARD_TASKS).as(`Issues`);
         cy.intercept(`/api/models`, ApiMocks.ADMIN_DASHBOARD_MODELS).as('Models');
         cy.intercept(`/api/graph/${ModelDetailsData.MODEL_DETAILS_ASDA.model_id}?start_date=${startDate}&end_date=${endDate}`, ApiMocks.ADMIN_DASHBOARD_MODEL_DETAILS_ONE_DAY).as(`FirstModel`)
         cy.visit(`/#/admin-health-dashboard`);
-        cy.wait([`@Model stats`, `@Tasks`, '@Models', `@FirstModel`]);
+        cy.wait([`@Model stats`, `@Issues`, '@Models', `@FirstModel`]);
         Cypress.on(`uncaught:exception`, (err, runnable) => {
             return false;
         });
@@ -247,26 +247,26 @@ export default class AdminHealthDashboardPage {
     public async initPageOverviewApiErrors() {
         const startDate = this.formatDate(new Date(Date.now() - 604800000));
         const endDate = this.formatDate(new Date());
-        cy.intercept(`/api/model-execution-stats?period=day`, { statusCode: 400 }).as(`Model stats`);
-        cy.intercept(`/api/tasks`, ApiMocks.ADMIN_DASHBOARD_TASKS).as(`Tasks`);
+        cy.intercept(`/api/overview?period=day`, { statusCode: 400 }).as(`Model stats`);
+        cy.intercept(`/api/issues`, ApiMocks.ADMIN_DASHBOARD_TASKS).as(`Issues`);
         cy.intercept(`/api/models`, ApiMocks.ADMIN_DASHBOARD_MODELS).as('Models');
         cy.intercept(`/api/graph/${ModelDetailsData.MODEL_DETAILS_ASDA.model_id}?start_date=${startDate}&end_date=${endDate}`, ApiMocks.ADMIN_DASHBOARD_MODEL_DETAILS_ONE_DAY).as(`FirstModel`);
         cy.visit(`/#/admin-health-dashboard`);
-        cy.wait([`@Model stats`, `@Tasks`, `@Models`, `@FirstModel`]);
+        cy.wait([`@Model stats`, `@Issues`, `@Models`, `@FirstModel`]);
         Cypress.on(`uncaught:exception`, (err, runnable) => {
             return false;
         });
     }
 
-    public async initPageTasksApiErrors() {
+    public async initPageIssuesApiErrors() {
         const startDate = this.formatDate(new Date(Date.now() - 604800000));
         const endDate = this.formatDate(new Date());
-        cy.intercept(`/api/model-execution-stats?period=day`, ApiMocks.ADMIN_DASHBOARD_FAILED_MODELS).as(`Model stats`);
-        cy.intercept(`/api/tasks`, { statusCode: 400 }).as(`Tasks`);
+        cy.intercept(`/api/overview?period=day`, ApiMocks.ADMIN_DASHBOARD_FAILED_MODELS).as(`Model stats`);
+        cy.intercept(`/api/issues`, { statusCode: 400 }).as(`Issues`);
         cy.intercept(`/api/models`, ApiMocks.ADMIN_DASHBOARD_MODELS).as('Models');
         cy.intercept(`/api/graph/${ModelDetailsData.MODEL_DETAILS_ASDA.model_id}?start_date=${startDate}&end_date=${endDate}`, ApiMocks.ADMIN_DASHBOARD_MODEL_DETAILS_ONE_DAY).as(`FirstModel`);
         cy.visit(`/#/admin-health-dashboard`);
-        cy.wait([`@Model stats`, `@Tasks`, `@Models`, `@FirstModel`]);
+        cy.wait([`@Model stats`, `@Issues`, `@Models`, `@FirstModel`]);
         Cypress.on(`uncaught:exception`, (err, runnable) => {
             return false;
         });
@@ -275,12 +275,12 @@ export default class AdminHealthDashboardPage {
     public async initPageModelsApiErrors() {
         const startDate = this.formatDate(new Date(Date.now() - 604800000));
         const endDate = this.formatDate(new Date());
-        cy.intercept(`/api/model-execution-stats?period=day`, ApiMocks.ADMIN_DASHBOARD_FAILED_MODELS).as(`Model stats`);
-        cy.intercept(`/api/tasks`, ApiMocks.ADMIN_DASHBOARD_TASKS).as(`Tasks`);
+        cy.intercept(`/api/overview?period=day`, ApiMocks.ADMIN_DASHBOARD_FAILED_MODELS).as(`Model stats`);
+        cy.intercept(`/api/issues`, ApiMocks.ADMIN_DASHBOARD_TASKS).as(`Issues`);
         cy.intercept(`/api/models`, { statusCode: 400 }).as('Models');
         cy.intercept(`/api/graph/${ModelDetailsData.MODEL_DETAILS_ASDA.model_id}?start_date=${startDate}&end_date=${endDate}`, ApiMocks.ADMIN_DASHBOARD_MODEL_DETAILS_ONE_DAY).as(`FirstModel`);
         cy.visit(`/#/admin-health-dashboard`);
-        cy.wait([`@Model stats`, `@Tasks`, `@Models`]);
+        cy.wait([`@Model stats`, `@Issues`, `@Models`]);
         Cypress.on(`uncaught:exception`, (err, runnable) => {
             return false;
         });
@@ -289,12 +289,12 @@ export default class AdminHealthDashboardPage {
     public async initPageModelStatisticsApiErrors() {
         const startDate = this.formatDate(new Date(Date.now() - 604800000));
         const endDate = this.formatDate(new Date());
-        cy.intercept(`/api/model-execution-stats?period=day`, ApiMocks.ADMIN_DASHBOARD_FAILED_MODELS).as(`Model stats`);
-        cy.intercept(`/api/tasks`, ApiMocks.ADMIN_DASHBOARD_TASKS).as(`Tasks`);
+        cy.intercept(`/api/overview?period=day`, ApiMocks.ADMIN_DASHBOARD_FAILED_MODELS).as(`Model stats`);
+        cy.intercept(`/api/issues`, ApiMocks.ADMIN_DASHBOARD_TASKS).as(`Issues`);
         cy.intercept(`/api/models`, ApiMocks.ADMIN_DASHBOARD_MODELS).as('Models');
         cy.intercept(`/api/graph/${ModelDetailsData.MODEL_DETAILS_ASDA.model_id}?start_date=${startDate}&end_date=${endDate}`, { statusCode: 400 }).as(`FirstModel`);
         cy.visit(`/#/admin-health-dashboard`);
-        cy.wait([`@Model stats`, `@Tasks`, `@Models`, `@FirstModel`]);
+        cy.wait([`@Model stats`, `@Issues`, `@Models`, `@FirstModel`]);
         Cypress.on(`uncaught:exception`, (err, runnable) => {
             return false;
         });
@@ -302,7 +302,7 @@ export default class AdminHealthDashboardPage {
 
     public async initPageWithNoFailedModels() {
         cy.intercept(
-            `/api/model-execution-stats?period=day`,
+            `/api/overview?period=day`,
             ApiMocks.ADMIN_DASHBOARD_NO_FAILED_MODELS,
         ).as(`No models fail`);
         cy.visit(`/#/admin-health-dashboard`);
@@ -314,10 +314,10 @@ export default class AdminHealthDashboardPage {
 
     public async initPageSingleTask() {
         cy.intercept(
-            `/api/model-execution-stats?period=day`,
+            `/api/overview?period=day`,
             ApiMocks.ADMIN_DASHBOARD_FAILED_MODELS,
         ).as(`Model stats`);
-        cy.intercept(`/api/tasks`, ApiMocks.ADMIN_DASHBOARD_SINGLE_TASK).as(`Task`);
+        cy.intercept(`/api/issues`, ApiMocks.ADMIN_DASHBOARD_SINGLE_TASK).as(`Task`);
         cy.visit(`/#/admin-health-dashboard`);
         cy.wait([`@Model stats`, `@Task`]);
         Cypress.on(`uncaught:exception`, (err, runnable) => {
@@ -339,10 +339,10 @@ export default class AdminHealthDashboardPage {
 
 
 // public async initPageWithErrors() {
-    //     // cy.intercept(`/api/model-execution-stats?period=day`, ApiMocks.ADMIN_DASHBOARD_FAILED_MODELS)
+    //     // cy.intercept(`/api/overview?period=day`, ApiMocks.ADMIN_DASHBOARD_FAILED_MODELS)
     //     // .as(`Model stats`);
-    //     cy.intercept("/api/model-execution-stats?period=day", { statusCode: 400 }).as("Executions not found");
-    //     cy.intercept(`/api/tasks`, ApiMocks.ADMIN_DASHBOARD_SINGLE_TASK)
+    //     cy.intercept("/api/overview?period=day", { statusCode: 400 }).as("Executions not found");
+    //     cy.intercept(`/api/issues`, ApiMocks.ADMIN_DASHBOARD_SINGLE_TASK)
     //     .as(`Task`);
     //     cy.visit(`/#/admin-health-dashboard`);
     //     cy.wait([`@Executions not found`, `@Task`]);
@@ -350,7 +350,7 @@ export default class AdminHealthDashboardPage {
     //     //cy.intercept(`/models`, ApiMocks.ADMIN_DASHBOARD_MODELS).as('Models');
     //     //cy.intercept(`/graph/${model_id}?start_date=${aWeekAgo}&end_date=${today}`, ApiMocks.ADMIN_DASHBOARD_GRAPH_ONE_DAY).as(`Model`);
     //     cy.visit(`/#/admin-health-dashboard`);
-    //     cy.wait([`@Model stats`, `@Tasks`]);
+    //     cy.wait([`@Model stats`, `@Issues`]);
     //     Cypress.on(`uncaught:exception`, (err, runnable) => {
     //         return false;
     //     })

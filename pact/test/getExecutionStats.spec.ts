@@ -5,7 +5,7 @@ import * as sinonChai from "sinon-chai"
 import { Pact, Interaction, Matchers } from "@pact-foundation/pact"
 
 const expect = chai.expect
-import ExecutionStatClient, { ExecutionsStat } from "../src/models/ExecutionStats"
+import ExecutionStatClient, { ExecutionsStat } from "../src/models/Overview"
 import { ExecutionStat } from "../../src/models/ExecutionStat"
 const { eachLike } = Matchers
 
@@ -67,7 +67,7 @@ describe("Get executions stats api", () => {
         })
 
         it("Will return execution stats for all models over a 5 day period", async () => {
-            const response = await executionStatClient.fetchExecutionStats("5")
+            const response = await executionStatClient.fetchOverview("5")
             return expect(response).to.have.deep.members([new ExecutionsStat(executionStats)])
         })
     })
@@ -97,7 +97,7 @@ describe("Get executions stats api", () => {
         })
 
         it("Will return a list of executions for the model", async () => {
-            const response = await executionStatClient.fetchExecutionStats("5", "model1")
+            const response = await executionStatClient.fetchOverview("5", "model1")
             return expect(response).to.have.deep.members([new ExecutionsStat(executionStats)])
         })
     })

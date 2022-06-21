@@ -35,7 +35,7 @@ import { EventBus } from "@/event-bus";
 import VueJsonPretty from "vue-json-pretty";
 import "vue-json-pretty/lib/styles.css";
 import { getLogs } from "../../api/LogService";
-import { getTaskLogs } from "@/api/AdminServices/AdminStatisticsService";
+import { getTaskLogs } from "@/api/Admin/AdminStatisticsService";
 
 @Component({
     components: { VueJsonPretty },

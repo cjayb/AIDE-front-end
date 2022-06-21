@@ -35,11 +35,11 @@
         <v-row>
             <v-col class="col-sm-3 col-xl-2">
                 <v-card
-                    v-if="!loading && modelExecutionStatistics !== undefined"
+                    v-if="!loading && overview !== undefined"
                     class="stats-card mx-1 px-5 py-2 rounded-lg"
                     data-cy="model-failures-card"
                     :style="
-                        modelExecutionStatistics.model_failures > 0
+                        overview.model_failures > 0
                             ? 'border: 1px solid #D32F2F;'
                             : 'border: 1px solid white;'
                     "
@@ -53,20 +53,18 @@
                             <h1
                                 data-cy="model-failures"
                                 :class="{
-                                    'red--text text--darken-2':
-                                        modelExecutionStatistics.model_failures > 0,
+                                    'red--text text--darken-2': overview.model_failures > 0,
                                 }"
                             >
-                                {{ modelExecutionStatistics.model_failures }} of&nbsp;
+                                {{ overview.model_failures }} of&nbsp;
                             </h1>
                             <h1
                                 data-cy="model-failures-executions"
                                 :class="{
-                                    'red--text text--darken-2':
-                                        modelExecutionStatistics.model_failures > 0,
+                                    'red--text text--darken-2': overview.model_failures > 0,
                                 }"
                             >
-                                {{ modelExecutionStatistics.model_executions }}
+                                {{ overview.model_executions }}
                             </h1>
                         </div>
                         <h2 class="pt-5">Model Failures</h2>
@@ -76,7 +74,7 @@
             </v-col>
             <v-col class="col-sm-3 col-xl-2">
                 <v-card
-                    v-if="!loading && modelExecutionStatistics !== undefined"
+                    v-if="!loading && overview !== undefined"
                     class="stats-card mx-1 px-5 py-2 rounded-lg"
                     height="100%"
                     elevation="1"
@@ -85,7 +83,7 @@
                 >
                     <v-card-text>
                         <h1 data-cy="model-executions">
-                            {{ modelExecutionStatistics.model_executions }}
+                            {{ overview.model_executions }}
                         </h1>
                         <h2 class="pt-5">Model Executions</h2>
                     </v-card-text>
@@ -94,7 +92,7 @@
             </v-col>
             <v-col class="col-sm-3 col-xl-2">
                 <v-card
-                    v-if="!loading && modelExecutionStatistics !== undefined"
+                    v-if="!loading && overview !== undefined"
                     class="stats-card mx-1 px-5 py-2 rounded-lg"
                     height="100%"
                     elevation="1"
@@ -103,7 +101,7 @@
                 >
                     <v-card-text>
                         <h1 data-cy="model-numbers">
-                            {{ modelExecutionStatistics.deployed_models }}
+                            {{ overview.deployed_models }}
                         </h1>
                         <h2 class="pt-5">Number of Models</h2>
                     </v-card-text>
@@ -115,8 +113,8 @@
 </template>
 
 <script lang="ts">
-import { getModelExecutionStatistics } from "@/api/AdminServices/AdminStatisticsService";
-import { IExecutionStatistics } from "@/models/AdminStatistics/IExecutionStatistics";
+import { getOverview } from "@/api/Admin/AdminStatisticsService";
+import { IOverview } from "@/models/Admin/IOverview";
 import Vue from "vue";
 import Component from "vue-class-component";
 
@@ -131,7 +129,7 @@ enum FilterPeriod {
 })
 export default class DashboardOverview extends Vue {
     selectedFilterPeriod: FilterPeriod = FilterPeriod.Day;
-    modelExecutionStatistics: IExecutionStatistics | undefined;
+    overview: IOverview | undefined;
     loading = false;
 
     async created(): Promise<void> {
@@ -140,9 +138,9 @@ export default class DashboardOverview extends Vue {
 
     async getExecutionStatistics(selectedFilterPeriod: FilterPeriod): Promise<void> {
         this.loading = true;
-        await getModelExecutionStatistics(selectedFilterPeriod)
+        await getOverview(selectedFilterPeriod)
             .then((executionStats) => {
-                this.modelExecutionStatistics = executionStats;
+                this.overview = executionStats;
             })
             .catch((err) => {
                 this.loading = false;

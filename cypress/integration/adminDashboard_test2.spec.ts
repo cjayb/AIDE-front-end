@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 
-import { TaskData } from "../data/tasks";
+import { TaskData } from "../data/issues";
 import { LogData } from "../data/logs";
 import { ModelSummaryData } from "../data/models";
 import { ModelDetailsData } from "../data/graph";
@@ -56,13 +56,13 @@ describe(`Admin health - Issues table section`, () => {
         });
     });
 
-    it(`I can tick the 'Select all' checkbox to select all tasks`, () => {
-        adminHealthPage.selectAllTasks();
+    it(`I can tick the 'Select all' checkbox to select all issues`, () => {
+        adminHealthPage.selectAllIssues();
         adminHealthPage.assertCheckboxesSelected();
     });
-    it(`I can un-tick the 'Select all' checkbox to unselect all tasks`, () => {
-        adminHealthPage.selectAllTasks();
-        adminHealthPage.unselectAllTasks();
+    it(`I can un-tick the 'Select all' checkbox to unselect all issues`, () => {
+        adminHealthPage.selectAllIssues();
+        adminHealthPage.unselectAllIssues();
         adminHealthPage.assertCheckboxesUnselected();
     });
 
@@ -83,18 +83,18 @@ describe(`Admin health - Issues table section`, () => {
     it(`I can view a task's execution logs`, () => {
         adminHealthPage.assertLogsDisplayed(TaskData.TASK_DATA_1, LogData.LOG_DATA_1);
     });
-    it(`I am able to remove individual tasks by clicking the dismiss button on each task`, () => {
+    it(`I am able to remove individual issues by clicking the dismiss button on each task`, () => {
         adminHealthPage.assertTaskCanBeDismissed(TaskData.TASK_DATA_1);
     });
-    it(`I am able to dismiss all selected tasks by clicking the 'Dismiss selected' button`, () => {
-        adminHealthPage.selectAllTasks();
+    it(`I am able to dismiss all selected issues by clicking the 'Dismiss selected' button`, () => {
+        adminHealthPage.selectAllIssues();
         adminHealthPage.selectDismissSelectedButton();
         adminHealthPage.selectCancelValidation();
         adminHealthPage.selectDismissSelectedButton();
         adminHealthPage.selectOKValidation();
-        adminHealthPage.assertNoTasks();
+        adminHealthPage.assertNoIssues();
     });
-    it(`I cannot click the 'Dismiss selected' button if no tasks have been selected`, () => {
+    it(`I cannot click the 'Dismiss selected' button if no issues have been selected`, () => {
         adminHealthPage.AssertDismissButtonUnclickable();
     });
 });
@@ -141,7 +141,7 @@ describe(`Admin health - API errors`, () => {
         adminHealthPage.assertLatestErrorContainsMessage(text);
     });
     it(`Error is displayed in the UI when the API returns no task data`, () => {
-        adminHealthPage.initPageTasksApiErrors();
+        adminHealthPage.initPageIssuesApiErrors();
         adminHealthPage.assertLatestErrorContainsMessage(text);
     });
     it(`Error is displayed in the UI when the API returns no Model data`, () => {
