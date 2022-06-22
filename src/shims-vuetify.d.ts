@@ -16,3 +16,4 @@ declare module "cornerstone-tools";
 declare module "cornerstone-math";
 declare module "hammerjs";
 declare module "numeral";
+declare module "@ssthouse/vue-tree-chart";

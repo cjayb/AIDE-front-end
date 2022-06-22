@@ -1,5 +1,7 @@
 <template>
-    <PayloadsTable />
+    <v-container>
+        <PayloadsTable />
+    </v-container>
 </template>
 
 <script lang="ts">
@@ -12,7 +14,5 @@ import Component from "vue-class-component";
         PayloadsTable,
     },
 })
-export default class AdminPayloadDashboard extends Vue {
-    // Declared as component data
-}
+export default class AdminPayloadDashboard extends Vue {}
 </script>

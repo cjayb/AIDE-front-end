@@ -25,6 +25,8 @@
                         :items="payloads"
                         :search="search"
                         :items-per-page="5"
+                        show-expand
+                        single-expand
                         item-key="payload_id"
                         class="elevation-1"
                         data-cy="payload"
@@ -55,6 +57,11 @@
                                 {{ item.payload_received }}
                             </span>
                         </template>
+                        <template v-slot:[`expanded-item`]="{ item }">
+                            <td :colspan="5">
+                                <ExecutionTree :payload_id="item.payload_id" />
+                            </td>
+                        </template>
                     </v-data-table>
                 </v-card>
             </v-layout>
@@ -71,17 +78,19 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { getPayloads } from "@/api/Admin/AdminStatisticsService";
-import { formatDateAndTime } from "@/utils/dateFormattingUtils";
 import { IPayload } from "@/models/Admin/IPayload";
+import ExecutionTree from "@/components/AdminPayloadDashboard/ExecutionTree.vue";
+import { formatDateAndTimeOfArray } from "@/utils/dateFormattingUtils";
 
 @Component({
-    components: {},
+    components: {
+        ExecutionTree,
+    },
 })
 export default class PayloadsTable extends Vue {
     loading = false;
     search = "";
     payloads: IPayload[] = [];
-    dialogDelete = false;
 
     headers = [
         { text: "Patient Name", value: "patient_name" },
@@ -98,7 +107,7 @@ export default class PayloadsTable extends Vue {
         this.loading = true;
         await getPayloads()
             .then((allPayloads) => {
-                formatDateAndTime(allPayloads, "payload_received");
+                formatDateAndTimeOfArray(allPayloads, "payload_received");
                 this.payloads = allPayloads;
             })
             .catch((err) => {

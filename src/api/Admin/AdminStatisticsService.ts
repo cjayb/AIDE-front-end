@@ -4,7 +4,7 @@ import { IOverview } from "@/models/Admin/IOverview";
 import { IIssue } from "@/models/Admin/IIssue";
 import { ILogs } from "@/models/Admin/ILogs";
 import { IModelSummary, IModelDetails } from "@/models/Admin/IModel";
-import { IPayload } from "@/models/Admin/IPayload";
+import { IPayload, IPayloadExecutions } from "@/models/Admin/IPayload";
 
 const http = axios.create({
     baseURL: window.FRONTEND_API_HOST,
@@ -86,7 +86,7 @@ export async function getPayloads(): Promise<IPayload[]> {
     return response.data;
 }
 
-export async function getPayloadExecutions(payload_id: number): Promise<IPayload[]> {
+export async function getPayloadExecutions(payload_id: number): Promise<IPayloadExecutions[]> {
     http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/api/payloads/${payload_id}/executions`);
 
