@@ -38,4 +38,5 @@ export class ApplicationData implements Application {
     public static UNIQUE_SPECIALITY_APP: ApplicationData = new ApplicationData(
         <Application>ApiMocks.APP_STORE_ALL_PERMUTATIONS[6],
     );
+    
 }

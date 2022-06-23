@@ -17,7 +17,6 @@ describe("App Store Page", () => {
 
     it("A user can access the app store via the button", () => {
         cy.checkA11y(null, a11yConfig, nodeTerminal, true);
-        cy.visit("/#/clinical-review/");
         appPage.clickAppStoreButton().assertAppStorePageShows();
     });
 
@@ -32,7 +31,7 @@ describe("App Store Page", () => {
         cy.percySnapshot("Application Table");
     });
 
-    it.only("An app missing an image displays correctly", () => {
+    it("An app missing an image displays correctly", () => {
         appPage.assertApp(ApplicationData.MISSING_IMAGE_APP);
     });
 
@@ -68,15 +67,18 @@ describe("App Store Page", () => {
         appPage.assertAlphabeticalOrdering(Order.Descending);
     });
 
-    it("A text searched app displays correctly", () => {
-        const searchedApp = ApplicationData.UNIQUE_SPECIALITY_APP;
-        cy.dataCy(AppStorePage.SEARCH_APPLICATION_REPOSITORY).type(searchedApp.name);
-        appPage.assertApp(searchedApp);
-        cy.dataCy(AppStorePage.APPLICATION_CARD).should("have.length", 1);
+    it.only("A text searched app displays correctly", () => {
+        appPage.assertTextSearchedApp(ApplicationData.UNIQUE_SPECIALITY_APP.name, ApplicationData.UNIQUE_SPECIALITY_APP);
     });
 });
 
-describe("Error handling on app store page", () => {
+
+describe.only("Error handling on app store page", () => {
+    const data = [
+        [400, '400'],
+        [403, '403'],
+        [500, '500']
+    ];
     beforeEach(() => {
         cy.injectAxe();
         Cypress.on("uncaught:exception", (err, runnable) => {
@@ -84,37 +86,17 @@ describe("Error handling on app store page", () => {
             return false;
         });
     });
+    data.forEach(($type) => {
+        const [statusCode, test_name] = $type;
+        it(`Application store page handles ${test_name} error code gracefully`, () => {
+            appPage.assertErrorCodeHandling(statusCode);
+        });
+    })
+
     it("A blank list of apps displays correctly", () => {
-        cy.intercept("/app_store/api/applications?status=Live", {statusCode: 200, body: '[]'}).as("twoHundred");
-        cy.visit("/#/application-repository");
-        cy.wait("@twoHundred");
         appPage.assertBlankAppList();
     });
 
-    it("Application store page handles 400 error code gracefully", () => {
-        cy.intercept("/app_store/api/applications?status=Live", { statusCode: 400 }).as("fourHundred");
-        cy.visit("/#/application-repository");
-        cy.wait("@fourHundred");
-        appPage.assertLatestErrorContainsMessage(
-            "Something unexpected went wrong retrieving application!",
-        );
-    });
-
-    it("Application store page handles 403 error code gracefully", () => {
-        cy.intercept("/app_store/api/applications?status=Live", { statusCode: 403 }).as("fourHundredThree");
-        cy.visit("/#/application-repository");
-        cy.wait("@fourHundredThree");
-        appPage.assertLatestErrorContainsMessage(
-            "Something unexpected went wrong retrieving application!",
-        );
-    });
-
-    it("Application store page handles 500 error code gracefully", () => {
-        cy.intercept("/app_store/api/applications?status=Live", { statusCode: 500 }).as("fiveHundred");
-        cy.visit("/#/application-repository");
-        cy.wait("@fiveHundred");
-        appPage.assertLatestErrorContainsMessage(
-            "Something unexpected went wrong retrieving application!",
-        );
-    });
 });
+
+

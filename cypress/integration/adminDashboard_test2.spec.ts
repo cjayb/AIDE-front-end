@@ -186,3 +186,20 @@ describe(`Admin Payload - Table`, () => {
         });
     });
 });
+
+describe.skip(`Admin Payload - Tree`, () => {
+    const tuple = [
+        [PayloadData.PAYLOAD_DATA_1, `Payload 1`],
+        [PayloadData.PAYLOAD_DATA_2, `Payload 2`],
+        [PayloadData.PAYLOAD_DATA_3, `Payload 3`],
+        [PayloadData.PAYLOAD_DATA_4, `Payload 4`],
+        [PayloadData.PAYLOAD_DATA_5, `Payload 5`]
+    ];
+    tuple.forEach(($type) => {
+        const [payload_data, test_name] = $type;
+        it(`Return ${test_name} to manually check tree`, () => {
+            adminPayloadPage.initPagePayload();
+            adminPayloadPage.expandAndViewPayload(payload_data as PayloadData);
+        })
+    });
+})

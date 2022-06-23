@@ -1,0 +1,40 @@
+[
+    {
+      "execution_id": 1,
+      "payload_id": 1,
+      "model_name": "Dicom Received",
+      "execution_status": "success",
+      "execution_started": "20220516T151114",
+      "execution_finished": "20220516T151114",
+      "executions": [
+        {
+          "execution_id": 2,
+          "payload_id": 1,
+          "model_name": "Model 1",
+          "execution_status": "success",
+          "execution_started": "20220516T151114",
+          "execution_finished": "20220516T151114",
+          "executions": [
+            {
+              "execution_id": 3,
+              "payload_id": 1,
+              "model_name": "Model 2",
+              "execution_status": "error",
+              "execution_started": "20220516T151114",
+              "execution_finished": "20220516T151114",
+              "executions": []
+            },
+            {
+              "execution_id": 4,
+              "payload_id": 1,
+              "model_name": "Model 3",
+              "execution_status": "success",
+              "execution_started": "20220516T151114",
+              "execution_finished": "20220516T151114",
+              "executions": []
+            }
+          ]
+        }
+      ]
+    }
+  ]

@@ -97,6 +97,9 @@ export default class AppStorePage extends AbstractPage {
     }
 
     public assertBlankAppList(): AppStorePage {
+        cy.intercept("/app_store/api/applications?status=Live", {statusCode: 200, body: '[]'}).as("twoHundred");
+        cy.visit("/#/application-repository");
+        cy.wait("@twoHundred");
         cy.dataCy(AppStorePage.NO_RESULTS_MESSAGE).should("be.visible");
         return this;
     }
@@ -123,6 +126,20 @@ export default class AppStorePage extends AbstractPage {
         }
     }
 
+    public assertTextSearchedApp(text, application): void{
+        cy.dataCy(AppStorePage.SEARCH_APPLICATION_REPOSITORY).type(text);
+        this.assertApp(application);
+    }
+
+    public assertErrorCodeHandling(code): void{
+        cy.intercept("/app_store/api/applications?status=Live", { statusCode: code }).as("statusCode");
+        cy.visit("/#/application-repository");
+        cy.wait("@statusCode");
+        this.assertLatestErrorContainsMessage(
+            "Something unexpected went wrong retrieving application!",
+        );
+    }
+
     public async initPage() {
         cy.intercept("/app_store/api/applications?status=Live", ApiMocks.APP_STORE_ALL_PERMUTATIONS).as(
             "ApplicationList",
@@ -139,3 +156,4 @@ export default class AppStorePage extends AbstractPage {
         });
     }
 }
+

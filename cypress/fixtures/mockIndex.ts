@@ -11,6 +11,7 @@ export default class ApiMocks {
     public static ADMIN_DASHBOARD_TASKS = require("./adminDashboardIssues.json");
     public static ADMIN_DASHBOARD_SINGLE_TASK = require("./adminDashboardSingleIssue.json")
     public static ADMIN_DASHBOARD_PAYLOAD_TABLE = require("./adminDashboardPayloadTable.json");
+    public static ADMIN_DASHBOARD_PAYLOAD_EXECUTIONS = require("./adminDashboardPayloadExecutions.json");
     //Previously added
     public static INPUT_QUEUE_STATS = require("./inputQueueStats.json");
     public static OUTPUT_QUEUE_STATS = require("./outputQueueStats.json");

@@ -21,7 +21,6 @@ export class AbstractPage implements IPage {
                 cy.dataCy(dropdownId).click();
                 cy.get(".v-menu__content").contains(version.version_string).click({ force: true });
                 cy.get(".v-select__selections").should("have.text", version.version_string);
-
             });
         } else {
             cy.log("No versions were provided");

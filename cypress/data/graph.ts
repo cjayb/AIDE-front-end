@@ -23,12 +23,12 @@ export class ModelDetailsData implements IModelDetails {
     }
 
     public static MODEL_DETAILS_ASDA: ModelDetailsData = new ModelDetailsData(
-        <IModelDetails>ApiMocks.ADMIN_DASHBOARD_MODEL_DETAILS_ONE_DAY
+        <IModelDetails>ApiMocks.ADMIN_DASHBOARD_MODEL_DETAILS_ONE_DAY,
     );
     public static MODEL_DETAILS_BANANA: ModelDetailsData = new ModelDetailsData(
-        <IModelDetails>ApiMocks.ADMIN_DASHBOARD_MODEL_DETAILS_TEN_DAYS
+        <IModelDetails>ApiMocks.ADMIN_DASHBOARD_MODEL_DETAILS_TEN_DAYS,
     );
     public static MODEL_DETAILS_CRAYON: ModelDetailsData = new ModelDetailsData(
-        <IModelDetails>ApiMocks.ADMIN_DASHBOARD_MODEL_DETAILS_ONE_HUNDRED_DAYS
+        <IModelDetails>ApiMocks.ADMIN_DASHBOARD_MODEL_DETAILS_ONE_HUNDRED_DAYS,
     );
 }
