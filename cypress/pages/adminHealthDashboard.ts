@@ -63,10 +63,8 @@ export default class AdminHealthDashboardPage {
     public formatTaskDate(task: string): string {
         const date = task.split("T")[0].replace(/(\d{4})(\d{2})(\d+)/, "$1-$2-$3");
         const hour = Number(task.split("T")[1].substring(0, 2));
-        const suffix: string = hour >= 12 ? "PM" : "AM";
-        const formattedHour = (hour % 12 || 12).toString();
         const minutes = task.split("T")[1].substring(4, 2).toString();
-        task = date + " " + (Number(formattedHour) < 10 ? "0" + formattedHour : formattedHour) + ":" + minutes + " " + suffix;
+        task = date + " " + (Number(hour) < 10 ? "0" + hour : hour) + ":" + minutes;
         return task;
     }
 

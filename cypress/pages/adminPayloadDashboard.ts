@@ -44,17 +44,8 @@ export default class AdminPayloadDashboardPage {
     public formatTaskDate(payload: string): string {
         const date = payload.split("T")[0].replace(/(\d{4})(\d{2})(\d+)/, "$1-$2-$3");
         const hour = Number(payload.split("T")[1].substring(0, 2));
-        const suffix: string = hour >= 12 ? "PM" : "AM";
-        const formattedHour = (hour % 12 || 12).toString();
         const minutes = payload.split("T")[1].substring(4, 2).toString();
-        payload =
-            date +
-            " " +
-            (Number(formattedHour) < 10 ? "0" + formattedHour : formattedHour) +
-            ":" +
-            minutes +
-            " " +
-            suffix;
+        payload = date + " " + (Number(hour) < 10 ? "0" + hour : hour) + ":" + minutes;
         return payload;
     }
 

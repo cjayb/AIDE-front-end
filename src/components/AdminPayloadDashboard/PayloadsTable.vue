@@ -118,3 +118,13 @@ export default class PayloadsTable extends Vue {
     }
 }
 </script>
+
+<style scoped>
+.v-data-table >>> .v-data-table__wrapper tbody tr.v-data-table__expanded__content {
+    box-shadow: none;
+}
+
+.v-data-table >>> .v-data-table__wrapper tbody tr.v-data-table__expanded__content td {
+    padding: 0;
+}
+</style>

@@ -1,56 +1,59 @@
 <template>
     <div class="container">
-        <template v-if="!loading">
-            <vue-tree
-                ref="tree"
-                style="width: 80%; height: 370px"
-                :dataset="payloadExecutions"
-                :config="treeConfig"
-                direction="horizontal"
-                :collapse-enabled="false"
-            >
-                <template v-slot:node="{ node }">
-                    <div class="rich-media-node" @click="setSelectedNode(node)">
-                        <span
-                            class="tree-node d-flex flex-column"
-                            :style="{
-                                background: node.execution_status === 'error' ? 'red' : 'green',
-                                border:
-                                    selectedNode.execution_id === node.execution_id
-                                        ? '2px solid black'
-                                        : '',
-                                borderRadius: '50%',
-                            }"
-                            :data-cy="'node ' + node.model_name"
-                        >
+        <v-row v-if="!loading">
+            <div style="width: 75%">
+                <vue-tree
+                    ref="tree"
+                    style="width: 100%; height: 380px"
+                    :dataset="payloadExecutions"
+                    :config="treeConfig"
+                    direction="horizontal"
+                    :collapse-enabled="false"
+                >
+                    <template v-slot:node="{ node }">
+                        <div class="rich-media-node" @click="setSelectedNode(node)">
                             <span
-                                class="tree-node-title mt-5"
-                                style="font-weight: bold; font-size: 14px"
-                                :data-cy="'name ' + node.model_name"
+                                class="tree-node d-flex flex-column"
+                                :style="{
+                                    background: node.execution_status === 'error' ? 'red' : 'green',
+                                    border:
+                                        selectedNode.execution_id === node.execution_id
+                                            ? '2px solid black'
+                                            : '',
+                                    borderRadius: '50%',
+                                }"
+                                :data-cy="'node ' + node.model_name"
                             >
-                                {{ node.model_name }}
+                                <span
+                                    class="tree-node-title mt-5"
+                                    style="font-weight: bold; font-size: 14px"
+                                    :data-cy="'name ' + node.model_name"
+                                >
+                                    {{ node.model_name }}
+                                </span>
+                                <span
+                                    class="tree-node-text"
+                                    style="font-size: 12px"
+                                    :data-cy="'date ' + node.model_name"
+                                >
+                                    {{ formatDate(node.execution_finished) }}
+                                </span>
                             </span>
-                            <span
-                                class="tree-node-text"
-                                style="font-size: 12px"
-                                :data-cy="'date ' + node.model_name"
-                            >
-                                {{ formatDate(node.execution_finished) }}
-                            </span>
-                        </span>
-                    </div>
-                </template>
-            </vue-tree>
-            <button @click="resetExecutionTree">
-                <v-icon color="black" data-cy="reset"> mdi-arrow-u-left-bottom </v-icon>
-            </button>
-            <button @click="zoomInExecutionTree">
-                <v-icon color="black" data-cy="zoom-in"> mdi-magnify-plus-outline </v-icon>
-            </button>
-            <button @click="zoomOutExecutionTree">
-                <v-icon color="black" data-cy="zoom-out"> mdi-magnify-minus-outline </v-icon>
-            </button>
-        </template>
+                        </div>
+                    </template>
+                </vue-tree>
+                <v-btn elevation="2" fab class="tree-button ml-5" @click="resetExecutionTree">
+                    <v-icon color="black" data-cy="reset"> mdi-arrow-u-left-bottom </v-icon>
+                </v-btn>
+                <v-btn elevation="2" fab class="tree-button" @click="zoomInExecutionTree">
+                    <v-icon color="black" data-cy="zoom-in"> mdi-magnify-plus-outline </v-icon>
+                </v-btn>
+                <v-btn elevation="2" fab class="tree-button" @click="zoomOutExecutionTree">
+                    <v-icon color="black" data-cy="zoom-out"> mdi-magnify-minus-outline </v-icon>
+                </v-btn>
+            </div>
+            <ModelDetailsSection :selectedNodeDetails="selectedNode" />
+        </v-row>
         <div v-else class="text-center my-3">
             <v-progress-circular indeterminate color="grey" data-cy="progress" />
         </div>
@@ -64,6 +67,9 @@ import Vue from "vue";
 import { IPayloadExecutionsFormatted } from "@/models/Admin/IPayload";
 import { getPayloadExecutions } from "@/api/Admin/AdminStatisticsService";
 import { formatDateAndTimeOfString } from "@/utils/dateFormattingUtils";
+import { EventBus } from "@/event-bus";
+import ModelDetailsSection from "./ModelDetailsSection.vue";
+
 Vue.component("vue-tree", VueTree);
 
 const ExecutionTreeProps = Vue.extend({
@@ -75,6 +81,7 @@ const ExecutionTreeProps = Vue.extend({
 @Component({
     components: {
         "vue-tree": VueTree,
+        ModelDetailsSection,
     },
 })
 export default class ExecutionTree extends ExecutionTreeProps {
@@ -139,9 +146,13 @@ export default class ExecutionTree extends ExecutionTreeProps {
         const tree = document.querySelector(".dom-container") as HTMLElement;
         const treeLink = document.querySelector(".vue-tree") as HTMLElement;
         if (tree && treeLink) {
-            tree.style.transform = "translate(" + -100 + "px," + 200 + "px)";
-            treeLink.style.transform = "translate(" + -100 + "px," + 200 + "px)";
+            tree.style.transform = "translate(" + -100 + "px," + 190 + "px)";
+            treeLink.style.transform = "translate(" + -100 + "px," + 190 + "px)";
         }
+    }
+
+    openLogsDialog(execution_id: number): void {
+        EventBus.$emit("openLogsDialog", true, execution_id);
     }
 }
 </script>
@@ -162,8 +173,9 @@ export default class ExecutionTree extends ExecutionTreeProps {
     text-align: left;
 }
 
-button {
+.tree-button {
     width: 30px;
     height: 30px;
+    margin: 10px 3px;
 }
 </style>
