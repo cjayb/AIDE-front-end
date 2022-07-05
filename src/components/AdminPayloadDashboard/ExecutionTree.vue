@@ -1,40 +1,56 @@
 <template>
     <div class="container">
-        <vue-tree
-            v-if="!loading"
-            style="width: 80%; height: 300px"
-            :dataset="payloadExecutions"
-            :config="treeConfig"
-            direction="horizontal"
-            :collapse-enabled="false"
-        >
-            <template v-slot:node="{ node }">
-                <div class="rich-media-node" @click="setSelectedNode(node)">
-                    <span
-                        class="tree-node d-flex flex-column"
-                        :style="{
-                            background: node.execution_status === 'error' ? 'red' : 'green',
-                            border:
-                                selectedNode.execution_id === node.execution_id
-                                    ? '2px solid black'
-                                    : '',
-                            borderRadius: '50%',
-                        }"
-                        :data-cy="node.model_name"
-                    >
+        <template v-if="!loading">
+            <vue-tree
+                ref="tree"
+                style="width: 80%; height: 370px"
+                :dataset="payloadExecutions"
+                :config="treeConfig"
+                direction="horizontal"
+                :collapse-enabled="false"
+            >
+                <template v-slot:node="{ node }">
+                    <div class="rich-media-node" @click="setSelectedNode(node)">
                         <span
-                            class="tree-node-title mt-5"
-                            style="font-weight: bold; font-size: 14px"
+                            class="tree-node d-flex flex-column"
+                            :style="{
+                                background: node.execution_status === 'error' ? 'red' : 'green',
+                                border:
+                                    selectedNode.execution_id === node.execution_id
+                                        ? '2px solid black'
+                                        : '',
+                                borderRadius: '50%',
+                            }"
+                            :data-cy="'node ' + node.model_name"
                         >
-                            {{ node.model_name }}
+                            <span
+                                class="tree-node-title mt-5"
+                                style="font-weight: bold; font-size: 14px"
+                                :data-cy="'name ' + node.model_name"
+                            >
+                                {{ node.model_name }}
+                            </span>
+                            <span
+                                class="tree-node-text"
+                                style="font-size: 12px"
+                                :data-cy="'date ' + node.model_name"
+                            >
+                                {{ formatDate(node.execution_finished) }}
+                            </span>
                         </span>
-                        <span class="tree-node-text" style="font-size: 12px">
-                            {{ formatDate(node.execution_finished) }}
-                        </span>
-                    </span>
-                </div>
-            </template>
-        </vue-tree>
+                    </div>
+                </template>
+            </vue-tree>
+            <button @click="resetExecutionTree">
+                <v-icon color="black" data-cy="reset"> mdi-arrow-u-left-bottom </v-icon>
+            </button>
+            <button @click="zoomInExecutionTree">
+                <v-icon color="black" data-cy="zoom-in"> mdi-magnify-plus-outline </v-icon>
+            </button>
+            <button @click="zoomOutExecutionTree">
+                <v-icon color="black" data-cy="zoom-out"> mdi-magnify-minus-outline </v-icon>
+            </button>
+        </template>
         <div v-else class="text-center my-3">
             <v-progress-circular indeterminate color="grey" data-cy="progress" />
         </div>
@@ -57,7 +73,9 @@ const ExecutionTreeProps = Vue.extend({
 });
 
 @Component({
-    components: {},
+    components: {
+        "vue-tree": VueTree,
+    },
 })
 export default class ExecutionTree extends ExecutionTreeProps {
     loading = false;
@@ -71,7 +89,7 @@ export default class ExecutionTree extends ExecutionTreeProps {
         children: [],
     };
     payloadExecutions: IPayloadExecutionsFormatted[] = [];
-    treeConfig = { nodeWidth: 120, nodeHeight: 70, levelHeight: 200 };
+    treeConfig = { nodeWidth: 100, nodeHeight: 70, levelHeight: 200 };
 
     async created(): Promise<void> {
         this.getPayloadExecutionsForTree();
@@ -93,12 +111,37 @@ export default class ExecutionTree extends ExecutionTreeProps {
         this.loading = false;
     }
 
-    setSelectedNode(node: IPayloadExecutionsFormatted) {
+    setSelectedNode(node: IPayloadExecutionsFormatted): void {
         this.selectedNode = node;
     }
 
     formatDate(date: string): string {
         return formatDateAndTimeOfString(date);
+    }
+
+    zoomInExecutionTree(): void {
+        if (typeof this.$refs.tree !== "undefined") {
+            (this as any).$refs.tree.zoomIn();
+        }
+    }
+
+    zoomOutExecutionTree(): void {
+        if (typeof this.$refs.tree !== "undefined") {
+            (this as any).$refs.tree.zoomOut();
+        }
+    }
+
+    resetExecutionTree(): void {
+        if (typeof this.$refs.tree !== "undefined") {
+            (this as any).$refs.tree.restoreScale();
+        }
+
+        const tree = document.querySelector(".dom-container") as HTMLElement;
+        const treeLink = document.querySelector(".vue-tree") as HTMLElement;
+        if (tree && treeLink) {
+            tree.style.transform = "translate(" + -100 + "px," + 200 + "px)";
+            treeLink.style.transform = "translate(" + -100 + "px," + 200 + "px)";
+        }
     }
 }
 </script>
@@ -117,5 +160,10 @@ export default class ExecutionTree extends ExecutionTreeProps {
 .tree-node-text {
     width: 8rem;
     text-align: left;
+}
+
+button {
+    width: 30px;
+    height: 30px;
 }
 </style>
