@@ -56,6 +56,7 @@ import Vue from "vue";
 import { IPayloadExecutionsFormatted } from "@/models/Admin/IPayload";
 import { EventBus } from "@/event-bus";
 import { Watch } from "vue-property-decorator";
+import { ILogs } from "@/models/Admin/ILogs";
 import { capitaliseFirstLetter } from "@/utils/stringFormattingUtils";
 import { formatDateAndTimeOfString } from "@/utils/dateFormattingUtils";
 

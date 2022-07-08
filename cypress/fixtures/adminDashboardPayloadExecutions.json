@@ -4,33 +4,61 @@
       "payload_id": 1,
       "model_name": "Dicom Received",
       "execution_status": "success",
-      "execution_started": "20220516T151114",
-      "execution_finished": "20220516T151114",
+      "execution_started": "20000516T151114",
+      "execution_finished": "20030101T000014",
       "executions": [
         {
           "execution_id": 2,
           "payload_id": 1,
           "model_name": "Model 1",
-          "execution_status": "success",
+          "execution_status": "error",
           "execution_started": "20220516T151114",
-          "execution_finished": "20220516T151114",
+          "execution_finished": "20290510T060614",
           "executions": [
             {
               "execution_id": 3,
               "payload_id": 1,
-              "model_name": "Model 2",
-              "execution_status": "error",
+              "model_name": "Model 3",
+              "execution_status": "success",
               "execution_started": "20220516T151114",
-              "execution_finished": "20220516T151114",
+              "execution_finished": "20231015T100114",
               "executions": []
             },
             {
               "execution_id": 4,
               "payload_id": 1,
-              "model_name": "Model 3",
+              "model_name": "Model 4",
+              "execution_status": "error",
+              "execution_started": "20220516T151114",
+              "execution_finished": "20281120T151014",
+              "executions": []
+            }
+          ]
+        },
+        {
+          "execution_id": 2,
+          "payload_id": 1,
+          "model_name": "Model 2",
+          "execution_status": "success",
+          "execution_started": "20220516T151114",
+          "execution_finished": "20221226T205914",
+          "executions": [
+            {
+              "execution_id": 3,
+              "payload_id": 1,
+              "model_name": "Model 5",
+              "execution_status": "error",
+              "execution_started": "20220516T151114",
+              "execution_finished": "20300430T231114",
+              "executions": []
+            },
+            {
+              "execution_id": 4,
+              "payload_id": 1,
+              "model_name": "Model 6",
               "execution_status": "success",
               "execution_started": "20220516T151114",
-              "execution_finished": "20220516T151114",
+              "execution_finished": "20560831T124014",
               "executions": []
             }
           ]

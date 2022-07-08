@@ -73,7 +73,7 @@ describe("App Store Page", () => {
 });
 
 
-describe.only("Error handling on app store page", () => {
+describe("Error handling on app store page", () => {
     const data = [
         [400, '400'],
         [403, '403'],

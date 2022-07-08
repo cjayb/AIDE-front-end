@@ -1,6 +1,5 @@
 /// <reference types="cypress" />
 
-
 import { TaskData } from "../data/issues";
 import { LogData } from "../data/logs";
 import { ModelSummaryData } from "../data/models";
@@ -10,6 +9,7 @@ import { nodeTerminal, a11yConfig } from "utils/a11y_util";
 import AdminPayloadDashboardPage from "pages/adminPayloadDashboard";
 import AdminHealthDashboardPage from "../pages/adminHealthDashboard";
 import { PayloadData } from "data/payloadTable";
+import { PayloadTreeData } from "data/payloadTree";
 
 const adminHealthPage = new AdminHealthDashboardPage();
 const adminPayloadPage = new AdminPayloadDashboardPage();
@@ -112,7 +112,10 @@ describe(`Admin health - Graph section`, () => {
     tuple.forEach(($type) => {
         const [model_data, model_array_order, test_name] = $type;
         it(`I can view the ${test_name} model from the dropdown`, () => {
-            adminHealthPage.assertModelsVisible(model_data as ModelSummaryData, model_array_order as number);
+            adminHealthPage.assertModelsVisible(
+                model_data as ModelSummaryData,
+                model_array_order as number,
+            );
         });
     });
     const tuple2 = [
@@ -123,34 +126,41 @@ describe(`Admin health - Graph section`, () => {
     tuple2.forEach(($type) => {
         const [modelDetails_data, model_array_order, test_name] = $type;
         it(`I can view the correct model statistics for the ${test_name} model`, () => {
-            adminHealthPage.assertModelDataDisplayed(modelDetails_data as ModelDetailsData, model_array_order as number);
+            adminHealthPage.assertModelDataDisplayed(
+                modelDetails_data as ModelDetailsData,
+                model_array_order as number,
+            );
         });
     });
-    // it.only(`When I first access the admin page the default date selected
-    // on the graph starts
-    //  7 days ago and ends today`, () => {
-    //     adminHealthPage.assertDatesCorrect(ModelDetailsData.MODEL_DETAILS_BANANA, 1)
-    // })
 });
 
 describe(`Admin health - API errors`, () => {
-    const text = "Something unexpected went wrong retrieving executions!"
-
-    it(`Error is displayed in the UI when the API returns no overview data`, () => {
-        adminHealthPage.initPageOverviewApiErrors();
-        adminHealthPage.assertLatestErrorContainsMessage(text);
-    });
-    it(`Error is displayed in the UI when the API returns no task data`, () => {
-        adminHealthPage.initPageIssuesApiErrors();
-        adminHealthPage.assertLatestErrorContainsMessage(text);
-    });
-    it(`Error is displayed in the UI when the API returns no Model data`, () => {
-        adminHealthPage.initPageModelsApiErrors();
-        adminHealthPage.assertLatestErrorContainsMessage(text);
-    });
-    it(`Error is displayed in the UI when the API returns no Model statistics data`, () => {
-        adminHealthPage.initPageModelStatisticsApiErrors();
-        adminHealthPage.assertLatestErrorContainsMessage(text);
+    const text = "Something unexpected went wrong retrieving executions!";
+    const tuple = [
+        [400, "400"],
+        [404, "404"],
+        [500, "500"],
+        [502, "502"],
+        [301, "301"],
+    ];
+    tuple.forEach(($type) => {
+        const [error_code, title] = $type;
+        it(`Error is displayed during an overview section request when the API returns a ${title} error code`, () => {
+            adminHealthPage.initPageOverviewApiErrors(error_code as number);
+            adminHealthPage.assertLatestErrorContainsMessage(text);
+        });
+        it(`Error is displayed during a tasks section request when the API returns a ${title} error code`, () => {
+            adminHealthPage.initPageIssuesApiErrors(error_code as number);
+            adminHealthPage.assertLatestErrorContainsMessage(text);
+        });
+        it(`Error is displayed during a models section request when the API returns a ${title} error code`, () => {
+            adminHealthPage.initPageModelsApiErrors(error_code as number);
+            adminHealthPage.assertLatestErrorContainsMessage(text);
+        });
+        it(`Error is displayed during a model statistics request when the API returns a ${title} error code`, () => {
+            adminHealthPage.initPageModelStatisticsApiErrors(error_code as number);
+            adminHealthPage.assertLatestErrorContainsMessage(text);
+        });
     });
 });
 
@@ -164,11 +174,12 @@ describe(`Admin Payload - Table`, () => {
         [PayloadData.PAYLOAD_DATA_2, `Payload 2`],
         [PayloadData.PAYLOAD_DATA_3, `Payload 3`],
         [PayloadData.PAYLOAD_DATA_4, `Payload 4`],
-        [PayloadData.PAYLOAD_DATA_5, `Payload 5`]
+        [PayloadData.PAYLOAD_DATA_5, `Payload 5`],
     ];
     tuple.forEach(($type) => {
         const [payload_data, test_name] = $type;
-        it(`I can view the data returned by the API for ${test_name} in the Payload table`, () => {
+        it(`I can view the data returned by the API for ${test_name} in the
+        Payload table`, () => {
             adminPayloadPage.assertTableDataCorrect(payload_data as PayloadData);
         });
     });
@@ -187,19 +198,81 @@ describe(`Admin Payload - Table`, () => {
     });
 });
 
-describe.skip(`Admin Payload - Tree`, () => {
+describe(`Admin Payload - Tree`, () => {
+    beforeEach(() => {
+        adminPayloadPage.initPagePayload();
+        adminPayloadPage.expandAndViewTree(PayloadData.PAYLOAD_DATA_1);
+        cy.injectAxe();
+    });
+    it(`When I click on the drop down, all the model names
+        in the tree are correct`, () => {
+        adminPayloadPage.assertModelNameCorrect(PayloadTreeData.TREE_DATA_1);
+    });
+    it(`When I click on the drop down, all the model finish
+        dates in the tree are correct`, () => {
+        adminPayloadPage.assertModelDateCorrect(PayloadTreeData.TREE_DATA_1);
+    });
+    it(`When I click on the drop down, the model node colours
+        in the tree are green if they succeeded and red if they failed`, () => {
+        adminPayloadPage.assertNodeColour();
+    });
+    it(`When I click on zoom in, the tree data is still present`, () => {
+        adminPayloadPage.clickZoomIn();
+        adminPayloadPage.assertModelNameCorrect(PayloadTreeData.TREE_DATA_1);
+        adminPayloadPage.assertModelDateCorrect(PayloadTreeData.TREE_DATA_1);
+    });
+    it(`When I click on zoom out, the tree data is still present`, () => {
+        adminPayloadPage.clickZoomOut();
+        adminPayloadPage.assertModelNameCorrect(PayloadTreeData.TREE_DATA_1);
+        adminPayloadPage.assertModelDateCorrect(PayloadTreeData.TREE_DATA_1);
+    });
+    it(`When I click on reset, the tree data is still present`, () => {
+        adminPayloadPage.clickZoomIn();
+        adminPayloadPage.clickReset();
+        adminPayloadPage.assertModelNameCorrect(PayloadTreeData.TREE_DATA_1);
+        adminPayloadPage.assertModelDateCorrect(PayloadTreeData.TREE_DATA_1);
+    });
+});
+
+describe(`Admin payload - API errors`, () => {
+    const text = "Something unexpected went wrong retrieving executions!";
     const tuple = [
-        [PayloadData.PAYLOAD_DATA_1, `Payload 1`],
-        [PayloadData.PAYLOAD_DATA_2, `Payload 2`],
-        [PayloadData.PAYLOAD_DATA_3, `Payload 3`],
-        [PayloadData.PAYLOAD_DATA_4, `Payload 4`],
-        [PayloadData.PAYLOAD_DATA_5, `Payload 5`]
+        [400, "400"],
+        [404, "404"],
+        [500, "500"],
+        [502, "502"],
+        [301, "301"],
     ];
     tuple.forEach(($type) => {
-        const [payload_data, test_name] = $type;
-        it(`Return ${test_name} to manually check tree`, () => {
-            adminPayloadPage.initPagePayload();
-            adminPayloadPage.expandAndViewPayload(payload_data as PayloadData);
-        })
+        const [error_code, title] = $type;
+        it(`Error is displayed when a request for payloads is made and the API returns a ${title} error`, () => {
+            adminPayloadPage.initPagePayloadApiError(error_code as number);
+            adminPayloadPage.assertLatestErrorContainsMessage(text);
+        });
+        it(`Error is displayed when a request for payload tree data is made and the API returns a ${title} error`, () => {
+            adminPayloadPage.initPagePayloadTreeApiError(error_code as number);
+            adminPayloadPage.assertLatestErrorContainsMessage(text);
+        });
     });
+});
+
+
+describe(`Admin Payload - Model Details Popover Information`, () => {
+    beforeEach(() => {
+        adminPayloadPage.initPagePayload();
+        adminPayloadPage.expandAndViewTree(PayloadData.PAYLOAD_DATA_1);
+        cy.injectAxe();
+    });
+    it(`When I click each node, the model name should be correct in the popover menu`, () => {
+        adminPayloadPage.clickZoomOut();
+        adminPayloadPage.assertModelNameMatchesPopover(PayloadTreeData.TREE_DATA_1);
+    })
+    it(`When I click each node, the node colour should be similar to the popover menu status tag colour`, () => {
+        adminPayloadPage.clickZoomOut();
+        adminPayloadPage.assertModelColourMatchesPopover();
+    })
+    it(`When I click on the View Logs button, I should be able to see the log data`, () => {
+        adminPayloadPage.assertPopoverLogsDisplayed(TaskData.TASK_DATA_1, LogData.LOG_DATA_1)
+    })
 })
+

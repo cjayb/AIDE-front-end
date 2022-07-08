@@ -19,66 +19,27 @@ describe("Clinical review page", () => {
 
 
     it("Can view and filter the clinical review worklist", () => {
-        reviewPage.searchWorklist("de")
-            .worklistItemWithText(dianeName).click()
-            .should("contain.text", dianeName);
-
-        cy.checkA11y(null, a11yConfig, nodeTerminal, true);
-
-        reviewPage.clearWorklistSearch()
-            .searchWorklist("Kel")
-            .worklistItemWithText(kellyName).click()
-                .should("contain.text", kellyName);
+        reviewPage.assertViewAndFilterWorklist();
     })
 
 
     it("Can view patient data fields", () => {
-        const patientDob: string = reviewPage.formatDate(ExecutionData.REVIEW_LEONE_GOODPASTURE.event.origin.series[0]["PatientBirthDate"]);
-        const patientId = ExecutionData.REVIEW_LEONE_GOODPASTURE.event.origin.series[0]["PatientID"];
-        const patientSex = ExecutionData.REVIEW_LEONE_GOODPASTURE.event.origin.series[0]["PatientSex"];
-        const studyDate = reviewPage.formatDate(ExecutionData.REVIEW_LEONE_GOODPASTURE.event.origin.series[0]["StudyDate"])
-        reviewPage.searchWorklist("leo")
-            .worklistItemWithText(leoneName).click();
-        reviewPage.assertHeaderDetails(leoneName, patientDob, patientId, patientSex, studyDate);
-        cy.checkA11y(null, a11yConfig, nodeTerminal, true);
+        reviewPage.assertPatientDataFields();
     })
 
 
     it("Can accept worklist item", () => {
-        reviewPage.acceptRejects(true);
-        cy.intercept('GET', "/executions?from=0*", ApiMocks.CLINICAL_REVIEW_REVIEWED);
-        cy.checkA11y(null, a11yConfig, nodeTerminal, true);
-        reviewPage.fillReviewModal(true, undefined, "This looks really good!")
-            .acceptRejectModal(true)
-            .worklistItemWithText(kellyName)
-                .should("not.exist");
+        reviewPage.assertAcceptWorklistItem();
     })
 
 
     it("Can reject worklist item", () => {
-        reviewPage.acceptRejects(false);
-        cy.intercept('GET', "/executions?from=0*", ApiMocks.CLINICAL_REVIEW_REVIEWED);
-        cy.checkA11y(null, a11yConfig, nodeTerminal, true);
-        reviewPage.fillReviewModal(true, RejectReason.WRONG_DIAGNOSIS, "The diagnosis is wrong!")
-            .acceptRejectModal(false)
-            .worklistItemWithText(kellyName)
-                .should("not.exist");
+        reviewPage.assertRejectWorklistItem();
     })
 
 
     it("Can view the dicom series selector'", () => {
-        reviewPage.waitForInitialViewerLoad()
-        cy.dataCy(ClinicalReviewPage.SERIES_SELECTOR).percySnapshotElement("Series-selector")
-        cy.get(".serieslist-header").then((el) => {
-            expect(el[0].textContent).to.eq("Hide Series ")
-        })
-        cy.dataCy(ClinicalReviewPage.SERIES).eq(0).within(() => {
-            cy.dataCy(ClinicalReviewPage.MODALITY_LENGTH).then((el) => {
-                expect(el[0].textContent).to.eq(`${ExecutionData.REVIEW_KELLY_MALDONADO.event.origin.series[0]["Modality"]}(22)`)
-            })
-            cy.dataCy(ClinicalReviewPage.SERIES_DESCRIPTION)
-                .should("have.text", ExecutionData.REVIEW_KELLY_MALDONADO.event.origin.series[0]["SeriesDescription"])
-        })
+        reviewPage.assertDicomSeriesSelector();
     })
 
 //Bug raised: 1192
@@ -97,63 +58,36 @@ describe("Clinical review page", () => {
 
 
     it("Dicom Metadata can be viewed", () => {
-        reviewPage.waitForInitialViewerLoad()
-        cy.intercept('GET', "https://demo.orthanc-server.com/instances/*/simplified-tags", ApiMocks.REMOTE_DICOM_METADATA)
-        reviewPage.assertMetadataValues(ApiMocks.REMOTE_DICOM_METADATA, ClinicalReviewPage.METADATA_SERIES)
+        reviewPage.assertDicomMetadataView();
     })
 
 
     it("Dicom Metadata can be pinned", () => {
-        reviewPage.waitForInitialViewerLoad()
-        let metadataToPin = filterObject(ApiMocks.REMOTE_DICOM_METADATA, k => k === "PatientName" || k === "SeriesDescription" || k === "SeriesDate");
-        cy.wait(1000) // Re-render issue
-        Object.keys(metadataToPin).forEach(k => reviewPage.pinMetadata(k));
-        reviewPage.assertMetadataValues(metadataToPin, ClinicalReviewPage.PINNED_METADATA)
+        reviewPage.assertDicomMetadataPinned();
     })
 
 
     it("Dicom viewport displays correctly", () => {
-        reviewPage.waitForInitialViewerLoad()
-        cy.checkA11y(null, a11yConfig, nodeTerminal, true);
-        cy.get(ClinicalReviewPage.SELECTED_IMAGE).percySnapshotElement("Dicom-viewport")
+        reviewPage.assertDicomViewportDisplay();
     })
 
 
     it("Can scroll through dicom images", () => {
-        reviewPage.waitForInitialViewerLoad()
-        cy.dataCy(ClinicalReviewPage.DICOM_VIEWPORT).trigger("wheel", "center", { deltaY: 100 })
-        reviewPage.waitForScrolledImageLoad(2)
-        cy.get(ClinicalReviewPage.SELECTED_IMAGE).percySnapshotElement("Scrolled-dicom")
+        reviewPage.assertDicomImagesScrolling();
     })
 
 
     it("Can use the viewer measure tool", () => {
-        reviewPage.waitForInitialViewerLoad()
-        cy.dataCy(ClinicalReviewPage.LENGTH_TOOL).click()
-        cy.get("canvas").click().trigger("mousemove", "top").click("top")
-        cy.dataCy(ClinicalReviewPage.DICOM_VIEWPORT).percySnapshotElement("Measure-tool")
+        reviewPage.assertViewerMeasureTool();
     })
 
 
     it("Should paginate executions for review", () => {
-        reviewPage.worklistItemWithText(kellyName)
-            .should("exist")
-        cy.get("[aria-label='Previous page']").should("be.disabled")
-        cy.get("[aria-label='Next page']").should("be.enabled")
-        reviewPage.selectNextPage();
-        cy.get("[aria-label='Previous page']").should("be.enabled")
-        cy.get("[aria-label='Next page']").should("be.disabled")
-        reviewPage.worklistItemWithText(fionaName)
-            .should("exist")
-        reviewPage.selectPreviousPage();
-        reviewPage.worklistItemWithText(kellyName)
-            .should("exist")
+        reviewPage.assertExecutionsPagination();
     })
 
     it("Page refresh occurs without errors", () => {
-        reviewPage.waitForInitialViewerLoad();
-        cy.reload();
-        cy.contains("Something unexpected went wrong").should("not.exist");
+        reviewPage.assertPageRefresh();
     });
 })
 
@@ -165,9 +99,6 @@ describe("Scenarios without standard data setup", () => {
         });
     })
     it("Displays no tasks when there are no executions brought back from the API", () => {
-        cy.visit("/#/clinical-review")
-        cy.intercept("/executions*", { body: [], statusCode: 404 }).as("No executions")
-        cy.dataCy(ClinicalReviewPage.ACCEPT_BUTTON).should("be.disabled")
-        cy.dataCy(ClinicalReviewPage.REJECT_BUTTON).should("be.disabled")
+        reviewPage.assertNoTasks();
     })
 })
