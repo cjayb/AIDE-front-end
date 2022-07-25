@@ -151,6 +151,7 @@ export default class DashboardOverview extends Vue {
 
     setSelectedFilterPeriod(selection: FilterPeriod): void {
         this.selectedFilterPeriod = selection;
+        this.getExecutionStatistics(this.selectedFilterPeriod);
     }
 }
 </script>
