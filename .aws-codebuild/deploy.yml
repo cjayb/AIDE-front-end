@@ -39,7 +39,7 @@ phases:
          sudo apt -y install dos2unix;
          sudo dos2unix /home/ubuntu/$tempdir/ansible-schedule-ubuntu.sh;
          sudo chmod +x /home/ubuntu/$tempdir/ansible-schedule-ubuntu.sh;
-         sudo /home/ubuntu/$tempdir/ansible-schedule-ubuntu.sh -a create -e $ansiblerunenvironment -p aws-deploy-service.yml -v @/home/ubuntu/$tempdir/ansible-deploy-extra-vars-filled.yml -b develop"
+         sudo /home/ubuntu/$tempdir/ansible-schedule-ubuntu.sh -a create -e $ansiblerunenvironment -p aws-deploy-service.yml -v @/home/ubuntu/$tempdir/ansible-deploy-extra-vars-filled.yml"
   post_build:
     commands:
-      # - ssh ubuntu@$ansiblecontrolhost "sudo rm -r /home/ubuntu/$tempdir" 
+      - ssh ubuntu@$ansiblecontrolhost "sudo rm -r /home/ubuntu/$tempdir" 
