@@ -1,0 +1,128 @@
+name: 'pull-requests'
+
+# Controls when the workflow will run
+on:
+  pull_request:
+
+jobs:
+  check-build-integrity:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm ci
+      - run: npm run build
+
+  lint:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: v1-npm-deps-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: v1-npm-deps-
+
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm ci
+      - run: sudo npx eslint './src/**/*.ts' -f json -o ./eslint.json || exit 0
+
+      - name: Archive eslint
+        uses: actions/upload-artifact@v3
+        with:
+          name: eslint
+          path: eslint.json
+
+  Test-UI-Headless:
+    runs-on: ubuntu-latest
+
+    container:
+      image: cypress/included:8.3.1
+      options: --user 1001
+      env:
+        VUE_APP_AUTH_ENABLED: false
+        CYPRESS_CACHE_FOLDER: '${GITHUB_WORKSPACE}/.cypress-cache'
+
+    steps:
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: v1-npm-deps-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: v1-npm-deps-
+
+      - uses: actions/checkout@v3
+      - run: npm ci --cache .npm --prefer-offline
+      - run: npm run tests:ui_ci
+      - run: cp -r ${GITHUB_WORKSPACE}/.cypress-cache/screenshots ci_artifacts/
+        continue-on-error: true
+
+      - name: Archive CI artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-ui-headless-$GITHUB_RUN_ID
+          path: ci_artifacts/
+
+  docker_build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
+          aws-region: eu-west-2
+
+      - name: Login to Amazon ECR Private
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      
+      - name: Set branch name
+        run: echo "BRANCH_NAME=$(echo ${GITHUB_REF##*/})" >> $GITHUB_ENV
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          pull: true
+          tags: ${{ secrets.AWS_DEV_ECR_REGISTRY }}/aide-frontend:${{ env.BRANCH_NAME }}
+
+  Deploy:
+    needs: [check_build_integrity, docker_build]
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
+          aws-region: eu-west-2
+      
+      - name: Set branch name
+        run: echo "BRANCH_NAME=$(echo ${GITHUB_REF##*/})" >> $GITHUB_ENV
+
+      - name: Deploy
+        uses: aws-actions/aws-codebuild-run-build@v1
+        with:
+          # AWS CodeBuild Project Name
+          project-name: app-store-backend-dev-pull-requests
+          # Buildspec Override
+          buildspec-override: .aws-codebuild/deploy.yml
+          # Comma separated list of environment variables to send to CodeBuild
+          env-vars-for-codebuild: |
+            BRANCH_NAME
