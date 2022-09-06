@@ -8,7 +8,6 @@ export class AppProfileData implements Application {
     createdAt: string;
     updatedAt: string;
 
-
     constructor(application: Application) {
         this.application_id = application.application_id;
         this.name = application.name;
@@ -17,6 +16,10 @@ export class AppProfileData implements Application {
         this.updatedAt = application.updatedAt;
     }
 
-    public static APPLICATION_DETAILS1: AppProfileData = new AppProfileData(<Application>ApiMocks.APP_PROFILE_PAGE1);
-    public static APPLICATION_DETAILS2: AppProfileData = new AppProfileData(<Application>ApiMocks.APP_PROFILE_PAGE2);
+    public static APPLICATION_DETAILS1: AppProfileData = new AppProfileData(
+        <Application>ApiMocks.APP_PROFILE_PAGE1,
+    );
+    public static APPLICATION_DETAILS2: AppProfileData = new AppProfileData(
+        <Application>ApiMocks.APP_PROFILE_PAGE2,
+    );
 }

@@ -66,14 +66,14 @@ export default class AppHeader extends Vue {
     created(): void {
         this.updatePageTitle();
         if (Vue.$keycloak.authenticated) {
-            this.name = Vue.$keycloak.tokenParsed.name;
+            this.name = Vue.$keycloak.tokenParsed?.name;
         } else {
             this.name = "Unauthenticated User";
         }
     }
 
     updatePageTitle(): void {
-        if (this.$route.name == "AdminDashboard") {
+        if (this.$route.name == "AdminHealthDashboard") {
             this.pageTitle = "Admin Dashboard";
         }
         if (this.$route.name == "ClinicalReview") {

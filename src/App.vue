@@ -7,7 +7,7 @@
         <AppHeader />
 
         <!-- Main Content -->
-        <v-main style="padding: 64px 0px 0px 55px">
+        <v-main>
             <transition name="fade" mode="out-in">
                 <router-view />
             </transition>

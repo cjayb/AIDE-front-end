@@ -18,19 +18,9 @@ export class TaskData implements IIssue {
         this.execution_time = task.execution_time;
     }
 
-    public static TASK_DATA_1: TaskData = new TaskData(
-        <IIssue>ApiMocks.ADMIN_DASHBOARD_TASKS[0]
-    );
-    public static TASK_DATA_2: TaskData = new TaskData(
-        <IIssue>ApiMocks.ADMIN_DASHBOARD_TASKS[1],
-    );
-    public static TASK_DATA_3: TaskData = new TaskData(
-        <IIssue>ApiMocks.ADMIN_DASHBOARD_TASKS[2],
-    );
-    public static TASK_DATA_4: TaskData = new TaskData(
-        <IIssue>ApiMocks.ADMIN_DASHBOARD_TASKS[3],
-    );
-    public static TASK_DATA_5: TaskData = new TaskData(
-        <IIssue>ApiMocks.ADMIN_DASHBOARD_TASKS[4]
-    );
+    public static TASK_DATA_1: TaskData = new TaskData(<IIssue>ApiMocks.ADMIN_DASHBOARD_TASKS[0]);
+    public static TASK_DATA_2: TaskData = new TaskData(<IIssue>ApiMocks.ADMIN_DASHBOARD_TASKS[1]);
+    public static TASK_DATA_3: TaskData = new TaskData(<IIssue>ApiMocks.ADMIN_DASHBOARD_TASKS[2]);
+    public static TASK_DATA_4: TaskData = new TaskData(<IIssue>ApiMocks.ADMIN_DASHBOARD_TASKS[3]);
+    public static TASK_DATA_5: TaskData = new TaskData(<IIssue>ApiMocks.ADMIN_DASHBOARD_TASKS[4]);
 }

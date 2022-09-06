@@ -1,4 +1,4 @@
-let KeycloakMock = require("keycloak-mock");
+import { createMockInstance, activateMock } from "keycloak-mock";
 
 //This doesn't work yet but I have left it here as a WIP for the login tests.
 
@@ -9,12 +9,12 @@ export class Keycloak {
     bearerToken: any;
 
     async MockKeycloak() {
-        this.instance = await KeycloakMock.createMockInstance({
+        this.instance = await createMockInstance({
             authServerURL: "https://localhost:8443/auth",
             realm: "aide",
             clientID: "aide-app",
         });
-        this.activeMock = KeycloakMock.activateMock(this.instance);
+        this.activeMock = activateMock(this.instance);
 
         this.user = this.instance.database.createUser({
             name: "test",

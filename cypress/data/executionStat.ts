@@ -15,7 +15,6 @@
 //     private _executions: number;
 //     private _failures: number;
 
-
 //     public get average_execution_time(): number {
 //         return this._average_execution_time;
 //     }

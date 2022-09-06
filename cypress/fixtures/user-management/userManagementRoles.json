@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "name": "Admin",
+        "editable": false
+    },
+    {
+        "id": 2,
+        "name": "Clinician",
+        "editable": false
+    },
+    {
+        "id": 3,
+        "name": "User-Manager",
+        "editable": false
+    },
+    {
+        "id": 4,
+        "name": "Made-up editable role",
+        "editable": true
+    }
+]

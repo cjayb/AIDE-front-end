@@ -15,7 +15,7 @@ pnpm-debug.log*
 
 # Editor directories and files
 .idea
-.vscode
+.vscode/*
 *.suo
 *.ntvs*
 *.njsproj
@@ -41,3 +41,5 @@ eslint.json
 # Pact
 pact/logs
 pact/pacts
+
+!.vscode/extensions.json

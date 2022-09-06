@@ -7,5 +7,5 @@ export enum ExecutionTableColumn {
     STATUS = "Status",
     TURNAROUND = "Turnaround (Minutes)",
     DURATION = "Duration (Minutes)",
-    ACTIONS = "Actions"
+    ACTIONS = "Actions",
 }

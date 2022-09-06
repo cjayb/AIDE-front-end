@@ -15,6 +15,7 @@
                                     :items="modelNames"
                                     v-model="selectedModel.model_name"
                                     v-on:change="changeSelectedModel"
+                                    :menu-props="{ contentClass: 'model-names' }"
                                     label="Select a model"
                                     data-cy="dropdown"
                                 />
@@ -151,7 +152,7 @@ import { getModels, getModelStatsForGraphs } from "@/api/Admin/AdminStatisticsSe
 import { IModelDetails, IModelSummary, IModelStatistics } from "@/models/Admin/IModel";
 import Vue from "vue";
 import Component from "vue-class-component";
-import LineChart from "../Charts/Line.vue";
+import LineChart from "../Charts/LineChart.vue";
 
 @Component({
     components: {
@@ -244,8 +245,8 @@ export default class ModelStatistics extends Vue {
     }
 
     calculateTotalValues() {
-        let executions: number[] = [];
-        let failures: number[] = [];
+        const executions: number[] = [];
+        const failures: number[] = [];
 
         if (this.modelDetails) {
             this.modelDetails.days.forEach((stat: IModelStatistics) => {
@@ -262,8 +263,7 @@ export default class ModelStatistics extends Vue {
     }
 
     calculateFailureRate() {
-        let failures: number[] = [];
-        let sumOfFailures: number;
+        const failures: number[] = [];
 
         if (this.modelDetails) {
             this.modelDetails.days.forEach((stat: IModelStatistics) => {
@@ -271,14 +271,14 @@ export default class ModelStatistics extends Vue {
             });
         }
 
-        sumOfFailures = failures.reduce((partialSum, a) => partialSum + a, 0);
+        const sumOfFailures = failures.reduce((partialSum, a) => partialSum + a, 0);
 
         this.totalFailureRate = Number(((sumOfFailures / this.totalExecutions) * 100).toFixed(2));
         return this.totalFailureRate;
     }
 
     calculateTotalExecutions() {
-        let executions: number[] = [];
+        const executions: number[] = [];
 
         if (this.modelDetails) {
             this.modelDetails.days.forEach((stat: IModelStatistics) => {

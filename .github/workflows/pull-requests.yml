@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: cypress/included:8.3.1
+      image: cypress/included:10.7.0
       options: --user 1001
       env:
         VUE_APP_AUTH_ENABLED: false

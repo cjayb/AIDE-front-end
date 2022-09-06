@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Line } from "vue-chartjs/legacy";
+import { Line as LegacyLine } from "vue-chartjs/legacy";
 import {
     Chart as ChartJS,
     Title,
@@ -14,7 +14,7 @@ import {
 ChartJS.register(Title, Tooltip, Legend, PointElement, LineElement, CategoryScale, LinearScale);
 
 export default {
-    extends: Line,
-    components: { Line },
+    extends: LegacyLine,
+    components: { LegacyLine },
 };
 </script>

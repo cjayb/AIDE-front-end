@@ -57,6 +57,7 @@ interface Origin {
     namespace: string;
     patientID: string;
     received_timestamp: string;
+    // eslint-disable-next-line @typescript-eslint/ban-types
     series: Array<Object>;
     studyUID: string;
     type: string;

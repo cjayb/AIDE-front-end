@@ -1,49 +1,25 @@
-import Vue from "vue";
-import axios from "axios";
 import { Version } from "@/models/AppRepo/Application";
+import { createAxiosInstance, ErrorMessageMap } from "@/utils/axios-helpers";
 
-const http = axios.create({
-    baseURL: window.FRONTEND_API_HOST,
-    headers: {
-        "Content-Type": "application/json",
-    },
-});
+const errorMessages: ErrorMessageMap = {
+    get: "Something unexpected went wrong retrieving the application version",
+    post: "Something unexpected went wrong saving the application version",
+    put: "Something unexpected went wrong updating the application version",
+};
 
-http.interceptors.request.use((config) => {
-    Vue.$keycloak.updateToken(70);
-    return config;
-});
-
-http.interceptors.response.use(
-    function (response) {
-        return response;
-    },
-    function (error) {
-        if (!!error.response && 401 === error.response?.status) {
-            Vue.$keycloak.logout({ redirectUri: `${window.location.origin}/#/` });
-        } else if (error.message == `Network Error` && !error.response) {
-            Vue.$toast.error(`⚠ Connection error`);
-        } else {
-            Vue.$toast.error(`Something unexpected went wrong retrieving application!`);
-            return Promise.reject(error);
-        }
-    },
-);
+const http = createAxiosInstance(errorMessages);
 
 export async function getAllVersions(): Promise<Version[]> {
-    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/app_store/api/versions`);
     return response.data;
 }
 
 export async function getVersion(version_id: string): Promise<Version> {
-    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/app_store/api/versions/${version_id}`);
     return response.data;
 }
 
 export async function createVersion(version: Version): Promise<Version> {
-    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.post(`/app_store/api/versions/`, version);
     return response.data;
 }
@@ -53,7 +29,6 @@ export async function updateVersion(
     version_id: string,
     version: Version,
 ): Promise<Version> {
-    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.put(`/app_store/api/versions/${version_id}`, version);
     return response.data;
 }

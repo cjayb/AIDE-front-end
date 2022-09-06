@@ -1,9 +1,6 @@
 import ApiMocks from "../fixtures/mockIndex";
 import { IPayload, IPayloadExecutions } from "../../src/models/Admin/IPayload";
-import { getTaskLogs } from "../../src/api/Admin/AdminStatisticsService"
-import { TaskData } from "data/issues";
 import { IIssue } from "../../src/models/Admin/IIssue";
-import { ILog } from "../../src/models/Admin/ILogs";
 
 export default class AdminPayloadDashboardPage {
     //PAYLOADS TABLE
@@ -17,7 +14,7 @@ export default class AdminPayloadDashboardPage {
     static ZOOM_OUT = "zoom-out";
     static RESET = "reset";
     static VIEW_LOGS_BUTTON = "view-node-logs";
-    static LOGS = "logs"
+    static LOGS = "logs";
 
     public assertCorrectTaskReturned(payload: IPayload): void {
         cy.dataCy(AdminPayloadDashboardPage.PAYLOAD)
@@ -61,7 +58,7 @@ export default class AdminPayloadDashboardPage {
         ).as(`executions`);
         cy.get(`tbody > :nth-child(${payload_id}) > :nth-child(1)`).should(`exist`).click();
         cy.wait([`@executions`]);
-        Cypress.on(`uncaught:exception`, (err, runnable) => {
+        Cypress.on(`uncaught:exception`, () => {
             return false;
         });
     }
@@ -70,7 +67,7 @@ export default class AdminPayloadDashboardPage {
         cy.intercept(`/api/payloads`, ApiMocks.ADMIN_DASHBOARD_PAYLOAD_TABLE).as(`payloadTable`);
         cy.visit(`/#/admin-payload-dashboard`);
         cy.wait([`@payloadTable`]);
-        Cypress.on(`uncaught:exception`, (err, runnable) => {
+        Cypress.on(`uncaught:exception`, () => {
             return false;
         });
     }
@@ -104,25 +101,53 @@ export default class AdminPayloadDashboardPage {
         tuple.forEach(($type) => {
             const [node, model_name] = $type;
             cy.dataCy(node).click();
-            cy.dataCy('selected-node-name').should("contain", model_name);
+            cy.dataCy("selected-node-name").should("contain", model_name);
         });
     }
 
     public assertModelColourMatchesPopover(): void {
         const tuple = [
-            ['"node Dicom Received"', "background: green; border: 2px solid black; border-radius: 50%;", "light-green"],
-            ['"node Model 1"', "background: red; border-radius: 50%; border: 2px solid black;", "red"],
-            ['"node Model 2"', "background: green; border-radius: 50%; border: 2px solid black;", "light-green"],
-            ['"node Model 3"', "background: green; border-radius: 50%; border: 2px solid black;", "light-green"],
-            ['"node Model 4"', "background: red; border-radius: 50%; border: 2px solid black;", "red"],
-            ['"node Model 5"', "background: red; border-radius: 50%; border: 2px solid black;","red"],
-            ['"node Model 6"', "background: green; border-radius: 50%; border: 2px solid black;", "light-green"],
+            [
+                '"node Dicom Received"',
+                "background: green; border: 2px solid black; border-radius: 50%;",
+                "light-green",
+            ],
+            [
+                '"node Model 1"',
+                "background: red; border-radius: 50%; border: 2px solid black;",
+                "red",
+            ],
+            [
+                '"node Model 2"',
+                "background: green; border-radius: 50%; border: 2px solid black;",
+                "light-green",
+            ],
+            [
+                '"node Model 3"',
+                "background: green; border-radius: 50%; border: 2px solid black;",
+                "light-green",
+            ],
+            [
+                '"node Model 4"',
+                "background: red; border-radius: 50%; border: 2px solid black;",
+                "red",
+            ],
+            [
+                '"node Model 5"',
+                "background: red; border-radius: 50%; border: 2px solid black;",
+                "red",
+            ],
+            [
+                '"node Model 6"',
+                "background: green; border-radius: 50%; border: 2px solid black;",
+                "light-green",
+            ],
         ];
         tuple.forEach(($type) => {
             const [node, node_colour, popover_status_colour] = $type;
             cy.dataCy(node).click();
-            cy.dataCy(node).should("have.attr","style", node_colour);
-            cy.dataCy('selected-node-status').should("have.class", popover_status_colour);
+            cy.dataCy(node).should("have.attr", "style", node_colour);
+            cy.dataCy("selected-node-status").should("have.class", popover_status_colour);
         });
     }
 
@@ -145,7 +170,10 @@ export default class AdminPayloadDashboardPage {
 
     public assertNodeColour(): void {
         const tuple = [
-            ['"node Dicom Received"', "background: green; border: 2px solid black; border-radius: 50%;"],
+            [
+                '"node Dicom Received"',
+                "background: green; border: 2px solid black; border-radius: 50%;",
+            ],
             ['"node Model 1"', "background: red; border-radius: 50%;"],
             ['"node Model 2"', "background: green; border-radius: 50%;"],
             ['"node Model 3"', "background: green; border-radius: 50%;"],
@@ -155,7 +183,7 @@ export default class AdminPayloadDashboardPage {
         ];
         tuple.forEach(($type) => {
             const [node, style] = $type;
-            cy.dataCy(node).should("have.attr","style", style);
+            cy.dataCy(node).should("have.attr", "style", style);
         });
     }
 
@@ -190,7 +218,7 @@ export default class AdminPayloadDashboardPage {
         cy.intercept(`/api/payloads`, { statusCode: error }).as(`payloadTable`);
         cy.visit(`/#/admin-payload-dashboard`);
         cy.wait([`@payloadTable`]);
-        Cypress.on(`uncaught:exception`, (err, runnable) => {
+        Cypress.on(`uncaught:exception`, () => {
             return false;
         });
     }
@@ -199,7 +227,7 @@ export default class AdminPayloadDashboardPage {
         cy.intercept(`/api/payloads`, { statusCode: error }).as(`payloadTable`);
         cy.visit(`/#/admin-payload-dashboard`);
         cy.wait([`@payloadTable`]);
-        Cypress.on(`uncaught:exception`, (err, runnable) => {
+        Cypress.on(`uncaught:exception`, () => {
             return false;
         });
     }
@@ -210,23 +238,25 @@ export default class AdminPayloadDashboardPage {
 
     public expandAndViewTreeWithoutData(payload: IPayload): void {
         const payload_id = payload.payload_id;
-        cy.intercept(`/api/payloads/${payload_id}/executions`,
-        { statusCode: 400 }).as(`executions`);
+        cy.intercept(`/api/payloads/${payload_id}/executions`, { statusCode: 400 }).as(
+            `executions`,
+        );
         cy.get(`tbody > :nth-child(${payload_id}) > :nth-child(1)`).should(`exist`).click();
         cy.wait([`@executions`]);
-        Cypress.on(`uncaught:exception`, (err, runnable) => {
+        Cypress.on(`uncaught:exception`, () => {
             return false;
         });
     }
 
-    public assertPopoverLogsDisplayed(task: IIssue, log: ILog): void {
+    public assertPopoverLogsDisplayed(task: IIssue): void {
+        cy.intercept(`/api/logs/${task.task_id}`, ApiMocks.ADMIN_DASHBOARD_EXECUTION_LOGS).as(
+            `Logs`,
+        );
+
         cy.dataCy(AdminPayloadDashboardPage.VIEW_LOGS_BUTTON).click();
         this.getTask(task.task_id).within(() => {
-            cy.intercept(`/api/logs/${task.task_id}`, ApiMocks.ADMIN_DASHBOARD_EXECUTION_LOGS).as(
-                `Logs`,
-            );
             cy.wait([`@Logs`]);
-            Cypress.on(`uncaught:exception`, (err, runnable) => {
+            Cypress.on(`uncaught:exception`, () => {
                 return false;
             });
         });
@@ -236,5 +266,5 @@ export default class AdminPayloadDashboardPage {
     public assertPopoverExecutionLogs(text: string): void {
         cy.dataCy(AdminPayloadDashboardPage.LOGS).should("contain.text", text);
     }
-
-}``
+}
+``;

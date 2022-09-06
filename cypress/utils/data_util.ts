@@ -5,9 +5,8 @@
  * @returns filtered object
  */
 export function filterObject(obj, predicate): object {
-    let newObj = {};
-    let filteredKeys = Object.keys(obj)
-        .filter(key => predicate(key));
-    filteredKeys.forEach(key => newObj[`${key}`] = obj[key]);
+    const newObj = {};
+    const filteredKeys = Object.keys(obj).filter((key) => predicate(key));
+    filteredKeys.forEach((key) => (newObj[`${key}`] = obj[key]));
     return newObj;
 }

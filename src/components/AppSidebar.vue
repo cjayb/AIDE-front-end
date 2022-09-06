@@ -1,10 +1,9 @@
 <template>
-    <v-navigation-drawer v-model="drawer" app permanent expand-on-hover clipped>
+    <v-navigation-drawer v-model="drawer" app permanent expand-on-hover clipped mini-variant>
         <v-list dense nav>
             <v-list-item
                 v-for="item in items"
                 :key="item.title"
-                link
                 :to="{ name: item.route }"
                 :data-cy="item.datacy"
             >
@@ -32,7 +31,7 @@ export default class AppSidebar extends Vue {
         {
             title: "Admin",
             icon: "mdi-cog",
-            route: "AdminDashboard",
+            route: "AdminHealthDashboard",
             role: "admin",
             datacy: "admin-button",
         },
@@ -50,12 +49,19 @@ export default class AppSidebar extends Vue {
             role: "deployer",
             datacy: "app-store-button",
         },
+        {
+            title: "User Management",
+            icon: "mdi-account",
+            route: "UserManagement",
+            role: "admin",
+            datacy: "user-management-button",
+        },
     ];
-    roles: any = [];
-    drawer = true;
+    roles: string[] = [];
+    drawer = false;
 
     created(): void {
-        this.roles = Vue.$keycloak.resourceAccess["aide-app"].roles;
+        this.roles = Vue.$keycloak.resourceAccess!["aide-app"].roles;
         this.items = this.items.filter((item) => this.roles.includes(item.role));
 
         EventBus.$on("toggleSidebar", (drawer: boolean) => {

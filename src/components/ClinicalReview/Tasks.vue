@@ -148,7 +148,7 @@ export default class Tasks extends Vue {
                 this.setTaskList(response, idToRemove);
                 this.allTasks = response.total;
                 EventBus.$emit("tasksNotEmpty", this.tasks.length > 0);
-                let study_id = this.tasks[0].event.origin.studyUID;
+                const study_id = this.tasks[0].event.origin.studyUID;
                 this.$router.push({ name: "ClinicalReviewViewer", params: { study_id: study_id } });
                 this.selectTask(this.tasks[0]);
                 this.loading = false;
@@ -162,12 +162,12 @@ export default class Tasks extends Vue {
     setTaskList(response: ExecutionPage, idToRemove?: string) {
         if (typeof idToRemove !== "undefined") {
             response.results.forEach((result) => {
-                var index = this.tasks.findIndex(
+                const index = this.tasks.findIndex(
                     (ex) => ex.model.execution_uid == result.model.execution_uid,
                 );
                 index === -1 && this.tasks.push(result);
             });
-            var removeIndex = this.tasks.findIndex((ex) => ex.model.execution_uid == idToRemove);
+            const removeIndex = this.tasks.findIndex((ex) => ex.model.execution_uid == idToRemove);
             this.tasks.splice(removeIndex, 1);
 
             if (this.allTasks > 0 && this.tasks.length == 0) {

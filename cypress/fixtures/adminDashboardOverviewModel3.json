@@ -1,7 +1,0 @@
-{
-   "average_turnaround_time": 5,
-   "average_execution_time": 20000,
-   "failures": 3,
-   "executions": 100,
-   "errors": 5
-}

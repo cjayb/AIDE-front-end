@@ -1,7 +1,4 @@
-/// <reference types="cypress" />
-
 import { TaskData } from "../data/issues";
-import { LogData } from "../data/logs";
 import { ModelSummaryData } from "../data/models";
 import { ModelDetailsData } from "../data/graph";
 import { ExecStatistics } from "../data/statistics";
@@ -25,7 +22,7 @@ describe(`Admin health - Overview section`, () => {
         adminHealthPage.assertCorrectHighlightAroundTile(ExecStatistics.FAILED_MODELS_DATA);
     });
     it(`when I pass in data with no failed models,
-        I can see the correct data and highlight around the model failure tile`, () => {
+    I can see the correct data and highlight around the model failure tile`, () => {
         cy.checkA11y(null, a11yConfig, nodeTerminal, true);
         adminHealthPage.initPageWithNoFailedModels();
         adminHealthPage.assertCorrectHighlightAroundTile(ExecStatistics.NO_FAILED_MODELS_DATA);
@@ -81,7 +78,7 @@ describe(`Admin health - Issues table section`, () => {
         });
     });
     it(`I can view a task's execution logs`, () => {
-        adminHealthPage.assertLogsDisplayed(TaskData.TASK_DATA_1, LogData.LOG_DATA_1);
+        adminHealthPage.assertLogsDisplayed(TaskData.TASK_DATA_1);
     });
     it(`I am able to remove individual issues by clicking the dismiss button on each task`, () => {
         adminHealthPage.assertTaskCanBeDismissed(TaskData.TASK_DATA_1);
@@ -110,12 +107,9 @@ describe(`Admin health - Graph section`, () => {
         [ModelSummaryData.MODEL_CRAYON, 2, `Crayon`],
     ];
     tuple.forEach(($type) => {
-        const [model_data, model_array_order, test_name] = $type;
+        const [model_data, test_name] = $type;
         it(`I can view the ${test_name} model from the dropdown`, () => {
-            adminHealthPage.assertModelsVisible(
-                model_data as ModelSummaryData,
-                model_array_order as number,
-            );
+            adminHealthPage.assertModelsVisible(model_data as ModelSummaryData);
         });
     });
     const tuple2 = [
@@ -256,7 +250,6 @@ describe(`Admin payload - API errors`, () => {
     });
 });
 
-
 describe(`Admin Payload - Model Details Popover Information`, () => {
     beforeEach(() => {
         adminPayloadPage.initPagePayload();
@@ -266,13 +259,12 @@ describe(`Admin Payload - Model Details Popover Information`, () => {
     it(`When I click each node, the model name should be correct in the popover menu`, () => {
         adminPayloadPage.clickZoomOut();
         adminPayloadPage.assertModelNameMatchesPopover(PayloadTreeData.TREE_DATA_1);
-    })
+    });
     it(`When I click each node, the node colour should be similar to the popover menu status tag colour`, () => {
         adminPayloadPage.clickZoomOut();
         adminPayloadPage.assertModelColourMatchesPopover();
-    })
+    });
     it(`When I click on the View Logs button, I should be able to see the log data`, () => {
-        adminPayloadPage.assertPopoverLogsDisplayed(TaskData.TASK_DATA_1, LogData.LOG_DATA_1)
-    })
-})
-
+        adminPayloadPage.assertPopoverLogsDisplayed(TaskData.TASK_DATA_1);
+    });
+});

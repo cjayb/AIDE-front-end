@@ -3,10 +3,10 @@
       "baseUrl": "./",
       "target": "es5",
       "lib": ["dom", "esnext"],
-      "types": ["cypress", "node", "cypress-axe", "@percy/cypress"],
+      "types": ["cypress", "node", "cypress-axe"],
       "esModuleInterop": true,
       "allowSyntheticDefaultImports": true,
       "sourceMap": true
     },
-    "include": ["**/*.ts"]
+    "include": ["**/*.ts", "data/user-management"]
 }

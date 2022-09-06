@@ -15,7 +15,7 @@ export class PayloadData implements IPayload {
     }
 
     public static PAYLOAD_DATA_1: PayloadData = new PayloadData(
-        <IPayload>ApiMocks.ADMIN_DASHBOARD_PAYLOAD_TABLE[0]
+        <IPayload>ApiMocks.ADMIN_DASHBOARD_PAYLOAD_TABLE[0],
     );
     public static PAYLOAD_DATA_2: PayloadData = new PayloadData(
         <IPayload>ApiMocks.ADMIN_DASHBOARD_PAYLOAD_TABLE[1],
@@ -27,6 +27,6 @@ export class PayloadData implements IPayload {
         <IPayload>ApiMocks.ADMIN_DASHBOARD_PAYLOAD_TABLE[3],
     );
     public static PAYLOAD_DATA_5: PayloadData = new PayloadData(
-        <IPayload>ApiMocks.ADMIN_DASHBOARD_PAYLOAD_TABLE[4]
+        <IPayload>ApiMocks.ADMIN_DASHBOARD_PAYLOAD_TABLE[4],
     );
 }

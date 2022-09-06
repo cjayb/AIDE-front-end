@@ -1,42 +1,18 @@
-import Vue from "vue";
-import axios from "axios";
 import { Execution, ExecutionPage } from "@/models/ClinicalReview/Execution";
 import { ExecutionStat } from "@/models/ClinicalReview/ExecutionStat";
+import { createAxiosInstance, ErrorMessageMap } from "@/utils/axios-helpers";
 
-const http = axios.create({
-    baseURL: window.FRONTEND_API_HOST,
-    headers: {
-        "Content-Type": "application/json",
-    },
-});
+const errorMessages: ErrorMessageMap = {
+    get: "Something unexpected went wrong retrieving the executions",
+};
 
-http.interceptors.request.use((config) => {
-    Vue.$keycloak.updateToken(70);
-    return config;
-});
-
-http.interceptors.response.use(
-    function (response) {
-        return response;
-    },
-    function (error) {
-        if (!!error.response && 401 === error.response?.status) {
-            Vue.$keycloak.logout({ redirectUri: `${window.location.origin}/#/` });
-        } else if (error.message == `Network Error` && !error.response) {
-            Vue.$toast.error(`⚠ Connection error`);
-        } else {
-            Vue.$toast.error(`Something unexpected went wrong retrieving executions!`);
-            return Promise.reject(error);
-        }
-    },
-);
+const http = createAxiosInstance(errorMessages);
 
 export async function getAllExecutionsPage(
     from: string,
     to: string,
     approved: string,
 ): Promise<ExecutionPage> {
-    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/executions?from=${from}&to=${to}&approved=${approved}`);
     return response.data;
 }
@@ -46,19 +22,16 @@ export async function getAllModelExecutions(
     from: string,
     to: string,
 ): Promise<ExecutionPage> {
-    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/executions?model_id=${model_id}&from=${from}&to=${to}`);
     return response.data;
 }
 
 export async function getExecutionPipelines(correlation_id: string): Promise<Array<Execution>> {
-    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/pipeline/${correlation_id}`);
     return response.data;
 }
 
 export async function getExecutionStats(days: string): Promise<ExecutionStat> {
-    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/execution_stats?days=${days}`);
     return response.data;
 }
@@ -67,7 +40,6 @@ export async function getModelExecutionStats(
     days: string,
     model_id: string,
 ): Promise<ExecutionStat> {
-    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/execution_stats?days=${days}&model_id=${model_id}`);
     return response.data;
 }
@@ -78,7 +50,6 @@ export async function updateClinicalReview(
     reason: string,
     message: string,
 ): Promise<any> {
-    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.post(
         `/executions/${execution_uid}/approvals?acceptance=${acceptance}&reason=${reason}&message=${message}`,
     );
@@ -86,7 +57,6 @@ export async function updateClinicalReview(
 }
 
 export async function getFile(file_path: string): Promise<any> {
-    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.post("/file", { file_path: file_path }, { responseType: "blob" });
     if (response.headers["content-type"] === "application/zip") {
         file_path = file_path + ".zip";

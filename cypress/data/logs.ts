@@ -1,11 +1,10 @@
 import { ILog } from "../../src/models/Admin/ILogs";
 import ApiMocks from "../fixtures/mockIndex";
 
-
 export class LogData implements ILog {
     execution_id: string;
     level: string;
-    line_no: number
+    line_no: number;
     logger: string;
     model_name: string;
     model_version: string;

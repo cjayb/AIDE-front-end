@@ -1,24 +1,24 @@
-import * as chai from "chai"
-import * as chaiAsPromised from "chai-as-promised"
-import path = require("path")
-import * as sinonChai from "sinon-chai"
-import { Pact, Interaction, Matchers } from "@pact-foundation/pact"
+import * as chai from "chai";
+import * as chaiAsPromised from "chai-as-promised";
+import path = require("path");
+import * as sinonChai from "sinon-chai";
+import { Pact, Interaction, Matchers } from "@pact-foundation/pact";
 
-const expect = chai.expect
-import LogClient from "../src/models/Logs"
-const { eachLike } = Matchers
+const expect = chai.expect;
+import LogClient from "../src/models/Logs";
+const { eachLike } = Matchers;
 
-chai.use(sinonChai)
-chai.use(chaiAsPromised)
+chai.use(sinonChai);
+chai.use(chaiAsPromised);
 
 describe("Get logs for execution api", () => {
-    let logClient: LogClient
+    let logClient: LogClient;
     const provider = new Pact({
         consumer: "Front-end",
         provider: "Backend logs",
         log: path.resolve(process.cwd(), "pact/logs", "pact.log"),
         dir: path.resolve(process.cwd(), "pact/pacts"),
-    })
+    });
 
     const logs: Array<any> = [
         {
@@ -35,8 +35,8 @@ describe("Get logs for execution api", () => {
                 thread: "Thread - 289",
                 type: "log",
                 written_at: "2022 - 01 - 06T20: 50: 54.726Z",
-                written_ts: 1641502254726809
-            }
+                written_ts: 1641502254726809,
+            },
         },
         {
             json: {
@@ -52,102 +52,107 @@ describe("Get logs for execution api", () => {
                 thread: "Thread-289",
                 type: "log",
                 written_at: "2022-01-06T20:50:54.726Z",
-                written_ts: 1641502254726809
-            }
-        }
-    ]
+                written_ts: 1641502254726809,
+            },
+        },
+    ];
 
     before(async () => {
-        await provider.setup()
-        const providerPort = provider.mockService["port"]
-        logClient = new LogClient(providerPort)
-    })
+        await provider.setup();
+        const providerPort = provider.mockService["port"];
+        logClient = new LogClient(providerPort);
+    });
 
     after(() => {
-        provider.finalize()
-    })
+        provider.finalize();
+    });
 
     afterEach(async () => {
-        await provider.verify()
-    })
+        await provider.verify();
+    });
 
     describe("Get logs", () => {
         before(() => {
-            return provider.addInteraction(new Interaction()
-                .given("Logs exist for execution exist in elasticsearch")
-                .uponReceiving("A request to retrieve logs for the execution")
-                .withRequest({
-                    path: "/logs/4e67b9e0-07b7-41e8-93c7-6f1561686ebc",
-                    method: 'GET',
-                    headers: {
-                        Authorization: "token",
-                        Accept: "application/json, text/plain, */*"
-                    }
-                })
-                .willRespondWith({
-                    status: 200,
-                    body: logs,
-                    headers: {
-                        'Content-Type': 'application/json charset=utf-8'
-                    }
-                }))
-        })
+            return provider.addInteraction(
+                new Interaction()
+                    .given("Logs exist for execution exist in elasticsearch")
+                    .uponReceiving("A request to retrieve logs for the execution")
+                    .withRequest({
+                        path: "/logs/4e67b9e0-07b7-41e8-93c7-6f1561686ebc",
+                        method: "GET",
+                        headers: {
+                            Authorization: "token",
+                            Accept: "application/json, text/plain, */*",
+                        },
+                    })
+                    .willRespondWith({
+                        status: 200,
+                        body: logs,
+                        headers: {
+                            "Content-Type": "application/json charset=utf-8",
+                        },
+                    }),
+            );
+        });
 
         it("Will return a list of all models", async () => {
-            const response = await logClient.fetchLogs("4e67b9e0-07b7-41e8-93c7-6f1561686ebc")
-            return expect(response.data).to.include.deep.members(logs)
-        })
-    })
+            const response = await logClient.fetchLogs("4e67b9e0-07b7-41e8-93c7-6f1561686ebc");
+            return expect(response.data).to.include.deep.members(logs);
+        });
+    });
 
     describe("Get logs, none exist for execution", () => {
         before(() => {
-            return provider.addInteraction(new Interaction()
-                .given("Execution with logs does not exist")
-                .uponReceiving("A request to retrieve logs for the execution")
-                .withRequest({
-                    path: "/logs/1234-5678-9",
-                    method: 'GET',
-                    headers: {
-                        Authorization: "token",
-                        Accept: "application/json, text/plain, */*"
-                    }
-                })
-                .willRespondWith({
-                    status: 404,
-                    body: {
-                        message: "This resource doesn't exist",
-                        status: 404
-                    }
-                }))
-        })
+            return provider.addInteraction(
+                new Interaction()
+                    .given("Execution with logs does not exist")
+                    .uponReceiving("A request to retrieve logs for the execution")
+                    .withRequest({
+                        path: "/logs/1234-5678-9",
+                        method: "GET",
+                        headers: {
+                            Authorization: "token",
+                            Accept: "application/json, text/plain, */*",
+                        },
+                    })
+                    .willRespondWith({
+                        status: 404,
+                        body: {
+                            message: "This resource doesn't exist",
+                            status: 404,
+                        },
+                    }),
+            );
+        });
 
         it("Will return a 404", () => {
-            const response = logClient.fetchLogs("1234-5678-9")
-            return expect(response).rejectedWith("Request failed with status code 404")
-        })
-    })
-
+            const response = logClient.fetchLogs("1234-5678-9");
+            return expect(response).rejectedWith("Request failed with status code 404");
+        });
+    });
 
     describe("Get logs, no authorisation", () => {
         before(() => {
-            return provider.addInteraction(new Interaction()
-                .given("Models exist in elasticsearch")
-                .uponReceiving("A request to retrieve all models without authorisation")
-                .withRequest({
-                    path: "/logs/4e67b9e0-07b7-41e8-93c7-6f1561686ebc",
-                    method: 'GET',
-                    headers: {
-                        Accept: "application/json, text/plain, */*"
-                    }
-                })
-                .willRespondWith({
-                    status: 401
-                }))
-        })
+            return provider.addInteraction(
+                new Interaction()
+                    .given("Models exist in elasticsearch")
+                    .uponReceiving("A request to retrieve all models without authorisation")
+                    .withRequest({
+                        path: "/logs/4e67b9e0-07b7-41e8-93c7-6f1561686ebc",
+                        method: "GET",
+                        headers: {
+                            Accept: "application/json, text/plain, */*",
+                        },
+                    })
+                    .willRespondWith({
+                        status: 401,
+                    }),
+            );
+        });
 
         it("Will return a 401", () => {
-            const response = logClient.fetchLogsNoToken("4e67b9e0-07b7-41e8-93c7-6f1561686ebc")
-            return expect(response).rejectedWith("Request failed with status code 401")
-        })
-    })
-})
+            const response = logClient.fetchLogsNoToken("4e67b9e0-07b7-41e8-93c7-6f1561686ebc");
+            return expect(response).rejectedWith("Request failed with status code 401");
+        });
+    });
+});

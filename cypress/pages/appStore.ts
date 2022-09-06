@@ -38,21 +38,19 @@ export default class AppStorePage extends AbstractPage {
         return this;
     }
 
-    private assertCertificationLogoIsDisplayed(ce: boolean, fda: boolean, ukca: boolean): void  {
-        if(ce == true) {
+    private assertCertificationLogoIsDisplayed(ce: boolean, fda: boolean, ukca: boolean): void {
+        if (ce == true) {
             cy.dataCy(AppStorePage.CE_LOGO).should("be.visible");
         }
-        if(fda == true) {
+        if (fda == true) {
             cy.dataCy(AppStorePage.FDA_LOGO).should("be.visible");
         }
-        if(ukca == true) {
+        if (ukca == true) {
             cy.dataCy(AppStorePage.UKCA_LOGO).should("be.visible");
-        }
-        else {
+        } else {
             cy.log("No certifications were provided");
         }
     }
-
 
     private assertSpecialityIsDisplayed(specialities: Array<MedicalSpeciality>): AppStorePage {
         if (specialities != []) {
@@ -72,17 +70,25 @@ export default class AppStorePage extends AbstractPage {
                 "have.text",
                 application.versions[0].version_details[0].developer_name,
             );
-            cy.dataCy(AppStorePage.VERSION).should("have.text", "Version: " + application.versions[0].version_string);
+            cy.dataCy(AppStorePage.VERSION).should(
+                "have.text",
+                "Version: " + application.versions[0].version_string,
+            );
             cy.dataCy(AppStorePage.VIEW_APPLICATION_BUTTON).should("be.visible");
             cy.dataCy(AppStorePage.SHORT_DESCRIPTION).should(
                 "contains.text",
-                application.versions[0].version_details[0].short_desc,);
+                application.versions[0].version_details[0].short_desc,
+            );
             //Bug raised - AIDE 1181
             // cy.dataCy(AppStorePage.APPLICATION_IMAGE).should("be.visible");
-            this.assertCertificationLogoIsDisplayed(application.versions[0].version_details[0].ce_certified,
+            this.assertCertificationLogoIsDisplayed(
+                application.versions[0].version_details[0].ce_certified,
                 application.versions[0].version_details[0].fda_certified,
-                application.versions[0].version_details[0].ukca_certified);
-            this.assertSpecialityIsDisplayed(application.versions[0].version_details[0].medical_specialities);
+                application.versions[0].version_details[0].ukca_certified,
+            );
+            this.assertSpecialityIsDisplayed(
+                application.versions[0].version_details[0].medical_specialities,
+            );
             if (application.versions[0].version_details[0].short_desc.length > 50) {
                 cy.dataCy(AppStorePage.SHORT_DESCRIPTION)
                     .should("have.css", "overflow", "hidden")
@@ -97,7 +103,9 @@ export default class AppStorePage extends AbstractPage {
     }
 
     public assertBlankAppList(): AppStorePage {
-        cy.intercept("/app_store/api/applications?status=Live", {statusCode: 200, body: '[]'}).as("twoHundred");
+        cy.intercept("/app_store/api/applications?status=Live", { statusCode: 200, body: "[]" }).as(
+            "twoHundred",
+        );
         cy.visit("/#/application-repository");
         cy.wait("@twoHundred");
         cy.dataCy(AppStorePage.NO_RESULTS_MESSAGE).should("be.visible");
@@ -126,34 +134,37 @@ export default class AppStorePage extends AbstractPage {
         }
     }
 
-    public assertTextSearchedApp(text, application): void{
+    public assertTextSearchedApp(text, application): void {
         cy.dataCy(AppStorePage.SEARCH_APPLICATION_REPOSITORY).type(text);
         this.assertApp(application);
     }
 
-    public assertErrorCodeHandling(code): void{
-        cy.intercept("/app_store/api/applications?status=Live", { statusCode: code }).as("statusCode");
+    public assertErrorCodeHandling(code): void {
+        cy.intercept("/app_store/api/applications?status=Live", { statusCode: code }).as(
+            "statusCode",
+        );
         cy.visit("/#/application-repository");
         cy.wait("@statusCode");
         this.assertLatestErrorContainsMessage(
-            "Something unexpected went wrong retrieving application!",
+            "Something unexpected went wrong retrieving the application",
         );
     }
 
     public async initPage() {
-        cy.intercept("/app_store/api/applications?status=Live", ApiMocks.APP_STORE_ALL_PERMUTATIONS).as(
-            "ApplicationList",
-        );
-        cy.intercept("/app_store/api/medical_specialities",
-        ApiMocks.APP_STORE_SPECIALITY_DROP_DOWN)
-        .as("DropDownList");
+        cy.intercept(
+            "/app_store/api/applications?status=Live",
+            ApiMocks.APP_STORE_ALL_PERMUTATIONS,
+        ).as("ApplicationList");
+        cy.intercept(
+            "/app_store/api/medical_specialities",
+            ApiMocks.APP_STORE_SPECIALITY_DROP_DOWN,
+        ).as("DropDownList");
         cy.visit("/#/application-repository");
         cy.wait(["@ApplicationList"]);
         cy.wait(["@DropDownList"]);
-        Cypress.on("uncaught:exception", (err, runnable) => {
+        Cypress.on("uncaught:exception", () => {
             //TODO: Remove this once uncaught exceptions have been removed
             return false;
         });
     }
 }
-

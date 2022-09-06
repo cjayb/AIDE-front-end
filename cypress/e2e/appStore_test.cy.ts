@@ -3,7 +3,6 @@
 import appStorePage from "../pages/appStore";
 import { ApplicationData } from "../data/application";
 import { nodeTerminal, a11yConfig } from "utils/a11y_util";
-import scrollToBottom from "scroll-to-bottomjs";
 import AppStorePage from "../pages/appStore";
 import Order from "data/enums/order";
 
@@ -24,11 +23,6 @@ describe("App Store Page", () => {
         cy.dataCy(AppStorePage.VIEW_APPLICATION_BUTTON).first().click();
         cy.url().should("include", "/#/application-repository/");
         cy.url().should("include", "?application_version_id=");
-    });
-
-    it("A Percy screenshot test for the application table", () => {
-        cy.window().then((cyWindow) => scrollToBottom({ timing: 20, remoteWindow: cyWindow }));
-        cy.percySnapshot("Application Table");
     });
 
     it("An app missing an image displays correctly", () => {
@@ -55,7 +49,7 @@ describe("App Store Page", () => {
         appPage.assertApp(ApplicationData.LONG_DESCRIPTION_APP);
     });
 
-     //Bug raised - AIDE 1182
+    //Bug raised - AIDE 1182
     // it("A speciality filtered app displays correctly", () => {
     //     appPage.clickDropdown(AppStorePage.MEDICAL_SPECIALITY_FILTER, "Surgery");
     //     appPage.assertApp(ApplicationData.UNIQUE_SPECIALITY_APP);
@@ -67,22 +61,23 @@ describe("App Store Page", () => {
         appPage.assertAlphabeticalOrdering(Order.Descending);
     });
 
-    it.only("A text searched app displays correctly", () => {
-        appPage.assertTextSearchedApp(ApplicationData.UNIQUE_SPECIALITY_APP.name, ApplicationData.UNIQUE_SPECIALITY_APP);
+    it("A text searched app displays correctly", () => {
+        appPage.assertTextSearchedApp(
+            ApplicationData.UNIQUE_SPECIALITY_APP.name,
+            ApplicationData.UNIQUE_SPECIALITY_APP,
+        );
     });
 });
 
-
 describe("Error handling on app store page", () => {
     const data = [
-        [400, '400'],
-        [403, '403'],
-        [500, '500']
+        [400, "400"],
+        [403, "403"],
+        [500, "500"],
     ];
     beforeEach(() => {
         cy.injectAxe();
-        Cypress.on("uncaught:exception", (err, runnable) => {
-            //TODO: Remove this once uncaught exceptions have been removed
+        Cypress.on("uncaught:exception", () => {
             return false;
         });
     });
@@ -91,12 +86,9 @@ describe("Error handling on app store page", () => {
         it(`Application store page handles ${test_name} error code gracefully`, () => {
             appPage.assertErrorCodeHandling(statusCode);
         });
-    })
+    });
 
     it("A blank list of apps displays correctly", () => {
         appPage.assertBlankAppList();
     });
-
 });
-
-

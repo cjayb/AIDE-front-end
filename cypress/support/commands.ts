@@ -1,65 +1,26 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+/* eslint-disable @typescript-eslint/no-namespace */
 /// <reference types="cypress" />
-declare namespace Cypress {
-    interface Chainable {
-      /**
-       * Custom command to select DOM element by data-cy attribute.
-       * @example cy.dataCy('greeting')
-       */
-      dataCy(value: string): Chainable<Element>
 
-      /**
-       * Custom command to perform assertions on a table.
-       * @example cy.get("table").getTable().should(($tableData) => ...)
-       */
-       getTable(): Chainable<Element>
+declare global {
+    namespace Cypress {
+        interface Chainable {
+            /**
+             * Custom command to select DOM element by data-cy attribute.
+             * @example cy.dataCy('greeting')
+             */
+            dataCy: typeof dataCy;
 
-       /**
-       * Custom command to screenshot and element using Percy.
-       * @example cy.get("table").percySnapshotElement("nameOfScreenshot") => ...)
-       */
-      percySnapshotElement(): void
+            /**
+             * Custom command to perform assertions on a table.
+             * @example cy.get("table").getTable().should(($tableData) => ...)
+             */
+            getTable(): Chainable;
+        }
     }
-  }
+}
 
-  Cypress.Commands.add('dataCy', (value) => {
-    return cy.get(`[data-cy=${value}]`)
-  })
+const dataCy = (value: string) => cy.get(`[data-cy=${value}]`);
 
-  Cypress.Commands.add('percySnapshotElement', { prevSubject: true }, (subject, name, options) => {
-    cy.percySnapshot(name, {
-      domTransformation: (documentClone) => scope(documentClone, subject.selector),
-      ...options,
-    });
-  });
-  
-  function scope(documentClone: Document, selector: string): Document {
-    const element = documentClone.querySelector(selector);
-    documentClone.querySelector('body').innerHTML = element.outerHTML;
-  
-    return documentClone;
-  }
+export const Commands = {
+    dataCy,
+};

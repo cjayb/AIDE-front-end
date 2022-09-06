@@ -1,0 +1,130 @@
+[
+    {
+        "id": "0",
+        "firstName": "ALexander",
+        "lastName": "Bazatronics",
+        "email": "alexander.bazatronics@answerdigital.com",
+        "realmRoles": [
+            "Admin",
+            "Clinician",
+            "User-Manager"
+        ],
+        "enabled": true
+    },
+    {
+        "id": "1",
+        "firstName": "Susan",
+        "lastName": "Susanson",
+        "email": "susan.susanson@answerdigital.com",
+        "realmRoles": [
+            "Admin"
+        ],
+        "enabled": true
+    },
+    {
+        "id": "2",
+        "firstName": "Trevor",
+        "lastName": "Trevs",
+        "email": "trevor.trevs@answerdigital.com",
+        "realmRoles": [
+            "Admin",
+            "Clinician"
+        ],
+        "enabled": true
+    },
+    {
+        "id": "3",
+        "firstName": "Jack",
+        "lastName": "Thelad",
+        "email": "jack.thelad@answerdigital.com",
+        "realmRoles": [
+            "Admin",
+            "Clinician",
+            "User-manager"
+        ],
+        "enabled": false
+    },
+    {
+        "id": "4",
+        "firstName": "Paul",
+        "lastName": "Pauline",
+        "email": "paul.pauline@answerdigital.com",
+        "realmRoles": [
+            "Clinician"
+        ],
+        "enabled": true
+    },
+    {
+        "id": "5",
+        "firstName": "Banjo",
+        "lastName": "Bill",
+        "email": "banjo.bill@answerdigital.com",
+        "realmRoles": [
+            "User-manager"
+        ],
+        "enabled": false
+    },
+    {
+        "id": "6",
+        "firstName": "Luiza",
+        "lastName": "Woodby",
+        "email": "luiza.woodby@answerdigital.com",
+        "realmRoles": [
+            "Clinician",
+            "User-manager"
+        ],
+        "enabled": true
+    },
+    {
+        "id": "7",
+        "firstName": "Fred",
+        "lastName": "Flinstone",
+        "email": "fred.flinstone@answerdigital.com",
+        "realmRoles": [
+            "Admin"
+        ],
+        "enabled": true
+    },
+    {
+        "id": "8",
+        "firstName": "Charles",
+        "lastName": "Magiera",
+        "email": "charles.magiera@answerdigital.com",
+        "realmRoles": [
+            "Admin",
+            "Clinician"
+        ],
+        "enabled": false
+    },
+    {
+        "id": "9",
+        "firstName": "Nurse",
+        "lastName": "Doctor",
+        "email": "nurse.doctor@answerdigital.com",
+        "realmRoles": [
+            "Clinician",
+            "User-manager"
+        ],
+        "enabled": true
+    },
+    {
+        "id": "10",
+        "firstName": "Postman",
+        "lastName": "Pat",
+        "email": "postman.pat@answerdigital.com",
+        "realmRoles": [
+            "Clinician"
+        ],
+        "enabled": true
+    },
+    {
+        "id": "11",
+        "firstName": "Frederico",
+        "lastName": "Italiano",
+        "email": "frederico.italiano@answerdigital.com",
+        "realmRoles": [
+            "User-manager"
+        ],
+        "enabled": true
+    }
+]

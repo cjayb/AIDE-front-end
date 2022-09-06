@@ -1,4 +1,4 @@
-import { IPayload, IPayloadExecutions } from "../../src/models/Admin/IPayload";
+import { IPayloadExecutions } from "../../src/models/Admin/IPayload";
 import ApiMocks from "../fixtures/mockIndex";
 
 export class PayloadTreeData implements IPayloadExecutions {
@@ -21,18 +21,18 @@ export class PayloadTreeData implements IPayloadExecutions {
     }
 
     public static TREE_DATA_1: PayloadTreeData = new PayloadTreeData(
-        <IPayloadExecutions>ApiMocks.ADMIN_DASHBOARD_PAYLOAD_EXECUTIONS[0]
+        <IPayloadExecutions>ApiMocks.ADMIN_DASHBOARD_PAYLOAD_EXECUTIONS[0],
     );
     public static TREE_DATA_2: PayloadTreeData = new PayloadTreeData(
-        <IPayloadExecutions>ApiMocks.ADMIN_DASHBOARD_PAYLOAD_EXECUTIONS[0]
+        <IPayloadExecutions>ApiMocks.ADMIN_DASHBOARD_PAYLOAD_EXECUTIONS[0],
     );
     public static TREE_DATA_3: PayloadTreeData = new PayloadTreeData(
-        <IPayloadExecutions>ApiMocks.ADMIN_DASHBOARD_PAYLOAD_EXECUTIONS[0]
+        <IPayloadExecutions>ApiMocks.ADMIN_DASHBOARD_PAYLOAD_EXECUTIONS[0],
     );
     public static TREE_DATA_4: PayloadTreeData = new PayloadTreeData(
-        <IPayloadExecutions>ApiMocks.ADMIN_DASHBOARD_PAYLOAD_EXECUTIONS[0]
+        <IPayloadExecutions>ApiMocks.ADMIN_DASHBOARD_PAYLOAD_EXECUTIONS[0],
     );
     public static TREE_DATA_5: PayloadTreeData = new PayloadTreeData(
-        <IPayloadExecutions>ApiMocks.ADMIN_DASHBOARD_PAYLOAD_EXECUTIONS[0]
+        <IPayloadExecutions>ApiMocks.ADMIN_DASHBOARD_PAYLOAD_EXECUTIONS[0],
     );
 }

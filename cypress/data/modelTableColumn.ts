@@ -5,5 +5,5 @@ export enum ModelTableColumn {
     ERRORS = "Errors",
     SUCCESS_RATE = "Success Rate",
     AVERAGE_DURATION = "Avg. Duration (Minutes)",
-    AVERAGE_TURNAROUND = "Avg. Turnaround (Minutes)"
+    AVERAGE_TURNAROUND = "Avg. Turnaround (Minutes)",
 }

@@ -1,42 +1,19 @@
-import Vue from "vue";
-import axios from "axios";
 import { IOverview } from "@/models/Admin/IOverview";
 import { IIssue } from "@/models/Admin/IIssue";
 import { ILogs } from "@/models/Admin/ILogs";
 import { IModelSummary, IModelDetails } from "@/models/Admin/IModel";
 import { IPayload, IPayloadExecutions } from "@/models/Admin/IPayload";
+import { createAxiosInstance, ErrorMessageMap } from "@/utils/axios-helpers";
 
-const http = axios.create({
-    baseURL: window.FRONTEND_API_HOST,
-    headers: {
-        "Content-Type": "application/json",
-    },
-});
+const errorMessages: ErrorMessageMap = {
+    get: "Something unexpected went wrong retrieving executions!",
+    post: "Something unexpected went wrong retrieving executions!",
+};
 
-http.interceptors.request.use((config) => {
-    Vue.$keycloak.updateToken(70);
-    return config;
-});
-
-http.interceptors.response.use(
-    function (response) {
-        return response;
-    },
-    function (error) {
-        if (!!error.response && 401 === error.response?.status) {
-            Vue.$keycloak.logout({ redirectUri: `${window.location.origin}/#/` });
-        } else if (error.message == `Network Error` && !error.response) {
-            Vue.$toast.error(`⚠ Connection error`);
-        } else {
-            Vue.$toast.error(`Something unexpected went wrong retrieving executions!`);
-            return Promise.reject(error);
-        }
-    },
-);
+const http = createAxiosInstance(errorMessages);
 
 // Overview Section
 export async function getOverview(filterPeriod: string): Promise<IOverview> {
-    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/api/overview?period=${filterPeriod}`);
 
     return response.data;
@@ -44,14 +21,12 @@ export async function getOverview(filterPeriod: string): Promise<IOverview> {
 
 // Issues Section
 export async function getIssues(): Promise<IIssue[]> {
-    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/api/issues`);
 
     return response.data;
 }
 
 export async function dismissIssues(taskIDs: number[]): Promise<number[]> {
-    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.post(`/api/issues/dismiss`, taskIDs);
 
     return response.data;
@@ -59,7 +34,6 @@ export async function dismissIssues(taskIDs: number[]): Promise<number[]> {
 
 // Models Section
 export async function getModels(): Promise<IModelSummary[]> {
-    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/api/models`);
 
     return response.data;
@@ -70,7 +44,6 @@ export async function getModelStatsForGraphs(
     start_date: string,
     end_date: string,
 ): Promise<IModelDetails> {
-    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(
         `/api/graph/${model_id}?start_date=${start_date}&end_date=${end_date}`,
     );
@@ -80,14 +53,12 @@ export async function getModelStatsForGraphs(
 
 // Payloads Section
 export async function getPayloads(): Promise<IPayload[]> {
-    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/api/payloads`);
 
     return response.data;
 }
 
 export async function getPayloadExecutions(payload_id: number): Promise<IPayloadExecutions[]> {
-    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/api/payloads/${payload_id}/executions`);
 
     return response.data;
@@ -95,7 +66,6 @@ export async function getPayloadExecutions(payload_id: number): Promise<IPayload
 
 // Shared
 export async function getTaskLogs(task_id: number): Promise<ILogs[]> {
-    http.defaults.headers.common["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
     const response = await http.get(`/api/logs/${task_id}`);
 
     return response.data;

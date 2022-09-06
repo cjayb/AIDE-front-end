@@ -10,7 +10,7 @@ export class ModelData implements Model {
     private _stats: any;
     private _model_name: string;
 
-    constructor(model: Model){
+    constructor(model: Model) {
         this._id = model.id;
         this._model_version = model.model_version;
         this._mode = model.mode;
@@ -60,8 +60,12 @@ export class ModelData implements Model {
         this._id = value;
     }
 
-    public static HAEMORRHAGE_BRUSH: ModelData = new ModelData(<Model>ApiMocks.ADMIN_DASHBOARD_MODELS[0]);
+    public static HAEMORRHAGE_BRUSH: ModelData = new ModelData(
+        <Model>ApiMocks.ADMIN_DASHBOARD_MODELS[0],
+    );
     public static CH_MODEL_1: ModelData = new ModelData(<Model>ApiMocks.ADMIN_DASHBOARD_MODELS[1]);
     public static CH_MODEL_2: ModelData = new ModelData(<Model>ApiMocks.ADMIN_DASHBOARD_MODELS[2]);
-    public static HAEMORRHAGE_STROKE: ModelData = new ModelData(<Model>ApiMocks.ADMIN_DASHBOARD_MODELS[3]);
+    public static HAEMORRHAGE_STROKE: ModelData = new ModelData(
+        <Model>ApiMocks.ADMIN_DASHBOARD_MODELS[3],
+    );
 }

@@ -1,20 +1,26 @@
-import ApiMocks from "../fixtures/mockIndex";
 import { Version } from "../../src/models/AppRepo/Application";
 export interface IPage {
-
     /**
      * To be called at the start of a test on a given page.
      * Can be used to wait for loading, or seed data for example.
      */
-   initPage(): void;
+    initPage(): void;
 }
 
 export class AbstractPage implements IPage {
-    assertLatestErrorContainsMessage(text: string): void {
-        // cy.get("[class=v-toast__text]").should("have.text", text);
+    public assertDropdownContents(dropdownId: string, selection: string): void {
+        cy.dataCy(dropdownId).click({ force: true });
+        cy.get(".v-menu__content").should("contain", selection);
     }
 
-// waiting on dan to reply about ordering
+    public assertLatestErrorContainsMessage(text: string): void {
+        cy.get("[class=v-toast__text]").should("have.text", text);
+    }
+
+    public assertToast(text: string): void {
+        cy.get("[class=v-toast__text]").should("have.text", text);
+    }
+
     public VersionDropdown(dropdownId: string, versions: Array<Version>): void {
         if (versions != null) {
             versions.forEach((version) => {
@@ -27,27 +33,22 @@ export class AbstractPage implements IPage {
         }
     }
 
-    // VersionDropdown(dropdownId: string, selection: string): void {
-    //     cy.dataCy(dropdownId).click();
-    //     cy.get(".v-menu__content").contains(selection).click({ force: true});
-    // }
-
-    alphabeticalOrderDropDown(dropdownId: string, selection: string): void {
+    public alphabeticalOrderDropDown(dropdownId: string, selection: string): void {
         cy.dataCy(dropdownId).click();
-        cy.get(".v-menu__content").contains(selection).click({ force: true});
+        cy.get(".v-menu__content").contains(selection).click({ force: true });
     }
 
-    dateTimeConvertor(dateTimeObject: string) {
+    public dateTimeConvertor(dateTimeObject: string) {
         const dateStr = dateTimeObject;
         const dateObject = new Date(dateStr);
         const day = dateObject.getDate();
-        const month = (dateObject.getMonth() + 1).toString().padStart(2,'0');
+        const month = (dateObject.getMonth() + 1).toString().padStart(2, "0");
         const year = dateObject.getFullYear();
         const OutputStr = `${day}/${month}/${year}`;
-        return OutputStr
+        return OutputStr;
     }
 
-    initPage(){
+    public initPage() {
         // To be overridden by each page
     }
 }

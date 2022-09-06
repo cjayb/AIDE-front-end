@@ -233,7 +233,7 @@ export default class CustomDicomViewer extends Vue {
         this.selectedStudyId = this.study[0].ID;
         this.series = [];
         this.study[0].Series.forEach(async (seriesId: string) => {
-            let x = await getSeries(seriesId);
+            const x = await getSeries(seriesId);
             this.series.push(x);
             if (this.series.length == this.study[0].Series.length) {
                 this.series = this.series.sort((a, b) => {

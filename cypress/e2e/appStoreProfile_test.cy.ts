@@ -1,8 +1,5 @@
-/// <reference types="cypress" />
-
 import AppProfilePage from "pages/appProfilePage";
 import { AppProfileData } from "data/appProfile";
-import ApiMocks from "fixtures/mockIndex";
 
 const appProfilePage = new AppProfilePage();
 
@@ -23,10 +20,6 @@ describe("App profile page version 1 ", () => {
     it("asserts system requirements are displayed correctly", () => {
         appProfilePage.assertSystemRequirements(AppProfileData.APPLICATION_DETAILS1);
     });
-
-    it("A Percy screenshot test for the application profile page1", () => {
-        cy.percySnapshot("Application Profile Page1");
-    });
 });
 
 describe("App profile page version 2 ", () => {
@@ -38,7 +31,7 @@ describe("App profile page version 2 ", () => {
     it("displays application details with different sets of data", () => {
         appProfilePage.assertAppDetails(AppProfileData.APPLICATION_DETAILS2);
     });
-//waiting reply to ordering from Dan
+    //waiting reply to ordering from Dan
     // it("asserts version is selected and displayed", () => {
     //     appProfilePage.assertVersion(AppProfileData.APPLICATION_DETAILS2);
     // });
@@ -51,7 +44,7 @@ describe("App profile page version 2 ", () => {
 describe("Error codes on app store profile page", () => {
     beforeEach(() => {
         cy.injectAxe();
-        Cypress.on("uncaught:exception", (err, runnable) => {
+        Cypress.on("uncaught:exception", () => {
             //TODO: Remove this once uncaught exceptions have been removed
             return false;
         });
