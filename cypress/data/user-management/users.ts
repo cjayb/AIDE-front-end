@@ -1,54 +1,33 @@
-import { UserListItem } from "../../../src/models/user-management/UserManagement";
+import {
+    UserListItem,
+    GetAllUsersResponse,
+} from "../../../src/models/user-management/UserManagement";
 import ApiMocks from "../../fixtures/mockIndex";
 
-export class UserData implements UserListItem {
-    id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    realmRoles: string[];
-    enabled: boolean;
+export class UserData implements GetAllUsersResponse {
+    totalUsers: number;
+    totalFilteredUsers: number;
+    users: UserListItem[];
 
-    constructor(user: UserListItem) {
-        this.id = user.id;
-        this.firstName = user.firstName;
-        this.lastName = user.lastName;
-        this.email = user.email;
-        this.realmRoles = user.realmRoles;
-        this.enabled = user.enabled;
+    constructor(getAllUsersResponse: GetAllUsersResponse) {
+        this.totalUsers = getAllUsersResponse.totalUsers;
+        this.totalFilteredUsers = getAllUsersResponse.totalFilteredUsers;
+        this.users = getAllUsersResponse.users;
     }
 
-    public static USER_DATA_1: UserData = new UserData(
-        <UserListItem>ApiMocks.USER_MANAGEMENT_GET_USERS[0],
+    public static GET_ALL_USERS: UserData = new UserData(
+        <GetAllUsersResponse>ApiMocks.USER_MANAGEMENT_GET_USERS,
     );
-    public static USER_DATA_2: UserData = new UserData(
-        <UserListItem>ApiMocks.USER_MANAGEMENT_GET_USERS[1],
+    public static USER_DATA_ADD_USER: UserData = new UserData(
+        <GetAllUsersResponse>ApiMocks.USER_MANAGEMENT_ADD_USER,
     );
-    public static USER_DATA_3: UserData = new UserData(
-        <UserListItem>ApiMocks.USER_MANAGEMENT_GET_USERS[2],
+    public static USER_DATA_INITIAL_USER: UserData = new UserData(
+        <GetAllUsersResponse>ApiMocks.USER_MANAGEMENT_ONE_USER,
     );
-    public static USER_DATA_4: UserData = new UserData(
-        <UserListItem>ApiMocks.USER_MANAGEMENT_GET_USERS[3],
+    public static USER_DATA_SEARCH: UserData = new UserData(
+        <GetAllUsersResponse>ApiMocks.USER_MANAGEMENT_SEARCH,
     );
-    public static USER_DATA_5: UserData = new UserData(
-        <UserListItem>ApiMocks.USER_MANAGEMENT_GET_USERS[4],
-    );
-    public static USER_DATA_6: UserData = new UserData(
-        <UserListItem>ApiMocks.USER_MANAGEMENT_GET_USERS[5],
-    );
-    public static USER_DATA_7: UserData = new UserData(
-        <UserListItem>ApiMocks.USER_MANAGEMENT_GET_USERS[6],
-    );
-    public static USER_DATA_8: UserData = new UserData(
-        <UserListItem>ApiMocks.USER_MANAGEMENT_GET_USERS[7],
-    );
-    public static USER_DATA_9: UserData = new UserData(
-        <UserListItem>ApiMocks.USER_MANAGEMENT_GET_USERS[8],
-    );
-    public static USER_DATA_10: UserData = new UserData(
-        <UserListItem>ApiMocks.USER_MANAGEMENT_GET_USERS[9],
-    );
-    public static USER_DATA_11: UserData = new UserData(
-        <UserListItem>ApiMocks.USER_MANAGEMENT_GET_USERS[10],
+    public static USER_DATA_PAGINATION: UserData = new UserData(
+        <GetAllUsersResponse>ApiMocks.USER_MANAGEMENT_PAGINATION,
     );
 }

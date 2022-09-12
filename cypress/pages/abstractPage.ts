@@ -8,6 +8,13 @@ export interface IPage {
 }
 
 export class AbstractPage implements IPage {
+    public clickGet(selector: string) {
+        cy.get(selector).click();
+    }
+
+    public clickDataCy(selector: string) {
+        cy.dataCy(selector).click({ force: true });
+    }
     public assertDropdownContents(dropdownId: string, selection: string): void {
         cy.dataCy(dropdownId).click({ force: true });
         cy.get(".v-menu__content").should("contain", selection);

@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from "axios";
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import Vue from "vue";
 
 export interface ErrorMessageMap {
@@ -7,6 +7,10 @@ export interface ErrorMessageMap {
     put?: string;
     patch?: string;
     delete?: string;
+}
+
+export function isResultOk({ status }: AxiosResponse): boolean {
+    return status >= 200 && status <= 299;
 }
 
 export function authenticationEnabledInterceptor(config: AxiosRequestConfig): AxiosRequestConfig {

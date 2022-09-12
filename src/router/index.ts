@@ -16,32 +16,36 @@ const routes: Array<RouteConfig> = [
         path: "/admin-health-dashboard",
         name: "AdminHealthDashboard",
         component: AdminHealthDashboard,
-        beforeEnter: (to, from, next) => {
-            authenticated("admin", to, next);
+        beforeEnter: roleAuthenticatedRoute,
+        meta: {
+            requiredRole: "admin",
         },
     },
     {
         path: "/admin-payload-dashboard",
         name: "AdminPayloadDashboard",
         component: AdminPayloadDashboard,
-        beforeEnter: (to, from, next) => {
-            authenticated("admin", to, next);
+        beforeEnter: roleAuthenticatedRoute,
+        meta: {
+            requiredRole: "admin",
         },
     },
     {
         path: "/clinical-review",
         name: "ClinicalReview",
         component: ClinicalReview,
-        beforeEnter: (to, from, next) => {
-            authenticated("clinician", to, next);
+        beforeEnter: roleAuthenticatedRoute,
+        meta: {
+            requiredRole: "clinician",
         },
     },
     {
         path: "/clinical-review/viewer/:study_id",
         name: "ClinicalReviewViewer",
         component: ClinicalReview,
-        beforeEnter: (to, from, next) => {
-            authenticated("clinician", to, next);
+        beforeEnter: roleAuthenticatedRoute,
+        meta: {
+            requiredRole: "clinician",
         },
     },
     {
@@ -80,16 +84,18 @@ const routes: Array<RouteConfig> = [
                 },
             },
         ],
-        beforeEnter: (to, from, next) => {
-            authenticated("deployer", to, next);
+        beforeEnter: roleAuthenticatedRoute,
+        meta: {
+            requiredRole: "deployer",
         },
     },
     {
         path: "/user-management",
         name: "UserManagement",
         component: UserManagement,
-        beforeEnter: (to, from, next) => {
-            authenticated("admin", to, next);
+        beforeEnter: roleAuthenticatedRoute,
+        meta: {
+            requiredRole: "admin",
         },
     },
     {
@@ -100,7 +106,7 @@ const routes: Array<RouteConfig> = [
     {
         path: "/",
         name: "Home",
-        beforeEnter: async (to, from, next) => {
+        beforeEnter: (to, _, next) => {
             if (process.env.VUE_APP_AUTH_ENABLED !== "true") {
                 return next({ name: "AdminHealthDashboard" });
             }
@@ -111,33 +117,27 @@ const routes: Array<RouteConfig> = [
 
             let destination = "Unauthorized";
 
-            if (Vue.$keycloak.hasResourceRole("admin")) {
-                const result = await Vue.$keycloak.updateToken(70);
-
-                if (result) {
-                    destination = "AdminHealthDashboard";
-                }
-            } else if (Vue.$keycloak.hasResourceRole("clinician")) {
-                const result = await Vue.$keycloak.updateToken(70);
-
-                if (result) {
-                    destination = "ClinicalReview";
-                }
-            } else if (Vue.$keycloak.hasResourceRole("deployer")) {
-                const result = await Vue.$keycloak.updateToken(70);
-
-                if (result) {
-                    destination = "ApplicationRepositoryList";
-                }
+            if (Vue.$keycloak.hasRealmRole("admin")) {
+                destination = "AdminHealthDashboard";
+            } else if (Vue.$keycloak.hasRealmRole("clinician")) {
+                destination = "ClinicalReview";
+            } else if (Vue.$keycloak.hasRealmRole("deployer")) {
+                destination = "ApplicationRepositoryList";
+            } else {
+                return next({ name: "Unauthorized" });
             }
 
-            return next({ name: destination });
+            Vue.$keycloak.updateToken(70).then(() => {
+                return next({ name: destination, replace: true });
+            });
         },
     },
 ];
 
-function authenticated(role: string, to: Route, next: NavigationGuardNext<Vue>) {
-    if (process.env.VUE_APP_AUTH_ENABLED !== "true") {
+function roleAuthenticatedRoute(to: Route, _: Route, next: NavigationGuardNext<Vue>) {
+    const { requiredRole } = to.meta || {};
+
+    if (!requiredRole || process.env.VUE_APP_AUTH_ENABLED !== "true") {
         return next();
     }
 
@@ -147,15 +147,10 @@ function authenticated(role: string, to: Route, next: NavigationGuardNext<Vue>) 
         return;
     }
 
-    if (Vue.$keycloak.hasResourceRole(role)) {
-        Vue.$keycloak
-            .updateToken(70)
-            .then(() => {
-                next();
-            })
-            .catch((err: Error) => {
-                console.error(err);
-            });
+    if (Vue.$keycloak.hasResourceRole(requiredRole)) {
+        Vue.$keycloak.updateToken(70).then(() => {
+            next();
+        });
     } else {
         next({ name: "Unauthorized" });
     }

@@ -1,0 +1,30 @@
+{
+    "totalUsers": 1,
+    "totalFilteredUsers": 1,
+    "users": [
+        {
+            "id": "0",
+            "firstName": "Added",
+            "lastName": "User",
+            "email": "added.user@answerdigital.com",
+            "realmRoles": [
+                {
+                    "id": "0",
+                    "name": "Admin",
+                    "editable": false
+                },
+                {
+                    "id": "1",
+                    "name": "Clinician",
+                    "editable": false
+                },
+                {
+                    "id": "2",
+                    "name": "User-Manager",
+                    "editable": false
+                }
+            ],
+            "enabled": true
+        }
+    ]
+}

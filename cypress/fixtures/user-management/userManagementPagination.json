@@ -1,0 +1,34 @@
+{
+    "totalUsers": 12,
+    "totalFilteredUsers": 12,
+    "users": [
+    {
+            "id": "12",
+            "firstName": "Pagination",
+            "lastName": "Test",
+            "email": "pagination.test@pagination.com",
+            "realmRoles": [
+                {
+                    "id": "1",
+                    "name": "Clinician",
+                    "editable": false
+                }
+            ],
+            "enabled": true
+        },
+        {
+            "id": "13",
+            "firstName": "Another",
+            "lastName": "Pagination-Test",
+            "email": "another.pagination.test@pagination.com",
+            "realmRoles": [
+                {
+                    "id": "2",
+                    "name": "User-Manager",
+                    "editable": false
+                }
+            ],
+            "enabled": true
+        }
+    ]
+}

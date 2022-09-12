@@ -14,6 +14,14 @@ export default class ApiMocks {
     //UserManagement
     public static USER_MANAGEMENT_GET_USERS = require("./user-management/userManagement.json");
     public static USER_MANAGEMENT_ROLES = require("./user-management/userManagementRoles.json");
+    public static USER_MANAGEMENT_EMPTY = require("./user-management/userManagementEmpty.json");
+    public static USER_MANAGEMENT_ADD_USER = require("./user-management/userManagementAddUser.json");
+    public static USER_MANAGEMENT_ONE_USER = require("./user-management/userManagementOneUser.json");
+    public static USER_MANAGEMENT_SEARCH = require("./user-management/userManagementSearch.json");
+    public static USER_MANAGEMENT_SORT_FIRST_NAME = require("./user-management/userManagementSortFirst.json");
+    public static USER_MANAGEMENT_SORT_LAST_NAME = require("./user-management/userManagementSortLast.json");
+    public static USER_MANAGEMENT_SORT_EMAIL = require("./user-management/userManagementSortEmail.json");
+    public static USER_MANAGEMENT_PAGINATION = require("./user-management/userManagementPagination.json");
     //Previously added
     public static INPUT_QUEUE_STATS = require("./inputQueueStats.json");
     public static OUTPUT_QUEUE_STATS = require("./outputQueueStats.json");
