@@ -1,5 +1,5 @@
 import AppProfilePage from "pages/appProfilePage";
-import { AppProfileData } from "data/appProfile";
+import { AppProfileData } from "data/app-store-profile/appProfile";
 
 const appProfilePage = new AppProfilePage();
 

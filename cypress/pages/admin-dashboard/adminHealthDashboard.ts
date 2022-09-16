@@ -1,10 +1,10 @@
-import ApiMocks from "../fixtures/mockIndex";
+import ApiMocks from "../../fixtures/mockIndex";
 // import { AbstractPage } from "./abstractPage";
-import { IOverview } from "../../src/models/Admin/IOverview";
-import { IIssue } from "../../src/models/Admin/IIssue";
-import { IModelDetails, IModelSummary } from "../../src/models/Admin/IModel";
-import { ExecStatistics } from "data/statistics";
-import { ModelDetailsData } from "../data/graph";
+import { IOverview } from "../../../src/models/Admin/IOverview";
+import { IIssue } from "../../../src/models/Admin/IIssue";
+import { IModelDetails, IModelSummary } from "../../../src/models/Admin/IModel";
+import { ExecStatistics } from "data/admin-dashboard/statistics";
+import { ModelDetailsData } from "../../data/admin-dashboard/graph";
 
 export default class AdminHealthDashboardPage {
     //OVERVIEW

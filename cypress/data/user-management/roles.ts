@@ -1,27 +1,21 @@
-import { UserRoleListItem } from "../../../src/models/user-management/UserManagement";
+import {
+    UserRoleListItem,
+    PaginatedRolesResponse,
+} from "../../../src/models/user-management/UserManagement";
 import ApiMocks from "../../fixtures/mockIndex";
 
-export class RoleData implements UserRoleListItem {
-    id: string;
-    name: string;
-    editable: boolean;
+export class RoleData implements PaginatedRolesResponse {
+    totalRolesCount: number;
+    totalFilteredRolesCount: number;
+    roles: UserRoleListItem[];
 
-    constructor(user: UserRoleListItem) {
-        this.id = user.id;
-        this.name = user.name;
-        this.editable = user.editable;
+    constructor(role: PaginatedRolesResponse) {
+        this.totalRolesCount = role.totalRolesCount;
+        this.totalFilteredRolesCount = role.totalFilteredRolesCount;
+        this.roles = role.roles;
     }
 
     public static ROLE_DATA_1: RoleData = new RoleData(
-        <UserRoleListItem>ApiMocks.USER_MANAGEMENT_ROLES[0],
-    );
-    public static ROLE_DATA_2: RoleData = new RoleData(
-        <UserRoleListItem>ApiMocks.USER_MANAGEMENT_ROLES[1],
-    );
-    public static ROLE_DATA_3: RoleData = new RoleData(
-        <UserRoleListItem>ApiMocks.USER_MANAGEMENT_ROLES[2],
-    );
-    public static ROLE_DATA_4: RoleData = new RoleData(
-        <UserRoleListItem>ApiMocks.USER_MANAGEMENT_ROLES[3],
+        <PaginatedRolesResponse>ApiMocks.USER_MANAGEMENT_ROLES,
     );
 }

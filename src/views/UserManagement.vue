@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/valid-v-slot -->
 <template>
     <v-container fluid>
         <v-container fluid class="mt-3 mb-7 px-7">

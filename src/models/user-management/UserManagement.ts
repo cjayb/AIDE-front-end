@@ -13,6 +13,12 @@ export interface UserListItem {
     realmRoles: UserRoleListItem[];
 }
 
+export interface PaginatedRolesResponse {
+    totalRolesCount: number;
+    totalFilteredRolesCount: number;
+    roles: UserRoleListItem[];
+}
+
 export interface UserRoleListItem {
     id: string;
     name: string;

@@ -1,5 +1,5 @@
-import { IIssue } from "../../src/models/Admin/IIssue";
-import ApiMocks from "../fixtures/mockIndex";
+import { IIssue } from "../../../src/models/Admin/IIssue";
+import ApiMocks from "../../fixtures/mockIndex";
 
 export class TaskData implements IIssue {
     task_id: number;

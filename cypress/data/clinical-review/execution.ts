@@ -4,8 +4,8 @@ import {
     ExecutionModel,
     Result,
     Timestamp,
-} from "../../src/models/ClinicalReview/Execution";
-import ApiMocks from "../fixtures/mockIndex";
+} from "../../../src/models/ClinicalReview/Execution";
+import ApiMocks from "../../fixtures/mockIndex";
 export class ExecutionData implements Execution {
     private _correlation_id: string;
     private _event: Event;
@@ -79,8 +79,5 @@ export class ExecutionData implements Execution {
     );
     public static REVIEW_LEONE_GOODPASTURE = new ExecutionData(
         <Execution>ApiMocks.CLINICAL_REVIEW_PAGE_1.results[1],
-    );
-    public static FIRST_EXECUTION_MODEL_1 = new ExecutionData(
-        <Execution>ApiMocks.ADMIN_DASH_EXECUTION_RESULTS_MODEL_1.results[0],
     );
 }

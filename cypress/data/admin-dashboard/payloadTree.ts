@@ -1,5 +1,5 @@
-import { IPayloadExecutions } from "../../src/models/Admin/IPayload";
-import ApiMocks from "../fixtures/mockIndex";
+import { IPayloadExecutions } from "../../../src/models/Admin/IPayload";
+import ApiMocks from "../../fixtures/mockIndex";
 
 export class PayloadTreeData implements IPayloadExecutions {
     execution_id: number;

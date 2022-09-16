@@ -1,5 +1,5 @@
 export default class ApiMocks {
-    //New Admin Dashboard
+    //Admin Dashboard
     public static ADMIN_DASHBOARD_MODELS = require("./admin-dashboard/adminDashboardModels.json");
     public static ADMIN_DASHBOARD_MODEL_DETAILS_ONE_DAY = require("./admin-dashboard/adminDashboardModelDetailsOneDay.json");
     public static ADMIN_DASHBOARD_MODEL_DETAILS_TEN_DAYS = require("./admin-dashboard/adminDashboardModelDetailsTenDays.json");
@@ -11,7 +11,7 @@ export default class ApiMocks {
     public static ADMIN_DASHBOARD_SINGLE_TASK = require("./admin-dashboard/adminDashboardSingleIssue.json");
     public static ADMIN_DASHBOARD_PAYLOAD_TABLE = require("./admin-dashboard/adminDashboardPayloadTable.json");
     public static ADMIN_DASHBOARD_PAYLOAD_EXECUTIONS = require("./admin-dashboard/adminDashboardPayloadExecutions.json");
-    //UserManagement
+    //User Management
     public static USER_MANAGEMENT_GET_USERS = require("./user-management/userManagement.json");
     public static USER_MANAGEMENT_ROLES = require("./user-management/userManagementRoles.json");
     public static USER_MANAGEMENT_EMPTY = require("./user-management/userManagementEmpty.json");
@@ -22,20 +22,25 @@ export default class ApiMocks {
     public static USER_MANAGEMENT_SORT_LAST_NAME = require("./user-management/userManagementSortLast.json");
     public static USER_MANAGEMENT_SORT_EMAIL = require("./user-management/userManagementSortEmail.json");
     public static USER_MANAGEMENT_PAGINATION = require("./user-management/userManagementPagination.json");
-    //Previously added
-    public static INPUT_QUEUE_STATS = require("./inputQueueStats.json");
-    public static OUTPUT_QUEUE_STATS = require("./outputQueueStats.json");
-    public static CLINICAL_REVIEW_ALL_EXECUTIONS = require("./allExecutionsForReview.json");
-    public static CLINICAL_REVIEW_PAGE_1 = require("./clinicalReviewPage1.json");
-    public static CLINICAL_REVIEW_PAGE_2 = require("./clinicalReviewPage2.json");
-    public static CLINICAL_REVIEW_REVIEWED = require("./clinicalReviewed.json");
-    public static CLINICAL_REVIEW_RESPONSE = require("./clinicalReviewResponse.json");
-    public static EXECUTION_LOGS = require("./executionLogs.json");
-    public static OUTPUT_FILE = require("./outputFile.json");
-    public static REMOTE_DICOM_METADATA = require("./remoteDicomMetadata");
-    public static APP_STORE_ALL_PERMUTATIONS = require("./appStoreAllPermutations.json");
-    public static APP_PROFILE_PAGE1 = require("./appProfilePage1.json");
-    public static APP_PROFILE_PAGE2 = require("./appProfilePage2.json");
-    public static APP_STORE_SPECIALITY_DROP_DOWN = require("./appStoreSpecialityDropDown.json");
-    public static ADMIN_DASH_EXECUTION_RESULTS_MODEL_1 = require("./adminDashboardExecutionResultsModel1.json");
+    public static USER_MANAGEMENT_ROLES_SORTED = require("./user-management/userManagementRolesSorted.json");
+    public static USER_MANAGEMENT_ROLES_SEARCH = require("./user-management/userManagementRolesSearch.json");
+    public static USER_MANAGEMENT_ROLES_ADD = require("./user-management/userManagementRolesAdd.json");
+    public static USER_MANAGEMENT_ONE_ROLE = require("./user-management/userManagementOneRole.json");
+    public static USER_MANAGEMENT_ROLES_EDIT = require("./user-management/userManagementRolesEdit.json");
+    public static USER_MANAGEMENT_ROLES_EMPTY = require("./user-management/userManagementRolesEmpty.json");
+    public static USER_MANAGEMENT_ROLES_PAGINATION = require("./user-management/userManagementRolesPagination.json");
+    public static USER_MANAGEMENT_ROLES_LIST = require("./user-management/userManagementRolesList.json");
+    //Clinical Review
+    public static CLINICAL_REVIEW_ALL_EXECUTIONS = require("./clinical-review/allExecutionsForReview.json");
+    public static CLINICAL_REVIEW_PAGE_1 = require("./clinical-review/clinicalReviewPage1.json");
+    public static CLINICAL_REVIEW_PAGE_2 = require("./clinical-review/clinicalReviewPage2.json");
+    public static CLINICAL_REVIEW_REVIEWED = require("./clinical-review/clinicalReviewed.json");
+    public static CLINICAL_REVIEW_RESPONSE = require("./clinical-review/clinicalReviewResponse.json");
+    public static REMOTE_DICOM_METADATA = require("./clinical-review/remoteDicomMetadata.json");
+    //App Store
+    public static APP_STORE_ALL_PERMUTATIONS = require("./app-store/appStoreAllPermutations.json");
+    public static APP_STORE_SPECIALITY_DROP_DOWN = require("./app-store/appStoreSpecialityDropDown.json");
+    //App Profile
+    public static APP_PROFILE_PAGE1 = require("./app-profile/appProfilePage1.json");
+    public static APP_PROFILE_PAGE2 = require("./app-profile/appProfilePage2.json");
 }

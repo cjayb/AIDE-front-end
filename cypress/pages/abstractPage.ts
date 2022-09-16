@@ -8,8 +8,8 @@ export interface IPage {
 }
 
 export class AbstractPage implements IPage {
-    public clickGet(selector: string) {
-        cy.get(selector).click();
+    public clickGet(selector: string, force?: boolean) {
+        cy.get(selector).click({ force });
     }
 
     public clickDataCy(selector: string) {

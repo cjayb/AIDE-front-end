@@ -269,6 +269,59 @@ const users: UserListItem[] = [
     },
 ];
 
+const roles: UserRoleListItem[] = [
+    {
+        id: "72657913-8ba7-4bba-b04f-5de8f0ce6b29",
+        name: "admin",
+        editable: false,
+    },
+    {
+        id: "9e5d60ac-7b29-4013-9733-845801b90e21",
+        name: "clinician",
+        editable: false,
+    },
+    {
+        id: "1a9e60ac-7b29-4013-9733-845801b90e21",
+        name: "deployer",
+        editable: false,
+    },
+    {
+        id: "8e9e60ac-7b29-4013-9733-845801b90e21",
+        name: "developer",
+        editable: true,
+    },
+    {
+        id: "4e9e60ac-7b29-4013-9733-845801b90e21",
+        name: "user",
+        editable: true,
+    },
+    {
+        id: "73657913-8ba7-4bba-b04f-5de8f0ce6b29",
+        name: "admin2",
+        editable: true,
+    },
+    {
+        id: "9g5d60ac-7b29-4013-9733-845801b90e21",
+        name: "clinician2",
+        editable: true,
+    },
+    {
+        id: "8s9e60ac-7b29-4013-9733-845801b90e21",
+        name: "developer admin",
+        editable: true,
+    },
+    {
+        id: "1a9g60ac-7b29-4013-9733-845801b90e21",
+        name: "model developer",
+        editable: true,
+    },
+    {
+        id: "4e9e50ac-7b29-4013-9733-845801b90e21",
+        name: "user2",
+        editable: true,
+    },
+];
+
 export const userManagementHandlers = [
     rest.get(`${window.FRONTEND_API_HOST}/users`, (req, res, ctx) => {
         const first = req.url.searchParams.get("first") || "0";
@@ -314,7 +367,7 @@ export const userManagementHandlers = [
     rest.delete(`${window.FRONTEND_API_HOST}/users/:userId`, (req, res, ctx) => {
         return res(ctx.status(200));
     }),
-    rest.get(`${window.FRONTEND_API_HOST}/roles`, (_, res, ctx) => {
+    rest.get(`${window.FRONTEND_API_HOST}/roles/list`, (_, res, ctx) => {
         const roles: UserRoleListItem[] = [
             {
                 id: "12345",
@@ -329,5 +382,36 @@ export const userManagementHandlers = [
         ];
 
         return res(ctx.json(roles));
+    }),
+    rest.get(`${window.FRONTEND_API_HOST}/roles`, (req, res, ctx) => {
+        const first = req.url.searchParams.get("first") || "0";
+        const max = req.url.searchParams.get("max") || "0";
+        const search = req.url.searchParams.get("search");
+
+        const start = parseInt(first);
+        const end = parseInt(max) + parseInt(first);
+
+        let filtered: UserRoleListItem[] = roles;
+        let totalFilteredRolesCount = roles.length;
+
+        if (search) {
+            filtered = filtered.filter((u) => {
+                const searchText = search.toLocaleLowerCase();
+
+                return u.name.toLocaleLowerCase().includes(searchText);
+            });
+
+            totalFilteredRolesCount = filtered.length;
+        }
+
+        filtered = filtered.slice(start, end > roles.length ? roles.length : end);
+
+        return res(
+            ctx.json({
+                totalRolesCount: roles.length,
+                totalFilteredRolesCount,
+                roles: filtered,
+            }),
+        );
     }),
 ];

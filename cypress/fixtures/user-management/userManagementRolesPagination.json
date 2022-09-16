@@ -1,0 +1,41 @@
+{
+    "totalRolesCount": 22,
+    "totalFilteredRolesCount": 7,
+    "roles": [
+        {
+            "id": "3",
+            "name": "Editable role 8",
+            "editable": true
+        },
+        {
+            "id": "4",
+            "name": "Editable role 9",
+            "editable": true
+        },
+        {
+            "id": "5",
+            "name": "Editable role 10",
+            "editable": true
+        },
+        {
+            "id": "5",
+            "name": "Editable role 11",
+            "editable": true
+        },
+        {
+            "id": "5",
+            "name": "Editable role 12",
+            "editable": false
+        },
+        {
+            "id": "5",
+            "name": "Editable role 13",
+            "editable": true
+        },
+        {
+            "id": "5",
+            "name": "Editable role 14",
+            "editable": true
+        }
+    ]
+}

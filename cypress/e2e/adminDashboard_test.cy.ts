@@ -1,12 +1,12 @@
-import { TaskData } from "../data/issues";
-import { ModelSummaryData } from "../data/models";
-import { ModelDetailsData } from "../data/graph";
-import { ExecStatistics } from "../data/statistics";
+import { TaskData } from "../data/admin-dashboard/issues";
+import { ModelSummaryData } from "../data/admin-dashboard/models";
+import { ModelDetailsData } from "../data/admin-dashboard/graph";
+import { ExecStatistics } from "../data/admin-dashboard/statistics";
 import { nodeTerminal, a11yConfig } from "utils/a11y_util";
-import AdminPayloadDashboardPage from "pages/adminPayloadDashboard";
-import AdminHealthDashboardPage from "../pages/adminHealthDashboard";
-import { PayloadData } from "data/payloadTable";
-import { PayloadTreeData } from "data/payloadTree";
+import AdminPayloadDashboardPage from "pages/admin-dashboard/adminPayloadDashboard";
+import AdminHealthDashboardPage from "../pages/admin-dashboard/adminHealthDashboard";
+import { PayloadData } from "data/admin-dashboard/payloadTable";
+import { PayloadTreeData } from "data/admin-dashboard/payloadTree";
 
 const adminHealthPage = new AdminHealthDashboardPage();
 const adminPayloadPage = new AdminPayloadDashboardPage();

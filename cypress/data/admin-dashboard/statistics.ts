@@ -1,5 +1,5 @@
-import { IOverview } from "../../src/models/Admin/IOverview";
-import ApiMocks from "../fixtures/mockIndex";
+import { IOverview } from "../../../src/models/Admin/IOverview";
+import ApiMocks from "../../fixtures/mockIndex";
 
 export class ExecStatistics implements IOverview {
     deployed_models: number;

@@ -1,8 +1,8 @@
 import ApiMocks from "../fixtures/mockIndex";
 import { AbstractPage } from "./abstractPage";
 import moment from "moment";
-import { RejectReason } from "../data/rejectReason";
-import { ExecutionData } from "../data/execution";
+import { RejectReason } from "../data/clinical-review/rejectReason";
+import { ExecutionData } from "../data/clinical-review/execution";
 import { nodeTerminal, a11yConfig } from "utils/a11y_util";
 import { filterObject } from "utils/data_util";
 

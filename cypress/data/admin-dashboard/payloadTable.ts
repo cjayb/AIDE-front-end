@@ -1,5 +1,5 @@
-import { IPayload } from "../../src/models/Admin/IPayload";
-import ApiMocks from "../fixtures/mockIndex";
+import { IPayload } from "../../../src/models/Admin/IPayload";
+import ApiMocks from "../../fixtures/mockIndex";
 
 export class PayloadData implements IPayload {
     payload_id: number;

@@ -1,5 +1,5 @@
-import { IModelDetails, IModelStatistics } from "../../src/models/Admin/IModel";
-import ApiMocks from "../fixtures/mockIndex";
+import { IModelDetails, IModelStatistics } from "../../../src/models/Admin/IModel";
+import ApiMocks from "../../fixtures/mockIndex";
 
 export class ModelDetailsData implements IModelDetails {
     model_id: number;

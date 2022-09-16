@@ -8,8 +8,7 @@ import moment from "moment-timezone";
 import numeral from "numeral";
 import authentication from "@/plugins/authentication";
 import VueToast from "vue-toast-notification";
-// import "vue-toast-notification/dist/theme-default.css";
-import "vue-toast-notification/dist/theme-sugar.css";
+import "./styles/toast.scss";
 
 if (process.env.NODE_ENV === "development") {
     // eslint-disable-next-line @typescript-eslint/no-var-requires

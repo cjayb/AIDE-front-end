@@ -1,5 +1,5 @@
-import { Application, Version } from "../../src/models/AppRepo/Application";
-import ApiMocks from "../fixtures/mockIndex";
+import { Application, Version } from "../../../src/models/AppRepo/Application";
+import ApiMocks from "../../fixtures/mockIndex";
 
 export class ApplicationData implements Application {
     application_id: string;
