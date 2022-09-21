@@ -414,4 +414,13 @@ export const userManagementHandlers = [
             }),
         );
     }),
+    rest.post(`${window.FRONTEND_API_HOST}/roles`, (req, res, ctx) => {
+        return res(ctx.status(201));
+    }),
+    rest.put(`${window.FRONTEND_API_HOST}/roles/:roleId`, (req, res, ctx) => {
+        return res(ctx.status(200));
+    }),
+    rest.delete(`${window.FRONTEND_API_HOST}/roles/:roleId`, (req, res, ctx) => {
+        return res(ctx.status(200));
+    }),
 ];

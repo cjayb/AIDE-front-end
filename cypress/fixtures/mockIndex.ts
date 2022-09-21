@@ -30,6 +30,9 @@ export default class ApiMocks {
     public static USER_MANAGEMENT_ROLES_EMPTY = require("./user-management/userManagementRolesEmpty.json");
     public static USER_MANAGEMENT_ROLES_PAGINATION = require("./user-management/userManagementRolesPagination.json");
     public static USER_MANAGEMENT_ROLES_LIST = require("./user-management/userManagementRolesList.json");
+    public static USER_MANAGEMENT_ONE_ROLES_LIST = require("./user-management/userManagementOneRolesList.json");
+    public static USER_MANAGEMENT_ROLES_LIST_ADDED = require("./user-management/userManagementRolesListAdded.json");
+    public static USER_MANAGEMENT_ROLES_EDIT_TABLE = require("./user-management/userManagementRolesEditTable.json");
     //Clinical Review
     public static CLINICAL_REVIEW_ALL_EXECUTIONS = require("./clinical-review/allExecutionsForReview.json");
     public static CLINICAL_REVIEW_PAGE_1 = require("./clinical-review/clinicalReviewPage1.json");

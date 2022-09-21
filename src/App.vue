@@ -88,6 +88,10 @@ h2 {
     opacity: 0;
 }
 
+.v-toast__item.v-toast__item--error {
+    background-color: #a10000;
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 10px;

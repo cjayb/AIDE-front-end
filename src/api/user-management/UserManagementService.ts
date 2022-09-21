@@ -97,3 +97,30 @@ export async function getPaginatedRoles(query: QueryParams): Promise<PaginatedRo
     const response = await httpRoles.get<PaginatedRolesResponse>(`/roles?${params}`);
     return isResultOk(response) ? response.data : defaultData;
 }
+
+export async function createRole(role: UserRoleListItem): Promise<boolean> {
+    try {
+        const result = await httpRoles.post("/roles", role);
+        return isResultOk(result);
+    } catch {
+        return false;
+    }
+}
+
+export async function updateRole(roleId: string, role: UserRoleListItem): Promise<boolean> {
+    try {
+        const result = await httpRoles.put(`/roles/${roleId}`, role);
+        return isResultOk(result);
+    } catch {
+        return false;
+    }
+}
+
+export async function deleteRole(roleId: string): Promise<boolean> {
+    try {
+        const result = await httpRoles.delete(`/roles/${roleId}`);
+        return isResultOk(result);
+    } catch {
+        return false;
+    }
+}

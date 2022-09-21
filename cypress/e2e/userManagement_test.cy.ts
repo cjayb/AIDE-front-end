@@ -33,7 +33,7 @@ describe("Display list of users", () => {
     });
 
     describe("Accessibility", () => {
-        it("Page should have no accessibility violations", () => {
+        it("User page should have no accessibility violations", () => {
             cy.checkA11y();
         });
     });
@@ -65,11 +65,17 @@ describe("Display list of users", () => {
         });
     });
 
+    describe("GET users", () => {
+        it(`The users table is populated with the data returned from the API`, () => {
+            userManagementPage.assertTableDataCorrectUsers(allUsers);
+        });
+    });
+
     describe("Searching the table", () => {
         it(`What I enter in the search bar is correctly sent in the request to the API`, () => {
             userManagementPage.searchUserTable("Susan" as string);
         });
-        it(`What is returned from the API is correctly displayed in the table`, () => {
+        it(`Users returned are correctly displayed in the table`, () => {
             userManagementPage.searchUserTable("Susan" as string);
             userManagementPage.assertCorrectUserDisplayed(SearchUser as UserData);
         });
@@ -88,30 +94,24 @@ describe("Display list of users", () => {
         ];
         tuple.forEach((userType) => {
             const [userRole, position] = userType;
-            it("Selecting a type in the dropdown should filter users by that type", () => {
+            it("Selecting a role in the dropdown should filter users by that role", () => {
                 userManagementPage.selectElementInDropdown(position as number);
                 userManagementPage.assertRowContainsType(userRole as string);
             });
         });
-        it("Selecting a type assigned to no user displays no users", () => {
+        it("Selecting a role assigned to no user displays no users", () => {
             userManagementPage.selectElementInDropdown(3);
             userManagementPage.assertNoUsers();
         });
     });
 
-    describe("GET users", () => {
-        it(`I can view the correct data returned by the API for the user in the table`, () => {
-            userManagementPage.assertTableDataCorrectUsers(allUsers);
-        });
-    });
-
     describe("Sort", () => {
         ["first name", "last name", "email"].forEach((field) => {
-            it(`When I select the ${field} column to sort, a request is sent to the API to sort by ${field}`, () => {
+            it(`When I select the ${field} column to sort users, a request is sent to the API to sort by ${field}`, () => {
                 userManagementPage.assertRequestSort(field);
             });
 
-            it(`When the sort data for ${field} is returned, the data is displayed correctly`, () => {
+            it(`When the sorted users are returned, the users are displayed by ${field}`, () => {
                 userManagementPage.sortedUsersDisplayedCorrectly(field);
             });
         });
@@ -126,7 +126,7 @@ describe("Display list of users", () => {
         it("Selecting next page sends a request for the next users to the API", () => {
             userManagementPage.paginationRequestUsers();
         });
-        it("Response from API is displayed correctly", () => {
+        it("Users returned from API are displayed correctly", () => {
             userManagementPage.paginationRequestUsers();
             userManagementPage.assertSecondPageUsers(paginationUsers);
         });
@@ -137,15 +137,15 @@ describe("Display list of users - API errors", () => {
     const getUserErrorMessage = "Something unexpected went wrong retrieving users";
     const getRolesErrorMessage = "Something unexpected went wrong retrieving roles";
     [400, 404, 500, 502].forEach((statusCode) => {
-        it(`UI message displayed if a ${statusCode} error is returned from the API on getting roles`, () => {
+        it(`UI message displayed if a ${statusCode} error is returned from the API on getting roles on users tab`, () => {
             userManagementPage.errorRoles(statusCode);
             userManagementPage.assertToast(getRolesErrorMessage);
         });
-        it(`UI message displayed if a ${statusCode} error is returned from the API on sorting`, () => {
+        it(`UI message displayed if a ${statusCode} error is returned from the API on sorting users`, () => {
             userManagementPage.errorSort(statusCode);
             userManagementPage.assertToast(getUserErrorMessage);
         });
-        it(`UI message displayed if a ${statusCode} error is returned from the API on searching`, () => {
+        it(`UI message displayed if a ${statusCode} error is returned from the API on searching for users`, () => {
             userManagementPage.errorSearch(statusCode);
             userManagementPage.assertToast(getUserErrorMessage);
         });
@@ -274,7 +274,7 @@ describe("Add/Edit/Delete list of users", () => {
     });
 });
 
-describe("Display list of roles", () => {
+describe("Roles", () => {
     beforeEach(() => {
         userManagementPage.initPageRoles();
         cy.injectAxe();
@@ -293,12 +293,12 @@ describe("Display list of roles", () => {
     });
 
     describe("Accessibility", () => {
-        it("Page should have no accessibility violations", () => {
+        it("Roles page should have no accessibility violations", () => {
             cy.checkA11y();
         });
     });
 
-    describe("All expected elements on the page are visible", () => {
+    describe("All expected elements on the roles page are visible", () => {
         it("Roles that are editable have visible edit buttons", () => {
             userManagementPage.editButtonVisibleRoles();
         });
@@ -314,8 +314,14 @@ describe("Display list of roles", () => {
         it("An add new role button is visible", () => {
             userManagementPage.elementVisibleDataCy("add-role");
         });
-        it("'Total number of roles' element displays the correct number of users", () => {
+        it("'Total number of roles' element displays the correct number of roles", () => {
             userManagementPage.assertTotalRoles(allRoles);
+        });
+    });
+
+    describe("GET roles", () => {
+        it(`The roles table is populated with the data returned from the API`, () => {
+            userManagementPage.assertTableDataCorrectAllRoles();
         });
     });
 
@@ -329,17 +335,11 @@ describe("Display list of roles", () => {
         });
     });
 
-    describe("GET roles", () => {
-        it(`I can view the correct data returned by the API for the roles in the table`, () => {
-            userManagementPage.assertTableDataCorrectAllRoles();
-        });
-    });
-
     describe("Sort", () => {
-        it(`Sorting data makes correct request to API`, () => {
+        it(`Sorting roles makes correct request to API`, () => {
             userManagementPage.assertSortedRolesRequest();
         });
-        it(`When the sort data is returned, the data is displayed correctly`, () => {
+        it(`When the sorted roles are returned, the roles are displayed correctly`, () => {
             userManagementPage.assertSortedRolesRequest();
             userManagementPage.assertResponseDisplayedCorrectly();
         });
@@ -364,7 +364,7 @@ describe("Display list of roles", () => {
     });
 });
 
-describe("Display list of users - API errors", () => {
+describe("Display list of roles - API errors", () => {
     const getRolesErrorMessage = "Something unexpected went wrong retrieving roles";
     [400, 404, 500, 502].forEach((statusCode) => {
         it(`UI message displayed if a ${statusCode} error is returned from the API on getting roles`, () => {
@@ -387,103 +387,103 @@ describe("Display list of users - API errors", () => {
     });
 });
 
-// describe("Add/Edit/Delete list of roles", () => {
-//     beforeEach(() => {
-//         userManagementPage.initPageOneRole();
-//         cy.injectAxe();
-//         cy.configureAxe({
-//             rules: [
-//                 {
-//                     id: "nested-interactive",
-//                     enabled: false,
-//                 },
-//                 {
-//                     id: "page-has-heading-one",
-//                     enabled: false,
-//                 },
-//             ],
-//         });
-//     });
-//     describe("Add new role", () => {
-//         it("Clicking on 'Add new role' opens up the modal", () => {
-//             userManagementPage.clickDataCy("add-role");
-//             userManagementPage.elementVisibleGet(".v-card__actions");
-//         });
-//         it(`Validation should be displayed to the user to indicate that the Name field is required`, () => {
-//             userManagementPage.clickDataCy("add-role");
-//             userManagementPage.requiredFieldsValidationRoles();
-//         });
-//         it("'Add role' is inactive until 'Name' field is populated'", () => {
-//             userManagementPage.clickDataCy("add-role");
-//             userManagementPage.assertAddRoleButton("disabled");
-//             userManagementPage.enterNewRoleName();
-//             userManagementPage.assertAddRoleButton("enabled");
-//         });
-//         it("Selecting 'Add user' sends the correct data to the API", () => {
-//             userManagementPage.clickDataCy("add-user");
-//             userManagementPage.enterNewRoleName();
-//             userManagementPage.assertPostedRoleCorrect();
-//         });
-//         it("New user is correctly displayed in table", () => {
-//             userManagementPage.clickDataCy("add-role");
-//             userManagementPage.enterNewRoleName();
-//             userManagementPage.assertAddRoleDetailsCorrect();
-//         });
-//     });
+describe("Add/Edit/Delete list of roles", () => {
+    beforeEach(() => {
+        userManagementPage.initPageOneRole();
+        cy.injectAxe();
+        cy.configureAxe({
+            rules: [
+                {
+                    id: "nested-interactive",
+                    enabled: false,
+                },
+                {
+                    id: "page-has-heading-one",
+                    enabled: false,
+                },
+            ],
+        });
+    });
+    describe("Add new role", () => {
+        it("Clicking on 'Add new role' opens up the modal", () => {
+            userManagementPage.clickDataCy("add-role");
+            userManagementPage.elementVisibleGet(".v-card__actions");
+        });
+        it(`Validation should be displayed to the user to indicate that the 'Name' field is required`, () => {
+            userManagementPage.clickDataCy("add-role");
+            userManagementPage.requiredFieldsValidationRoles();
+        });
+        it("'Add role' is inactive until 'Name' field is populated'", () => {
+            userManagementPage.clickDataCy("add-role");
+            userManagementPage.assertAddRoleButton("disabled");
+            userManagementPage.enterNewRoleName();
+            userManagementPage.assertAddRoleButton("enabled");
+        });
+        it("Selecting 'Add role' sends the correct data to the API", () => {
+            userManagementPage.clickDataCy("add-role");
+            userManagementPage.enterNewRoleName();
+            userManagementPage.assertPostedRoleCorrect();
+        });
+        it("New role is correctly displayed in table", () => {
+            userManagementPage.clickDataCy("add-role");
+            userManagementPage.enterNewRoleName();
+            userManagementPage.assertAddRoleDetailsCorrect();
+        });
+    });
 
-//     describe("Edit existing role", () => {
-//         it("Clicking on Edit button on a row opens up the modal with role name populated", () => {
-//             userManagementPage.clickEditButtonRoles();
-//             userManagementPage.assertFieldsRoles();
-//         });
-//         it("Editing a user sends a PUT request with the edited details for that user", () => {
-//             userManagementPage.clickEditButtonRoles();
-//             userManagementPage.editRoles();
-//             userManagementPage.clickDataCy("user-modal-save");
-//             userManagementPage.assertPutRolesDetailsCorrect();
-//         });
-//         it("Edited user is correctly displayed in the table", () => {
-//             userManagementPage.clickEditButtonUsers(0);
-//             userManagementPage.editRoles();
-//             userManagementPage.clickDataCy("user-modal-save");
-//             userManagementPage.assertEditedRoleDisplayedCorrectly();
-//         });
-//     });
+    describe("Edit existing role", () => {
+        it("Clicking on Edit button on a row opens up the modal with role name populated", () => {
+            userManagementPage.clickEditButtonRoles();
+            userManagementPage.assertFieldsRoles();
+        });
+        it("Editing a role sends a PUT request with the edited details for that role", () => {
+            userManagementPage.clickEditButtonRoles();
+            userManagementPage.editRoles();
+            userManagementPage.clickDataCy("role-modal-save");
+            userManagementPage.assertPutRolesDetailsCorrect();
+        });
+        it("Edited role is correctly displayed in the table", () => {
+            userManagementPage.clickEditButtonRoles();
+            userManagementPage.editRoles();
+            userManagementPage.clickDataCy("role-modal-save");
+            userManagementPage.assertEditedRoleDisplayedCorrectly();
+        });
+    });
 
-//     describe("Delete existing role", () => {
-//         it("Selecting delete sends a delete request for that user", () => {
-//             userManagementPage.clickDeleteButtonRoles();
-//             userManagementPage.assertDeleteRequestRoles();
-//         });
-//         it("Response is correctly displayed in the table", () => {
-//             userManagementPage.clickDeleteButtonRoles();
-//             userManagementPage.assertDeleteRoleDisplayedCorrectly();
-//         });
-//     });
+    describe("Delete existing role", () => {
+        it("Selecting delete sends a delete request for that role", () => {
+            userManagementPage.clickDeleteButtonRoles();
+            userManagementPage.assertDeleteRequestRoles();
+        });
+        it("Response is correctly displayed in the table", () => {
+            userManagementPage.clickDeleteButtonRoles();
+            userManagementPage.assertDeleteRoleDisplayedCorrectly();
+        });
+    });
 
-//     describe("Add/edit/delete users - API errors", () => {
-//         const addUserErrorMessage = "Something unexpected went wrong creating the user";
-//         const editErrorMessage = "Something unexpected went wrong updating the user details";
-//         const deleteErrorMessage = "Something unexpected went wrong deleting the user";
+    describe("Add/edit/delete role - API errors", () => {
+        const addRoleErrorMessage = "Something unexpected went wrong creating the role";
+        const editErrorMessage = "Something unexpected went wrong updating the role details";
+        const deleteErrorMessage = "Something unexpected went wrong deleting the role";
 
-//         [400, 404, 500, 502].forEach((statusCode) => {
-//             it(`UI message displayed if a ${statusCode} error is returned on adding new user`, () => {
-//                 userManagementPage.clickDataCy("add-user");
-//                 userManagementPage.enterAddUserDetails();
-//                 userManagementPage.errorAddUser(statusCode);
-//                 userManagementPage.assertToast(addUserErrorMessage);
-//             });
-//             it(`UI message displayed if a ${statusCode} error is returned on editing existing user`, () => {
-//                 userManagementPage.clickEditButtonUsers(0);
-//                 userManagementPage.clickDataCy("user-modal-save");
-//                 userManagementPage.errorEditUser(statusCode);
-//                 userManagementPage.assertToast(editErrorMessage);
-//             });
-//             it(`UI message displayed if a ${statusCode} error is returned on deleting existing user`, () => {
-//                 userManagementPage.clickDeleteButton(0);
-//                 userManagementPage.errorDeleteUser(statusCode);
-//                 userManagementPage.assertToast(deleteErrorMessage);
-//             });
-//         });
-//     });
-// });
+        [400, 404, 500, 502].forEach((statusCode) => {
+            it(`UI message displayed if a ${statusCode} error is returned on adding new role`, () => {
+                userManagementPage.clickDataCy("add-role");
+                userManagementPage.enterNewRoleName();
+                userManagementPage.errorAddingRole(statusCode);
+                userManagementPage.assertToast(addRoleErrorMessage);
+            });
+            it(`UI message displayed if a ${statusCode} error is returned on editing existing role`, () => {
+                userManagementPage.clickEditButtonRoles();
+                userManagementPage.clickDataCy("role-modal-save");
+                userManagementPage.errorEditingRole(statusCode);
+                userManagementPage.assertToast(editErrorMessage);
+            });
+            it(`UI message displayed if a ${statusCode} error is returned on deleting existing role`, () => {
+                userManagementPage.clickDeleteButtonRoles();
+                userManagementPage.errorDeletingRole(statusCode);
+                userManagementPage.assertToast(deleteErrorMessage);
+            });
+        });
+    });
+});

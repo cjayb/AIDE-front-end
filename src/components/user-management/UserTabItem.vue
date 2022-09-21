@@ -138,7 +138,7 @@
                     <v-btn text data-cy="user-delete-cancel" @click="cancelUserDeletion">
                         Cancel
                     </v-btn>
-                    <v-btn text data-cy="user-delete-ok" color="red" @click="deleteUser">
+                    <v-btn text data-cy="user-delete-ok" color="red darken-2" @click="deleteUser">
                         Yes, delete
                     </v-btn>
                 </v-card-actions>

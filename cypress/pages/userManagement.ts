@@ -6,6 +6,7 @@ import {
 } from "../../src/models/user-management/UserManagement";
 import { UserDataPost } from "data/user-management/usersPost";
 import { RoleData } from "data/user-management/roles";
+import { RolePostData } from "data/user-management/rolesPost";
 const userManagementUrl = "/#/user-management";
 const firstName = '[aria-label="First Name: Not sorted. Activate to sort ascending."]';
 const roleName =
@@ -57,19 +58,42 @@ export default class UserManagement extends AbstractPage {
         cy.wait(500);
     }
 
-    public initPageOneRole() {
+    public initAccessibilityModal() {
         cy.intercept(
             "users?search=&first=0&max=10&sortBy=&sortDesc=",
             ApiMocks.USER_MANAGEMENT_GET_USERS,
         ).as("users");
-        cy.intercept("/roles", ApiMocks.USER_MANAGEMENT_ONE_ROLE).as("oneRole");
+        cy.intercept(
+            "/roles?search=&first=0&max=10&sortBy=&sortDesc=",
+            ApiMocks.USER_MANAGEMENT_ROLES,
+        ).as("roles");
+        cy.intercept("roles/list", ApiMocks.USER_MANAGEMENT_ROLES_LIST).as("rolesList");
         cy.visit(userManagementUrl);
-        cy.wait(["@users", "@oneRole"]);
+        cy.wait(["@users", "@roles", "@rolesList"]);
         Cypress.on("uncaught:exception", () => {
             return false;
         });
         this.clickDataCy("user-management-tab-Roles");
         cy.wait(500);
+        this.clickDataCy("add-role");
+    }
+
+    public initPageOneRole() {
+        cy.intercept(
+            "users?search=&first=0&max=10&sortBy=&sortDesc=",
+            ApiMocks.USER_MANAGEMENT_ONE_USER,
+        ).as("users");
+        cy.intercept(
+            "roles?search=&first=0&max=10&sortBy=&sortDesc=",
+            ApiMocks.USER_MANAGEMENT_ONE_ROLE,
+        ).as("roles");
+        cy.intercept("roles/list", ApiMocks.USER_MANAGEMENT_ONE_ROLES_LIST).as("rolesList");
+        cy.visit(userManagementUrl);
+        cy.wait(["@users", "@roles", "@rolesList"]);
+        this.clickDataCy("user-management-tab-Roles");
+        Cypress.on("uncaught:exception", () => {
+            return false;
+        });
     }
 
     public initPageOneUser() {
@@ -439,11 +463,11 @@ export default class UserManagement extends AbstractPage {
     }
 
     public assertTableDataCorrectRoles() {
-        cy.dataCy("role-table-row-name-0").should(`contain`, "Added user");
+        cy.dataCy("role-table-row-name-0").should(`contain`, "Added role");
     }
 
     public assertTableDataCorrectEditedRoles() {
-        cy.dataCy("role-table-row-name-0").should(`contain`, "Edited user");
+        cy.dataCy("role-table-row-name-0").should(`contain`, "Edited role");
     }
 
     public usersPerPage(visibleRow, notVisibleRow) {
@@ -568,7 +592,7 @@ export default class UserManagement extends AbstractPage {
             ApiMocks.USER_MANAGEMENT_ROLES_PAGINATION,
         ).as("fivePerPage");
         cy.get(paginationDropdown).last().click({ force: true });
-        cy.get("#list-item-185-0").click();
+        cy.get(".menuable__content__active .v-list-item").eq(0).click();
         cy.wait(["@fivePerPage"]);
         Cypress.on("uncaught:exception", () => {
             return false;
@@ -778,9 +802,8 @@ export default class UserManagement extends AbstractPage {
     }
 
     public clickEditButtonRoles() {
-        cy.dataCy(`roles-table-row-actions-0`).within(() => {
-            cy.dataCy("user-edit").click();
-        });
+        cy.wait(500);
+        cy.get('[data-cy="role-edit"] > .v-btn__content > .v-icon').click();
     }
 
     public clickDeleteButtonUsers(index: number) {
@@ -790,8 +813,9 @@ export default class UserManagement extends AbstractPage {
     }
 
     public clickDeleteButtonRoles() {
-        cy.dataCy(`user-table-row-actions-0`).within(() => {
-            cy.dataCy("user-delete").click();
+        cy.wait(500);
+        cy.dataCy(`role-table-row-actions-0`).within(() => {
+            cy.dataCy("role-delete").click();
         });
     }
 
@@ -897,8 +921,8 @@ export default class UserManagement extends AbstractPage {
     }
 
     public editRoles() {
-        cy.dataCy("user-first-name").clear();
-        cy.dataCy("user-first-name").type("Edited role");
+        cy.dataCy("role-name").clear();
+        cy.dataCy("role-name").type("Edited role");
         this.clickAway();
     }
 
@@ -920,25 +944,25 @@ export default class UserManagement extends AbstractPage {
     }
 
     public assertPutRolesDetailsCorrect() {
-        cy.intercept("PUT", `/users/15`, ApiMocks.USER_MANAGEMENT_ROLES_EDIT).as("Put");
+        cy.intercept("PUT", `/roles/15`, ApiMocks.USER_MANAGEMENT_ROLES_EDIT).as("Put");
         this.clickDataCy("role-edit-confirm-ok");
         Cypress.on("uncaught:exception", () => {
             return false;
         });
         cy.wait("@Put").then((xhr) => {
-            const actualRequest = new RoleData(xhr.request.body);
-            expect(actualRequest.roles[0].name).to.eql("Added role");
+            const actualRequest = new RolePostData(xhr.request.body);
+            expect(actualRequest.name).to.eql("Edited role");
         });
     }
 
     public assertEditedRoleDisplayedCorrectly() {
-        cy.intercept("PUT", `/users/15`, ApiMocks.USER_MANAGEMENT_ROLES_EDIT).as("Put");
+        cy.intercept("PUT", `/roles/15`, ApiMocks.USER_MANAGEMENT_ROLES_EDIT).as("Put");
         cy.intercept(
             "GET",
             "https://localhost:8000/roles?search=&first=0&max=10&sortBy=&sortDesc=",
-            ApiMocks.USER_MANAGEMENT_ADD_USER,
+            ApiMocks.USER_MANAGEMENT_ROLES_EDIT_TABLE,
         ).as("Get");
-        this.clickDataCy("user-edit-confirm-ok");
+        this.clickDataCy("role-edit-confirm-ok");
         Cypress.on("uncaught:exception", () => {
             return false;
         });
@@ -970,9 +994,51 @@ export default class UserManagement extends AbstractPage {
             return false;
         });
         cy.wait("@Post").then((xhr) => {
-            const actualRequest = new RoleData(xhr.request.body);
-            expect(actualRequest.roles[0].name).to.eql("Added role");
+            const actualRequest = new RolePostData(xhr.request.body);
+            expect(actualRequest.name).to.eql("Added role");
         });
+    }
+
+    public errorAddingRole(statusCode: number) {
+        cy.intercept("POST", "/roles", { statusCode: statusCode }).as("Post");
+        cy.intercept(
+            "GET",
+            "https://localhost:8000/roles?search=&first=0&max=10&sortBy=&sortDesc=",
+            ApiMocks.USER_MANAGEMENT_ROLES_ADD,
+        ).as("Get");
+        this.clickDataCy("role-modal-save");
+        Cypress.on("uncaught:exception", () => {
+            return false;
+        });
+        cy.wait("@Post");
+    }
+
+    public errorEditingRole(statusCode: number) {
+        cy.intercept("PUT", "/roles/15", { statusCode: statusCode }).as("Put");
+        cy.intercept(
+            "GET",
+            "https://localhost:8000/roles?search=&first=0&max=10&sortBy=&sortDesc=",
+            ApiMocks.USER_MANAGEMENT_ROLES_EDIT,
+        ).as("Get");
+        this.clickDataCy("role-edit-confirm-ok");
+        Cypress.on("uncaught:exception", () => {
+            return false;
+        });
+        cy.wait("@Put");
+    }
+
+    public errorDeletingRole(statusCode: number) {
+        cy.intercept("DELETE", "/roles/15", { statusCode: statusCode }).as("Delete");
+        cy.intercept(
+            "GET",
+            "https://localhost:8000/roles?search=&first=0&max=10&sortBy=&sortDesc=",
+            ApiMocks.USER_MANAGEMENT_ROLES_EDIT,
+        ).as("Delete");
+        this.clickDataCy("role-delete-ok");
+        Cypress.on("uncaught:exception", () => {
+            return false;
+        });
+        cy.wait("@Delete");
     }
 
     public assertAddRoleDetailsCorrect() {
@@ -1006,10 +1072,10 @@ export default class UserManagement extends AbstractPage {
     public assertAddRoleButton(status: string) {
         switch (status) {
             case "enabled":
-                cy.dataCy("user-modal-save").should("be.enabled");
+                cy.dataCy("role-modal-save").should("be.enabled");
                 break;
             case "disabled":
-                cy.dataCy("user-modal-save").should("be.disabled");
+                cy.dataCy("role-modal-save").should("be.disabled");
                 break;
             default:
                 throw "This scenario has not been implemented. Please review";
@@ -1102,7 +1168,7 @@ export default class UserManagement extends AbstractPage {
             "https://localhost:8000/roles?search=&first=0&max=10&sortBy=&sortDesc=",
             ApiMocks.USER_MANAGEMENT_ROLES_EMPTY,
         ).as("Get");
-        this.clickDataCy("user-delete-ok");
+        this.clickDataCy("role-delete-ok");
         Cypress.on("uncaught:exception", () => {
             return false;
         });
@@ -1116,7 +1182,7 @@ export default class UserManagement extends AbstractPage {
             "https://localhost:8000/roles?search=&first=0&max=10&sortBy=&sortDesc=",
             ApiMocks.USER_MANAGEMENT_ROLES_EMPTY,
         ).as("Get");
-        this.clickDataCy("user-delete-ok");
+        this.clickDataCy("role-delete-ok");
         Cypress.on("uncaught:exception", () => {
             return false;
         });
@@ -1133,6 +1199,6 @@ export default class UserManagement extends AbstractPage {
     }
 
     public assertFieldsRoles() {
-        cy.dataCy("role-name").click().should("have.value", "Admin");
+        cy.dataCy("role-name").click().should("have.value", "Only role");
     }
 }
