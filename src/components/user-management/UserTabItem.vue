@@ -17,7 +17,7 @@
                         ></v-text-field>
                     </div>
                     <div class="mr-6 d-flex align-center">
-                        <label for="user-filter-role" class="font-weight-bold mr-2">Show</label>
+                        <span class="font-weight-bold mr-2">Show</span>
                         <v-select
                             outlined
                             dense
@@ -129,7 +129,7 @@
         <v-dialog persistent v-model="deleteConfirm" max-width="350px">
             <v-card>
                 <v-card-title>Delete user</v-card-title>
-                <v-card-text
+                <v-card-text class="grey--text text--darken-3"
                     >Are you sure you would like to delete
                     <strong>{{ userToDelete?.firstName }} {{ userToDelete?.lastName }}</strong
                     >?</v-card-text
@@ -148,7 +148,7 @@
         <v-dialog persistent v-model="editConfirm" max-width="350px">
             <v-card>
                 <v-card-title>Edit user</v-card-title>
-                <v-card-text>
+                <v-card-text class="grey--text text--darken-3">
                     Are you sure you wish to make changes to
                     <strong>{{ userToEdit?.firstName }} {{ userToEdit?.lastName }} </strong>?
                 </v-card-text>
@@ -183,6 +183,7 @@ import {
 } from "@/api/user-management/UserManagementService";
 import { UserListItem, UserRoleListItem } from "@/models/user-management/UserManagement";
 import { Prop, Watch } from "vue-property-decorator";
+import { throttle } from "underscore";
 
 @Component({
     components: {
@@ -245,21 +246,21 @@ export default class UserTabItem extends Vue {
     totalUsers = 0;
     totalFilteredUsers = 0;
 
+    private throttledFetchUsers = throttle(() => {
+        this.fetchAndSetUsers();
+    }, 500);
+
     @Prop({ default: () => [] })
     roles!: UserRoleListItem[];
 
-    async mounted() {
-        await this.fetchAndSetUsers();
-    }
-
     @Watch("tableOptions", { deep: true })
-    async tableOptionsChanged() {
-        await this.fetchAndSetUsers();
+    tableOptionsChanged() {
+        this.throttledFetchUsers();
     }
 
     @Watch("tableSearch")
     async tableSearchChanged() {
-        await this.fetchAndSetUsers();
+        this.throttledFetchUsers();
     }
 
     createNewUser() {

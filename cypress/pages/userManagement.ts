@@ -5,7 +5,6 @@ import {
     PaginatedRolesResponse,
 } from "../../src/models/user-management/UserManagement";
 import { UserDataPost } from "data/user-management/usersPost";
-import { RoleData } from "data/user-management/roles";
 import { RolePostData } from "data/user-management/rolesPost";
 const userManagementUrl = "/#/user-management";
 const firstName = '[aria-label="First Name: Not sorted. Activate to sort ascending."]';
@@ -27,13 +26,9 @@ export default class UserManagement extends AbstractPage {
             "users?search=&first=0&max=10&sortBy=&sortDesc=",
             ApiMocks.USER_MANAGEMENT_GET_USERS,
         ).as("users");
-        cy.intercept(
-            "roles?search=&first=0&max=10&sortBy=&sortDesc=",
-            ApiMocks.USER_MANAGEMENT_ROLES,
-        ).as("roles");
         cy.intercept("roles/list", ApiMocks.USER_MANAGEMENT_ROLES_LIST).as("rolesList");
         cy.visit(userManagementUrl);
-        cy.wait(["@users", "@roles", "@rolesList"]);
+        cy.wait(["@users", "@rolesList"]);
         Cypress.on("uncaught:exception", () => {
             return false;
         });
@@ -50,7 +45,7 @@ export default class UserManagement extends AbstractPage {
         ).as("roles");
         cy.intercept("roles/list", ApiMocks.USER_MANAGEMENT_ROLES_LIST).as("rolesList");
         cy.visit(userManagementUrl);
-        cy.wait(["@users", "@roles", "@rolesList"]);
+        cy.wait(["@users", "@rolesList"]);
         Cypress.on("uncaught:exception", () => {
             return false;
         });
@@ -89,7 +84,7 @@ export default class UserManagement extends AbstractPage {
         ).as("roles");
         cy.intercept("roles/list", ApiMocks.USER_MANAGEMENT_ONE_ROLES_LIST).as("rolesList");
         cy.visit(userManagementUrl);
-        cy.wait(["@users", "@roles", "@rolesList"]);
+        cy.wait(["@users", "@rolesList"]);
         this.clickDataCy("user-management-tab-Roles");
         Cypress.on("uncaught:exception", () => {
             return false;
@@ -107,7 +102,7 @@ export default class UserManagement extends AbstractPage {
         ).as("roles");
         cy.intercept("roles/list", ApiMocks.USER_MANAGEMENT_ROLES_LIST).as("rolesList");
         cy.visit(userManagementUrl);
-        cy.wait(["@users", "@roles", "@rolesList"]);
+        cy.wait(["@users", "@rolesList"]);
         Cypress.on("uncaught:exception", () => {
             return false;
         });
@@ -187,7 +182,7 @@ export default class UserManagement extends AbstractPage {
         ).as("roles");
         cy.intercept("/roles/list", ApiMocks.USER_MANAGEMENT_ROLES_LIST).as("rolesList");
         cy.visit(userManagementUrl);
-        cy.wait(["@users", "@roles", "@rolesList"]);
+        cy.wait(["@users", "@rolesList"]);
         this.clickDataCy("user-management-tab-Roles");
         cy.intercept("/roles?search=&first=0&max=10&sortBy=name&sortDesc=false", {
             statusCode: statusCode,
@@ -210,7 +205,7 @@ export default class UserManagement extends AbstractPage {
         ).as("roles");
         cy.intercept("/roles/list", ApiMocks.USER_MANAGEMENT_ROLES_LIST).as("rolesList");
         cy.visit(userManagementUrl);
-        cy.wait(["@users", "@roles", "@rolesList"]);
+        cy.wait(["@users", "@rolesList"]);
         this.clickDataCy("user-management-tab-Roles");
         cy.intercept("/roles?search=H&first=0&max=10&sortBy=&sortDesc=", {
             statusCode: statusCode,
@@ -233,7 +228,7 @@ export default class UserManagement extends AbstractPage {
         ).as("roles");
         cy.intercept("/roles/list", ApiMocks.USER_MANAGEMENT_ROLES_LIST).as("rolesList");
         cy.visit(userManagementUrl);
-        cy.wait(["@users", "@roles", "@rolesList"]);
+        cy.wait(["@users", "@rolesList"]);
         this.clickDataCy("user-management-tab-Roles");
         cy.intercept("/roles?search=&first=10&max=10&sortBy=&sortDesc=", {
             statusCode: statusCode,
@@ -276,7 +271,7 @@ export default class UserManagement extends AbstractPage {
         ).as("roles");
         cy.intercept("/roles/list", ApiMocks.USER_MANAGEMENT_ROLES_LIST).as("rolesList");
         cy.visit(userManagementUrl);
-        cy.wait(["@users", "@roles", "@rolesList"]);
+        cy.wait(["@users", "@rolesList"]);
         cy.intercept("GET", `/users?search=&first=10&max=10&sortBy=&sortDesc=`, {
             statusCode: statusCode,
         }).as("pagination");
@@ -305,87 +300,17 @@ export default class UserManagement extends AbstractPage {
     public searchRoleTable(text: string): void {
         cy.intercept(
             "GET",
-            `https://localhost:8000/roles?search=C&first=0&max=10&sortBy=&sortDesc=`,
-            ApiMocks.USER_MANAGEMENT_ROLES_SEARCH,
-        ).as("C");
-        cy.intercept(
-            "GET",
-            `https://localhost:8000/roles?search=Cl&first=0&max=10&sortBy=&sortDesc=`,
-            ApiMocks.USER_MANAGEMENT_ROLES_SEARCH,
-        ).as("Cl");
-        cy.intercept(
-            "GET",
-            `https://localhost:8000/roles?search=Cli&first=0&max=10&sortBy=&sortDesc=`,
-            ApiMocks.USER_MANAGEMENT_ROLES_SEARCH,
-        ).as("Cli");
-        cy.intercept(
-            "GET",
-            `https://localhost:8000/roles?search=Clin&first=0&max=10&sortBy=&sortDesc=`,
-            ApiMocks.USER_MANAGEMENT_ROLES_SEARCH,
-        ).as("Clin");
-        cy.intercept(
-            "GET",
-            `https://localhost:8000/roles?search=Clini&first=0&max=10&sortBy=&sortDesc=`,
-            ApiMocks.USER_MANAGEMENT_ROLES_SEARCH,
-        ).as("Clini");
-        cy.intercept(
-            "GET",
-            `https://localhost:8000/roles?search=Clinic&first=0&max=10&sortBy=&sortDesc=`,
-            ApiMocks.USER_MANAGEMENT_ROLES_SEARCH,
-        ).as("Clinic");
-        cy.intercept(
-            "GET",
-            `https://localhost:8000/roles?search=Clinici&first=0&max=10&sortBy=&sortDesc=`,
-            ApiMocks.USER_MANAGEMENT_ROLES_SEARCH,
-        ).as("Clinici");
-        cy.intercept(
-            "GET",
-            `https://localhost:8000/roles?search=Clinicia&first=0&max=10&sortBy=&sortDesc=`,
-            ApiMocks.USER_MANAGEMENT_ROLES_SEARCH,
-        ).as("Clinicia");
-        cy.intercept(
-            "GET",
             `https://localhost:8000/roles?search=Clinician&first=0&max=10&sortBy=&sortDesc=`,
             ApiMocks.USER_MANAGEMENT_ROLES_SEARCH,
         ).as("Clinician");
         cy.dataCy("role-search-input").clear().type(text);
-        cy.wait([
-            "@C",
-            "@Cl",
-            "@Cli",
-            "@Clin",
-            "@Clini",
-            "@Clinic",
-            "@Clinici",
-            "@Clinicia",
-            "@Clinician",
-        ]);
+        cy.wait(["@Clinician"]);
         Cypress.on("uncaught:exception", () => {
             return false;
         });
     }
 
     public searchUserTable(text: string): void {
-        cy.intercept(
-            "GET",
-            `/users?search=S&first=0&max=10&sortBy=&sortDesc=`,
-            ApiMocks.USER_MANAGEMENT_SEARCH,
-        ).as("S");
-        cy.intercept(
-            "GET",
-            `/users?search=Su&first=0&max=10&sortBy=&sortDesc=`,
-            ApiMocks.USER_MANAGEMENT_SEARCH,
-        ).as("Su");
-        cy.intercept(
-            "GET",
-            `/users?search=Sus&first=0&max=10&sortBy=&sortDesc=`,
-            ApiMocks.USER_MANAGEMENT_SEARCH,
-        ).as("Sus");
-        cy.intercept(
-            "GET",
-            `/users?search=Susa&first=0&max=10&sortBy=&sortDesc=`,
-            ApiMocks.USER_MANAGEMENT_SEARCH,
-        ).as("Susa");
         cy.intercept(
             "GET",
             `/users?search=Susan&first=0&max=10&sortBy=&sortDesc=`,
@@ -395,7 +320,7 @@ export default class UserManagement extends AbstractPage {
             return false;
         });
         cy.dataCy("user-search-input").clear().type(text);
-        cy.wait(["@S", "@Su", "@Sus", "@Susa", "@Susan"]);
+        cy.wait(["@Susan"]);
     }
 
     public assertCorrectUserDisplayed(user: GetAllUsersResponse): void {

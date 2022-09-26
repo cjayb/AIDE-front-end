@@ -98,7 +98,7 @@
         <v-dialog persistent v-model="deleteConfirm" max-width="350px">
             <v-card>
                 <v-card-title>Delete role</v-card-title>
-                <v-card-text id="deleteRoleModalTitle"
+                <v-card-text class="grey--text text--darken-3"
                     >Are you sure you would like to delete <strong>{{ roleToDelete?.name }}</strong
                     >?</v-card-text
                 >
@@ -116,7 +116,7 @@
         <v-dialog persistent v-model="editConfirm" max-width="350px">
             <v-card>
                 <v-card-title>Edit role</v-card-title>
-                <v-card-text>
+                <v-card-text class="grey--text text--darken-3">
                     Are you sure you wish to make changes to
                     <strong> {{ roleToEdit?.name }} </strong>?
                 </v-card-text>
@@ -152,6 +152,7 @@ import { Watch } from "vue-property-decorator";
 import { DataOptions, DataTableHeader } from "vuetify";
 import { UserRoleListItem } from "@/models/user-management/UserManagement";
 import RoleModal from "./RoleModal.vue";
+import { throttle } from "underscore";
 
 @Component({
     components: {
@@ -193,18 +194,18 @@ export default class UserRolesTabItem extends Vue {
     deleteConfirm = false;
     roleToDelete: UserRoleListItem | null = null;
 
-    async mounted() {
-        await this.fetchRoles();
-    }
+    private throttledFetchRoles = throttle(() => {
+        this.fetchRoles();
+    }, 500);
 
     @Watch("tableOptions", { deep: true })
     async tableOptionsChanged() {
-        await this.fetchRoles();
+        this.throttledFetchRoles();
     }
 
     @Watch("tableSearch")
     async tableSearchChanged() {
-        await this.fetchRoles();
+        this.throttledFetchRoles();
     }
 
     private async fetchRoles() {

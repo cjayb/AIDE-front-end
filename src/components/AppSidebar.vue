@@ -56,6 +56,13 @@ export default class AppSidebar extends Vue {
             role: "admin",
             datacy: "user-management-button",
         },
+        {
+            title: "Workflows",
+            icon: "mdi-file-tree",
+            route: "Workflows",
+            role: "admin",
+            datacy: "workflows-button",
+        },
     ];
     roles: string[] = [];
     drawer = false;

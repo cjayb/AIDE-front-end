@@ -8,6 +8,8 @@ import ListView from "@/components/AppRepo/ListView/ListView.vue";
 import DetailView from "@/components/AppRepo/DetailView/DetailView.vue";
 import Unauthorized from "@/views/Unauthorized.vue";
 import UserManagement from "@/views/UserManagement.vue";
+import Workflows from "@/views/Workflows.vue";
+import WorkflowEditor from "@/views/WorkflowEditor.vue";
 
 Vue.use(VueRouter);
 
@@ -99,6 +101,24 @@ const routes: Array<RouteConfig> = [
         },
     },
     {
+        path: "/workflows",
+        name: "Workflows",
+        component: Workflows,
+        beforeEnter: roleAuthenticatedRoute,
+        meta: {
+            requiredRole: "admin",
+        },
+    },
+    {
+        path: "/workflow-editor/:workflow_id?",
+        name: "WorkflowEditor",
+        component: WorkflowEditor,
+        beforeEnter: roleAuthenticatedRoute,
+        meta: {
+            requiredRole: "admin",
+        },
+    },
+    {
         path: "/unauthorized",
         name: "Unauthorized",
         component: Unauthorized,
@@ -112,7 +132,7 @@ const routes: Array<RouteConfig> = [
             }
 
             if (!Vue.$keycloak.authenticated) {
-                Vue.$keycloak.login({ redirectUri: `${window.location.origin}/#${to.path}` });
+                Vue.$keycloak.login({ redirectUri: `${window.location.origin}/${to.path}` });
             }
 
             let destination = "Unauthorized";
@@ -142,7 +162,7 @@ function roleAuthenticatedRoute(to: Route, _: Route, next: NavigationGuardNext<V
     }
 
     if (!Vue.$keycloak.authenticated) {
-        Vue.$keycloak.login({ redirectUri: `${window.location.origin}/#${to.path}` });
+        Vue.$keycloak.login({ redirectUri: `${window.location.origin}/${to.path}` });
 
         return;
     }

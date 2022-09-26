@@ -88,6 +88,12 @@ export default class AppHeader extends Vue {
         if (this.$route.name == "ApplicationRepositoryDetail") {
             this.pageTitle = "Application Repository";
         }
+        if (this.$route.name == "UserManagement") {
+            this.pageTitle = "User Management";
+        }
+        if (this.$route.name == "Workflows") {
+            this.pageTitle = "Workflow Management";
+        }
     }
 
     logout(): void {

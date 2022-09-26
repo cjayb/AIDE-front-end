@@ -33,6 +33,10 @@ export default class ApiMocks {
     public static USER_MANAGEMENT_ONE_ROLES_LIST = require("./user-management/userManagementOneRolesList.json");
     public static USER_MANAGEMENT_ROLES_LIST_ADDED = require("./user-management/userManagementRolesListAdded.json");
     public static USER_MANAGEMENT_ROLES_EDIT_TABLE = require("./user-management/userManagementRolesEditTable.json");
+    //Workflows
+    public static WORKFLOWS = require("./workflows/workflows.json");
+    public static WORKFLOWS_TEN = require("./workflows/workflowsTen.json");
+    public static WORKFLOW_EXAMPLE = require("./workflows/workflowExample.json");
     //Clinical Review
     public static CLINICAL_REVIEW_ALL_EXECUTIONS = require("./clinical-review/allExecutionsForReview.json");
     public static CLINICAL_REVIEW_PAGE_1 = require("./clinical-review/clinicalReviewPage1.json");
