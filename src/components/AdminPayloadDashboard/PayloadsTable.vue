@@ -59,7 +59,7 @@
                         </template>
                         <template v-slot:[`expanded-item`]="{ item }">
                             <td :colspan="5">
-                                <ExecutionTree :payload_id="item.payload_id" />
+                                <ExecutionTree :payload-id="item.payload_id" />
                             </td>
                         </template>
                     </v-data-table>
@@ -77,7 +77,7 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import { getPayloads } from "@/api/Admin/AdminStatisticsService";
+import { getPayloads } from "@/api/Admin/payloads/PayloadService";
 import { IPayload } from "@/models/Admin/IPayload";
 import ExecutionTree from "@/components/AdminPayloadDashboard/ExecutionTree.vue";
 import { formatDateAndTimeOfArray } from "@/utils/dateFormattingUtils";

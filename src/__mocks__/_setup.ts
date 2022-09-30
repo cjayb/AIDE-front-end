@@ -2,5 +2,12 @@ import { setupWorker } from "msw";
 
 import { userManagementHandlers } from "./user-management";
 import { workflowsHandlers } from "./workflows";
+import { payloadsHandlers } from "./payloads";
+import { executionsHandlers } from "./executions";
 
-export const worker = setupWorker(...userManagementHandlers, ...workflowsHandlers);
+export const worker = setupWorker(
+    ...userManagementHandlers,
+    ...workflowsHandlers,
+    ...payloadsHandlers,
+    ...executionsHandlers,
+);

@@ -208,7 +208,7 @@ describe(`Admin Payload - Tree`, () => {
     });
     it(`When I click on the drop down, the model node colours
         in the tree are green if they succeeded and red if they failed`, () => {
-        adminPayloadPage.assertNodeColour();
+        adminPayloadPage.assertNodeColour(PayloadTreeData.TREE_DATA_1);
     });
     it(`When I click on zoom in, the tree data is still present`, () => {
         adminPayloadPage.clickZoomIn();
@@ -250,7 +250,7 @@ describe(`Admin payload - API errors`, () => {
     });
 });
 
-describe(`Admin Payload - Model Details Popover Information`, () => {
+describe.only(`Admin Payload - Model Details Popover Information`, () => {
     beforeEach(() => {
         adminPayloadPage.initPagePayload();
         adminPayloadPage.expandAndViewTree(PayloadData.PAYLOAD_DATA_1);
@@ -262,7 +262,7 @@ describe(`Admin Payload - Model Details Popover Information`, () => {
     });
     it(`When I click each node, the node colour should be similar to the popover menu status tag colour`, () => {
         adminPayloadPage.clickZoomOut();
-        adminPayloadPage.assertModelColourMatchesPopover();
+        adminPayloadPage.assertModelColourMatchesPopover(PayloadTreeData.TREE_DATA_1);
     });
     it(`When I click on the View Logs button, I should be able to see the log data`, () => {
         adminPayloadPage.assertPopoverLogsDisplayed(TaskData.TASK_DATA_1);

@@ -9,34 +9,35 @@
                     :config="treeConfig"
                     direction="horizontal"
                     :collapse-enabled="false"
+                    link-style="straight"
                 >
                     <template v-slot:node="{ node }">
-                        <div class="rich-media-node" @click="setSelectedNode(node)">
+                        <div
+                            class="rich-media-node"
+                            :style="{ cursor: !node.execution_id ? 'not-allowed' : 'pointer' }"
+                            @click="setSelectedNode(node)"
+                        >
                             <span
-                                class="tree-node d-flex flex-column"
-                                :style="{
-                                    background: node.execution_status === 'error' ? 'red' : 'green',
-                                    border:
-                                        selectedNode.execution_id === node.execution_id
-                                            ? '2px solid black'
-                                            : '',
-                                    borderRadius: '50%',
-                                }"
-                                :data-cy="'node ' + node.model_name"
+                                :class="`tree-node d-flex flex-column ${node.status} ${
+                                    selectedNode?.id === node.id ? 'selected' : ''
+                                }`"
+                                :data-cy="`node ${node.name}`"
                             >
-                                <span
-                                    class="tree-node-title mt-5"
-                                    style="font-weight: bold; font-size: 14px"
-                                    :data-cy="'name ' + node.model_name"
-                                >
-                                    {{ node.model_name }}
+                                <span class="tree-node-title mt-5" :data-cy="`name ${node.name}`">
+                                    {{ node.name }}
+                                </span>
+                                <span v-if="node.id === 'workflow-instance'" class="tree-node-text">
+                                    Workflow
+                                </span>
+                                <span v-else-if="node.id !== 'root-node'" class="tree-node-text">
+                                    Task
                                 </span>
                                 <span
+                                    v-if="node.id !== 'root-node'"
                                     class="tree-node-text"
-                                    style="font-size: 12px"
-                                    :data-cy="'date ' + node.model_name"
+                                    :data-cy="`date ${node.name}`"
                                 >
-                                    {{ formatDate(node.execution_finished) }}
+                                    {{ node.start_date | formatDateString }}
                                 </span>
                             </span>
                         </div>
@@ -52,7 +53,7 @@
                     <v-icon color="black" data-cy="zoom-out"> mdi-magnify-minus-outline </v-icon>
                 </v-btn>
             </div>
-            <ModelDetailsSection :selectedNodeDetails="selectedNode" />
+            <ModelDetailsSection v-if="selectedNode" :selected-node="selectedNode" />
         </v-row>
         <div v-else class="text-center my-3">
             <v-progress-circular indeterminate color="grey" data-cy="progress" />
@@ -64,66 +65,57 @@
 import VueTree from "@ssthouse/vue-tree-chart";
 import Component from "vue-class-component";
 import Vue from "vue";
-import { IPayloadExecutionsFormatted } from "@/models/Admin/IPayload";
-import { getPayloadExecutions } from "@/api/Admin/AdminStatisticsService";
-import { formatDateAndTimeOfString } from "@/utils/dateFormattingUtils";
+import { getPayloadExecutions } from "@/api/Admin/payloads/PayloadService";
+import { formatDateString } from "@/utils/date-utilities";
 import { EventBus } from "@/event-bus";
 import ModelDetailsSection from "./ModelDetailsSection.vue";
+import { Prop } from "vue-property-decorator";
+import { mapToExecutionTree } from "@/utils/workflow-instance-mapper";
 
 Vue.component("vue-tree", VueTree);
-
-const ExecutionTreeProps = Vue.extend({
-    props: {
-        payload_id: { type: Number, required: true },
-    },
-});
 
 @Component({
     components: {
         "vue-tree": VueTree,
         ModelDetailsSection,
     },
+    filters: {
+        formatDateString,
+    },
 })
-export default class ExecutionTree extends ExecutionTreeProps {
+export default class ExecutionTree extends Vue {
+    @Prop({ required: true })
+    payloadId!: string;
+
     loading = false;
-    selectedNode: IPayloadExecutionsFormatted | null = {
-        execution_id: 0,
-        payload_id: 0,
-        model_name: "",
-        execution_status: "",
-        execution_started: "",
-        execution_finished: "",
-        children: [],
-    };
-    payloadExecutions: IPayloadExecutionsFormatted[] = [];
+    selectedNode: any = null;
+    payloadExecutions: object = {};
     treeConfig = { nodeWidth: 100, nodeHeight: 70, levelHeight: 200 };
 
-    async created(): Promise<void> {
+    mounted() {
         this.getPayloadExecutionsForTree();
     }
 
     async getPayloadExecutionsForTree(): Promise<void> {
         this.loading = true;
-        await getPayloadExecutions(this.payload_id)
-            .then((executions) => {
-                this.payloadExecutions = JSON.parse(
-                    JSON.stringify(executions).replace(/"executions"/g, '"children"'),
-                );
-                this.selectedNode = this.payloadExecutions[0];
-            })
-            .catch((err) => {
-                this.loading = false;
-                console.log(err);
-            });
+
+        const workflowInstances = await getPayloadExecutions(this.payloadId);
+        this.payloadExecutions = mapToExecutionTree(workflowInstances);
+
         this.loading = false;
     }
 
-    setSelectedNode(node: IPayloadExecutionsFormatted): void {
-        this.selectedNode = node;
-    }
+    setSelectedNode(node: any): void {
+        if (node.id === "root-node" || node.id === "workflow-instance") {
+            return;
+        }
 
-    formatDate(date: string): string {
-        return formatDateAndTimeOfString(date);
+        if (this.selectedNode?.id === node.id) {
+            this.selectedNode = null;
+            return;
+        }
+
+        this.selectedNode = node;
     }
 
     zoomInExecutionTree(): void {
@@ -157,7 +149,13 @@ export default class ExecutionTree extends ExecutionTreeProps {
 }
 </script>
 
-<style scoped>
+<style>
+.node-slot {
+    cursor: initial !important;
+}
+</style>
+
+<style lang="scss" scoped>
 .tree-node {
     display: inline-block;
     width: 10px;
@@ -165,6 +163,30 @@ export default class ExecutionTree extends ExecutionTreeProps {
     border-radius: 50%;
     text-align: center;
     line-height: 20px;
+    background-color: orange;
+
+    &.Failed,
+    &.failed {
+        background-color: red;
+    }
+
+    &.Succeeded,
+    &.succeeded {
+        background-color: green;
+    }
+
+    &.selected {
+        border: 2px solid black;
+    }
+}
+
+.tree-node-title {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.tree-node-text {
+    font-size: 12px;
 }
 
 .tree-node-title,

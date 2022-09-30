@@ -1,6 +1,8 @@
 import ApiMocks from "../../fixtures/mockIndex";
-import { IPayload, IPayloadExecutions } from "../../../src/models/Admin/IPayload";
+import { IPayload } from "../../../src/models/Admin/IPayload";
 import { IIssue } from "../../../src/models/Admin/IIssue";
+import { ExecutionTreeRoot } from "../../../src/utils/workflow-instance-mapper";
+import { formatDateString } from "../../../src/utils/date-utilities";
 
 export default class AdminPayloadDashboardPage {
     //PAYLOADS TABLE
@@ -53,18 +55,19 @@ export default class AdminPayloadDashboardPage {
     public expandAndViewTree(payload: IPayload): void {
         const payload_id = payload.payload_id;
         cy.intercept(
-            `/api/payloads/${payload_id}/executions`,
+            `/payloads/${payload_id}/executions`,
             ApiMocks.ADMIN_DASHBOARD_PAYLOAD_EXECUTIONS,
         ).as(`executions`);
         cy.get(`tbody > :nth-child(${payload_id}) > :nth-child(1)`).should(`exist`).click();
         cy.wait([`@executions`]);
+        cy.intercept(`/executions/*/tasks/*/artifacts`, {});
         Cypress.on(`uncaught:exception`, () => {
             return false;
         });
     }
 
     public async initPagePayload() {
-        cy.intercept(`/api/payloads`, ApiMocks.ADMIN_DASHBOARD_PAYLOAD_TABLE).as(`payloadTable`);
+        cy.intercept(`/payloads`, ApiMocks.ADMIN_DASHBOARD_PAYLOAD_TABLE).as(`payloadTable`);
         cy.visit(`/#/admin-payload-dashboard`);
         cy.wait([`@payloadTable`]);
         Cypress.on(`uncaught:exception`, () => {
@@ -72,32 +75,36 @@ export default class AdminPayloadDashboardPage {
         });
     }
 
-    public assertModelNameCorrect(payload: IPayloadExecutions): void {
-        const tuple = [
-            ['"name Dicom Received"', payload.model_name],
-            ['"name Model 1"', payload.executions[0].model_name],
-            ['"name Model 2"', payload.executions[1].model_name],
-            ['"name Model 3"', payload.executions[0].executions[0].model_name],
-            ['"name Model 4"', payload.executions[0].executions[1].model_name],
-            ['"name Model 5"', payload.executions[1].executions[0].model_name],
-            ['"name Model 6"', payload.executions[1].executions[1].model_name],
-        ];
+    public assertModelNameCorrect(payload: ExecutionTreeRoot): void {
+        const tuple: string[][] = [];
+
+        payload.children.forEach((c) => {
+            tuple.push([`"name ${c.name}"`, c.name]);
+
+            c.children.forEach((gc) => {
+                tuple.push([`"name ${gc.name}"`, gc.name]);
+            });
+        });
+
+        tuple.forEach(($type) => {
+            const [name, dateTime] = $type;
+            cy.dataCy(name).should("contain", formatDateString(dateTime));
+        });
+
         tuple.forEach(($type) => {
             const [Model_number, model_name] = $type;
             cy.dataCy(Model_number).should("contain", model_name);
         });
     }
 
-    public assertModelNameMatchesPopover(payload: IPayloadExecutions): void {
-        const tuple = [
-            ['"node Dicom Received"', payload.model_name],
-            ['"node Model 1"', payload.executions[0].model_name],
-            ['"node Model 2"', payload.executions[1].model_name],
-            ['"node Model 3"', payload.executions[0].executions[0].model_name],
-            ['"node Model 4"', payload.executions[0].executions[1].model_name],
-            ['"node Model 5"', payload.executions[1].executions[0].model_name],
-            ['"node Model 6"', payload.executions[1].executions[1].model_name],
-        ];
+    public assertModelNameMatchesPopover(payload: ExecutionTreeRoot): void {
+        const tuple: string[][] = [];
+
+        payload.children.forEach((c) => {
+            c.children.forEach((gc) => {
+                tuple.push([`"date ${gc.name}"`, gc.name]);
+            });
+        });
         tuple.forEach(($type) => {
             const [node, model_name] = $type;
             cy.dataCy(node).click();
@@ -105,85 +112,71 @@ export default class AdminPayloadDashboardPage {
         });
     }
 
-    public assertModelColourMatchesPopover(): void {
-        const tuple = [
-            [
-                '"node Dicom Received"',
-                "background: green; border: 2px solid black; border-radius: 50%;",
-                "light-green",
-            ],
-            [
-                '"node Model 1"',
-                "background: red; border-radius: 50%; border: 2px solid black;",
-                "red",
-            ],
-            [
-                '"node Model 2"',
-                "background: green; border-radius: 50%; border: 2px solid black;",
-                "light-green",
-            ],
-            [
-                '"node Model 3"',
-                "background: green; border-radius: 50%; border: 2px solid black;",
-                "light-green",
-            ],
-            [
-                '"node Model 4"',
-                "background: red; border-radius: 50%; border: 2px solid black;",
-                "red",
-            ],
-            [
-                '"node Model 5"',
-                "background: red; border-radius: 50%; border: 2px solid black;",
-                "red",
-            ],
-            [
-                '"node Model 6"',
-                "background: green; border-radius: 50%; border: 2px solid black;",
-                "light-green",
-            ],
-        ];
+    public assertModelColourMatchesPopover(payload: ExecutionTreeRoot): void {
+        const statusBg = (status: string) => {
+            switch (status) {
+                case "Succeeded":
+                case "succeeded":
+                    return "light-green lighten-4";
+
+                case "Failed":
+                case "failed":
+                    return "red lighten-4";
+
+                default:
+                    return "orange lighten-4";
+            }
+        };
+
+        const tuple: string[][] = [];
+
+        payload.children.forEach((c) => {
+            c.children.forEach((gc) => {
+                tuple.push([`"node ${gc.name}"`, gc.status, statusBg(gc.status)]);
+            });
+        });
+
         tuple.forEach(($type) => {
             const [node, node_colour, popover_status_colour] = $type;
             cy.dataCy(node).click();
-            cy.dataCy(node).should("have.attr", "style", node_colour);
-            cy.dataCy("selected-node-status").should("have.class", popover_status_colour);
+            cy.dataCy(node).should("have.attr", "class").and("contain", node_colour);
+            cy.dataCy("selected-node-status")
+                .should("have.attr", "class")
+                .and("contain", popover_status_colour);
         });
     }
 
-    public assertModelDateCorrect(payload: IPayloadExecutions): void {
-        const tuple = [
-            ['"date Dicom Received"', payload.execution_finished],
-            ['"date Model 1"', payload.executions[0].execution_finished],
-            ['"date Model 2"', payload.executions[1].execution_finished],
-            ['"date Model 3"', payload.executions[0].executions[0].execution_finished],
-            ['"date Model 4"', payload.executions[0].executions[1].execution_finished],
-            ['"date Model 5"', payload.executions[1].executions[0].execution_finished],
-            ['"date Model 6"', payload.executions[1].executions[1].execution_finished],
-        ];
+    public assertModelDateCorrect(payload: ExecutionTreeRoot): void {
+        const tuple: string[][] = [];
+
+        payload.children.forEach((c) => {
+            tuple.push([`"date ${c.name}"`, c.start_date]);
+
+            c.children.forEach((gc) => {
+                tuple.push([`"date ${gc.name}"`, gc.start_date]);
+            });
+        });
+
         tuple.forEach(($type) => {
-            const [Model_number, dateTime] = $type;
-            const DateTime = this.formatDateAndTimeOfString(dateTime as string);
-            cy.dataCy(Model_number).should("contain", DateTime);
+            const [name, dateTime] = $type;
+            cy.dataCy(name).should("contain", formatDateString(dateTime));
         });
     }
 
-    public assertNodeColour(): void {
-        const tuple = [
-            [
-                '"node Dicom Received"',
-                "background: green; border: 2px solid black; border-radius: 50%;",
-            ],
-            ['"node Model 1"', "background: red; border-radius: 50%;"],
-            ['"node Model 2"', "background: green; border-radius: 50%;"],
-            ['"node Model 3"', "background: green; border-radius: 50%;"],
-            ['"node Model 4"', "background: red; border-radius: 50%;"],
-            ['"node Model 5"', "background: red; border-radius: 50%;"],
-            ['"node Model 6"', "background: green; border-radius: 50%;"],
-        ];
+    public assertNodeColour(payload: ExecutionTreeRoot): void {
+        const tuple: string[][] = [];
+
+        payload.children.forEach((c) => {
+            tuple.push([`"node ${c.name}"`, c.status]);
+
+            c.children.forEach((gc) => {
+                tuple.push([`"node ${gc.name}"`, gc.status]);
+            });
+        });
+
         tuple.forEach(($type) => {
             const [node, style] = $type;
-            cy.dataCy(node).should("have.attr", "style", style);
+            cy.dataCy(node).should("have.attr", "class").and("contain", style);
         });
     }
 
@@ -199,13 +192,6 @@ export default class AdminPayloadDashboardPage {
         cy.dataCy(AdminPayloadDashboardPage.RESET).click();
     }
 
-    public formatDateAndTimeOfString(item: string): string {
-        const date = item.split("T")[0].replace(/(\d{4})(\d{2})(\d+)/, "$1-$2-$3");
-        const hour = Number(item.split("T")[1].substring(0, 2));
-        const minutes = item.split("T")[1].substring(2, 2).toString();
-        return (item = date + " " + (Number(hour) < 10 ? "0" + hour : hour) + ":" + minutes);
-    }
-
     public formatTaskDate(payload: string): string {
         const date = payload.split("T")[0].replace(/(\d{4})(\d{2})(\d+)/, "$1-$2-$3");
         const hour = Number(payload.split("T")[1].substring(0, 2));
@@ -215,7 +201,7 @@ export default class AdminPayloadDashboardPage {
     }
 
     public async initPagePayloadApiError(error: number) {
-        cy.intercept(`/api/payloads`, { statusCode: error }).as(`payloadTable`);
+        cy.intercept(`/payloads`, { statusCode: error }).as(`payloadTable`);
         cy.visit(`/#/admin-payload-dashboard`);
         cy.wait([`@payloadTable`]);
         Cypress.on(`uncaught:exception`, () => {
@@ -224,7 +210,7 @@ export default class AdminPayloadDashboardPage {
     }
 
     public async initPagePayloadTreeApiError(error: number) {
-        cy.intercept(`/api/payloads`, { statusCode: error }).as(`payloadTable`);
+        cy.intercept(`/payloads`, { statusCode: error }).as(`payloadTable`);
         cy.visit(`/#/admin-payload-dashboard`);
         cy.wait([`@payloadTable`]);
         Cypress.on(`uncaught:exception`, () => {
@@ -238,9 +224,7 @@ export default class AdminPayloadDashboardPage {
 
     public expandAndViewTreeWithoutData(payload: IPayload): void {
         const payload_id = payload.payload_id;
-        cy.intercept(`/api/payloads/${payload_id}/executions`, { statusCode: 400 }).as(
-            `executions`,
-        );
+        cy.intercept(`/payloads/${payload_id}/executions`, { statusCode: 400 }).as(`executions`);
         cy.get(`tbody > :nth-child(${payload_id}) > :nth-child(1)`).should(`exist`).click();
         cy.wait([`@executions`]);
         Cypress.on(`uncaught:exception`, () => {
@@ -249,9 +233,9 @@ export default class AdminPayloadDashboardPage {
     }
 
     public assertPopoverLogsDisplayed(task: IIssue): void {
-        cy.intercept(`/api/logs/${task.task_id}`, ApiMocks.ADMIN_DASHBOARD_EXECUTION_LOGS).as(
-            `Logs`,
-        );
+        cy.dataCy('"name export-task-connectathon2"').click();
+
+        cy.intercept(`/api/logs/*`, ApiMocks.ADMIN_DASHBOARD_EXECUTION_LOGS).as(`Logs`);
 
         cy.dataCy(AdminPayloadDashboardPage.VIEW_LOGS_BUTTON).click();
         this.getTask(task.task_id).within(() => {

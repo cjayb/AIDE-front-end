@@ -1,29 +1,17 @@
 <template>
     <v-col style="width: 25%" class="pa-7 model-details">
-        <h3 data-cy="selected-node-name">{{ selectedNode.model_name }}</h3>
+        <h3 data-cy="selected-node-name">{{ selectedNode.name }}</h3>
         <v-chip
-            class="mt-2 mb-6 mx-0"
-            :color="
-                selectedNode.execution_status === 'success'
-                    ? 'light-green lighten-4'
-                    : 'red lighten-4'
-            "
-            :text-color="
-                selectedNode.execution_status === 'success'
-                    ? 'light-green darken-4'
-                    : 'red darken-3'
-            "
+            :class="`mt-2 mb-6 mx-0 status ${selectedNode.status}`"
+            :color="selectedNode.status | statusChipBg"
+            :text-color="selectedNode.status | statusChipText"
             data-cy="selected-node-status"
         >
-            <strong>{{ formatString(selectedNode.execution_status) }}</strong>
+            <strong>{{ selectedNode.status }}</strong>
         </v-chip>
         <p data-cy="selected-node-started">
             <strong class="mr-sm-7 mr-lg-0">Execution started: </strong>
-            {{ formatDate(selectedNode.execution_started) }}
-        </p>
-        <p data-cy="selected-node-finished">
-            <strong class="mr-sm-7 mr-lg-0">Execution finished: </strong>
-            {{ formatDate(selectedNode.execution_finished) }}
+            {{ selectedNode.start_date | formatDateString }}
         </p>
         <v-row class="pa-3 mt-1">
             <v-btn
@@ -35,70 +23,104 @@
             >
                 View Logs
             </v-btn>
-            <v-btn
-                elevation="0"
-                class="my-1 ml-xl-1 no-uppercase purple--text text--darken-4"
-                color="purple lighten-5"
-                @click.stop="downloadFile"
-                data-cy="download-node-outputs"
-                disabled
-            >
-                Download Outputs
-            </v-btn>
+            <div class="text-center">
+                <v-menu offset-y>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                            elevation="0"
+                            class="my-1 ml-xl-1 no-uppercase purple--text text--darken-4"
+                            color="purple lighten-5"
+                            data-cy="download-node-outputs"
+                            v-on="on"
+                            v-bind="attrs"
+                            :disabled="loadingArtifacts"
+                        >
+                            Download Outputs
+                        </v-btn>
+                    </template>
+                    <v-list dense>
+                        <v-list-item link v-for="(value, key) in artifacts" :key="key">
+                            <v-list-item-title @click="downloadArtifactByKey(key)">
+                                {{ key }}
+                            </v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
+            </div>
         </v-row>
     </v-col>
 </template>
 
 <script lang="ts">
-import VueTree from "@ssthouse/vue-tree-chart";
 import Component from "vue-class-component";
 import Vue from "vue";
-import { IPayloadExecutionsFormatted } from "@/models/Admin/IPayload";
+import { Prop, Watch } from "vue-property-decorator";
+import { getPayloadExecutionArtifacts } from "@/api/Admin/payloads/PayloadService";
 import { EventBus } from "@/event-bus";
-import { Watch } from "vue-property-decorator";
-import { ILogs } from "@/models/Admin/ILogs";
-import { capitaliseFirstLetter } from "@/utils/stringFormattingUtils";
-import { formatDateAndTimeOfString } from "@/utils/dateFormattingUtils";
+import { formatDateString } from "@/utils/date-utilities";
 
-Vue.component("vue-tree", VueTree);
+@Component({
+    filters: {
+        formatDateString,
+        statusChipBg: (status: string) => {
+            switch (status) {
+                case "Succeeded":
+                case "succeeded":
+                    return "light-green lighten-4";
 
-const ModelDetailsSectionProps = Vue.extend({
-    props: {
-        selectedNodeDetails: { type: Object, required: true },
+                case "Failed":
+                case "failed":
+                    return "red lighten-4";
+
+                default:
+                    return "orange lighten-4";
+            }
+        },
+        statusChipText: (status: string) => {
+            switch (status) {
+                case "Succeeded":
+                case "succeeded":
+                    return "light-green darken-4";
+
+                case "Failed":
+                case "failed":
+                    return "red darken-3";
+
+                default:
+                    return "orange darken-3";
+            }
+        },
     },
-});
+})
+export default class ModelDetailsSection extends Vue {
+    @Prop()
+    selectedNode: any;
 
-@Component({})
-export default class ModelDetailsSection extends ModelDetailsSectionProps {
-    selectedNode: IPayloadExecutionsFormatted = {
-        execution_id: 0,
-        payload_id: 0,
-        model_name: "",
-        execution_status: "",
-        execution_started: "",
-        execution_finished: "",
-        children: [],
-    };
+    loadingArtifacts = true;
+    artifacts: { [key: string]: string } = {};
 
-    async created(): Promise<void> {
-        this.selectedNode = this.selectedNodeDetails;
-    }
-
-    @Watch("selectedNodeDetails")
-    onSelectedNodeChange(): void {
-        this.selectedNode = this.selectedNodeDetails;
-    }
-
-    openLogsDialog(execution_id: number): void {
+    openLogsDialog(execution_id: string): void {
         EventBus.$emit("openLogsDialog", true, execution_id);
     }
 
-    formatString(string: string): string {
-        return capitaliseFirstLetter(string);
+    async mounted() {
+        await this.getArtifacts();
     }
 
-    formatDate(date: string): string {
-        return formatDateAndTimeOfString(date);
+    @Watch("selectedNode")
+    async getArtifacts() {
+        this.loadingArtifacts = true;
+
+        this.artifacts = await getPayloadExecutionArtifacts(
+            this.selectedNode.workflow_instance_id,
+            this.selectedNode.execution_id,
+        );
+
+        this.loadingArtifacts = Object.keys(this.artifacts).length === 0;
+    }
+
+    downloadArtifactByKey(key: string) {
+        window.open(`${window.FRONTEND_API_HOST}/executions/artifact-download?key=${key}`);
     }
 }
 </script>

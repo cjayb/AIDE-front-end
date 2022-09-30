@@ -2,7 +2,6 @@ import { IOverview } from "@/models/Admin/IOverview";
 import { IIssue } from "@/models/Admin/IIssue";
 import { ILogs } from "@/models/Admin/ILogs";
 import { IModelSummary, IModelDetails } from "@/models/Admin/IModel";
-import { IPayload, IPayloadExecutions } from "@/models/Admin/IPayload";
 import { createAxiosInstance, ErrorMessageMap } from "@/utils/axios-helpers";
 
 const errorMessages: ErrorMessageMap = {
@@ -47,19 +46,6 @@ export async function getModelStatsForGraphs(
     const response = await http.get(
         `/api/graph/${model_id}?start_date=${start_date}&end_date=${end_date}`,
     );
-
-    return response.data;
-}
-
-// Payloads Section
-export async function getPayloads(): Promise<IPayload[]> {
-    const response = await http.get(`/api/payloads`);
-
-    return response.data;
-}
-
-export async function getPayloadExecutions(payload_id: number): Promise<IPayloadExecutions[]> {
-    const response = await http.get(`/api/payloads/${payload_id}/executions`);
 
     return response.data;
 }
