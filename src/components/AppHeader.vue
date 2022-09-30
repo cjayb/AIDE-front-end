@@ -94,6 +94,9 @@ export default class AppHeader extends Vue {
         if (this.$route.name == "Workflows") {
             this.pageTitle = "Workflow Management";
         }
+        if (this.$route.name == "WorkflowEditor") {
+            this.pageTitle = "Workflow Manager";
+        }
     }
 
     logout(): void {

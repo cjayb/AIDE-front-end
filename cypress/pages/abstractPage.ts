@@ -28,6 +28,10 @@ export class AbstractPage implements IPage {
         cy.get("[class=v-toast__text]").should("have.text", text);
     }
 
+    public assertNoToast(): void {
+        cy.get("[class=v-toast__text]").should("not.exist");
+    }
+
     public VersionDropdown(dropdownId: string, versions: Array<Version>): void {
         if (versions != null) {
             versions.forEach((version) => {

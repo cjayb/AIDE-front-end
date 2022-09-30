@@ -1,160 +1,162 @@
 {
-    "id": "b941e7bc-9cd6-4664-8ade-03f18fdbfb51",
-    "workflow_id": "7e49e408-fbb9-4184-877c-dce0442b2d27",
-    "revision": 1,
-    "workflow": {
-        "name": "router_1",
-        "version": "1.0.0",
-        "description": "Workflow with a router task that creates a diverging branch",
-        "informatics_gateway": {
-            "ae_title": "MONAI",
-            "data_origins": [],
-            "export_destinations": ["ORTHANC"]
-        },
-        "tasks": [
-            {
-                "id": "router-task",
-                "description": "router task to route MR and US studies",
-                "type": "router",
-                "args": {},
-                "ref": "",
-                "task_destinations": [
-                    {
-                        "name": "argo-task-mr",
-                        "conditions": "{{ context.input.dicom.series.any('0008','0060') }} == 'MR'"
-                    },
-                    {
-                        "name": "argo-task-us",
-                        "conditions": "{{ context.input.dicom.series.any('0008','0060') }} == 'US'"
-                    }
-                ],
-                "export_destinations": [],
-                "artifacts": {
-                    "input": [],
-                    "output": []
-                },
-                "input_parameters": null
-            },
-            {
-                "id": "argo-task-mr",
-                "description": "mean-pixel-calc for MR studies",
-                "type": "argo",
-                "args": {
-                    "namespace": "argo",
-                    "workflow_template_name": "argo-workflow-1",
-                    "server_url": "https://argo-server.argo:2746",
-                    "allow_insecure": "true"
-                },
-                "ref": "",
-                "task_destinations": [
-                    {
-                        "name": "export-task-mr",
-                        "conditions": ""
-                    }
-                ],
-                "export_destinations": [],
-                "artifacts": {
-                    "input": [
-                        {
-                            "name": "input-dicom",
-                            "value": "{{ context.input.dicom }}",
-                            "mandatory": true
-                        }
-                    ],
-                    "output": [
-                        {
-                            "name": "report-dicom",
-                            "value": "",
-                            "mandatory": true
-                        }
-                    ]
-                },
-                "input_parameters": null
-            },
-            {
-                "id": "export-task-mr",
-                "description": "example export task",
-                "type": "export",
-                "args": {},
-                "ref": "",
-                "task_destinations": [],
-                "export_destinations": [
-                    {
-                        "name": "ORTHANC"
-                    }
-                ],
-                "artifacts": {
-                    "input": [
-                        {
-                            "name": "report-dicom",
-                            "value": "{{ context.executions.mean-pixel-calc.artifacts.report-dicom }}",
-                            "mandatory": true
-                        }
-                    ],
-                    "output": []
-                },
-                "input_parameters": null
-            },
-            {
-                "id": "argo-task-us",
-                "description": "mean-pixel-calc for US studies",
-                "type": "argo",
-                "args": {
-                    "namespace": "argo",
-                    "workflow_template_name": "argo-workflow-1",
-                    "server_url": "https://argo-server.argo:2746",
-                    "allow_insecure": "true"
-                },
-                "ref": "",
-                "task_destinations": [
-                    {
-                        "name": "export-task-us",
-                        "conditions": ""
-                    }
-                ],
-                "export_destinations": [],
-                "artifacts": {
-                    "input": [
-                        {
-                            "name": "input-dicom",
-                            "value": "{{ context.input.dicom }}",
-                            "mandatory": true
-                        }
-                    ],
-                    "output": [
-                        {
-                            "name": "report-dicom",
-                            "value": "",
-                            "mandatory": true
-                        }
-                    ]
-                },
-                "input_parameters": null
-            },
-            {
-                "id": "export-task-us",
-                "description": "example export task",
-                "type": "export",
-                "args": {},
-                "ref": "",
-                "task_destinations": [],
-                "export_destinations": [
-                    {
-                        "name": "ORTHANC"
-                    }
-                ],
-                "artifacts": {
-                    "input": [
-                        {
-                            "name": "report-dicom",
-                            "value": "{{ context.executions.mean-pixel-calc.artifacts.report-dicom }}",
-                            "mandatory": true
-                        }
-                    ],
-                    "output": []
-                },
-                "input_parameters": null
-            }
-        ]
-    }
+	"id": "b941e7bc-9cd6-4664-8ade-03f18fdbfb51",
+	"workflow_id": "7e49e408-fbb9-4184-877c-dce0442b2d27",
+	"revision": 1,
+	"workflow": {
+		"name": "router_1",
+		"version": "1.0.0",
+		"description": "Workflow with a router task that creates a diverging branch",
+		"informatics_gateway": {
+			"ae_title": "MONAI",
+			"data_origins": [],
+			"export_destinations": [
+				"ORTHANC"
+			]
+		},
+		"tasks": [
+			{
+				"id": "router-task",
+				"description": "router task to route MR and US studies",
+				"type": "router",
+				"args": {},
+				"ref": "",
+				"task_destinations": [
+					{
+						"name": "argo-task-mr",
+						"conditions": "{{ context.input.dicom.series.any('0008','0060') }} == 'MR'"
+					},
+					{
+						"name": "argo-task-us",
+						"conditions": "{{ context.input.dicom.series.any('0008','0060') }} == 'US'"
+					}
+				],
+				"export_destinations": [],
+				"artifacts": {
+					"input": [],
+					"output": []
+				},
+				"input_parameters": null
+			},
+			{
+				"id": "argo-task-mr",
+				"description": "mean-pixel-calc for MR studies",
+				"type": "argo",
+				"args": {
+					"namespace": "argo",
+					"workflow_template_name": "argo-workflow-1",
+					"server_url": "https://argo-server.argo:2746",
+					"allow_insecure": "true"
+				},
+				"ref": "",
+				"task_destinations": [
+					{
+						"name": "export-task-mr",
+						"conditions": ""
+					}
+				],
+				"export_destinations": [],
+				"artifacts": {
+					"input": [
+						{
+							"name": "input-dicom",
+							"value": "{{ context.input.dicom }}",
+							"mandatory": true
+						}
+					],
+					"output": [
+						{
+							"name": "report-dicom",
+							"value": "",
+							"mandatory": true
+						}
+					]
+				},
+				"input_parameters": null
+			},
+			{
+				"id": "export-task-mr",
+				"description": "example export task",
+				"type": "export",
+				"args": {},
+				"ref": "",
+				"task_destinations": [],
+				"export_destinations": [
+					{
+						"name": "ORTHANC"
+					}
+				],
+				"artifacts": {
+					"input": [
+						{
+							"name": "report-dicom",
+							"value": "{{ context.executions.mean-pixel-calc.artifacts.report-dicom }}",
+							"mandatory": true
+						}
+					],
+					"output": []
+				},
+				"input_parameters": null
+			},
+			{
+				"id": "argo-task-us",
+				"description": "mean-pixel-calc for US studies",
+				"type": "argo",
+				"args": {
+					"namespace": "argo",
+					"workflow_template_name": "argo-workflow-1",
+					"server_url": "https://argo-server.argo:2746",
+					"allow_insecure": "true"
+				},
+				"ref": "",
+				"task_destinations": [
+					{
+						"name": "export-task-us",
+						"conditions": ""
+					}
+				],
+				"export_destinations": [],
+				"artifacts": {
+					"input": [
+						{
+							"name": "input-dicom",
+							"value": "{{ context.input.dicom }}",
+							"mandatory": true
+						}
+					],
+					"output": [
+						{
+							"name": "report-dicom",
+							"value": "",
+							"mandatory": true
+						}
+					]
+				},
+				"input_parameters": null
+			},
+			{
+				"id": "export-task-us",
+				"description": "example export task",
+				"type": "export",
+				"args": {},
+				"ref": "",
+				"task_destinations": [],
+				"export_destinations": [
+					{
+						"name": "ORTHANC"
+					}
+				],
+				"artifacts": {
+					"input": [
+						{
+							"name": "report-dicom",
+							"value": "{{ context.executions.mean-pixel-calc.artifacts.report-dicom }}",
+							"mandatory": true
+						}
+					],
+					"output": []
+				},
+				"input_parameters": null
+			}
+		]
+	}
 }

@@ -37,6 +37,8 @@ export default class ApiMocks {
     public static WORKFLOWS = require("./workflows/workflows.json");
     public static WORKFLOWS_TEN = require("./workflows/workflowsTen.json");
     public static WORKFLOW_EXAMPLE = require("./workflows/workflowExample.json");
+    public static WORKFLOW_EMPTY = require("./workflows/workflowEmpty.json");
+    public static WORKFLOW_ERRORS = require("./workflows/workflowsErrors.json");
     //Clinical Review
     public static CLINICAL_REVIEW_ALL_EXECUTIONS = require("./clinical-review/allExecutionsForReview.json");
     public static CLINICAL_REVIEW_PAGE_1 = require("./clinical-review/clinicalReviewPage1.json");

@@ -1,8 +1,14 @@
 import ApiMocks from "fixtures/mockIndex";
 import { AbstractPage } from "./abstractPage";
 import { WorkflowData } from "data/workflows/workflows";
+import { WorkflowExampleData } from "data/workflows/workflowJson";
 
 const nextPage = ".v-data-footer__icons-after > .v-btn > .v-btn__content > .v-icon";
+const errorOne =
+    "Failed to validate workflow: 'router_1kjgdksgdkasgdkhasgdkhasgdhasgdjhs' is not a valid Workflow Name (source: Workflow).";
+const errorTwo = "Found Task(s) without any task destinations to it: export-task-mr";
+const errorThree = "Task: argo-task-mr has task destination: export-task that could not be found.";
+const ErrorFour = "ERROR: Task destination export-task not found.";
 
 export default class Workflows extends AbstractPage {
     public initPage() {
@@ -123,8 +129,12 @@ export default class Workflows extends AbstractPage {
         });
     }
 
-    public assertUrl(workflow: WorkflowData) {
+    public assertEditUrl(workflow: WorkflowData) {
         cy.url().should("include", `workflow-editor/${workflow.data[0].workflow_id}`);
+    }
+
+    public assertAddUrl() {
+        cy.url().should("include", `workflow-editor`);
     }
 
     public assertJsonError() {
@@ -136,16 +146,153 @@ export default class Workflows extends AbstractPage {
         cy.get(".jse-message").should("be.visible");
     }
 
-    public assertWorkflowEditRequest(workflow: WorkflowData, index: number) {
-        cy.intercept(`/workflows/${workflow.data[0].workflow_id}`, ApiMocks.WORKFLOW_EXAMPLE).as(
-            "workflows",
-        );
-        cy.dataCy(`workflow-table-row-actions-${index}`).within(() => {
+    public triggerJsonValidation() {
+        cy.get(".cm-content").clear().type("{ {");
+    }
+
+    public clearJson() {
+        cy.get(".cm-content").clear();
+    }
+
+    public assertSaveStatus(status: string) {
+        switch (status) {
+            case "enabled":
+                cy.dataCy("save-workflow-changes").should("be.enabled");
+                break;
+            case "disabled":
+                cy.dataCy("save-workflow-changes").should("be.disabled");
+                break;
+            default:
+                throw "This scenario has not been implemented. Please review";
+        }
+    }
+
+    public workflowEditRequest() {
+        cy.intercept(`/workflows/12345-abcde`, ApiMocks.WORKFLOW_EMPTY).as("workflows");
+        cy.dataCy(`workflow-table-row-actions-0`).within(() => {
             cy.dataCy("workflow-edit").click();
         });
         cy.wait(["@workflows"]);
         Cypress.on("uncaught:exception", () => {
             return false;
         });
+    }
+
+    public workflowEditRequestError(statusCode) {
+        cy.intercept(`/workflows/12345-abcde`, { statusCode: statusCode }).as("workflows");
+        cy.dataCy(`workflow-table-row-actions-0`).within(() => {
+            cy.dataCy("workflow-edit").click();
+        });
+        cy.wait(["@workflows"]);
+        Cypress.on("uncaught:exception", () => {
+            return false;
+        });
+    }
+
+    public workflowEditRequestEmpty() {
+        cy.intercept(`/workflows/12345-abcde`, ApiMocks.WORKFLOW_EMPTY).as("workflows");
+        cy.dataCy(`workflow-table-row-actions-0`).within(() => {
+            cy.dataCy("workflow-edit").click();
+        });
+        cy.wait(["@workflows"]);
+        Cypress.on("uncaught:exception", () => {
+            return false;
+        });
+    }
+
+    public workflowDisplayedCorrectly() {
+        cy.wait(500);
+        cy.get(".cm-content").should("contain", "router_1");
+    }
+
+    public assertNoModal() {
+        cy.get("modal").should("not.exist");
+    }
+
+    public assertPut() {
+        cy.intercept("PUT", `/workflows/12345-abcde`).as("put");
+        this.clickDataCy("workflow-edit-confirm-ok");
+        cy.wait(["@put"]);
+        Cypress.on("uncaught:exception", () => {
+            return false;
+        });
+    }
+
+    public assertPost() {
+        cy.intercept("POST", `/workflows`, { statusCode: 200 }).as("post");
+        this.clickDataCy("workflow-edit-confirm-ok");
+        cy.wait(["@post"]);
+        Cypress.on("uncaught:exception", () => {
+            return false;
+        });
+    }
+
+    public returnErrorPost(statusCode: number) {
+        cy.intercept("POST", `/workflows`, { statusCode: statusCode }).as("post");
+        this.clickDataCy("workflow-edit-confirm-ok");
+        cy.wait(["@post"]);
+        Cypress.on("uncaught:exception", () => {
+            return false;
+        });
+    }
+
+    public returnEditError() {
+        cy.intercept("PUT", `/workflows/12345-abcde`, {
+            statusCode: 400,
+            body: ApiMocks.WORKFLOW_ERRORS,
+        }).as("error");
+        this.clickDataCy("workflow-edit-confirm-ok");
+        cy.wait(["@error"]);
+        Cypress.on("uncaught:exception", () => {
+            return false;
+        });
+    }
+
+    public returnEditToastError(workflow: WorkflowExampleData, statusCode: number) {
+        cy.intercept("PUT", `/workflows/12345-abcde`, {
+            statusCode: statusCode,
+        }).as("error");
+        this.clickDataCy("workflow-edit-confirm-ok");
+        cy.wait(["@error"]);
+        Cypress.on("uncaught:exception", () => {
+            return false;
+        });
+    }
+
+    public returnAddError() {
+        cy.intercept("POST", `/workflows`, { statusCode: 400, body: ApiMocks.WORKFLOW_ERRORS }).as(
+            "post",
+        );
+        this.clickDataCy("workflow-edit-confirm-ok");
+        cy.wait(["@post"]);
+        Cypress.on("uncaught:exception", () => {
+            return false;
+        });
+    }
+
+    public errorsDisplayed() {
+        cy.dataCy("error-container").should("contain", errorOne);
+        cy.dataCy("error-container").should("contain", errorTwo);
+        cy.dataCy("error-container").should("contain", errorThree);
+        cy.dataCy("error-container").should("contain", ErrorFour);
+    }
+
+    public returnSuccess() {
+        cy.intercept("PUT", `/workflows/12345-abcde`, {
+            statusCode: 200,
+        }).as("success");
+        this.clickDataCy("workflow-edit-confirm-ok");
+        cy.wait(["@success"]);
+        Cypress.on("uncaught:exception", () => {
+            return false;
+        });
+    }
+
+    public assertWorkflowsUrl() {
+        cy.url().should("eql", "http://localhost:8080/#/workflows");
+    }
+
+    public assertNoText() {
+        cy.get(".cm-content").should("contain", "{}");
     }
 }

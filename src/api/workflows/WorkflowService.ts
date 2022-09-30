@@ -1,10 +1,11 @@
-import { PaginatedWorkflowsResponse, WorkflowListItem } from "@/models/workflows/Workflow";
+import { MonaiWorkflow, PaginatedWorkflowsResponse } from "@/models/workflows/Workflow";
 import { createAxiosInstance, ErrorMessageMap, isResultOk } from "@/utils/axios-helpers";
+import { AxiosError, AxiosResponse } from "axios";
 
 const errorMessagesWorkflows: ErrorMessageMap = {
     get: "Something unexpected went wrong retrieving workflows",
-    put: "Something unexpected went wrong updating the workflow details",
     post: "Something unexpected went wrong creating the workflow",
+    put: "Something unexpected went wrong updating the workflow",
     delete: "Something unexpected went wrong deleting the workflow",
 };
 
@@ -28,25 +29,28 @@ export async function getAllWorkflows(query: QueryParams): Promise<PaginatedWork
     return isResultOk(response) ? response.data : defaultData;
 }
 
-export async function updateWorkflow(
-    workflowId: string,
-    workflow: WorkflowListItem,
-): Promise<boolean> {
-    try {
-        const result = await httpWorkflows.put(`/workflows/${workflowId}`, workflow);
-        return isResultOk(result);
-    } catch {
-        return false;
-    }
+export async function getWorkflow(workflowId: string): Promise<MonaiWorkflow> {
+    const response = await httpWorkflows.get<MonaiWorkflow>(`/workflows/${workflowId}`);
+    return response.data;
 }
 
-export async function createWorkflow(workflow: WorkflowListItem): Promise<boolean> {
-    try {
-        const result = await httpWorkflows.post("/workflows", workflow);
-        return isResultOk(result);
-    } catch {
-        return false;
-    }
+export async function updateWorkflow(
+    workflowId: string,
+    workflow: unknown,
+): Promise<AxiosResponse | AxiosError> {
+    return httpWorkflows.put(`/workflows/${workflowId}`, workflow).catch((error) => {
+        if (error) {
+            return error;
+        }
+    });
+}
+
+export async function createWorkflow(workflow: unknown): Promise<AxiosResponse | AxiosError> {
+    return httpWorkflows.post("/workflows", workflow).catch((error) => {
+        if (error) {
+            return error;
+        }
+    });
 }
 
 export async function deleteWorkflow(workflowId: string): Promise<boolean> {

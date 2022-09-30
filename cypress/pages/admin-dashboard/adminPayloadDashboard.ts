@@ -245,6 +245,7 @@ export default class AdminPayloadDashboardPage {
             });
         });
         this.assertPopoverExecutionLogs(ApiMocks.ADMIN_DASHBOARD_EXECUTION_LOGS[0].msg);
+        cy.get(".v-card__actions > :nth-child(2)").click();
     }
 
     public assertPopoverExecutionLogs(text: string): void {

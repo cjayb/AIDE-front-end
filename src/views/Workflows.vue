@@ -3,7 +3,11 @@
         <v-container fluid class="mt-3 mb-7 px-7">
             <div class="d-flex mb-4 justify-space-between">
                 <h2 class="section-title mb-4">Workflows</h2>
-                <v-btn color="primary" data-cy="add-workflow" @click="navigateToWorkflowEditor">
+                <v-btn
+                    color="primary"
+                    data-cy="add-workflow"
+                    @click="navigateToWorkflowEditorCreate"
+                >
                     Create new workflow
                     <v-icon class="ml-1">mdi-plus</v-icon>
                 </v-btn>
@@ -140,11 +144,17 @@ export default class Workflows extends Vue {
         this.workflowToDelete = null;
     }
 
-    navigateToWorkflowEditor(workflow_id?: string) {
+    navigateToWorkflowEditorCreate() {
+        this.$router.push({
+            name: "WorkflowEditor",
+        });
+    }
+
+    navigateToWorkflowEditor(workflow_id: string) {
         this.$router.push({
             name: "WorkflowEditor",
             params: {
-                workflow_id: workflow_id ?? "",
+                workflow_id: workflow_id,
             },
         });
     }
