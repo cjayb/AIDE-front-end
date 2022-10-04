@@ -84,8 +84,17 @@ export default class AdminHealthDashboardPage {
         cy.get(`tbody > :nth-child(${task.task_id})`).within(() => {
             cy.dataCy(AdminHealthDashboardPage.DISMISS_BUTTON).click();
         });
+        cy.intercept(`/workflowinstances/345435/executions/4543534/acknowledge`, {
+            statusCode: 200,
+        }).as(`AcknowledgedIssues`);
         cy.dataCy(AdminHealthDashboardPage.VALIDATION_OK).click({ multiple: true, force: true });
-        cy.dataCy(AdminHealthDashboardPage.TASK_ID).should(`not.exist`);
+        cy.wait([`@AcknowledgedIssues`]);
+        Cypress.on(`uncaught:exception`, () => {
+            return false;
+        });
+        cy.dataCy(AdminHealthDashboardPage.TASK_ID)
+            .contains(` ${task.task_id} `)
+            .should(`not.exist`);
     }
 
     public assertOverviewModelDataCorrect(executionStatistics: IOverview): void {
@@ -131,7 +140,7 @@ export default class AdminHealthDashboardPage {
         cy.dataCy(AdminHealthDashboardPage.DISMISS_SELECTED).should(`be.disabled`);
     }
 
-    public getTask(taskId: number): Cypress.Chainable<JQuery> {
+    public getTask(taskId: string): Cypress.Chainable<JQuery> {
         return cy.get(`tbody > :nth-child(${taskId})`);
     }
 
@@ -242,8 +251,9 @@ export default class AdminHealthDashboardPage {
         cy.intercept(`/api/overview?period=day`, ApiMocks.ADMIN_DASHBOARD_FAILED_MODELS).as(
             `Model stats`,
         );
-        cy.intercept(`/workflowinstances/failed`, { statusCode: 200 });
-        cy.intercept(`/workflowinstances/failed`, ApiMocks.ADMIN_DASHBOARD_TASKS).as(`Issues`);
+        cy.intercept(`/workflowinstances/failed?acknowledged=*`, ApiMocks.ADMIN_DASHBOARD_TASKS).as(
+            `Issues`,
+        );
         cy.intercept(`/api/models`, ApiMocks.ADMIN_DASHBOARD_MODELS).as("Models");
         cy.intercept(
             `/api/graph/${ModelDetailsData.MODEL_DETAILS_ASDA.model_id}?start_date=${startDate}&end_date=${endDate}`,
@@ -260,7 +270,9 @@ export default class AdminHealthDashboardPage {
         const startDate = this.formatDate(new Date(Date.now() - 604800000));
         const endDate = this.formatDate(new Date());
         cy.intercept(`/api/overview?period=day`, { statusCode: error }).as(`Model stats`);
-        cy.intercept(`/workflowinstances/failed`, ApiMocks.ADMIN_DASHBOARD_TASKS).as(`Issues`);
+        cy.intercept(`/workflowinstances/failed?acknowledged=*`, ApiMocks.ADMIN_DASHBOARD_TASKS).as(
+            `Issues`,
+        );
         cy.intercept(`/api/models`, ApiMocks.ADMIN_DASHBOARD_MODELS).as("Models");
         cy.intercept(
             `/api/graph/${ModelDetailsData.MODEL_DETAILS_ASDA.model_id}?start_date=${startDate}&end_date=${endDate}`,
@@ -279,7 +291,9 @@ export default class AdminHealthDashboardPage {
         cy.intercept(`/api/overview?period=day`, ApiMocks.ADMIN_DASHBOARD_FAILED_MODELS).as(
             `Model stats`,
         );
-        cy.intercept(`/workflowinstances/failed`, { statusCode: error }).as(`Issues`);
+        cy.intercept(`/workflowinstances/failed?acknowledged=*`, { statusCode: error }).as(
+            `Issues`,
+        );
         cy.intercept(`/api/models`, ApiMocks.ADMIN_DASHBOARD_MODELS).as("Models");
         cy.intercept(
             `/api/graph/${ModelDetailsData.MODEL_DETAILS_ASDA.model_id}?start_date=${startDate}&end_date=${endDate}`,
@@ -298,7 +312,9 @@ export default class AdminHealthDashboardPage {
         cy.intercept(`/api/overview?period=day`, ApiMocks.ADMIN_DASHBOARD_FAILED_MODELS).as(
             `Model stats`,
         );
-        cy.intercept(`/workflowinstances/failed`, ApiMocks.ADMIN_DASHBOARD_TASKS).as(`Issues`);
+        cy.intercept(`/workflowinstances/failed?acknowledged=*`, ApiMocks.ADMIN_DASHBOARD_TASKS).as(
+            `Issues`,
+        );
         cy.intercept(`/api/models`, { statusCode: error }).as("Models");
         cy.intercept(
             `/api/graph/${ModelDetailsData.MODEL_DETAILS_ASDA.model_id}?start_date=${startDate}&end_date=${endDate}`,
@@ -317,7 +333,9 @@ export default class AdminHealthDashboardPage {
         cy.intercept(`/api/overview?period=day`, ApiMocks.ADMIN_DASHBOARD_FAILED_MODELS).as(
             `Model stats`,
         );
-        cy.intercept(`/workflowinstances/failed`, ApiMocks.ADMIN_DASHBOARD_TASKS).as(`Issues`);
+        cy.intercept(`/workflowinstances/failed?acknowledged=*`, ApiMocks.ADMIN_DASHBOARD_TASKS).as(
+            `Issues`,
+        );
         cy.intercept(`/api/models`, ApiMocks.ADMIN_DASHBOARD_MODELS).as("Models");
         cy.intercept(
             `/api/graph/${ModelDetailsData.MODEL_DETAILS_ASDA.model_id}?start_date=${startDate}&end_date=${endDate}`,
@@ -345,7 +363,10 @@ export default class AdminHealthDashboardPage {
         cy.intercept(`/api/overview?period=day`, ApiMocks.ADMIN_DASHBOARD_FAILED_MODELS).as(
             `Model stats`,
         );
-        cy.intercept(`/workflowinstances/failed`, ApiMocks.ADMIN_DASHBOARD_SINGLE_TASK).as(`Task`);
+        cy.intercept(
+            `/workflowinstances/failed?acknowledged=*`,
+            ApiMocks.ADMIN_DASHBOARD_SINGLE_TASK,
+        ).as(`Task`);
         cy.visit(`/#/admin-health-dashboard`);
         cy.wait([`@Model stats`, `@Task`]);
         Cypress.on(`uncaught:exception`, () => {

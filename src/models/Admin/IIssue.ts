@@ -1,5 +1,5 @@
 export interface IIssue {
-    task_id: number;
+    task_id: string;
     execution_id: string;
     workflow_instance_id: string;
     status: string;

@@ -34,7 +34,7 @@ describe(`Admin health - Overview section`, () => {
     });
 });
 
-describe.only(`Admin health - Issues table section`, () => {
+describe(`Admin health - Issues table section`, () => {
     beforeEach(() => {
         adminHealthPage.initPage();
         cy.injectAxe();
