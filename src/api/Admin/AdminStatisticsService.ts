@@ -1,5 +1,5 @@
 import { IOverview } from "@/models/Admin/IOverview";
-import { IIssue } from "@/models/Admin/IIssue";
+import { IIndexedIssue, IIssue } from "@/models/Admin/IIssue";
 import { ILogs } from "@/models/Admin/ILogs";
 import { IModelSummary, IModelDetails } from "@/models/Admin/IModel";
 import { createAxiosInstance, ErrorMessageMap } from "@/utils/axios-helpers";
@@ -20,15 +20,19 @@ export async function getOverview(filterPeriod: string): Promise<IOverview> {
 
 // Issues Section
 export async function getIssues(): Promise<IIssue[]> {
-    const response = await http.get(`/api/issues`);
+    const response = await http.get(`/workflowinstances/failed`);
 
     return response.data;
 }
 
-export async function dismissIssues(taskIDs: number[]): Promise<number[]> {
-    const response = await http.post(`/api/issues/dismiss`, taskIDs);
-
-    return response.data;
+export async function dismissIssues(dismissedItems: IIndexedIssue[]): Promise<boolean> {
+    for (let i = 0; i < dismissedItems.length; i++) {
+        const item = dismissedItems[i];
+        await http.put(
+            `/workflowinstances/${item.issue.workflow_instance_id}/executions/${item.issue.execution_id}/acknowledge`,
+        );
+    }
+    return true;
 }
 
 // Models Section

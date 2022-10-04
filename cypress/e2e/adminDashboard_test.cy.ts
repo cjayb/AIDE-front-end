@@ -34,7 +34,7 @@ describe(`Admin health - Overview section`, () => {
     });
 });
 
-describe(`Admin health - Issues table section`, () => {
+describe.only(`Admin health - Issues table section`, () => {
     beforeEach(() => {
         adminHealthPage.initPage();
         cy.injectAxe();
@@ -250,7 +250,7 @@ describe(`Admin payload - API errors`, () => {
     });
 });
 
-describe.only(`Admin Payload - Model Details Popover Information`, () => {
+describe(`Admin Payload - Model Details Popover Information`, () => {
     beforeEach(() => {
         adminPayloadPage.initPagePayload();
         adminPayloadPage.expandAndViewTree(PayloadData.PAYLOAD_DATA_1);

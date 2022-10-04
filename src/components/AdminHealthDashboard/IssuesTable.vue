@@ -154,8 +154,8 @@ import { dismissIssues, getIssues } from "@/api/Admin/AdminStatisticsService";
 import { Watch } from "vue-property-decorator";
 import { formatDateAndTimeOfArray } from "@/utils/dateFormattingUtils";
 import { EventBus } from "@/event-bus";
-import { IIssue } from "@/models/Admin/IIssue";
 import { JSONViewerModalType } from "../Shared/JSONViewerDialog.vue";
+import { IIndexedIssue, IIssue } from "@/models/Admin/IIssue";
 
 @Component({
     components: {},
@@ -164,7 +164,7 @@ export default class IssuesTable extends Vue {
     loading = false;
     search = "";
     selectedIssues: IIssue[] = [];
-    itemsToDismiss: number[] = [];
+    itemsToDismiss: IIndexedIssue[] = [];
     issues: IIssue[] = [];
     dialogDelete = false;
     headers = [
@@ -199,8 +199,8 @@ export default class IssuesTable extends Vue {
         this.loading = false;
     }
 
-    async dismissItems(taskIDs: number[]): Promise<void> {
-        await dismissIssues(taskIDs).catch((err) => {
+    async dismissItems(dismissedItems: IIndexedIssue[]): Promise<void> {
+        await dismissIssues(dismissedItems).catch((err) => {
             console.log(err);
         });
         this.loading = false;
@@ -208,11 +208,16 @@ export default class IssuesTable extends Vue {
 
     deleteItem(item?: IIssue): void {
         if (typeof item !== "undefined") {
-            this.itemsToDismiss.push(this.issues.indexOf(item));
+            const indexedIssue: IIndexedIssue = { index: this.issues.indexOf(item), issue: item };
+            this.itemsToDismiss.push(indexedIssue);
         } else {
-            this.selectedIssues.forEach((selectedItem: IIssue) =>
-                this.itemsToDismiss.push(this.issues.indexOf(selectedItem)),
-            );
+            this.selectedIssues.forEach((selectedItem: IIssue) => {
+                const indexedIssue: IIndexedIssue = {
+                    index: this.issues.indexOf(selectedItem),
+                    issue: selectedItem,
+                };
+                this.itemsToDismiss.push(indexedIssue);
+            });
         }
         this.dialogDelete = true;
     }
@@ -226,7 +231,7 @@ export default class IssuesTable extends Vue {
                 this.issues.splice(indexOfTask, 1);
             });
         } else {
-            this.issues.splice(this.itemsToDismiss[0], 1);
+            this.issues.splice(this.itemsToDismiss[0].index, 1);
         }
         this.closeDelete();
 
