@@ -74,7 +74,10 @@ export default class AppHeader extends Vue {
 
     updatePageTitle(): void {
         if (this.$route.name == "AdminHealthDashboard") {
-            this.pageTitle = "Admin Dashboard";
+            this.pageTitle = "Admin Health Dashboard";
+        }
+        if (this.$route.name == "AdminPayloadDashboard") {
+            this.pageTitle = "Admin Payload Dashboard";
         }
         if (this.$route.name == "ClinicalReview") {
             this.pageTitle = "Model outputs for clinical review";

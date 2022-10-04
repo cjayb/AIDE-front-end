@@ -6,7 +6,7 @@
         <div v-if="workflowErrors.length > 0">
             <ErrorMessageContainer :errorMessages="workflowErrors" />
         </div>
-        <div class="json-editor">
+        <div>
             <JSONViewer
                 mode="text"
                 :content="content"
@@ -202,9 +202,15 @@ export default class WorkflowEditor extends Vue {
 }
 </script>
 
+<style scoped>
+.json-editor {
+    height: 730px;
+}
+</style>
+
 <style>
 .jse-contents {
-    max-height: 700px;
+    height: inherit;
     overflow-y: scroll;
 }
 

@@ -113,7 +113,7 @@ export default class Workflows extends Vue {
         { text: "Name", value: "name", sortable: false, width: "30%" },
         { text: "Version", value: "version", sortable: false, width: "15%" },
         { text: "Description", value: "description", sortable: false, width: "38%" },
-        { text: "Actions", value: "id", sortable: false, width: "17%" },
+        { text: "Actions", value: "id", sortable: false, width: "150px" },
     ];
 
     workflowPage: PaginatedWorkflowsResponse = {} as PaginatedWorkflowsResponse;

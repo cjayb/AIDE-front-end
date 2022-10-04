@@ -235,7 +235,7 @@ export default class AdminPayloadDashboardPage {
     public assertPopoverLogsDisplayed(task: IIssue): void {
         cy.dataCy('"name export-task-connectathon2"').click();
 
-        cy.intercept(`/api/logs/*`, ApiMocks.ADMIN_DASHBOARD_EXECUTION_LOGS).as(`Logs`);
+        cy.intercept(`/logs/*`, ApiMocks.ADMIN_DASHBOARD_EXECUTION_LOGS).as(`Logs`);
 
         cy.dataCy(AdminPayloadDashboardPage.VIEW_LOGS_BUTTON).click();
         this.getTask(task.task_id).within(() => {

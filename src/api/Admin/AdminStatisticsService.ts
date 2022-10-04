@@ -49,10 +49,3 @@ export async function getModelStatsForGraphs(
 
     return response.data;
 }
-
-// Shared
-export async function getTaskLogs(task_id: number): Promise<ILogs[]> {
-    const response = await http.get(`/api/logs/${task_id}`);
-
-    return response.data;
-}

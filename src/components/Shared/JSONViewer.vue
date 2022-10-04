@@ -1,5 +1,5 @@
 <template>
-    <div data-cy="editor" ref="editor" />
+    <div data-cy="editor" class="json-editor" ref="editor" />
 </template>
 
 <script>

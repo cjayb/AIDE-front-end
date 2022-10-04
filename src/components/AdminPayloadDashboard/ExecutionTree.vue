@@ -67,7 +67,6 @@ import Component from "vue-class-component";
 import Vue from "vue";
 import { getPayloadExecutions } from "@/api/Admin/payloads/PayloadService";
 import { formatDateString } from "@/utils/date-utilities";
-import { EventBus } from "@/event-bus";
 import ModelDetailsSection from "./ModelDetailsSection.vue";
 import { Prop } from "vue-property-decorator";
 import { mapToExecutionTree } from "@/utils/workflow-instance-mapper";
@@ -141,10 +140,6 @@ export default class ExecutionTree extends Vue {
             tree.style.transform = "translate(" + -100 + "px," + 190 + "px)";
             treeLink.style.transform = "translate(" + -100 + "px," + 190 + "px)";
         }
-    }
-
-    openLogsDialog(execution_id: number): void {
-        EventBus.$emit("openLogsDialog", true, execution_id);
     }
 }
 </script>

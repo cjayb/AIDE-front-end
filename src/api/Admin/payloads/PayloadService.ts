@@ -31,3 +31,9 @@ export async function getPayloadExecutionArtifacts(
 
     return response.data;
 }
+
+export async function getPayloadExecutionMetadata(execution_id: string): Promise<unknown> {
+    const response = await http.get(`/executions/${execution_id}/metadata`);
+
+    return response.data;
+}

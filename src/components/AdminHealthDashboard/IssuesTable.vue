@@ -155,6 +155,7 @@ import { Watch } from "vue-property-decorator";
 import { formatDateAndTimeOfArray } from "@/utils/dateFormattingUtils";
 import { EventBus } from "@/event-bus";
 import { IIssue } from "@/models/Admin/IIssue";
+import { JSONViewerModalType } from "../Shared/JSONViewerDialog.vue";
 
 @Component({
     components: {},
@@ -244,7 +245,7 @@ export default class IssuesTable extends Vue {
     }
 
     openLogsDialog(task_id: number): void {
-        EventBus.$emit("openLogsDialog", true, task_id);
+        EventBus.$emit("openJSONViewerDialog", true, JSONViewerModalType.logs, task_id);
     }
 }
 </script>

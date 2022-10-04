@@ -2,7 +2,7 @@
     <v-col style="width: 25%" class="pa-7 model-details">
         <h3 data-cy="selected-node-name">{{ selectedNode.name }}</h3>
         <v-chip
-            :class="`mt-2 mb-6 mx-0 status ${selectedNode.status}`"
+            :class="`mt-3 mb-6 mx-0 status ${selectedNode.status}`"
             :color="selectedNode.status | statusChipBg"
             :text-color="selectedNode.status | statusChipText"
             data-cy="selected-node-status"
@@ -13,22 +13,33 @@
             <strong class="mr-sm-7 mr-lg-0">Execution started: </strong>
             {{ selectedNode.start_date | formatDateString }}
         </p>
-        <v-row class="pa-3 mt-1">
+        <v-row class="pa-3">
             <v-btn
                 elevation="0"
-                class="my-1 mr-1 no-uppercase white--text"
-                color="purple darken-4"
-                @click.stop="openLogsDialog(selectedNode.execution_id)"
+                block
+                class="mb-2 ml-xl-1 no-uppercase white--text"
+                color="primary"
+                @click.stop="openJSONViewerDialog(selectedNode.execution_id, 'Logs')"
                 data-cy="view-node-logs"
             >
                 View Logs
+            </v-btn>
+            <v-btn
+                elevation="0"
+                block
+                class="mb-2 ml-xl-1 no-uppercase white--text"
+                color="primary"
+                @click.stop="openJSONViewerDialog(selectedNode.execution_id, 'Metadata')"
+                data-cy="view-node-metadata"
+            >
+                View Metadata
             </v-btn>
             <div class="text-center">
                 <v-menu offset-y>
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn
                             elevation="0"
-                            class="my-1 ml-xl-1 no-uppercase purple--text text--darken-4"
+                            class="my-1 ml-xl-1 no-uppercase primary--text"
                             color="purple lighten-5"
                             data-cy="download-node-outputs"
                             v-on="on"
@@ -99,8 +110,8 @@ export default class ModelDetailsSection extends Vue {
     loadingArtifacts = true;
     artifacts: { [key: string]: string } = {};
 
-    openLogsDialog(execution_id: string): void {
-        EventBus.$emit("openLogsDialog", true, execution_id);
+    openJSONViewerDialog(execution_id: string, modalType: string): void {
+        EventBus.$emit("openJSONViewerDialog", true, modalType, undefined, execution_id);
     }
 
     async mounted() {

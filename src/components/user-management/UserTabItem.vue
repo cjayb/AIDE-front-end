@@ -61,9 +61,13 @@
                             </td>
                             <td class="text-start">
                                 <v-chip
-                                    :color="item.enabled ? 'green' : 'yellow'"
+                                    :color="
+                                        item.enabled ? 'light-green lighten-4' : 'red lighten-5'
+                                    "
+                                    :text-color="
+                                        item.enabled ? 'light-green darken-4' : 'red darken-4'
+                                    "
                                     :data-cy="`user-table-row-status-${index}`"
-                                    class="lighten-2"
                                     small
                                 >
                                     {{ item.enabled ? "Enabled" : "Disabled" }}
@@ -220,7 +224,7 @@ export default class UserTabItem extends Vue {
         { text: "Status", value: "status", sortable: false },
         { text: "Email", value: "email", sortable: true, filterable: true },
         { text: "Roles", value: "roles", sortable: false },
-        { text: "Actions", value: "id", sortable: false },
+        { text: "Actions", value: "id", sortable: false, width: "150px" },
     ];
 
     users: UserListItem[] = [];

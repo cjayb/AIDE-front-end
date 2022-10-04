@@ -12,7 +12,7 @@
                 <router-view />
             </transition>
         </v-main>
-        <LogsDialog />
+        <JSONViewerDialog />
     </v-app>
 </template>
 
@@ -20,7 +20,7 @@
 import Vue from "vue";
 import AppHeader from "./components/AppHeader.vue";
 import AppSidebar from "./components/AppSidebar.vue";
-import LogsDialog from "./components/Shared/LogsDialog.vue";
+import JSONViewerDialog from "./components/Shared/JSONViewerDialog.vue";
 
 export default Vue.extend({
     name: "App",
@@ -35,7 +35,7 @@ export default Vue.extend({
     components: {
         AppHeader,
         AppSidebar,
-        LogsDialog,
+        JSONViewerDialog,
     },
 });
 </script>

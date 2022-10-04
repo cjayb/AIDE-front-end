@@ -75,12 +75,53 @@ const payloadExecutions: WorkflowInstance[] = [
     },
 ];
 
+const payloadExecutionMetadata = {
+    ae_title: "MonaiSCU",
+    id: "a54a30a9-516b-4906-9315-e7dc23af4539",
+    payload_id: "e3a91e70-ade6-40b8-96f4-a9f8151919ac",
+    start_time: "2022-09-16T09:38:560.634Z",
+    status: "Succeeded",
+    tasks: [
+        {
+            execution_id: "8a070831-53a3-4dfe-b568-a3edbf62282f",
+            next_task: [],
+            payload_id: "e3a91e70-ade6-40b8-96f4-a9f8151919ac",
+            status: "Dispatched",
+            task_id: "export-task-connectathon",
+            task_start_time: "2022-09-16T09:37:59.634Z",
+            workflow_instance_id: "a54a30a9-516b-4906-9315-e7dc23af4539",
+        },
+    ],
+    workflow_id: "739e4f70-a6c0-4e98-8e47-469f7b8b9606",
+    task: {
+        ae_title: "MonaiSCU",
+        id: "a54a30a9-516b-4906-9315-e7dc23af4539",
+        payload_id: "e3a91e70-ade6-40b8-96f4-a9f8151919ac",
+        start_time: "2022-09-16T09:38:560.634Z",
+        status: "Succeeded",
+        tasks: [
+            {
+                execution_id: "8a070831-53a3-4dfe-b568-a3edbf62282f",
+                next_task: [],
+                payload_id: "e3a91e70-ade6-40b8-96f4-a9f8151919ac",
+                status: "Dispatched",
+                task_id: "export-task-connectathon",
+                task_start_time: "2022-09-16T09:37:59.634Z",
+                workflow_instance_id: "a54a30a9-516b-4906-9315-e7dc23af4539",
+            },
+        ],
+        workflow_id: "739e4f70-a6c0-4e98-8e47-469f7b8b9606",
+    },
+};
 export const payloadsHandlers = [
     rest.get(`${window.FRONTEND_API_HOST}/payloads`, (req, res, ctx) => {
         return res(ctx.json(payloads));
     }),
     rest.get(`${window.FRONTEND_API_HOST}/payloads/:payloadId/executions`, (req, res, ctx) => {
         return res(ctx.json(payloadExecutions));
+    }),
+    rest.get(`${window.FRONTEND_API_HOST}/executions/:executionId/metadata`, (req, res, ctx) => {
+        return res(ctx.json(payloadExecutionMetadata));
     }),
     rest.post(`${window.FRONTEND_API_HOST}/payloads`, (req, res, ctx) => {
         return res(ctx.status(201));

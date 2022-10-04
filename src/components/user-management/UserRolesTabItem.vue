@@ -173,7 +173,7 @@ import { throttle } from "underscore";
 export default class UserRolesTabItem extends Vue {
     roleHeaders: DataTableHeader[] = [
         { text: "Name", value: "name", sortable: true, align: "start", width: "83%" },
-        { text: "Actions", value: "id", sortable: false, align: "start", width: "17%" },
+        { text: "Actions", value: "id", sortable: false, align: "start", width: "150px" },
     ];
 
     rolesPage: PaginatedRolesResponse = {} as PaginatedRolesResponse;
