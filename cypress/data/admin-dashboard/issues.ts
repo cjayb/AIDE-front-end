@@ -2,12 +2,14 @@ import { IIssue } from "../../../src/models/Admin/IIssue";
 import ApiMocks from "../../fixtures/mockIndex";
 
 export class TaskData implements IIssue {
-    task_id: number;
+    task_id: string;
     status: string;
     model_name: string;
     patient_name: string;
     patient_id: string;
     execution_time: string;
+    execution_id: string;
+    workflow_instance_id: string;
 
     constructor(task: IIssue) {
         this.task_id = task.task_id;

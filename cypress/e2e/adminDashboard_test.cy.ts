@@ -250,7 +250,7 @@ describe(`Admin payload - API errors`, () => {
     });
 });
 
-describe.only(`Admin Payload - Model Details Popover Information`, () => {
+describe(`Admin Payload - Model Details Popover Information`, () => {
     beforeEach(() => {
         adminPayloadPage.initPagePayload();
         adminPayloadPage.expandAndViewTree(PayloadData.PAYLOAD_DATA_1);
