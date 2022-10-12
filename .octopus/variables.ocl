@@ -6,10 +6,6 @@ variable "namespace" {
     value "aide" {}
 }
 
-variable "PersistentVolumeLocalPath" {
-    value "/aide/data" {}
-}
-
 variable "PersistentVolumeStorageCapacity" {
     value "1Gi" {}
 }
@@ -24,4 +20,8 @@ variable "StorageClassName" {
 
 variable "StorageClaimName" {
     value "aide-frontend-pvc" {}
+}
+
+variable "PersistentVolumeLocalPath" {
+    value "/efs_data/aide/data" {}
 }
