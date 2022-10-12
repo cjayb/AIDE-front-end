@@ -8,6 +8,7 @@ on:
 
 jobs:
   check_build_integrity:
+    name: Check Build Integrity
     runs-on: ubuntu-latest
 
     steps:
