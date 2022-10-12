@@ -71,7 +71,7 @@ service:
   nodeport2: 80
 
  
- volumes:
+volumes:
   name: aide-storage
   claimName: aide-frontend-pvc
 volumeMounts:
