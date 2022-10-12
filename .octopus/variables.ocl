@@ -5,3 +5,19 @@ variable "imagePullSecretName" {
 variable "namespace" {
     value "aide" {}
 }
+
+variable "PersistentVolumeLocalPath" {
+    value "/aide/data" {}
+}
+
+variable "PersistentVolumeStorageCapacity" {
+    value "1Gi" {}
+}
+
+variable "PersistentVolumeName" {
+    value "aide-frontend-pv" {}
+}
+
+variable "StorageClassName" {
+    value "aide-frontend-sc" {}
+}
