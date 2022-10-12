@@ -75,5 +75,5 @@ volumes:
   name: aide-storage
   claimName: aide-frontend-pvc
 volumeMounts:
-  mountPath: /database
+  mountPath: /aide/data
   name: aide-storage
