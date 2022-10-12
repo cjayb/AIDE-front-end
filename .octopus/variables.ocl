@@ -21,3 +21,7 @@ variable "PersistentVolumeName" {
 variable "StorageClassName" {
     value "aide-frontend-sc" {}
 }
+
+variable "StorageClaimName" {
+    value "aide-frontend-pvc" {}
+}
