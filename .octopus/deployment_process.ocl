@@ -28,6 +28,19 @@ step "add-docker-image-pull-secret" {
     }
 }
 
+step "configure-global-storage-class-for-aide-network-storage" {
+    name = "Configure global storage class for AIDE network storage"
+
+    action {
+        properties = {
+            Octopus.Action.Template.Id = "ActionTemplates-101"
+            Octopus.Action.Template.Version = "5"
+            ST-GlobalStorageClassName = "#{GlobalStorageClassName}"
+        }
+        worker_pool_variable = "WorkerPoolName"
+    }
+}
+
 step "add-secrets" {
     name = "Add secrets"
     properties = {
