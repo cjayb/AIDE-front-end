@@ -60,9 +60,7 @@ jobs:
       
       - name: Create artifacts folder and copy helm charts
         run: |
-          mkdir "$GITHUB_WORKSPACE/artifacts"
-          mkdir "$GITHUB_WORKSPACE/artifacts/aide-frontend"
-          mkdir "$GITHUB_WORKSPACE/artifacts/aide-frontend/helm"
+          mkdir -p "$GITHUB_WORKSPACE/artifacts/aide-frontend/helm"
           cp -a $GITHUB_WORKSPACE/helm/. $GITHUB_WORKSPACE/artifacts/aide-frontend/helm/
           echo BASE_PATH="$GITHUB_WORKSPACE/artifacts/aide-frontend" >> $GITHUB_ENV
           echo OUT_FOLDER="$GITHUB_WORKSPACE/artifacts/" >> $GITHUB_ENV
