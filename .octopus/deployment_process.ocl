@@ -86,7 +86,7 @@ step "add-storage" {
                 apiVersion: v1
                 kind: PersistentVolumeClaim
                 metadata:
-                  name: gateway-storage-claim
+                  name: $(get_octopusvariable "StorageClaimName")
                   namespace: $(get_octopusvariable "namespace")
                 spec:
                   storageClassName: "$(get_octopusvariable "StorageClassName")"
@@ -94,7 +94,7 @@ step "add-storage" {
                     - ReadWriteOnce
                   resources:
                     requests:
-                      storage: 1Gi
+                      storage: $(get_octopusvariable "PersistentVolumeStorageCapacity")
                 EOF
                 kubectl apply -f pvc.yml
                 rm -f pvc.yml;
