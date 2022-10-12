@@ -28,14 +28,81 @@ step "add-docker-image-pull-secret" {
     }
 }
 
-step "configure-global-storage-class-for-aide-network-storage" {
-    name = "Configure global storage class for AIDE network storage"
+step "add-storage" {
+    name = "Add storage"
+    properties = {
+        Octopus.Action.TargetRoles = "kubernetes"
+    }
 
     action {
+        action_type = "Octopus.KubernetesRunScript"
         properties = {
-            Octopus.Action.Template.Id = "ActionTemplates-101"
-            Octopus.Action.Template.Version = "5"
-            ST-GlobalStorageClassName = "#{GlobalStorageClassName}"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                cat <<EOF >> sc.yml
+                apiVersion: storage.k8s.io/v1
+                kind: StorageClass
+                metadata:
+                   name: $(get_octopusvariable "StorageClassName")
+                provisioner: kubernetes.io/no-provisioner
+                volumeBindingMode: WaitForFirstConsumer
+                EOF
+                
+                kubectl apply -f sc.yml
+                rm -f sc.yml
+                
+                for node in $(kubectl get nodes --output=jsonpath={.items..metadata.name}); 
+                do cat <<EOF >> pv.yml
+                apiVersion: v1
+                kind: PersistentVolume
+                metadata:
+                  name: $(get_octopusvariable "PersistentVolumeName")-$node
+                  labels:
+                    rabbitmq: "true"
+                spec:
+                  capacity:
+                    storage: $(get_octopusvariable "PersistentVolumeStorageCapacity")
+                  volumeMode: Filesystem
+                  accessModes:
+                  - ReadWriteOnce
+                  persistentVolumeReclaimPolicy: Retain
+                  storageClassName: $(get_octopusvariable "StorageClassName")
+                  local:
+                    path: $(get_octopusvariable "PersistentVolumeLocalPath")
+                  nodeAffinity:
+                    required:
+                      nodeSelectorTerms:
+                      - matchExpressions:
+                        - key: kubernetes.io/hostname
+                          operator: In
+                          values:
+                          - $node
+                EOF
+                
+                kubectl apply -f pv.yml
+                rm -f pv.yml;
+                done;
+                
+                cat <<EOF >> pvc.yml
+                apiVersion: v1
+                kind: PersistentVolumeClaim
+                metadata:
+                  name: gateway-storage-claim
+                  namespace: monai
+                spec:
+                  storageClassName: "$(get_octopusvariable "StorageClassName")"
+                  accessModes:
+                    - ReadWriteOnce
+                  resources:
+                    requests:
+                      storage: 1Gi
+                EOF
+                kubectl apply -f pvc.yml
+                rm -f pvc.yml;
+                
+                
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
         }
         worker_pool_variable = "WorkerPoolName"
     }
