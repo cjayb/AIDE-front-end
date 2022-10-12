@@ -87,7 +87,7 @@ step "add-storage" {
                 kind: PersistentVolumeClaim
                 metadata:
                   name: gateway-storage-claim
-                  namespace: monai
+                  namespace: $(get_octopusvariable "namespace")
                 spec:
                   storageClassName: "$(get_octopusvariable "StorageClassName")"
                   accessModes:
