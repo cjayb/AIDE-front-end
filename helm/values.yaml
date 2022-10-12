@@ -69,3 +69,11 @@ service:
   nodeport: 443
   port2: 80
   nodeport2: 80
+
+ 
+ volumes:
+  name: aide-storage
+  claimName: aide-frontend-pvc
+volumeMounts:
+  mountPath: /database
+  name: aide-storage
