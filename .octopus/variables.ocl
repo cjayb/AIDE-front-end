@@ -50,10 +50,6 @@ variable "keycloakUrlBackend" {
     value "https://keycloak-service.keycloak.svc.cluster.local:8443/auth" {}
 }
 
-variable "frontendApi" {
-    value "https://aide-api-aide-backend.aide.svc.cluster.local:5000" {}
-}
-
 variable "keycloakUrl" {
     value "https://sit-aide.answerdigital.io:8443/auth" {
         environment = ["sit"]
@@ -62,4 +58,8 @@ variable "keycloakUrl" {
 
 variable "certificateSecretName" {
     value "certificatesecret" {}
+}
+
+variable "frontendApi" {
+    value " https://sit-aide.answerdigital.io:5000" {}
 }
