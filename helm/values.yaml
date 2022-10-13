@@ -72,8 +72,21 @@ service:
 
  
 volumes:
-  name: aide-storage
-  claimName: aide-frontend-pvc
+  - name: aide-storage
+    claimName: aide-frontend-pvc
+  - name: cert
+    secret:
+      secretName: certificateSecret
+      optional: false
+        
 volumeMounts:
-  mountPath: /aide/data
-  name: aide-storage
+  - name: aide-storage
+    mountPath: /aide/data
+  - name: cert
+    mountPath: "/etc/foo"
+    
+resource:
+  storage:
+    globalStorageClassName: global-sc    
+    globalDataDirectory: /efs_data/aide/
+    DataDirectory: /data/
