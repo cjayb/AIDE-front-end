@@ -61,5 +61,7 @@ variable "certificateSecretName" {
 }
 
 variable "frontendApi" {
-    value " https://sit-aide.answerdigital.io:5000" {}
+    value " http://sit-aide.answerdigital.io:5000" {
+        machine = ["sit"]
+    }
 }
