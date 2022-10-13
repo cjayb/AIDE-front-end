@@ -38,7 +38,7 @@ step "add-certificate-secret" {
         action_type = "Octopus.KubernetesRunScript"
         properties = {
             Octopus.Action.Script.ScriptBody = <<-EOT
-                kubectl create namespace $(get_octopusvariable "Namespace") --dry-run=client -o yaml | kubectl apply -f -
+                kubectl create namespace $(get_octopusvariable "namespace") --dry-run=client -o yaml | kubectl apply -f -
                 
                 cat <<EOF >> certificate.pem
                 $(get_octopusvariable "IngressCertificate.CertificatePem")
@@ -49,7 +49,7 @@ step "add-certificate-secret" {
                 $(get_octopusvariable "IngressCertificate.PrivateKeyPem")
                 EOF
                 
-                kubectl create secret tls $(get_octopusvariable "SecretName") --cert certificate.pem --key key.pem -n $(get_octopusvariable "Namespace") --dry-run=client -o yaml | kubectl apply -f -
+                kubectl create secret tls $(get_octopusvariable "certificateSecretName") --cert certificate.pem --key key.pem -n $(get_octopusvariable "namespace") --dry-run=client -o yaml | kubectl apply -f -
                 
                 rm -f certificate.pem
                 rm -f key.pem
