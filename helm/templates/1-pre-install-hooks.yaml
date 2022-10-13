@@ -34,7 +34,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - {{ $node.metadata.name }}
+          - {{ $node[0].metadata.name }}
 ---
 
 ---
@@ -94,7 +94,6 @@ spec:
       containers:
       - name: directory-maker
         command: 
-        {{  $node := (lookup "v1" "Node" "" "").items }}
         - "mkdir"
         - "-p"
         - {{ $.Values.resource.storage.DataDirectory | quote }}        
