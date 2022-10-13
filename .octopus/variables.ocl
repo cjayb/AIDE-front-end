@@ -59,9 +59,3 @@ variable "keycloakUrl" {
         environment = ["sit"]
     }
 }
-
-variable "s" {
-    value "ss" {
-        environment = ["sit", "dev", "uat"]
-    }
-}
