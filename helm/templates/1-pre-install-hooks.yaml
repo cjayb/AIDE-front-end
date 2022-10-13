@@ -34,7 +34,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - {{ $node[0].metadata.name }}
+          - head1
 ---
 
 ---

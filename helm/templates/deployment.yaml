@@ -36,13 +36,14 @@ spec:
       volumes:
        {{- range ($.Values.volumes) }}
         - name: {{ .name }}
-          persistentVolumeClaim: 
+           
           {{- if .claimName }}
+          persistentVolumeClaim:
             claimName: {{  .claimName }}
             {{- end }}
           {{- if .secret }}
-            secret:
-              secretName: {{ .secret.secretName}}
+          secret:
+            secretName: {{ .secret.secretName}}
           {{- end }}
        {{- end }}      
       {{- end }}
