@@ -46,14 +46,22 @@ variable "WadoUriRoot" {
     value "https://sit-aide.answerdigital.io:8045/dicom-web" {}
 }
 
-variable "frontendApi" {
-    value "https://aide-frontend.aide.aide.svc.cluster.local:8000" {}
-}
-
 variable "keycloakUrlBackend" {
     value "https://keycloak-service.keycloak.svc.cluster.local:8443/auth" {}
 }
 
+variable "frontendApi" {
+    value "https://aide-api-aide-backend.aide.svc.cluster.local:5000" {}
+}
+
 variable "keycloakUrl" {
-    value "https://sit-aide.answerdigital.io:8443/auth" {}
+    value "https://sit-aide.answerdigital.io:8443/auth" {
+        environment = ["sit"]
+    }
+}
+
+variable "s" {
+    value "ss" {
+        environment = ["sit", "dev", "uat"]
+    }
 }
