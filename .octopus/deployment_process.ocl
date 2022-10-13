@@ -143,6 +143,16 @@ step "deploy-the-aide-frontend" {
                   tag: #{Octopus.Action.Package.PackageVersion}
                 imagePullSecrets:
                   - name: #{imagePullSecretName}
+                enviromentVariables:
+                  RABBITMQ_API_URL: rabbitmq.rabbitmq:15672/api/
+                  KEYCLOAK_URL: #{keycloakUrl}
+                  KEYCLOAK_URL_BACKEND: #{keycloakUrlBackend}
+                  FRONTEND_API_HOST: #{frontendApi}
+                  WADO_URI_ROOT: #{WadoUriRoot}
+                  QIDO_ROOT: #{QidoRoot}
+                  WADO_ROOT: #{WadoRoot}
+                  CLINICAL_REVIEW_URL: #{ClinicalReviewUrl}
+                  ORTHANC_API_URL: #{OrthancApiUrl}
             EOT
             Octopus.Action.Package.DownloadOnTentacle = "False"
             Octopus.Action.Package.FeedId = "octopus-server-built-in"
