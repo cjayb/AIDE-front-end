@@ -61,5 +61,5 @@ variable "keycloakUrl" {
 }
 
 variable "certificateSecretName" {
-    value "certificateSecret" {}
+    value "certificatesecret" {}
 }
