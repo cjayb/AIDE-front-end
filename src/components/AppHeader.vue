@@ -73,32 +73,46 @@ export default class AppHeader extends Vue {
     }
 
     updatePageTitle(): void {
-        if (this.$route.name == "AdminHealthDashboard") {
-            this.pageTitle = "Admin Health Dashboard";
-        }
-        if (this.$route.name == "AdminPayloadDashboard") {
-            this.pageTitle = "Admin Payload Dashboard";
-        }
-        if (this.$route.name == "ClinicalReview") {
-            this.pageTitle = "Model outputs for clinical review";
-        }
-        if (this.$route.name == "ClinicalReviewViewer") {
-            this.pageTitle = "Model outputs for clinical review";
-        }
-        if (this.$route.name == "ApplicationRepositoryList") {
-            this.pageTitle = "Application Repository";
-        }
-        if (this.$route.name == "ApplicationRepositoryDetail") {
-            this.pageTitle = "Application Repository";
-        }
-        if (this.$route.name == "UserManagement") {
-            this.pageTitle = "User Management";
-        }
-        if (this.$route.name == "Workflows") {
-            this.pageTitle = "Workflow Management";
-        }
-        if (this.$route.name == "WorkflowEditor") {
-            this.pageTitle = "Workflow Manager";
+        switch (this.$route.name) {
+            case "AdminHealthDashboard":
+                this.pageTitle = "Admin Health Dashboard";
+                break;
+
+            case "AdminPayloadDashboard":
+                this.pageTitle = "Admin Payload Dashboard";
+                break;
+
+            case "ClinicalReview":
+                this.pageTitle = "Model outputs for clinical review";
+                break;
+
+            case "ClinicalReviewViewer":
+                this.pageTitle = "Model outputs for clinical review";
+                break;
+
+            case "ApplicationRepositoryList":
+                this.pageTitle = "Application Repository";
+                break;
+
+            case "ApplicationRepositoryDetail":
+                this.pageTitle = "Application Repository";
+                break;
+
+            case "UserManagement":
+                this.pageTitle = "User Management";
+                break;
+
+            case "Workflows":
+                this.pageTitle = "Workflow Management";
+                break;
+
+            case "WorkflowEditor":
+                this.pageTitle = "Workflow Manager";
+                break;
+
+            case "AdminExportConfiguration":
+                this.pageTitle = "Export Destination Configuration";
+                break;
         }
     }
 

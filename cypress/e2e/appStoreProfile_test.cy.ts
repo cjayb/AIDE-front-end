@@ -6,7 +6,6 @@ const appProfilePage = new AppProfilePage();
 describe("App profile page version 1 ", () => {
     beforeEach(() => {
         appProfilePage.initPage1();
-        cy.injectAxe();
     });
 
     it("displays application version 1 details correctly", () => {
@@ -25,7 +24,6 @@ describe("App profile page version 1 ", () => {
 describe("App profile page version 2 ", () => {
     beforeEach(() => {
         appProfilePage.initPage2();
-        cy.injectAxe();
     });
 
     it("displays application details with different sets of data", () => {

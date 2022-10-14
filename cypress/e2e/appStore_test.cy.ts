@@ -11,11 +11,9 @@ const appPage = new appStorePage();
 describe("App Store Page", () => {
     beforeEach(() => {
         appPage.initPage();
-        cy.injectAxe();
     });
 
     it("A user can access the app store via the button", () => {
-        cy.checkA11y(null, a11yConfig, nodeTerminal, true);
         appPage.clickAppStoreButton().assertAppStorePageShows();
     });
 

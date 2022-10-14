@@ -9,33 +9,6 @@ const workflowEmpty = WorkflowExampleData.WORKFLOW_EMPTY;
 describe("Display list of users", () => {
     beforeEach(() => {
         workflowPage.initPage();
-        cy.injectAxe();
-        cy.configureAxe({
-            rules: [
-                {
-                    id: "nested-interactive",
-                    enabled: false,
-                },
-                {
-                    id: "page-has-heading-one",
-                    enabled: false,
-                },
-                {
-                    id: "aria-dialog-name",
-                    enabled: false,
-                },
-                {
-                    id: "aria-input-field-name",
-                    enabled: false,
-                },
-            ],
-        });
-    });
-
-    describe("Accessibility", () => {
-        it("User page should have no accessibility violations", () => {
-            cy.checkA11y();
-        });
     });
 
     describe("All expected elements on the page are visible", () => {
@@ -90,10 +63,6 @@ describe("Display list of users", () => {
     });
 
     describe("Edit", () => {
-        it("Accessibility", () => {
-            workflowPage.workflowEditRequest();
-            cy.checkA11y();
-        });
         it("Selecting edit on a workflow, opens a new page with a url ending in that workflow's id", () => {
             workflowPage.workflowEditRequest();
             workflowPage.assertEditUrl(workflowInitData);
@@ -176,11 +145,6 @@ describe("Display list of users", () => {
     });
 
     describe("Add", () => {
-        it("Accessibility", () => {
-            workflowPage.clickDataCy("add-workflow");
-            cy.wait(1000);
-            cy.checkA11y();
-        });
         it("Selecting add on the workflow table page takes me to the 'Add a workflow' page", () => {
             workflowPage.clickDataCy("add-workflow");
             workflowPage.assertAddUrl();

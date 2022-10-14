@@ -1,0 +1,14 @@
+[
+    {
+      "port": 104,
+      "name": "USEAST",
+      "aeTitle": "PACSUSEAST",
+      "hostIp": "10.20.3.4"
+    },
+    {
+      "port": 104,
+      "name": "USWEST",
+      "aeTitle": "PACSUSWEST",
+      "hostIp": "10.50.3.4"
+    }
+]

@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter, { NavigationGuardNext, Route, RouteConfig } from "vue-router";
 import AdminHealthDashboard from "@/views/AdminHealthDashboard.vue";
+import AdminDicomConfiguration from "@/views/AdminDicomConfiguration.vue";
 import AdminPayloadDashboard from "@/views/AdminPayloadDashboard.vue";
 import ClinicalReview from "@/views/ClinicalReview.vue";
 import AppRepo from "@/views/AppRepo.vue";
@@ -27,6 +28,15 @@ const routes: Array<RouteConfig> = [
         path: "/admin-payload-dashboard",
         name: "AdminPayloadDashboard",
         component: AdminPayloadDashboard,
+        beforeEnter: roleAuthenticatedRoute,
+        meta: {
+            requiredRole: "admin",
+        },
+    },
+    {
+        path: "/admin-export-configuration",
+        name: "AdminExportConfiguration",
+        component: AdminDicomConfiguration,
         beforeEnter: roleAuthenticatedRoute,
         meta: {
             requiredRole: "admin",

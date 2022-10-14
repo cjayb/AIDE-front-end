@@ -50,6 +50,13 @@ export default class AppSidebar extends Vue {
             datacy: "app-store-button",
         },
         {
+            title: "Export Destinations",
+            icon: "mdi-application-export",
+            route: "AdminExportConfiguration",
+            role: "admin",
+            datacy: "export-destinations-button",
+        },
+        {
             title: "User Management",
             icon: "mdi-account",
             route: "UserManagement",

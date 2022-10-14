@@ -5,7 +5,6 @@ const reviewPage = new ClinicalReviewPage();
 describe("Clinical review page", () => {
     beforeEach(() => {
         reviewPage.initPage();
-        cy.injectAxe();
     });
 
     it("Can view and filter the clinical review worklist", () => {

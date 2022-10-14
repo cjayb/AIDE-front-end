@@ -221,8 +221,6 @@ export default class ClinicalReviewPage extends AbstractPage {
             .click()
             .should("contain.text", dianeName);
 
-        cy.checkA11y(null, a11yConfig, nodeTerminal, true);
-
         this.clearWorklistSearch()
             .searchWorklist("Kel")
             .worklistItemWithText(kellyName)
@@ -243,13 +241,11 @@ export default class ClinicalReviewPage extends AbstractPage {
         );
         this.searchWorklist("leo").worklistItemWithText(leoneName).click();
         this.assertHeaderDetails(leoneName, patientDob, patientId, patientSex, studyDate);
-        cy.checkA11y(null, a11yConfig, nodeTerminal, true);
     }
 
     public assertAcceptWorklistItem() {
         this.acceptRejects(true);
         cy.intercept("GET", "/executions?from=0*", ApiMocks.CLINICAL_REVIEW_REVIEWED);
-        cy.checkA11y(null, a11yConfig, nodeTerminal, true);
         this.fillReviewModal(true, undefined, "This looks really good!")
             .acceptRejectModal(true)
             .worklistItemWithText(kellyName)
@@ -259,7 +255,6 @@ export default class ClinicalReviewPage extends AbstractPage {
     public assertRejectWorklistItem() {
         this.acceptRejects(false);
         cy.intercept("GET", "/executions?from=0*", ApiMocks.CLINICAL_REVIEW_REVIEWED);
-        cy.checkA11y(null, a11yConfig, nodeTerminal, true);
         this.fillReviewModal(true, RejectReason.WRONG_DIAGNOSIS, "The diagnosis is wrong!")
             .acceptRejectModal(false)
             .worklistItemWithText(kellyName)
@@ -314,7 +309,6 @@ export default class ClinicalReviewPage extends AbstractPage {
 
     public assertDicomViewportDisplay() {
         this.waitForInitialViewerLoad();
-        cy.checkA11y(null, a11yConfig, nodeTerminal, true);
     }
 
     public assertDicomImagesScrolling() {

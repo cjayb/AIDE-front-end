@@ -17,25 +17,6 @@ const EditableRole1 = "Editable role 1";
 describe("Display list of users", () => {
     beforeEach(() => {
         userManagementPage.initPage();
-        cy.injectAxe();
-        cy.configureAxe({
-            rules: [
-                {
-                    id: "nested-interactive",
-                    enabled: false,
-                },
-                {
-                    id: "page-has-heading-one",
-                    enabled: false,
-                },
-            ],
-        });
-    });
-
-    describe("Accessibility", () => {
-        it("User page should have no accessibility violations", () => {
-            cy.checkA11y();
-        });
     });
 
     describe("Tabs", () => {
@@ -289,12 +270,6 @@ describe("Roles", () => {
                     enabled: false,
                 },
             ],
-        });
-    });
-
-    describe("Accessibility", () => {
-        it("Roles page should have no accessibility violations", () => {
-            cy.checkA11y();
         });
     });
 

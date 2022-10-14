@@ -12,23 +12,17 @@ const adminHealthPage = new AdminHealthDashboardPage();
 const adminPayloadPage = new AdminPayloadDashboardPage();
 
 describe(`Admin health - Overview section`, () => {
-    beforeEach(() => {
-        cy.injectAxe();
-    });
     it(`when I pass in data with failed models,
     I can see the correct data and highlight around the model failure tile`, () => {
-        cy.checkA11y(null, a11yConfig, nodeTerminal, true);
         adminHealthPage.initPage();
         adminHealthPage.assertCorrectHighlightAroundTile(ExecStatistics.FAILED_MODELS_DATA);
     });
     it(`when I pass in data with no failed models,
     I can see the correct data and highlight around the model failure tile`, () => {
-        cy.checkA11y(null, a11yConfig, nodeTerminal, true);
         adminHealthPage.initPageWithNoFailedModels();
         adminHealthPage.assertCorrectHighlightAroundTile(ExecStatistics.NO_FAILED_MODELS_DATA);
     });
     it(`I can see the correct data returned from the API for the overview section`, () => {
-        cy.checkA11y(null, a11yConfig, nodeTerminal, true);
         adminHealthPage.initPage();
         adminHealthPage.assertOverviewModelDataCorrect(ExecStatistics.FAILED_MODELS_DATA);
     });

@@ -5,13 +5,41 @@ const users: UserListItem[] = [
     {
         id: "17867604-8366-4173-b251-e7ea8ebfd4c4",
         firstName: "Evert",
-        lastName: "Von",
+        lastName: "Von Superlonglastnameandwewanttoseehowitlooks",
         email: "evert.von@example.com",
         enabled: true,
         realmRoles: [
             {
                 id: "72657913-8ba7-4bba-b04f-5de8f0ce6b29",
                 name: "admin",
+            },
+            {
+                id: "9e5d60ac-7b29-4013-9733-845801b90e21",
+                name: "clinician",
+            },
+            {
+                id: "9e5d60ac-7b29-4013-9733-845801b90e21",
+                name: "clinician",
+            },
+            {
+                id: "9e5d60ac-7b29-4013-9733-845801b90e21",
+                name: "clinician",
+            },
+            {
+                id: "9e5d60ac-7b29-4013-9733-845801b90e21",
+                name: "clinician",
+            },
+            {
+                id: "9e5d60ac-7b29-4013-9733-845801b90e21",
+                name: "clinician",
+            },
+            {
+                id: "9e5d60ac-7b29-4013-9733-845801b90e21",
+                name: "clinician",
+            },
+            {
+                id: "9e5d60ac-7b29-4013-9733-845801b90e21",
+                name: "clinician",
             },
             {
                 id: "9e5d60ac-7b29-4013-9733-845801b90e21",
