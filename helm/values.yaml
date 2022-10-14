@@ -89,4 +89,6 @@ resource:
   storage:
     globalStorageClassName: global-sc    
     globalDataDirectory: /efs_data/aide/
-    DataDirectory: /data/
+    DataDirectory: /data
+https://aide-api-aide-backend.aide.svc.cluster.local:5000/api/overview?period=day
+        aide-api-aide-backend.aide
