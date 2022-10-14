@@ -54,6 +54,11 @@ variable "keycloakUrl" {
     value "https://sit-aide.answerdigital.io:8443/auth" {
         environment = ["sit"]
     }
+
+    value "https://dev-aide.answerdigital.io:8443/auth" {
+        description = ""
+        environment = ["dev"]
+    }
 }
 
 variable "certificateSecretName" {
@@ -63,5 +68,10 @@ variable "certificateSecretName" {
 variable "frontendApi" {
     value " https://sit-aide.answerdigital.io:5000" {
         machine = ["sit"]
+    }
+
+    value " https://dev-aide.answerdigital.io:5000" {
+        description = ""
+        environment = ["dev"]
     }
 }
