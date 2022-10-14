@@ -29,11 +29,18 @@ export default class AppSidebar extends Vue {
     // Declared as component data
     items = [
         {
-            title: "Admin",
+            title: "Health Dashboard",
             icon: "mdi-cog",
             route: "AdminHealthDashboard",
             role: "admin",
             datacy: "admin-button",
+        },
+        {
+            title: "Payload Dashboard",
+            icon: "mdi-family-tree",
+            route: "AdminPayloadDashboard",
+            role: "admin",
+            datacy: "admin-payload-button",
         },
         {
             title: "Clinical Review",
