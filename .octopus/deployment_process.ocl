@@ -115,7 +115,7 @@ step "deploy-the-aide-frontend" {
                   globalStorageClassName: #{GlobalStorageClassName}    
                   globalDataDirectory: #{GlobalStoragePath}  
                   dataDirectory: #{StoragePath}
-                  dataStorageCapacityRequest: 10Gi
+                  dataStorageCapacityRequest: #{StorageCapacityRequest}
             EOT
             Octopus.Action.Package.DownloadOnTentacle = "False"
             Octopus.Action.Package.FeedId = "octopus-server-built-in"
