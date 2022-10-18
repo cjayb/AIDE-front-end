@@ -159,7 +159,7 @@ const routes: Array<RouteConfig> = [
                 return next({ name: "Unauthorized" });
             }
 
-            Vue.prototype.$keycloak.updateToken(70).then(() => {
+            Vue.prototype.$keycloak.keycloak.updateToken(70).then(() => {
                 return next({ name: destination, replace: true });
             });
         },
@@ -180,7 +180,7 @@ function roleAuthenticatedRoute(to: Route, _: Route, next: NavigationGuardNext<V
     }
 
     if (Vue.prototype.$keycloak.hasResourceRole(requiredRole)) {
-        Vue.prototype.$keycloak.updateToken(70).then(() => {
+        Vue.prototype.$keycloak.keycloak.updateToken(70).then(() => {
             next();
         });
     } else {

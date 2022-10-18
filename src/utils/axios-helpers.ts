@@ -15,7 +15,7 @@ export function isResultOk({ status }: AxiosResponse): boolean {
 
 export function authenticationEnabledInterceptor(config: AxiosRequestConfig): AxiosRequestConfig {
     if (process.env.VUE_APP_AUTH_ENABLED === "true") {
-        Vue.prototype.$keycloak.updateToken(70);
+        Vue.prototype.$keycloak.keycloak.updateToken(70);
     }
 
     return config;
