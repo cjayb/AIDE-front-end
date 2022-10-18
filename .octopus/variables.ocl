@@ -61,10 +61,6 @@ variable "keycloakUrl" {
     }
 }
 
-variable "certificateSecretName" {
-    value "certificatesecret" {}
-}
-
 variable "frontendApi" {
     value " http://sit-aide.answerdigital.io:5000" {
         machine = ["sit"]
@@ -79,4 +75,8 @@ variable "frontendApi" {
         description = ""
         environment = ["uat"]
     }
+}
+
+variable "CertificateSecretName" {
+    value "ingress-tls-secret" {}
 }
