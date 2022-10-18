@@ -1,4 +1,4 @@
-replicaCount: 1
+replicaCount: 3
 
 image:
   repository: 847264867502.dkr.ecr.eu-west-2.amazonaws.com/aide-frontend
@@ -11,10 +11,7 @@ imagePullSecrets:
 enviromentVariables:
   RABBITMQ_HOST: host.docker.internal
   RABBITMQ_API_URL: http://host.docker.internal:15672/api/
-  RABBITMQ_PORT: 5672  
-  CACERTFILE: /data/certs/tls.crt
-  CERTFILE: /data/certs/tls.crt
-  KEYFILE: /data/certs/tls.key
+  RABBITMQ_PORT: 5672
   STORAGE_DIR: /aide/data
   INPUT_MOUNT: /aide/data
   ELASTIC_HOST: https://opensearch.shared.svc.cluster.local:9200  
@@ -64,30 +61,27 @@ enviromentVariablesFromSecrets:
       secretName: elastic-secret-master
       secretKey: password    
       
-service:
-  type: NodePort
-  port: 443
-  nodeport: 443
-  port2: 80
-  nodeport2: 80
+ingress:
+  host: sit-aide.answerdigital.io
+  tlsSecretName: certificatesecret
 
+service:
+  type: ClusterIP
+  port: 80  
  
 volumes:
   - name: aide-storage
-    claimName: aide-frontend-pvc
-  - name: cert
-    secret:
-      secretName: certificatesecret
-      optional: false
+    claimName: aide-frontend-pvc  
         
 volumeMounts:
   - name: aide-storage
-    mountPath: /aide/data
-  - name: cert
-    mountPath: "/data/certs"
+    mountPath: /aide/data  
     
-resource:
-  storage:
-    globalStorageClassName: global-sc    
-    globalDataDirectory: /efs_data/aide/
-    DataDirectory: /data
+storage:
+  globalStorageClassName: global-sc    
+  globalDataDirectory: /efs_data/aide/
+  storageClassName: aide-sc
+  storageClaimName: aide-frontend-pvc
+  dataDirectory: /efs_data/aide/data/
+  dataVolumeLabel: aide-frontend
+  dataStorageCapacityRequest: 10Gi

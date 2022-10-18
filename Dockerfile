@@ -20,5 +20,5 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY docker_entrypoint.sh /app/docker_entrypoint.sh
 COPY generate_env_config.sh /app/generate_env_config.sh
 
-EXPOSE 443
+EXPOSE 80
 ENTRYPOINT ["sh", "/app/docker_entrypoint.sh"]
