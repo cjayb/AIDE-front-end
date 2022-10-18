@@ -106,6 +106,16 @@ step "deploy-the-aide-frontend" {
                   WADO_ROOT: #{WadoRoot}
                   CLINICAL_REVIEW_URL: #{ClinicalReviewUrl}
                   ORTHANC_API_URL: #{OrthancApiUrl}
+                
+                ingress:
+                  host: #{Host}
+                  tlsSecretName: #{CertificateSecretName}
+                
+                storage:
+                  globalStorageClassName: #{GlobalStorageClassName}    
+                  globalDataDirectory: #{GlobalStoragePath}  
+                  dataDirectory: /efs_data/aide/data/  
+                  dataStorageCapacityRequest: 10Gi
             EOT
             Octopus.Action.Package.DownloadOnTentacle = "False"
             Octopus.Action.Package.FeedId = "octopus-server-built-in"
