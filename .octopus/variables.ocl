@@ -14,14 +14,6 @@ variable "PersistentVolumeName" {
     value "aide-frontend-pv" {}
 }
 
-variable "StorageClassName" {
-    value "aide-frontend-sc" {}
-}
-
-variable "StorageClaimName" {
-    value "aide-frontend-pvc" {}
-}
-
 variable "PersistentVolumeLocalPath" {
     value "/efs_data/aide/data" {}
 }
@@ -97,4 +89,8 @@ variable "ApiHost" {
 
 variable "StoragePath" {
     value "/efs_data/aide/data/" {}
+}
+
+variable "StorageCapacityRequest" {
+    value "10Gi" {}
 }
