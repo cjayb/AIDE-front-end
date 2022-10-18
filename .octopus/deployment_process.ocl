@@ -98,7 +98,7 @@ step "deploy-the-aide-frontend" {
                   - name: #{imagePullSecretName}
                 enviromentVariables:
                   RABBITMQ_API_URL: rabbitmq.rabbitmq:5672/api/
-                  KEYCLOAK_URL: #{keycloakUrl}
+                  KEYCLOAK_URL: #{KeycloakUrl}
                   KEYCLOAK_URL_BACKEND: #{keycloakUrlBackend}
                   FRONTEND_API_HOST: #{frontendApi}
                   WADO_URI_ROOT: #{WadoUriRoot}
