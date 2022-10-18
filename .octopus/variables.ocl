@@ -94,3 +94,7 @@ variable "ApiHost" {
         machine = ["sit"]
     }
 }
+
+variable "StoragePath" {
+    value "/efs_data/aide/data/" {}
+}
