@@ -1,12 +1,11 @@
-
-{{ $node := (lookup "v1" "Node" "" "").items }}
+{{ range $index, $node := (lookup "v1" "Node" "" "").items }}
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: "setup-aide-frontend-directories-pv"
+  name: {{ printf "%s%s" "setup-aide-frontend-directories-pv-" $node.metadata.name | quote }}
   labels:
-    type: {{ $.Values.resource.storage.globalStorageClassName | quote }}
+    type: {{ $.Values.storage.globalStorageClassName | quote }}
     app.kubernetes.io/managed-by: {{ $.Release.Service | quote }}
     app.kubernetes.io/instance: {{ $.Release.Name | quote }}
     app.kubernetes.io/version: {{ $.Chart.AppVersion }}
@@ -17,16 +16,14 @@ metadata:
     "helm.sh/hook-delete-policy": hook-succeeded
 spec:
   capacity:
-    storage: 1Gi
-  # # Below will make the PV 'AVAILABLE' again if it has been previously deployed, 'BOUND' and subsequently 'RELEASED'
-  # claimRef:
+    storage: 1Gi  
   volumeMode: Filesystem
   accessModes:
   - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: {{ $.Values.resource.storage.globalStorageClassName }}
+  storageClassName: {{ $.Values.storage.globalStorageClassName }}
   local:
-    path: {{ $.Values.resource.storage.globalDataDirectory }}
+    path: {{ $.Values.storage.globalDataDirectory }}
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -34,9 +31,9 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - head1
+          - {{ $node.metadata.name }}
 ---
-
+{{ end }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -59,7 +56,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: {{ .Values.resource.storage.globalStorageClassName }}
+  storageClassName: {{ .Values.storage.globalStorageClassName }}
 ---
 apiVersion: batch/v1
 kind: Job
@@ -76,7 +73,6 @@ metadata:
     "helm.sh/hook-weight": "1"
     "helm.sh/hook-delete-policy": hook-succeeded
 spec:
-  #ttlSecondsAfterFinished: 20
   template:
     metadata:
       name: setup-aide-frontend-directories
@@ -90,17 +86,14 @@ spec:
       - name: data
         persistentVolumeClaim:
           claimName: setup-aide-frontend-directories-pvc
-
       containers:
       - name: directory-maker
         command: 
         - "mkdir"
         - "-p"
-        - {{ $.Values.resource.storage.DataDirectory | quote }}        
-
+        - {{ $.Values.storage.dataDirectory | quote }}
         image: busybox        
         volumeMounts:
-        - mountPath: {{ .Values.resource.storage.globalDataDirectory }}
-          name: data
-      
+        - mountPath: {{ .Values.storage.globalDataDirectory }}
+          name: data      
       restartPolicy: Never
