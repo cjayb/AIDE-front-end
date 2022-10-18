@@ -15,15 +15,15 @@ export function isResultOk({ status }: AxiosResponse): boolean {
 
 export function authenticationEnabledInterceptor(config: AxiosRequestConfig): AxiosRequestConfig {
     if (process.env.VUE_APP_AUTH_ENABLED === "true") {
-        Vue.$keycloak.updateToken(70);
+        Vue.prototype.$keycloak.updateToken(70);
     }
 
     return config;
 }
 
 export function attachBearerTokenInterceptor(config: AxiosRequestConfig): AxiosRequestConfig {
-    if (config.headers && Vue.$keycloak.token) {
-        config.headers["Authorization"] = `Bearer ${Vue.$keycloak.token}`;
+    if (config.headers && Vue.prototype.$keycloak.token) {
+        config.headers["Authorization"] = `Bearer ${Vue.prototype.$keycloak.token}`;
     }
 
     return config;
@@ -38,7 +38,7 @@ export function onRequestErrorInterceptor(
 
         return Promise.reject(error);
     } else if (error.response?.status === 401) {
-        Vue.$keycloak.logout({ redirectUri: `${window.location.origin}/#/` });
+        Vue.prototype.$keycloak.logout({ redirectUri: `${window.location.origin}/#/` });
 
         return Promise.reject(error);
     }

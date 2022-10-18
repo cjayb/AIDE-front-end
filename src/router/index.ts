@@ -141,23 +141,25 @@ const routes: Array<RouteConfig> = [
                 return next({ name: "AdminHealthDashboard" });
             }
 
-            if (!Vue.$keycloak.authenticated) {
-                Vue.$keycloak.login({ redirectUri: `${window.location.origin}/${to.path}` });
+            if (!Vue.prototype.$keycloak.authenticated) {
+                Vue.prototype.$keycloak.login({
+                    redirectUri: `${window.location.origin}/${to.path}`,
+                });
             }
 
             let destination = "Unauthorized";
 
-            if (Vue.$keycloak.hasRealmRole("admin")) {
+            if (Vue.prototype.$keycloak.hasRealmRole("admin")) {
                 destination = "AdminHealthDashboard";
-            } else if (Vue.$keycloak.hasRealmRole("clinician")) {
+            } else if (Vue.prototype.$keycloak.hasRealmRole("clinician")) {
                 destination = "ClinicalReview";
-            } else if (Vue.$keycloak.hasRealmRole("deployer")) {
+            } else if (Vue.prototype.$keycloak.hasRealmRole("deployer")) {
                 destination = "ApplicationRepositoryList";
             } else {
                 return next({ name: "Unauthorized" });
             }
 
-            Vue.$keycloak.updateToken(70).then(() => {
+            Vue.prototype.$keycloak.updateToken(70).then(() => {
                 return next({ name: destination, replace: true });
             });
         },
@@ -171,14 +173,14 @@ function roleAuthenticatedRoute(to: Route, _: Route, next: NavigationGuardNext<V
         return next();
     }
 
-    if (!Vue.$keycloak.authenticated) {
-        Vue.$keycloak.login({ redirectUri: `${window.location.origin}/${to.path}` });
+    if (!Vue.prototype.$keycloak.authenticated) {
+        Vue.prototype.$keycloak.login({ redirectUri: `${window.location.origin}/${to.path}` });
 
         return;
     }
 
-    if (Vue.$keycloak.hasResourceRole(requiredRole)) {
-        Vue.$keycloak.updateToken(70).then(() => {
+    if (Vue.prototype.$keycloak.hasResourceRole(requiredRole)) {
+        Vue.prototype.$keycloak.updateToken(70).then(() => {
             next();
         });
     } else {

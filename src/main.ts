@@ -6,7 +6,7 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 import moment from "moment-timezone";
 import numeral from "numeral";
-import authentication from "@/plugins/authentication";
+import VueKeycloak from "@dsb-norge/vue-keycloak-js";
 import VueToast from "vue-toast-notification";
 import "./styles/toast.scss";
 
@@ -22,7 +22,6 @@ Vue.config.productionTip = false;
 
 Vue.prototype.$window = window;
 
-Vue.use(authentication);
 Vue.use(VueToast, {
     position: "bottom-right",
 });
@@ -58,11 +57,18 @@ Vue.config.errorHandler = (err, vm, info) => {
     // Vue.$toast.error("Something unexpected went wrong!");
 };
 
-Vue.$keycloak.init({ checkLoginIframe: false }).then(() => {
-    new Vue({
-        router,
-        store,
-        vuetify,
-        render: (h) => h(App),
-    }).$mount("#app");
+Vue.use(VueKeycloak, {
+    config: {
+        url: window.KEYCLOAK_URL,
+        realm: process.env.VUE_APP_KEYCLOAK_REALM,
+        clientId: process.env.VUE_APP_KEYCLOAK_CLIENT_ID,
+    },
+    onReady: () => {
+        new Vue({
+            router,
+            store,
+            vuetify,
+            render: (h) => h(App),
+        }).$mount("#app");
+    },
 });
