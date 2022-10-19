@@ -14,7 +14,7 @@ http.interceptors.response.use(
     },
     function (error) {
         if (401 === error.response.status) {
-            Vue.$keycloak.logout({ redirectUri: `${window.location.origin}/#/` });
+            Vue.prototype.$keycloak.logout({ redirectUri: `${window.location.origin}/#/` });
         } else {
             return error;
         }
