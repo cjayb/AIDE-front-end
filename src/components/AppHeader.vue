@@ -65,8 +65,8 @@ export default class AppHeader extends Vue {
     // Methods will be component methods
     mounted(): void {
         this.updatePageTitle();
-        if (Vue.prototype.$keycloak?.authenticated) {
-            this.name = Vue.prototype.$keycloak.tokenParsed?.name;
+        if (this.$keycloak?.authenticated) {
+            this.name = this.$keycloak?.tokenParsed?.name ?? "";
         } else {
             this.name = "Unauthenticated User";
         }
@@ -117,7 +117,11 @@ export default class AppHeader extends Vue {
     }
 
     logout(): void {
-        Vue.prototype.$keycloak.logoutFn({ redirectUri: `${window.location.origin}/#/` });
+        const logout = this.$keycloak?.logoutFn;
+
+        if (logout !== undefined) {
+            logout({ redirectUri: `${window.location.origin}/#/` });
+        }
     }
 
     @Watch("$route", { immediate: true, deep: true })

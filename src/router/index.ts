@@ -14,6 +14,10 @@ import WorkflowEditor from "@/views/WorkflowEditor.vue";
 
 Vue.use(VueRouter);
 
+function sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 const routes: Array<RouteConfig> = [
     {
         path: "/admin-health-dashboard",
@@ -134,29 +138,39 @@ const routes: Array<RouteConfig> = [
         component: Unauthorized,
     },
     {
-        path: "/",
-        name: "Home",
-        beforeEnter: (to, _, next) => {
+        path: "/*",
+        beforeEnter: async (to, from, next) => {
             if (process.env.VUE_APP_AUTH_ENABLED !== "true") {
                 return next({ name: "AdminHealthDashboard" });
             }
 
-            if (!Vue.prototype.$keycloak.authenticated) {
-                Vue.prototype.$keycloak.login({
-                    redirectUri: `${window.location.origin}/${to.path}`,
+            while (!Vue.prototype.$keycloak?.createLoginUrl) {
+                await sleep(100);
+            }
+
+            if (!Vue.prototype.$keycloak?.authenticated) {
+                const login = Vue.prototype.$keycloak.login;
+
+                if (!login) {
+                    return;
+                }
+
+                login({
+                    redirectUri: `${window.location.origin}/#${to.path}`,
                 });
             }
 
             let destination = "Unauthorized";
 
-            if (Vue.prototype.$keycloak.hasRealmRole("admin")) {
+            const noRole = () => false;
+            const hasRealmRole = Vue.prototype.$keycloak.hasRealmRole ?? noRole;
+
+            if (hasRealmRole("admin")) {
                 destination = "AdminHealthDashboard";
-            } else if (Vue.prototype.$keycloak.hasRealmRole("clinician")) {
+            } else if (hasRealmRole("clinician")) {
                 destination = "ClinicalReview";
-            } else if (Vue.prototype.$keycloak.hasRealmRole("deployer")) {
+            } else if (hasRealmRole("deployer")) {
                 destination = "ApplicationRepositoryList";
-            } else {
-                return next({ name: "Unauthorized" });
             }
 
             Vue.prototype.$keycloak.keycloak.updateToken(70).then(() => {
@@ -173,23 +187,24 @@ function roleAuthenticatedRoute(to: Route, _: Route, next: NavigationGuardNext<V
         return next();
     }
 
-    if (!Vue.prototype.$keycloak.authenticated) {
-        Vue.prototype.$keycloak.login({ redirectUri: `${window.location.origin}/${to.path}` });
+    if (!Vue.prototype.$keycloak?.authenticated) {
+        Vue.prototype.$keycloak?.login({ redirectUri: `${window.location.origin}/${to.path}` });
 
         return;
     }
 
     if (Vue.prototype.$keycloak.hasResourceRole(requiredRole)) {
         Vue.prototype.$keycloak.keycloak.updateToken(70).then(() => {
-            next();
+            return next();
         });
     } else {
-        next({ name: "Unauthorized" });
+        return next({ name: "Unauthorized" });
     }
 }
 
 const router = new VueRouter({
     routes,
+    // mode: "history",
 });
 
 export default router;

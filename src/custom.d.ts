@@ -1,9 +1,12 @@
-import { KeycloakInstance } from "keycloak-js";
-import Vue from "vue";
+import { VueKeycloakInstance } from "@dsb-norge/vue-keycloak-js/dist/types";
 
 declare module "vue/types/vue" {
     interface VueConstructor {
-        $keycloak: KeycloakInstance;
+        $keycloak: VueKeycloakInstance;
         $window: Window & globalThis;
+    }
+
+    interface Vue {
+        $keycloak: VueKeycloakInstance;
     }
 }
