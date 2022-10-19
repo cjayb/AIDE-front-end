@@ -103,7 +103,7 @@ export default class AppStorePage extends AbstractPage {
     }
 
     public assertBlankAppList(): AppStorePage {
-        cy.intercept("/app_store/api/applications?status=Live", { statusCode: 200, body: "[]" }).as(
+        cy.intercept("/app_store/applications?status=Live", { statusCode: 200, body: "[]" }).as(
             "twoHundred",
         );
         cy.visit("/#/application-repository");
@@ -140,9 +140,7 @@ export default class AppStorePage extends AbstractPage {
     }
 
     public assertErrorCodeHandling(code): void {
-        cy.intercept("/app_store/api/applications?status=Live", { statusCode: code }).as(
-            "statusCode",
-        );
+        cy.intercept("/app_store/applications?status=Live", { statusCode: code }).as("statusCode");
         cy.visit("/#/application-repository");
         cy.wait("@statusCode");
         this.assertLatestErrorContainsMessage(
@@ -151,14 +149,12 @@ export default class AppStorePage extends AbstractPage {
     }
 
     public async initPage() {
-        cy.intercept(
-            "/app_store/api/applications?status=Live",
-            ApiMocks.APP_STORE_ALL_PERMUTATIONS,
-        ).as("ApplicationList");
-        cy.intercept(
-            "/app_store/api/medical_specialities",
-            ApiMocks.APP_STORE_SPECIALITY_DROP_DOWN,
-        ).as("DropDownList");
+        cy.intercept("/app_store/applications?status=Live", ApiMocks.APP_STORE_ALL_PERMUTATIONS).as(
+            "ApplicationList",
+        );
+        cy.intercept("/app_store/medical_specialities", ApiMocks.APP_STORE_SPECIALITY_DROP_DOWN).as(
+            "DropDownList",
+        );
         cy.visit("/#/application-repository");
         cy.wait(["@ApplicationList"]);
         cy.wait(["@DropDownList"]);

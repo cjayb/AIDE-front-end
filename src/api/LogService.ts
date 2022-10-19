@@ -18,7 +18,7 @@ export async function getLogs(executionId: string): Promise<any> {
 }
 
 export async function getTaskLogs(taskId: number): Promise<ILogs[]> {
-    const response = await http.get(`/api/logs/${taskId}`);
+    const response = await http.get(`/logs/${taskId}`);
 
     return response.data;
 }

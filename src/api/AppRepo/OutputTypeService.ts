@@ -9,11 +9,11 @@ const errorMessages: ErrorMessageMap = {
 const http = createAxiosInstance(errorMessages);
 
 export async function getAllOutputType(): Promise<OutputType[]> {
-    const response = await http.get(`/app_store/api/output_types`);
+    const response = await http.get(`/app_store/output_types`);
     return response.data;
 }
 
 export async function createOutputType(outputType: OutputType): Promise<OutputType> {
-    const response = await http.post(`/app_store/api/output_types`, outputType);
+    const response = await http.post(`/app_store/output_types`, outputType);
     return response.data;
 }

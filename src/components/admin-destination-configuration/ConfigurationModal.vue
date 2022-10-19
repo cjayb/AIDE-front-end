@@ -75,7 +75,6 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
 import { InputValidationRules } from "vuetify";
-import { echoExportDestination } from "@/api/export-destination/ExportDestinationService";
 import { IExportDestination } from "@/models/export-destinations/ExportDestination";
 
 @Component({

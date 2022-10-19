@@ -9,13 +9,13 @@ const errorMessages: ErrorMessageMap = {
 const http = createAxiosInstance(errorMessages);
 
 export async function getAllMedicalSpeciality(): Promise<MedicalSpeciality[]> {
-    const response = await http.get(`/app_store/api/medical_specialities`);
+    const response = await http.get(`/app_store/medical_specialities`);
     return response.data;
 }
 
 export async function createMedicalSpeciality(
     medicalSpeciality: MedicalSpeciality,
 ): Promise<MedicalSpeciality> {
-    const response = await http.post(`/app_store/api/medical_specialities`, medicalSpeciality);
+    const response = await http.post(`/app_store/medical_specialities`, medicalSpeciality);
     return response.data;
 }

@@ -10,17 +10,17 @@ const errorMessages: ErrorMessageMap = {
 const http = createAxiosInstance(errorMessages);
 
 export async function getAllVersions(): Promise<Version[]> {
-    const response = await http.get(`/app_store/api/versions`);
+    const response = await http.get(`/app_store/versions`);
     return response.data;
 }
 
 export async function getVersion(version_id: string): Promise<Version> {
-    const response = await http.get(`/app_store/api/versions/${version_id}`);
+    const response = await http.get(`/app_store/versions/${version_id}`);
     return response.data;
 }
 
 export async function createVersion(version: Version): Promise<Version> {
-    const response = await http.post(`/app_store/api/versions/`, version);
+    const response = await http.post(`/app_store/versions/`, version);
     return response.data;
 }
 
@@ -29,6 +29,6 @@ export async function updateVersion(
     version_id: string,
     version: Version,
 ): Promise<Version> {
-    const response = await http.put(`/app_store/api/versions/${version_id}`, version);
+    const response = await http.put(`/app_store/versions/${version_id}`, version);
     return response.data;
 }

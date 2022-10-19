@@ -98,7 +98,7 @@ export const logsHandlers = [
     rest.get(`${window.FRONTEND_API_HOST}/logs/:executionId`, (req, res, ctx) => {
         return res(ctx.json({ logs }));
     }),
-    rest.get(`${window.FRONTEND_API_HOST}/api/logs/:taskd`, (req, res, ctx) => {
+    rest.get(`${window.FRONTEND_API_HOST}/logs/:taskd`, (req, res, ctx) => {
         return res(ctx.json({ taskLogs }));
     }),
 ];
