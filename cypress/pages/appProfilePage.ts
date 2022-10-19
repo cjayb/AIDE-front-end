@@ -215,7 +215,7 @@ export default class AppProfilePage extends AbstractPage {
         const application_id = "06e5e7fc-f1b6-4a09-8c8a-32d6bee02fdc";
         const version_id = "5ae54fb1-24cc-46e5-a90e-bb65bdbb65c6";
         cy.intercept(
-            `/app_store/api/applications/${application_id}?status=Live`,
+            `/app_store/applications/${application_id}?status=Live`,
             ApiMocks.APP_PROFILE_PAGE1,
         );
         cy.visit(
@@ -230,7 +230,7 @@ export default class AppProfilePage extends AbstractPage {
         const application_id = "06e5e7fc-f1b6-4a09-8c8a-32d6bee02fdd";
         const version_id = "5ae54fb1-24cc-46e5-a90e-bb65bdbb65c7";
         cy.intercept(
-            `/app_store/api/applications/${application_id}?status=Live`,
+            `/app_store/applications/${application_id}?status=Live`,
             ApiMocks.APP_PROFILE_PAGE2,
         );
         cy.visit(
@@ -244,7 +244,7 @@ export default class AppProfilePage extends AbstractPage {
     public async returning400HandledGracefully() {
         const application_id = "9e5d4728-e73d-4ef1-ac56-69f682453316";
         const application_version_id = "667fc4a4-b568-4e3a-b46f-cd06773c9239";
-        cy.intercept(`/app_store/api/applications/${application_id}?status=Live`, {
+        cy.intercept(`/app_store/applications/${application_id}?status=Live`, {
             statusCode: 400,
         }).as("fourHundred");
         cy.visit(
@@ -259,7 +259,7 @@ export default class AppProfilePage extends AbstractPage {
     public async returning403HandledGracefully() {
         const application_id = "9e5d4728-e73d-4ef1-ac56-69f682453316";
         const application_version_id = "667fc4a4-b568-4e3a-b46f-cd06773c9239";
-        cy.intercept(`/app_store/api/applications/${application_id}?status=Live`, {
+        cy.intercept(`/app_store/applications/${application_id}?status=Live`, {
             statusCode: 403,
         }).as("fourHundredThree");
         cy.visit(
@@ -274,7 +274,7 @@ export default class AppProfilePage extends AbstractPage {
     public async returning404HandledGracefully() {
         const application_id = "9e5d4728-e73d-4ef1-ac56-69f682453316";
         const application_version_id = "667fc4a4-b568-4e3a-b46f-cd06773c9239";
-        cy.intercept(`/app_store/api/applications/${application_id}?status=Live`, {
+        cy.intercept(`/app_store/applications/${application_id}?status=Live`, {
             statusCode: 404,
         }).as("fourHundredFour");
         cy.visit(
@@ -289,7 +289,7 @@ export default class AppProfilePage extends AbstractPage {
     public async returning500HandledGracefully() {
         const application_id = "9e5d4728-e73d-4ef1-ac56-69f682453316";
         const application_version_id = "667fc4a4-b568-4e3a-b46f-cd06773c9239";
-        cy.intercept(`/app_store/api/applications/${application_id}?status=Live`, {
+        cy.intercept(`/app_store/applications/${application_id}?status=Live`, {
             statusCode: 500,
         }).as("fiveHundred");
         cy.visit(

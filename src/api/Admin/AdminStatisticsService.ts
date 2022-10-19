@@ -1,6 +1,5 @@
 import { IOverview } from "@/models/Admin/IOverview";
 import { IIndexedIssue, IIssue } from "@/models/Admin/IIssue";
-import { ILogs } from "@/models/Admin/ILogs";
 import { IModelSummary, IModelDetails } from "@/models/Admin/IModel";
 import { createAxiosInstance, ErrorMessageMap } from "@/utils/axios-helpers";
 
@@ -13,7 +12,7 @@ const http = createAxiosInstance(errorMessages);
 
 // Overview Section
 export async function getOverview(filterPeriod: string): Promise<IOverview> {
-    const response = await http.get(`/api/overview?period=${filterPeriod}`);
+    const response = await http.get(`/overview?period=${filterPeriod}`);
 
     return response.data;
 }
@@ -37,7 +36,7 @@ export async function dismissIssues(dismissedItems: IIndexedIssue[]): Promise<bo
 
 // Models Section
 export async function getModels(): Promise<IModelSummary[]> {
-    const response = await http.get(`/api/models`);
+    const response = await http.get(`/models`);
 
     return response.data;
 }
@@ -48,7 +47,7 @@ export async function getModelStatsForGraphs(
     end_date: string,
 ): Promise<IModelDetails> {
     const response = await http.get(
-        `/api/graph/${model_id}?start_date=${start_date}&end_date=${end_date}`,
+        `/graph/${model_id}?start_date=${start_date}&end_date=${end_date}`,
     );
 
     return response.data;
