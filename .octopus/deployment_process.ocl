@@ -100,7 +100,7 @@ step "deploy-the-aide-frontend" {
                   RABBITMQ_API_URL: rabbitmq.rabbitmq:5672/api/
                   KEYCLOAK_URL: #{KeycloakUrl}
                   KEYCLOAK_URL_BACKEND: #{keycloakUrlBackend}
-                  FRONTEND_API_HOST: #{frontendApi}
+                  FRONTEND_API_HOST: #{ApiHost}
                   WADO_URI_ROOT: #{WadoUriRoot}
                   QIDO_ROOT: #{QidoRoot}
                   WADO_ROOT: #{WadoRoot}
