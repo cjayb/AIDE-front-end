@@ -82,8 +82,11 @@ export default class AppSidebar extends Vue {
     drawer = false;
 
     mounted(): void {
-        this.roles = Vue.prototype.$keycloak.resourceAccess!["aide-app"].roles;
-        this.items = this.items.filter((item) => this.roles.includes(item.role));
+        this.roles = Vue.prototype.$keycloak?.resourceAccess!["aide-app"].roles ?? [];
+
+        if (this.roles.length) {
+            this.items = this.items.filter((item) => this.roles.includes(item.role));
+        }
 
         EventBus.$on("toggleSidebar", (drawer: boolean) => {
             this.drawer = drawer;

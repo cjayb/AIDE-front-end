@@ -22,7 +22,7 @@ export function authenticationEnabledInterceptor(config: AxiosRequestConfig): Ax
 }
 
 export function attachBearerTokenInterceptor(config: AxiosRequestConfig): AxiosRequestConfig {
-    if (config.headers && Vue.prototype.$keycloak.token) {
+    if (config.headers && Vue.prototype.$keycloak?.token) {
         config.headers["Authorization"] = `Bearer ${Vue.prototype.$keycloak.token}`;
     }
 
@@ -43,7 +43,7 @@ export function onRequestErrorInterceptor(
         return Promise.reject(error);
     }
 
-    const messageKey = `${error.request.method}`.toLowerCase() as keyof ErrorMessageMap;
+    const messageKey = `${error.request?.method}`.toLowerCase() as keyof ErrorMessageMap;
     const message = messageMap[messageKey] ?? "Something unexpected went wrong.";
 
     Vue.$toast.error(message);

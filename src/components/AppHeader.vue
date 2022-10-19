@@ -65,7 +65,7 @@ export default class AppHeader extends Vue {
     // Methods will be component methods
     mounted(): void {
         this.updatePageTitle();
-        if (Vue.prototype.$keycloak.authenticated) {
+        if (Vue.prototype.$keycloak?.authenticated) {
             this.name = Vue.prototype.$keycloak.tokenParsed?.name;
         } else {
             this.name = "Unauthenticated User";

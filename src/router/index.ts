@@ -169,7 +169,7 @@ const routes: Array<RouteConfig> = [
 function roleAuthenticatedRoute(to: Route, _: Route, next: NavigationGuardNext<Vue>) {
     const { requiredRole } = to.meta || {};
 
-    if (!requiredRole || process.env.VUE_APP_AUTH_ENABLED !== "true") {
+    if (process.env.VUE_APP_AUTH_ENABLED !== "true" || !requiredRole) {
         return next();
     }
 

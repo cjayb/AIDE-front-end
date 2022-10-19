@@ -57,18 +57,24 @@ Vue.config.errorHandler = (err, vm, info) => {
     // Vue.$toast.error("Something unexpected went wrong!");
 };
 
-Vue.use(VueKeycloak, {
-    config: {
-        url: window.KEYCLOAK_URL,
-        realm: process.env.VUE_APP_KEYCLOAK_REALM,
-        clientId: process.env.VUE_APP_KEYCLOAK_CLIENT_ID,
-    },
-    onReady: () => {
-        new Vue({
-            router,
-            store,
-            vuetify,
-            render: (h) => h(App),
-        }).$mount("#app");
-    },
+const app = new Vue({
+    router,
+    store,
+    vuetify,
+    render: (h) => h(App),
 });
+
+if (process.env.VUE_APP_AUTH_ENABLED === "true") {
+    Vue.use(VueKeycloak, {
+        config: {
+            url: window.KEYCLOAK_URL,
+            realm: process.env.VUE_APP_KEYCLOAK_REALM,
+            clientId: process.env.VUE_APP_KEYCLOAK_CLIENT_ID,
+        },
+        onReady: () => {
+            app.$mount("#app");
+        },
+    });
+} else {
+    app.$mount("#app");
+}
