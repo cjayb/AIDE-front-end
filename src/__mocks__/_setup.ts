@@ -6,6 +6,7 @@ import { payloadsHandlers } from "./payloads";
 import { executionsHandlers } from "./executions";
 import { logsHandlers } from "./logs";
 import { destinationHandlers } from "./destinations";
+import { issuesHandler } from "./issues";
 
 export const worker = setupWorker(
     ...userManagementHandlers,
@@ -14,4 +15,5 @@ export const worker = setupWorker(
     ...executionsHandlers,
     ...logsHandlers,
     ...destinationHandlers,
+    ...issuesHandler,
 );

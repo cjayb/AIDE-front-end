@@ -7,9 +7,11 @@ import AdminPayloadDashboardPage from "pages/admin-dashboard/adminPayloadDashboa
 import AdminHealthDashboardPage from "../pages/admin-dashboard/adminHealthDashboard";
 import { PayloadData } from "data/admin-dashboard/payloadTable";
 import { PayloadTreeData } from "data/admin-dashboard/payloadTree";
+import { AbstractPage } from "pages/abstractPage";
 
 const adminHealthPage = new AdminHealthDashboardPage();
 const adminPayloadPage = new AdminPayloadDashboardPage();
+const abstractPage = new AbstractPage();
 
 describe(`Admin health - Overview section`, () => {
     it(`when I pass in data with failed models,
@@ -76,6 +78,7 @@ describe(`Admin health - Issues table section`, () => {
     });
     it(`I am able to remove individual issues by clicking the dismiss button on each task`, () => {
         adminHealthPage.assertTaskCanBeDismissed(TaskData.TASK_DATA_1);
+        abstractPage.assertToast(`You have successfully dismissed 1 task.`);
     });
     it(`I am able to dismiss all selected issues by clicking the 'Dismiss selected' button`, () => {
         adminHealthPage.selectAllIssues();
@@ -84,7 +87,13 @@ describe(`Admin health - Issues table section`, () => {
         adminHealthPage.selectDismissSelectedButton();
         adminHealthPage.selectOKValidation();
         adminHealthPage.assertNoIssues();
+        abstractPage.assertToast(`You have successfully dismissed 5 tasks.`);
     });
+    it(`I am unable to dismiss a task when there is a error`, () => {
+        adminHealthPage.assertDismisalOfTaskFailure(TaskData.TASK_DATA_1);
+        abstractPage.assertToast(`Something unexpected went wrong with your dismissal request!`);
+    });
+
     it(`I cannot click the 'Dismiss selected' button if no issues have been selected`, () => {
         adminHealthPage.AssertDismissButtonUnclickable();
     });
@@ -147,6 +156,10 @@ describe(`Admin health - API errors`, () => {
         });
         it(`Error is displayed during a model statistics request when the API returns a ${title} error code`, () => {
             adminHealthPage.initPageModelStatisticsApiErrors(error_code as number);
+            adminHealthPage.assertLatestErrorContainsMessage(text);
+        });
+        it(`Error is displayed during a task dismisal when the API returns a ${title} error code`, () => {
+            adminHealthPage.initPageModelsApiErrors(error_code as number);
             adminHealthPage.assertLatestErrorContainsMessage(text);
         });
     });

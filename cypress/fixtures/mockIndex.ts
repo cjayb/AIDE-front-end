@@ -11,6 +11,7 @@ export default class ApiMocks {
     public static ADMIN_DASHBOARD_SINGLE_TASK = require("./admin-dashboard/adminDashboardSingleIssue.json");
     public static ADMIN_DASHBOARD_PAYLOAD_TABLE = require("./admin-dashboard/adminDashboardPayloadTable.json");
     public static ADMIN_DASHBOARD_PAYLOAD_EXECUTIONS = require("./admin-dashboard/adminDashboardPayloadExecutions.json");
+    public static ADMIN_DASHBOARD_ISSUES_DISMISS = require("./admin-dashboard/adminDashboardIssuesDismiss.json");
     //User Management
     public static USER_MANAGEMENT_GET_USERS = require("./user-management/userManagement.json");
     public static USER_MANAGEMENT_ROLES = require("./user-management/userManagementRoles.json");

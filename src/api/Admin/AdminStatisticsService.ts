@@ -2,11 +2,13 @@ import { IOverview } from "@/models/Admin/IOverview";
 import { IIndexedIssue, IIssue } from "@/models/Admin/IIssue";
 import { ILogs } from "@/models/Admin/ILogs";
 import { IModelSummary, IModelDetails } from "@/models/Admin/IModel";
-import { createAxiosInstance, ErrorMessageMap } from "@/utils/axios-helpers";
+import { createAxiosInstance, ErrorMessageMap, isResultOk } from "@/utils/axios-helpers";
+import { AxiosResponse } from "axios";
 
 const errorMessages: ErrorMessageMap = {
     get: "Something unexpected went wrong retrieving executions!",
     post: "Something unexpected went wrong retrieving executions!",
+    put: "Something unexpected went wrong with your dismissal request!",
 };
 
 const http = createAxiosInstance(errorMessages);
@@ -25,14 +27,11 @@ export async function getIssues(acknowledged: string): Promise<IIssue[]> {
     return response.data;
 }
 
-export async function dismissIssues(dismissedItems: IIndexedIssue[]): Promise<boolean> {
-    for (let i = 0; i < dismissedItems.length; i++) {
-        const item = dismissedItems[i];
-        await http.put(
-            `/workflowinstances/${item.issue.workflow_instance_id}/executions/${item.issue.execution_id}/acknowledge`,
-        );
-    }
-    return true;
+export async function dismissIssue(dismissedItem: IIndexedIssue): Promise<boolean> {
+    const response = await http.put(
+        `/workflowinstances/${dismissedItem.issue.workflow_instance_id}/executions/${dismissedItem.issue.execution_id}/acknowledge`,
+    );
+    return isResultOk(response);
 }
 
 // Models Section

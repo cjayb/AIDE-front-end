@@ -87,14 +87,33 @@ export default class AdminHealthDashboardPage {
         cy.intercept(`/workflowinstances/345435/executions/4543534/acknowledge`, {
             statusCode: 200,
         }).as(`AcknowledgedIssues`);
+        cy.intercept(`/workflowinstances/failed?acknowledged=*`, {
+            body: ApiMocks.ADMIN_DASHBOARD_ISSUES_DISMISS,
+        }).as(`FailedIssues`);
         cy.dataCy(AdminHealthDashboardPage.VALIDATION_OK).click({ multiple: true, force: true });
-        cy.wait([`@AcknowledgedIssues`]);
+        cy.wait(`@AcknowledgedIssues`);
+        cy.wait(`@FailedIssues`);
         Cypress.on(`uncaught:exception`, () => {
             return false;
         });
         cy.dataCy(AdminHealthDashboardPage.TASK_ID)
             .contains(` ${task.task_id} `)
             .should(`not.exist`);
+    }
+
+    public assertDismisalOfTaskFailure(task: IIssue): void {
+        cy.get(`tbody > :nth-child(${task.task_id})`).within(() => {
+            cy.dataCy(AdminHealthDashboardPage.DISMISS_BUTTON).click();
+        });
+        cy.intercept(`/workflowinstances/345435/executions/4543534/acknowledge`, {
+            statusCode: 400,
+        }).as(`FailedDismiss`);
+        cy.dataCy(AdminHealthDashboardPage.VALIDATION_OK).click({ multiple: true, force: true });
+        cy.wait(`@FailedDismiss`);
+        Cypress.on(`uncaught:exception`, () => {
+            return false;
+        });
+        cy.dataCy(AdminHealthDashboardPage.TASK_ID).contains(` ${task.task_id} `).should(`exist`);
     }
 
     public assertOverviewModelDataCorrect(executionStatistics: IOverview): void {
@@ -161,7 +180,15 @@ export default class AdminHealthDashboardPage {
     }
 
     public selectOKValidation(): void {
+        cy.intercept(`/workflowinstances/*/executions/*/acknowledge`, {
+            statusCode: 200,
+        }).as(`AcknowledgedIssues`);
+        cy.intercept(`/workflowinstances/failed?acknowledged=*`, {
+            body: [],
+        }).as(`EmptyIssues`);
         cy.dataCy(AdminHealthDashboardPage.VALIDATION_OK).click({ multiple: true, force: true });
+        cy.wait(`@AcknowledgedIssues`);
+        cy.wait(`@EmptyIssues`);
     }
 
     public selectCancelValidation(): void {

@@ -13,7 +13,7 @@
                             elevation="0"
                             class="ma-1 no-uppercase purple--text text--darken-4"
                             color="white"
-                            @click="deleteItem(item)"
+                            @click="deleteItem(undefined)"
                             :disabled="selectedIssues.length === 0"
                             data-cy="dismiss-selected"
                         >
@@ -150,12 +150,13 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import { dismissIssues, getIssues } from "@/api/Admin/AdminStatisticsService";
+import { dismissIssue, getIssues } from "@/api/Admin/AdminStatisticsService";
 import { Watch } from "vue-property-decorator";
 import { formatDateAndTimeOfArray } from "@/utils/dateFormattingUtils";
 import { EventBus } from "@/event-bus";
 import { JSONViewerModalType } from "../Shared/JSONViewerDialog.vue";
 import { IIndexedIssue, IIssue } from "@/models/Admin/IIssue";
+import { log } from "console";
 
 @Component({
     components: {},
@@ -200,9 +201,30 @@ export default class IssuesTable extends Vue {
     }
 
     async dismissItems(dismissedItems: IIndexedIssue[]): Promise<void> {
-        await dismissIssues(dismissedItems).catch((err) => {
-            console.log(err);
-        });
+        const results = [];
+        for (const issue of dismissedItems) {
+            const result = await dismissIssue(issue).catch((err) => {
+                console.log(err);
+            });
+            results.push(result);
+            if (result) {
+                const _issue = this.selectedIssues.filter(
+                    (si) => si.task_id == issue.issue.task_id,
+                )[0];
+                const index = this.selectedIssues.indexOf(_issue);
+                if (index != -1) {
+                    this.selectedIssues.splice(index, 1);
+                }
+            }
+        }
+
+        if (results.some((r) => r === true)) {
+            const resultsCount = results.filter((r) => r === true).length;
+            const s = resultsCount == 1 ? `` : `s`;
+            Vue.$toast.success(`You have successfully dismissed ${resultsCount} task${s}.`);
+            await this.getExecutionIssues();
+        }
+
         this.loading = false;
     }
 
@@ -225,20 +247,7 @@ export default class IssuesTable extends Vue {
     deleteItemConfirm(): void {
         this.dismissItems(this.itemsToDismiss);
 
-        if (this.selectedIssues.length !== 0) {
-            this.selectedIssues.forEach((task: IIssue) => {
-                const indexOfTask = this.issues.indexOf(task);
-                this.issues.splice(indexOfTask, 1);
-            });
-        } else {
-            this.issues.splice(this.itemsToDismiss[0].index, 1);
-        }
         this.closeDelete();
-
-        this.$nextTick(() => {
-            this.itemsToDismiss = [];
-            this.selectedIssues = [];
-        });
     }
 
     closeDelete(): void {
