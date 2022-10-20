@@ -161,14 +161,16 @@ export default class WorkflowEditor extends Vue {
     async saveWorkflowChanges() {
         const { workflow_id } = this.$route.params as Dictionary<string>;
 
+        const workflowObject = { workflow: this.workflowToSave };
+
         if (workflow_id) {
-            const workflowUpdatedResponse = await updateWorkflow(workflow_id, this.workflowToSave);
+            const workflowUpdatedResponse = await updateWorkflow(workflow_id, workflowObject);
             const workflowUpdateSuccess = "Workflow updated successfully";
             this.handleWorkflowSaving(workflowUpdatedResponse, workflowUpdateSuccess);
             return;
         }
 
-        const workflowCreatedResponse = await createWorkflow(this.workflowToSave);
+        const workflowCreatedResponse = await createWorkflow(workflowObject);
         const workflowCreationSuccess = "Workflow created successfully";
         this.handleWorkflowSaving(workflowCreatedResponse, workflowCreationSuccess);
     }
