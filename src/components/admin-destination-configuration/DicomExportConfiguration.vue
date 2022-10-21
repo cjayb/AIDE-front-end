@@ -16,7 +16,7 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>IP Address</th>
+                        <th>Address</th>
                         <th>AE Name</th>
                         <th>Port</th>
                         <th>Echo Status</th>

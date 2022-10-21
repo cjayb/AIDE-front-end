@@ -20,7 +20,16 @@ export const destinationHandlers = [
     rest.get(`${window.FRONTEND_API_HOST}/destinations`, (_req, res, ctx) => {
         return res(ctx.json<IExportDestination[]>(destinations));
     }),
-    rest.post(`${window.FRONTEND_API_HOST}/destinations`, (_req, res, ctx) => {
+    rest.post(`${window.FRONTEND_API_HOST}/destinations`, async (req, res, ctx) => {
+        const body = await req.json<IExportDestination>();
+
+        if (body.name === "CONFLICT") {
+            return res(
+                ctx.status(409),
+                ctx.json({ statusCode: 409, message: "Server returned with status code 409" }),
+            );
+        }
+
         return res(
             ctx.json<IExportDestination>({
                 name: "SOME_NAME",

@@ -29,11 +29,11 @@
                 </div>
 
                 <div>
-                    <span class="font-weight-medium mb-2 required">IP Address</span>
+                    <span class="font-weight-medium mb-2 required">Address</span>
                     <v-text-field
                         outlined
                         dense
-                        label="IP Address"
+                        label="Address"
                         data-cy="destination-ip-address"
                         v-model="hostIp"
                         :rules="ipAddressRules"
@@ -124,11 +124,18 @@ export default class ConfigurationModal extends Vue {
     destinationDetails = {} as IExportDestination;
 
     requiredTextRules: InputValidationRules = [(value: string) => !!value || "Required"];
+
+    // https://stackoverflow.com/a/106223
     ipAddressRules: InputValidationRules = [
         ...this.requiredTextRules,
         (value: string) =>
-            /^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$/.test(value) ||
-            "Invalid IPV4 address",
+            /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/.test(
+                value,
+            ) ||
+            /^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9])$/.test(
+                value,
+            ) ||
+            "Invalid address",
     ];
     portRules: InputValidationRules = [
         ...this.requiredTextRules,

@@ -43,7 +43,9 @@ export function onRequestErrorInterceptor(
         return Promise.reject(error);
     }
 
-    const messageKey = `${error.request?.method}`.toLowerCase() as keyof ErrorMessageMap;
+    const messageKey = `${
+        error.request?.method || error.config!.method
+    }`.toLowerCase() as keyof ErrorMessageMap;
     const message = messageMap[messageKey] ?? "Something unexpected went wrong.";
 
     Vue.$toast.error(message);

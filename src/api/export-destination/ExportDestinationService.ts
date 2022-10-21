@@ -1,6 +1,7 @@
 import { IExportDestination } from "@/models/export-destinations/ExportDestination";
 import { createAxiosInstance, ErrorMessageMap, isResultOk } from "@/utils/axios-helpers";
 import { AxiosResponse } from "axios";
+import Vue from "vue";
 
 const errorMessages: ErrorMessageMap = {
     get: "Something unexpected went wrong retrieving DICOM configurations",
@@ -18,9 +19,17 @@ export async function getExportDestinations(): Promise<IExportDestination[]> {
 }
 
 export async function createExportDestination(destination: IExportDestination): Promise<boolean> {
-    const result = await httpService.post("/destinations", destination);
+    const result = await httpService.post("/destinations", destination, {
+        validateStatus: (status) => (status >= 200 && status <= 299) || status === 409,
+    });
 
-    return isResultOk(result);
+    const success = isResultOk(result);
+
+    if (!success && result.status === 409) {
+        Vue.$toast.error("A DICOM configuration with this name already exists");
+    }
+
+    return success;
 }
 
 export async function updateExportDestination(
@@ -29,7 +38,13 @@ export async function updateExportDestination(
 ): Promise<boolean> {
     const result = await httpService.put(`/destinations/${destinationName}`, destination);
 
-    return isResultOk(result);
+    const success = isResultOk(result);
+
+    if (!success && result.status === 409) {
+        Vue.$toast.error("A DICOM configuration with this name already exists");
+    }
+
+    return success;
 }
 
 export async function echoExportDestination(destinationName: string): Promise<AxiosResponse> {
