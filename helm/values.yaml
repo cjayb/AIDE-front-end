@@ -32,13 +32,6 @@ enviromentVariables:
   ORTHANC_API_URL: https://dev-aide.answerdigital.io:8045
   VUE_APP_AUTH_ENABLED: true
 
-secrets:
-  - name: rabbit-secret-master
-    keyValues:
-      - key: username
-        value: bW9uYWlkZXBsb3k=
-      - key: password
-        value: bW9uYWlkZXBsb3k=
 
 enviromentVariablesFromSecrets:
   secrets:
