@@ -35,7 +35,7 @@ interface QueryParams {
 
 export async function getAllUsers(query: QueryParams): Promise<GetAllUsersResponse> {
     const params = new URLSearchParams({
-        search: query.search ?? "",
+        search: query.search?.replaceAll(" ", "%") ?? "",
         first:
             query.page === 1 || query.search
                 ? "0"
@@ -87,7 +87,7 @@ export async function getAllRoles(): Promise<UserRoleListItem[]> {
 
 export async function getPaginatedRoles(query: QueryParams): Promise<PaginatedRolesResponse> {
     const params = new URLSearchParams({
-        search: query.search ?? "",
+        search: query.search?.replaceAll(" ", "%") ?? "",
         first: query.page === 1 ? "0" : `${query.page * query.itemsPerPage - query.itemsPerPage}`,
         max: `${query.itemsPerPage}`,
         sortBy: query.sortBy.length ? query.sortBy[0] : "",
