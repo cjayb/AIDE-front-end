@@ -31,21 +31,24 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
     
-    
       {{- with .Values.volumes }}
       volumes:
        {{- range ($.Values.volumes) }}
         - name: {{ .name }}
-           
-          {{- if .claimName }}
-          persistentVolumeClaim:
-            claimName: {{  .claimName }}
-            {{- end }}
-          {{- if .secret }}
+        {{- if .configMap }}
+          configMap:
+          {{- toYaml .configMap | nindent 12 }}
+          {{- end }}
+        {{- if .secret }}
           secret:
             secretName: {{ .secret.secretName}}
           {{- end }}
-       {{- end }}      
+        {{- if .claimName }}
+        - name: {{ .name }}
+          persistentVolumeClaim:
+            claimName: {{  .claimName }}
+        {{- end }}
+      {{- end }}      
       {{- end }}
 
       

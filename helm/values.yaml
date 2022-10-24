@@ -39,12 +39,6 @@ secrets:
         value: bW9uYWlkZXBsb3k=
       - key: password
         value: bW9uYWlkZXBsb3k=
-  - name: elastic-secret-master
-    keyValues:
-      - key: username
-        value: root
-      - key: password
-        value: H3P2mz2eSM9YDtLj
 
 enviromentVariablesFromSecrets:
   secrets:
@@ -53,13 +47,7 @@ enviromentVariablesFromSecrets:
       secretKey: username
     - name: RABBITMQ_PASSWORD
       secretName: rabbit-secret-master
-      secretKey: password
-    - name: ELASTIC_USERNAME
-      secretName: elastic-secret-master
-      secretKey: username
-    - name: ELASTIC_PASSWORD
-      secretName: elastic-secret-master
-      secretKey: password    
+      secretKey: password   
       
 ingress:
   host: sit-aide.answerdigital.io
@@ -75,13 +63,13 @@ volumes:
         
 volumeMounts:
   - name: aide-storage
-    mountPath: /aide/data  
+    mountPath: /aide/gateway  
     
 storage:
   globalStorageClassName: global-sc    
   globalDataDirectory: /efs_data/aide/
   storageClassName: aide-sc
   storageClaimName: aide-frontend-pvc
-  dataDirectory: /efs_data/aide/data/
+  dataDirectory: /efs_data/aide/gateway/
   dataVolumeLabel: aide-frontend
   dataStorageCapacityRequest: 10Gi
