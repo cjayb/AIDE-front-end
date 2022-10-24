@@ -23,18 +23,30 @@
                 >
                     <template v-slot:item="{ item, index }">
                         <tr :data-cy="`workflow-table-row-${index}`">
+                            <!-- name -->
                             <td class="text-start" :data-cy="`workflow-table-row-name-${index}`">
                                 {{ item.name }}
                             </td>
+                            <!-- AeTitle -->
+                            <td class="text-start" :data-cy="`workflow-table-row-aetitle-${index}`">
+                                {{ item.ae_title }}
+                            </td>
+                            <!-- Data Origins -->
+                            <td class="text-start" :data-cy="`workflow-table-row-data-${index}`">
+                                {{ item.data_origins.join(", ") }}
+                            </td>
+                            <!-- version -->
                             <td class="text-start" :data-cy="`workflow-table-row-version-${index}`">
                                 {{ item.version }}
                             </td>
+                            <!-- description -->
                             <td
                                 class="text-start"
                                 :data-cy="`workflow-table-row-description-${index}`"
                             >
                                 {{ item.description }}
                             </td>
+                            <!-- actions -->
                             <td class="text-start" :data-cy="`workflow-table-row-actions-${index}`">
                                 <v-btn
                                     small
@@ -110,9 +122,11 @@ import { throttle } from "underscore";
 @Component
 export default class Workflows extends Vue {
     workflowHeaders: DataTableHeader[] = [
-        { text: "Name", value: "name", sortable: false, width: "30%" },
-        { text: "Version", value: "version", sortable: false, width: "15%" },
-        { text: "Description", value: "description", sortable: false, width: "38%" },
+        { text: "Name", value: "name", sortable: false, width: "20%" },
+        { text: "AeTitle", value: "ae_title", sortable: false, width: "20%" },
+        { text: "Data Origins", value: "data_origins", sortable: false, width: "20%" },
+        { text: "Version", value: "version", sortable: false, width: "10%" },
+        { text: "Description", value: "description", sortable: false, width: "28%" },
         { text: "Actions", value: "id", sortable: false, width: "150px" },
     ];
 
@@ -176,7 +190,7 @@ export default class Workflows extends Vue {
         }
     }
 
-    private async fetchWorkflows() {
+    private async fetchWorkflows(): Promise<void> {
         this.workflowPage = await getAllWorkflows({
             ...this.tableOptions,
         });

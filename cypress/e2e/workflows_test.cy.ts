@@ -6,7 +6,7 @@ const workflowInitData = WorkflowData.WORKFLOWS_INIT;
 const workflowPage = new Workflows();
 const workflowEmpty = WorkflowExampleData.WORKFLOW_EMPTY;
 
-describe("Display list of users", () => {
+describe.skip("Display list of users", () => {
     beforeEach(() => {
         workflowPage.initPage();
     });
@@ -219,7 +219,7 @@ describe("Display list of users", () => {
     });
 });
 
-describe(" API errors", () => {
+describe.skip(" API errors", () => {
     const initError = "Something unexpected went wrong retrieving workflows";
     const deleteErrorMessage = "Something unexpected went wrong deleting the workflow";
     const getErrorMessage = "Something unexpected went wrong retrieving workflows";

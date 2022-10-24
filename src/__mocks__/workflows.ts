@@ -8,6 +8,8 @@ const workflows: WorkflowListItem[] = [
         version: "1",
         revision: 1,
         description: "This is a workflow description",
+        ae_title: "ae title hello",
+        data_origins: ["data_origins 1", "data_origins 2"],
     },
     {
         workflow_id: "92657913-8ba7-4bba-b04f-5de8f0ce6b29",
@@ -15,6 +17,8 @@ const workflows: WorkflowListItem[] = [
         version: "2",
         revision: 1,
         description: "",
+        ae_title: "MONAI",
+        data_origins: ["data_origins dae", "data_origins lillie"],
     },
     {
         workflow_id: "26657913-8ba7-4bba-b04f-5de8f0ce6b29",
@@ -22,6 +26,8 @@ const workflows: WorkflowListItem[] = [
         version: "2.2",
         revision: 1,
         description: "This is a workflow description",
+        ae_title: "ae title world",
+        data_origins: ["data_origins donkey", "data_origins unicorn"],
     },
 ];
 
@@ -35,7 +41,7 @@ const mockWorkflow: MonaiWorkflow = {
         description: "Workflow with a router task that creates a diverging branch",
         informatics_gateway: {
             ae_title: "MONAI",
-            data_origins: [],
+            data_origins: ["data_origins 1", "data_origins 2"],
             export_destinations: ["ORTHANC"],
         },
         tasks: [

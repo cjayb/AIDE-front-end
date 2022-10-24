@@ -10,6 +10,8 @@ export interface WorkflowListItem {
     name: string;
     version: string;
     description: string;
+    ae_title: string;
+    data_origins: string[];
 }
 
 export interface MonaiWorkflow {
