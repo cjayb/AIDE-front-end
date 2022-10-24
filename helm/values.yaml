@@ -56,13 +56,13 @@ volumes:
         
 volumeMounts:
   - name: aide-storage
-    mountPath: /aide/gateway  
+    mountPath: /aide/data
     
 storage:
   globalStorageClassName: global-sc    
   globalDataDirectory: /efs_data/aide/
   storageClassName: aide-sc
   storageClaimName: aide-frontend-pvc
-  dataDirectory: /efs_data/aide/gateway/
+  dataDirectory: /efs_data/aide/data
   dataVolumeLabel: aide-frontend
   dataStorageCapacityRequest: 10Gi
