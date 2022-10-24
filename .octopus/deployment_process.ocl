@@ -116,6 +116,15 @@ step "deploy-the-aide-frontend" {
                   globalDataDirectory: #{GlobalStoragePath}  
                   dataDirectory: #{StoragePath}
                   dataStorageCapacityRequest: #{StorageCapacityRequest}
+                  
+                enviromentVariablesFromSecrets:
+                  secrets:
+                    - name: RABBITMQ_USERNAME
+                      secretName: #{RabbitSecretName}
+                      secretKey: username
+                    - name: RABBITMQ_PASSWORD
+                      secretName: #{RabbitSecretName}
+                      secretKey: password
             EOT
             Octopus.Action.Package.DownloadOnTentacle = "False"
             Octopus.Action.Package.FeedId = "octopus-server-built-in"
