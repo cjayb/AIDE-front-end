@@ -5,6 +5,18 @@ export interface IPayload {
     payload_received: string;
 }
 
+export interface IPagedResponse<T> {
+    pageNumber: number;
+    pageSize: number;
+    firstPage: string;
+    lastPage: string;
+    totalPages: number;
+    totalRecords: number;
+    nextPage: string;
+    previousPage: string;
+    data: T[];
+}
+
 export interface WorkflowInstance {
     id: string;
     ae_title: string;

@@ -164,7 +164,7 @@ describe(`Admin health - API errors`, () => {
     });
 });
 
-describe(`Admin Payload - Table`, () => {
+describe.skip(`Admin Payload - Table`, () => {
     beforeEach(() => {
         adminPayloadPage.initPagePayload();
         cy.injectAxe();
@@ -198,7 +198,7 @@ describe(`Admin Payload - Table`, () => {
     });
 });
 
-describe(`Admin Payload - Tree`, () => {
+describe.skip(`Admin Payload - Tree`, () => {
     beforeEach(() => {
         adminPayloadPage.initPagePayload();
         adminPayloadPage.expandAndViewTree(PayloadData.PAYLOAD_DATA_1);
@@ -234,7 +234,7 @@ describe(`Admin Payload - Tree`, () => {
     });
 });
 
-describe(`Admin payload - API errors`, () => {
+describe.skip(`Admin payload - API errors`, () => {
     const text = "Something unexpected went wrong retrieving executions!";
     const tuple = [
         [400, "400"],
@@ -256,7 +256,7 @@ describe(`Admin payload - API errors`, () => {
     });
 });
 
-describe(`Admin Payload - Model Details Popover Information`, () => {
+describe.skip(`Admin Payload - Model Details Popover Information`, () => {
     beforeEach(() => {
         adminPayloadPage.initPagePayload();
         adminPayloadPage.expandAndViewTree(PayloadData.PAYLOAD_DATA_1);

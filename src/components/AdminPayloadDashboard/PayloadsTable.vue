@@ -5,29 +5,43 @@
                 <h2 class="mx-auto section-title">Payloads/Inputs</h2>
             </v-col>
         </v-row>
-        <v-row v-if="!loading && payloads !== undefined">
-            <v-layout child-flex>
+        <v-row>
+            <v-layout v-show="!loading" child-flex>
                 <v-card>
                     <v-card-title>
                         <v-spacer />
-                        <v-spacer />
+                        <v-radio-group row v-model="searchParameter" label="Search by" class="mr-4">
+                            <v-radio
+                                label="Patient ID"
+                                data-cy="patient-id-radio-btn"
+                                value="patientId"
+                            />
+                            <v-radio
+                                label="Patient Name"
+                                data-cy="patient-name-radio-btn"
+                                value="patientName"
+                            />
+                        </v-radio-group>
                         <v-text-field
-                            v-model="search"
+                            v-model="tableSearch"
                             append-icon="mdi-magnify"
                             label="Search"
                             single-line
+                            outlined
+                            dense
                             hide-details
                             data-cy="search-payloads-table"
-                        ></v-text-field>
+                        />
                     </v-card-title>
                     <v-data-table
                         :headers="headers"
-                        :items="payloads"
-                        :search="search"
-                        :items-per-page="5"
+                        :items="paginatedPayloads.data"
+                        :search="tableSearch"
+                        :server-items-length="paginatedPayloads.totalRecords"
+                        :footer-props="{ itemsPerPageOptions: [5, 10] }"
+                        :options.sync="tableOptions"
                         show-expand
                         single-expand
-                        item-key="payload_id"
                         class="elevation-1"
                         data-cy="payload"
                     >
@@ -65,9 +79,7 @@
                     </v-data-table>
                 </v-card>
             </v-layout>
-        </v-row>
-        <v-row v-else>
-            <v-col cols="12">
+            <v-col v-if="loading" cols="12">
                 <v-skeleton-loader class="mx-auto" type="table"></v-skeleton-loader>
             </v-col>
         </v-row>
@@ -78,9 +90,12 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { getPayloads } from "@/api/Admin/payloads/PayloadService";
-import { IPayload } from "@/models/Admin/IPayload";
+import { IPagedResponse, IPayload } from "@/models/Admin/IPayload";
 import ExecutionTree from "@/components/AdminPayloadDashboard/ExecutionTree.vue";
 import { formatDateAndTimeOfArray } from "@/utils/dateFormattingUtils";
+import { DataOptions } from "vuetify";
+import { Watch } from "vue-property-decorator";
+import { throttle } from "underscore";
 
 @Component({
     components: {
@@ -89,32 +104,50 @@ import { formatDateAndTimeOfArray } from "@/utils/dateFormattingUtils";
 })
 export default class PayloadsTable extends Vue {
     loading = false;
-    search = "";
-    payloads: IPayload[] = [];
+    paginatedPayloads: IPagedResponse<IPayload> = {} as IPagedResponse<IPayload>;
+
+    searchParameter = "patientId";
+    tableSearch = "";
+    tableOptions: DataOptions = {
+        page: 1,
+        itemsPerPage: 10,
+    } as DataOptions;
 
     headers = [
-        { text: "Patient Name", value: "patient_name" },
-        { text: "Patient ID", value: "patient_id" },
-        { text: "Payload ID", value: "payload_id" },
-        { text: "Payload Received", value: "payload_received" },
+        { text: "Patient Name", value: "patient_name", sortable: false },
+        { text: "Patient ID", value: "patient_id", sortable: false },
+        { text: "Payload ID", value: "payload_id", sortable: false },
+        { text: "Payload Received", value: "payload_received", sortable: false },
     ];
 
-    async created(): Promise<void> {
-        this.getAllPayloads();
+    private throttledGetPaginatedPayloads = throttle(() => {
+        this.getPaginatedPayloads();
+    }, 500);
+
+    @Watch("tableOptions")
+    async tableOptionsChanged() {
+        this.loading = true;
+        this.throttledGetPaginatedPayloads();
+        this.loading = false;
     }
 
-    async getAllPayloads(): Promise<void> {
-        this.loading = true;
-        await getPayloads()
-            .then((allPayloads) => {
-                formatDateAndTimeOfArray(allPayloads, "payload_received");
-                this.payloads = allPayloads;
-            })
-            .catch((err) => {
-                this.loading = false;
-                console.log(err);
-            });
-        this.loading = false;
+    @Watch("searchParameter")
+    async tableSearchParameterChanged() {
+        this.throttledGetPaginatedPayloads();
+    }
+
+    @Watch("tableSearch")
+    async tableSearchChanged() {
+        this.throttledGetPaginatedPayloads();
+    }
+
+    private async getPaginatedPayloads(): Promise<void> {
+        this.paginatedPayloads = await getPayloads({
+            patientName: this.searchParameter === "patientName" ? this.tableSearch : "",
+            patientId: this.searchParameter === "patientId" ? this.tableSearch : "",
+            ...this.tableOptions,
+        });
+        formatDateAndTimeOfArray(this.paginatedPayloads.data, "payload_received");
     }
 }
 </script>

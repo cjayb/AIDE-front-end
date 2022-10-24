@@ -1,5 +1,5 @@
-import { IPayload, WorkflowInstance } from "@/models/Admin/IPayload";
-import { createAxiosInstance, ErrorMessageMap } from "@/utils/axios-helpers";
+import { IPagedResponse, IPayload, WorkflowInstance } from "@/models/Admin/IPayload";
+import { createAxiosInstance, ErrorMessageMap, isResultOk } from "@/utils/axios-helpers";
 
 const errorMessages: ErrorMessageMap = {
     get: "Something unexpected went wrong retrieving executions!",
@@ -8,11 +8,36 @@ const errorMessages: ErrorMessageMap = {
 
 const http = createAxiosInstance(errorMessages);
 
-// Payloads Section
-export async function getPayloads(): Promise<IPayload[]> {
-    const response = await http.get(`/payloads`);
+interface QueryParams {
+    page: number;
+    itemsPerPage: number;
+    patientName?: string;
+    patientId?: string;
+}
 
-    return response.data;
+// Payloads Section
+export async function getPayloads(query: QueryParams): Promise<IPagedResponse<IPayload>> {
+    const params = new URLSearchParams({
+        pageNumber: `${query.page}`,
+        pageSize: `${query.itemsPerPage}`,
+        patientId: query.patientId ?? "",
+        patientName: query.patientName ?? "",
+    });
+
+    const defaultData = {
+        pageNumber: 0,
+        pageSize: 0,
+        firstPage: "",
+        lastPage: "",
+        totalPages: 0,
+        totalRecords: 0,
+        nextPage: "",
+        previousPage: "",
+        data: [],
+    };
+
+    const response = await http.get<IPagedResponse<IPayload>>(`/payloads?${params}`);
+    return isResultOk(response) ? response.data : defaultData;
 }
 
 export async function getPayloadExecutions(payload_id: string): Promise<WorkflowInstance[]> {
