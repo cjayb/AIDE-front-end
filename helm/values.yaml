@@ -63,6 +63,6 @@ storage:
   globalDataDirectory: /efs_data/aide/
   storageClassName: aide-sc
   storageClaimName: aide-frontend-pvc
-  dataDirectory: /efs_data/aide/data
+  dataDirectory: /efs_data/aide/data/
   dataVolumeLabel: aide-frontend
   dataStorageCapacityRequest: 10Gi
