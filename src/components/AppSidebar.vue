@@ -23,69 +23,80 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { EventBus } from "@/event-bus";
+import { routes } from "@/router";
 
 @Component
 export default class AppSidebar extends Vue {
     // Declared as component data
+    getRouteData(route: string) {
+        const roles = routes.find((r) => r.name == route)?.meta?.requiredRoles;
+        return {
+            route,
+            roles,
+        };
+    }
+
     items = [
         {
             title: "Health Dashboard",
             icon: "mdi-cog",
-            route: "AdminHealthDashboard",
-            role: "admin",
             datacy: "admin-button",
+            ...this.getRouteData("AdminHealthDashboard"),
         },
         {
             title: "Payload Dashboard",
             icon: "mdi-family-tree",
-            route: "AdminPayloadDashboard",
-            role: "admin",
             datacy: "admin-payload-button",
+            ...this.getRouteData("AdminPayloadDashboard"),
         },
         {
             title: "Clinical Review",
             icon: "mdi-eye",
-            route: "ClinicalReview",
-            role: "clinician",
             datacy: "clinician-button",
+            ...this.getRouteData("ClinicalReview"),
         },
         {
             title: "Application Repository",
             icon: "mdi-storefront",
             route: "ApplicationRepositoryList",
-            role: "deployer",
+            roles: "deployer",
             datacy: "app-store-button",
         },
         {
             title: "Export Destinations",
             icon: "mdi-application-export",
-            route: "AdminExportConfiguration",
-            role: "admin",
             datacy: "export-destinations-button",
+            ...this.getRouteData("AdminExportConfiguration"),
         },
         {
             title: "User Management",
             icon: "mdi-account",
-            route: "UserManagement",
-            role: "admin",
             datacy: "user-management-button",
+            ...this.getRouteData("UserManagement"),
         },
         {
             title: "Workflows",
             icon: "mdi-file-tree",
-            route: "Workflows",
-            role: "admin",
             datacy: "workflows-button",
+            ...this.getRouteData("Workflows"),
         },
     ];
     roles: string[] = [];
     drawer = false;
 
     mounted(): void {
-        this.roles = this.$keycloak?.resourceAccess?.["aide-app"].roles ?? [];
+        const realmAccess = this.$keycloak.tokenParsed?.realm_access;
+
+        if (!realmAccess) {
+            return;
+        }
+
+        this.roles = realmAccess.roles ?? [];
 
         if (this.roles.length) {
-            this.items = this.items.filter((item) => this.roles.includes(item.role));
+            this.items = this.items.filter((item) => {
+                return this.roles.some((r) => item.roles.includes(r));
+            });
         }
 
         EventBus.$on("toggleSidebar", (drawer: boolean) => {

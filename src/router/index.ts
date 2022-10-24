@@ -11,6 +11,7 @@ import Unauthorized from "@/views/Unauthorized.vue";
 import UserManagement from "@/views/UserManagement.vue";
 import Workflows from "@/views/Workflows.vue";
 import WorkflowEditor from "@/views/WorkflowEditor.vue";
+import { VueKeycloakInstance } from "@dsb-norge/vue-keycloak-js/dist/types";
 
 Vue.use(VueRouter);
 
@@ -18,14 +19,18 @@ function sleep(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-const routes: Array<RouteConfig> = [
+const admin = "admin";
+const clinician = "clinician";
+const user_manager = "user_manager";
+
+export const routes: Array<RouteConfig> = [
     {
         path: "/admin-health-dashboard",
         name: "AdminHealthDashboard",
         component: AdminHealthDashboard,
         beforeEnter: roleAuthenticatedRoute,
         meta: {
-            requiredRole: "admin",
+            requiredRoles: [admin],
         },
     },
     {
@@ -34,7 +39,7 @@ const routes: Array<RouteConfig> = [
         component: AdminPayloadDashboard,
         beforeEnter: roleAuthenticatedRoute,
         meta: {
-            requiredRole: "admin",
+            requiredRoles: [admin],
         },
     },
     {
@@ -43,7 +48,7 @@ const routes: Array<RouteConfig> = [
         component: AdminDicomConfiguration,
         beforeEnter: roleAuthenticatedRoute,
         meta: {
-            requiredRole: "admin",
+            requiredRoles: [admin],
         },
     },
     {
@@ -52,7 +57,7 @@ const routes: Array<RouteConfig> = [
         component: ClinicalReview,
         beforeEnter: roleAuthenticatedRoute,
         meta: {
-            requiredRole: "clinician",
+            requiredRoles: [clinician],
         },
     },
     {
@@ -61,7 +66,7 @@ const routes: Array<RouteConfig> = [
         component: ClinicalReview,
         beforeEnter: roleAuthenticatedRoute,
         meta: {
-            requiredRole: "clinician",
+            requiredRoles: [clinician],
         },
     },
     {
@@ -102,7 +107,7 @@ const routes: Array<RouteConfig> = [
         ],
         beforeEnter: roleAuthenticatedRoute,
         meta: {
-            requiredRole: "deployer",
+            requiredRoles: ["deployer"],
         },
     },
     {
@@ -111,7 +116,7 @@ const routes: Array<RouteConfig> = [
         component: UserManagement,
         beforeEnter: roleAuthenticatedRoute,
         meta: {
-            requiredRole: "admin",
+            requiredRoles: [user_manager, admin],
         },
     },
     {
@@ -120,7 +125,7 @@ const routes: Array<RouteConfig> = [
         component: Workflows,
         beforeEnter: roleAuthenticatedRoute,
         meta: {
-            requiredRole: "admin",
+            requiredRoles: [admin],
         },
     },
     {
@@ -129,7 +134,7 @@ const routes: Array<RouteConfig> = [
         component: WorkflowEditor,
         beforeEnter: roleAuthenticatedRoute,
         meta: {
-            requiredRole: "admin",
+            requiredRoles: [admin],
         },
     },
     {
@@ -181,25 +186,39 @@ const routes: Array<RouteConfig> = [
 ];
 
 function roleAuthenticatedRoute(to: Route, _: Route, next: NavigationGuardNext<Vue>) {
-    const { requiredRole } = to.meta || {};
+    const { requiredRoles } = to.meta || {};
 
-    if (process.env.VUE_APP_AUTH_ENABLED !== "true" || !requiredRole) {
+    if (process.env.VUE_APP_AUTH_ENABLED !== "true" || !requiredRoles) {
         return next();
     }
 
-    if (!Vue.prototype.$keycloak?.authenticated) {
-        Vue.prototype.$keycloak?.login({ redirectUri: `${window.location.origin}/${to.path}` });
+    const keycloak: VueKeycloakInstance = Vue.prototype.$keycloak;
+
+    if (!keycloak) {
+        return next({ name: "InternalServerError" });
+    }
+
+    if (!keycloak?.authenticated && keycloak.login) {
+        keycloak.login({ redirectUri: `${window.location.origin}/${to.path}` });
 
         return;
     }
 
-    if (Vue.prototype.$keycloak.hasResourceRole(requiredRole)) {
-        Vue.prototype.$keycloak.keycloak.updateToken(70).then(() => {
-            return next();
-        });
-    } else {
+    const realmAccess = keycloak.tokenParsed?.realm_access;
+
+    if (!realmAccess) {
+        return;
+    }
+
+    const roles: string[] = realmAccess.roles ?? [];
+    const hasRoles = requiredRoles.some((r: string) => roles.includes(r));
+
+    if (!hasRoles) {
         return next({ name: "Unauthorized" });
     }
+
+    keycloak.keycloak?.updateToken(70);
+    return next();
 }
 
 const router = new VueRouter({
