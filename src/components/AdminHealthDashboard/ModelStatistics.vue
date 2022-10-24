@@ -2,7 +2,7 @@
     <v-container fluid class="mt-3 mb-7 px-7">
         <v-row>
             <v-col cols="12">
-                <h2 class="mx-auto section-title">Models</h2>
+                <h2 class="mx-auto section-title">Applications</h2>
             </v-col>
         </v-row>
         <v-row v-if="!loading">
@@ -301,7 +301,7 @@ export default class ModelStatistics extends Vue {
 
     formatDate(date: Date) {
         const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
-        const month = date.getMonth() < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+        const month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
         const year = date.getFullYear();
         return year + "-" + month + "-" + day;
     }

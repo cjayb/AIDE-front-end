@@ -349,7 +349,7 @@ export default class UserManagement extends AbstractPage {
     }
 
     public assertTotalUsers(users: GetAllUsersResponse) {
-        cy.get(".text-h5").should("contain", users.totalUsers);
+        cy.get(".text-h5").should("contain", users.totalUserCount);
     }
 
     public assertTotalRoles(roles: PaginatedRolesResponse) {

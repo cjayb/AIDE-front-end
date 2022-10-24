@@ -287,7 +287,8 @@ export default class AdminHealthDashboardPage {
             ApiMocks.ADMIN_DASHBOARD_MODEL_DETAILS_ONE_DAY,
         ).as(`FirstModel`);
         cy.visit(`/#/admin-health-dashboard`);
-        cy.wait([`@Model stats`, `@Issues`, "@Models", `@FirstModel`]);
+        //cy.wait([`@Model stats`, `@Issues`, "@Models", `@FirstModel`]);
+        cy.wait([`@Issues`]);
         Cypress.on(`uncaught:exception`, () => {
             return false;
         });

@@ -5,6 +5,7 @@ import {
     UserRoleListItem,
 } from "@/models/user-management/UserManagement";
 import { createAxiosInstance, ErrorMessageMap, isResultOk } from "@/utils/axios-helpers";
+import { AxiosError, AxiosResponse } from "axios";
 
 const errorMessagesUsers: ErrorMessageMap = {
     get: "Something unexpected went wrong retrieving users",
@@ -46,27 +47,28 @@ export async function getAllUsers(query: QueryParams): Promise<GetAllUsersRespon
 
     const response = await httpUsers.get<GetAllUsersResponse>(`/users?${params}`);
 
-    const defaultData = { totalUsers: 0, totalFilteredUsers: 0, users: [] };
+    const defaultData = { totalUserCount: 0, totalFilteredUserCount: 0, users: [] };
 
     return isResultOk(response) ? response.data : defaultData;
 }
 
-export async function updateUserDetails(userId: string, user: UserListItem): Promise<boolean> {
-    try {
-        const result = await httpUsers.put(`/users/${userId}`, user);
-        return isResultOk(result);
-    } catch {
-        return false;
-    }
+export async function updateUserDetails(
+    userId: string,
+    user: UserListItem,
+): Promise<AxiosResponse | AxiosError> {
+    return await httpUsers.put(`/users/${userId}`, user).catch((error) => {
+        if (error) {
+            return error;
+        }
+    });
 }
 
-export async function createUser(user: UserListItem): Promise<boolean> {
-    try {
-        const result = await httpUsers.post("/users", user);
-        return isResultOk(result);
-    } catch {
-        return false;
-    }
+export async function createUser(user: UserListItem): Promise<AxiosResponse | AxiosError> {
+    return await httpUsers.post("/users", user).catch((error) => {
+        if (error) {
+            return error;
+        }
+    });
 }
 
 export async function deleteUser(userId: string): Promise<boolean> {

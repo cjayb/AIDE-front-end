@@ -17,34 +17,6 @@ const users: UserListItem[] = [
                 id: "9e5d60ac-7b29-4013-9733-845801b90e21",
                 name: "clinician",
             },
-            {
-                id: "9e5d60ac-7b29-4013-9733-845801b90e21",
-                name: "clinician",
-            },
-            {
-                id: "9e5d60ac-7b29-4013-9733-845801b90e21",
-                name: "clinician",
-            },
-            {
-                id: "9e5d60ac-7b29-4013-9733-845801b90e21",
-                name: "clinician",
-            },
-            {
-                id: "9e5d60ac-7b29-4013-9733-845801b90e21",
-                name: "clinician",
-            },
-            {
-                id: "9e5d60ac-7b29-4013-9733-845801b90e21",
-                name: "clinician",
-            },
-            {
-                id: "9e5d60ac-7b29-4013-9733-845801b90e21",
-                name: "clinician",
-            },
-            {
-                id: "9e5d60ac-7b29-4013-9733-845801b90e21",
-                name: "clinician",
-            },
         ],
     },
     {
@@ -61,6 +33,11 @@ const users: UserListItem[] = [
             {
                 id: "9e5d60ac-7b29-4013-9733-845801b90e21",
                 name: "clinician",
+            },
+            {
+                id: "8s9ea60ac-7b29-4013-9733-845801b90e21",
+                name: "developer admin",
+                editable: true,
             },
         ],
     },
@@ -325,27 +302,17 @@ const roles: UserRoleListItem[] = [
     },
     {
         id: "73657913-8ba7-4bba-b04f-5de8f0ce6b29",
-        name: "admin2",
+        name: "otheruser",
         editable: true,
     },
     {
         id: "9g5d60ac-7b29-4013-9733-845801b90e21",
-        name: "clinician2",
+        name: "admin-clinician-developer-user-clinician-user-admin-user-admin-admin-clinician-developer-user-clinician-user-admin-user-admin-admin-clinician-developer-user-clinician-user-admin-user-admin",
         editable: true,
     },
     {
-        id: "8s9e60ac-7b29-4013-9733-845801b90e21",
+        id: "8s9ea60ac-7b29-4013-9733-845801b90e21",
         name: "developer admin",
-        editable: true,
-    },
-    {
-        id: "1a9g60ac-7b29-4013-9733-845801b90e21",
-        name: "model developer",
-        editable: true,
-    },
-    {
-        id: "4e9e50ac-7b29-4013-9733-845801b90e21",
-        name: "user2",
         editable: true,
     },
 ];
@@ -380,8 +347,8 @@ export const userManagementHandlers = [
 
         return res(
             ctx.json({
-                totalUsers: users.length,
-                totalFilteredUsers,
+                totalUserCount: users.length,
+                totalFilteredUserCount: totalFilteredUsers,
                 users: filtered,
             }),
         );
@@ -396,19 +363,6 @@ export const userManagementHandlers = [
         return res(ctx.status(200));
     }),
     rest.get(`${window.FRONTEND_API_HOST}/roles/list`, (_, res, ctx) => {
-        const roles: UserRoleListItem[] = [
-            {
-                id: "12345",
-                name: "admin",
-                editable: false,
-            },
-            {
-                id: "12346",
-                name: "clinician",
-                editable: true,
-            },
-        ];
-
         return res(ctx.json(roles));
     }),
     rest.get(`${window.FRONTEND_API_HOST}/roles`, (req, res, ctx) => {

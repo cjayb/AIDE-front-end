@@ -2,7 +2,7 @@
     <v-container fluid class="mt-3 mb-7 px-7">
         <v-row>
             <v-col class="col-md-7 col-xl-9">
-                <h2 class="mx-auto section-title">Overview</h2>
+                <h2 class="mx-auto section-title">Executions</h2>
             </v-col>
             <v-col class="col-md-5 col-xl-3 pr-0">
                 <v-btn text class="no-uppercase">Show</v-btn>

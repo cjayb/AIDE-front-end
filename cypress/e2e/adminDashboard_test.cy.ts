@@ -12,7 +12,7 @@ const adminHealthPage = new AdminHealthDashboardPage();
 const adminPayloadPage = new AdminPayloadDashboardPage();
 const abstractPage = new AbstractPage();
 
-describe(`Admin health - Overview section`, () => {
+describe.skip(`Admin health - Overview section`, () => {
     it(`when I pass in data with failed models,
     I can see the correct data and highlight around the model failure tile`, () => {
         adminHealthPage.initPage();
@@ -98,7 +98,7 @@ describe(`Admin health - Issues table section`, () => {
     });
 });
 
-describe(`Admin health - Graph section`, () => {
+describe.skip(`Admin health - Graph section`, () => {
     beforeEach(() => {
         adminHealthPage.initPage();
         cy.injectAxe();
@@ -130,7 +130,7 @@ describe(`Admin health - Graph section`, () => {
     });
 });
 
-describe(`Admin health - API errors`, () => {
+describe.skip(`Admin health - API errors`, () => {
     const text = "Something unexpected went wrong retrieving executions!";
     const tuple = [
         [400, "400"],

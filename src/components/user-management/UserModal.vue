@@ -60,6 +60,11 @@
                         :rules="oneOrMoreRules"
                     ></v-select>
                 </div>
+                <div v-if="userEmailExists">
+                    <ErrorMessageContainer
+                        :errorMessages="['User with this email address already exists']"
+                    />
+                </div>
             </v-form>
         </div>
         <v-divider />
@@ -86,8 +91,10 @@ import { Prop } from "vue-property-decorator";
 import { InputValidationRules } from "vuetify";
 import { emailRegEx } from "@/utils/constants";
 import { UserListItem, UserRoleListItem } from "@/models/user-management/UserManagement";
+import ErrorMessageContainer from "../Shared/ErrorMessageContainer.vue";
 
 @Component({
+    components: { ErrorMessageContainer },
     computed: {
         editing(): boolean {
             return !!this.$props.user?.id;
@@ -132,6 +139,9 @@ export default class UserModal extends Vue {
 
     @Prop()
     user?: UserListItem;
+
+    @Prop({ default: false })
+    userEmailExists?: boolean;
 
     requiredTextRules: InputValidationRules = [(value) => !!value || "Required"];
     oneOrMoreRules: InputValidationRules = [

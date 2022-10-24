@@ -1,13 +1,20 @@
 <template>
     <v-alert text type="error" icon="mdi-alert" data-cy="error-container">
-        <li
-            class="red--text text--accent-4 mb-1 body-2"
-            :data-cy="error"
-            v-for="error in errorMessages"
-            :key="error"
-        >
-            {{ error }}
-        </li>
+        <div v-if="errorMessages.length > 1">
+            <li
+                class="red--text text--accent-4 mb-1 body-2"
+                :data-cy="error"
+                v-for="error in errorMessages"
+                :key="error"
+            >
+                {{ error }}
+            </li>
+        </div>
+        <div v-else>
+            <p class="red--text text--accent-4 my-auto body-2">
+                {{ errorMessages[0] }}
+            </p>
+        </div>
     </v-alert>
 </template>
 

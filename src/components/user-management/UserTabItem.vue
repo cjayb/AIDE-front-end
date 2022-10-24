@@ -23,8 +23,8 @@
                             dense
                             hide-details
                             hidden
+                            style="width: 250px; text-overflow: ellipsis"
                             clearable
-                            style="min-width: 180px"
                             id="user-filter-role"
                             label="Roles"
                             data-cy="user-filter-role"
@@ -123,6 +123,7 @@
 
         <v-dialog persistent v-model="userModal" max-width="500px" v-if="userToEdit">
             <UserModal
+                :userEmailExists="userEmailExists"
                 :roles="roles"
                 :user="userToEdit"
                 @discard="discardChanged"
@@ -188,6 +189,8 @@ import {
 import { UserListItem, UserRoleListItem } from "@/models/user-management/UserManagement";
 import { Prop, Watch } from "vue-property-decorator";
 import { throttle } from "underscore";
+import { isResultOk } from "@/utils/axios-helpers";
+import { AxiosError, AxiosResponse } from "axios";
 
 @Component({
     components: {
@@ -218,6 +221,9 @@ import { throttle } from "underscore";
     },
 })
 export default class UserTabItem extends Vue {
+    @Prop({ default: () => [] })
+    roles!: UserRoleListItem[];
+
     userHeaders: DataTableHeader[] = [
         { text: "First Name", value: "firstName", sortable: true, filterable: true },
         { text: "Last Name", value: "lastName", sortable: true, filterable: true },
@@ -240,6 +246,8 @@ export default class UserTabItem extends Vue {
     editConfirm = false;
     userToSave: UserListItem | null = null;
 
+    userEmailExists = false;
+
     tableOptions: DataOptions = {
         page: 1,
         itemsPerPage: 10,
@@ -253,9 +261,6 @@ export default class UserTabItem extends Vue {
     private throttledFetchUsers = throttle(() => {
         this.fetchAndSetUsers();
     }, 500);
-
-    @Prop({ default: () => [] })
-    roles!: UserRoleListItem[];
 
     @Watch("tableOptions", { deep: true })
     tableOptionsChanged() {
@@ -299,7 +304,7 @@ export default class UserTabItem extends Vue {
             return;
         }
 
-        const ok = await deleteUser(this.userToDelete!.id);
+        const ok = await deleteUser(this.userToDelete.id);
 
         if (ok) {
             this.deleteConfirm = false;
@@ -333,15 +338,15 @@ export default class UserTabItem extends Vue {
     }
 
     async saveUserDetails(user: UserListItem) {
-        let ok = false;
+        let response: AxiosResponse | AxiosError;
 
         if (user.id) {
-            ok = await updateUserDetails(user.id, user);
+            response = await updateUserDetails(user.id, user);
         } else {
-            ok = await createUser(user);
+            response = await createUser(user);
         }
 
-        if (ok) {
+        if (isResultOk(response as AxiosResponse)) {
             this.userModal = false;
 
             // need to set the timeout so it clears form correctly
@@ -350,20 +355,35 @@ export default class UserTabItem extends Vue {
             }, 500);
 
             await this.fetchAndSetUsers();
-
             Vue.$toast.success("User successfully saved");
+
+            return;
+        } else if ((response as AxiosError).response?.status === 409) {
+            this.userEmailExists = true;
+            return;
+        } else {
+            this.userModal = false;
+            return;
         }
     }
 
     private async fetchAndSetUsers() {
-        const { totalUsers, totalFilteredUsers, users } = await getAllUsers({
+        const { totalUserCount, totalFilteredUserCount, users } = await getAllUsers({
             search: this.tableSearch,
             ...this.tableOptions,
         });
 
-        this.totalUsers = totalUsers;
-        this.totalFilteredUsers = totalFilteredUsers;
+        this.totalUsers = totalUserCount;
+        this.totalFilteredUsers = totalFilteredUserCount;
         this.users = users;
     }
 }
 </script>
+
+<style>
+div.v-menu__content.theme--light.menuable__content__active.role-filters,
+div.v-list.v-select-list.v-sheet.theme--light.v-list--dense.theme--light {
+    width: 460px;
+    text-overflow: ellipsis;
+}
+</style>

@@ -177,6 +177,8 @@ export default class UserRolesTabItem extends Vue {
     ];
 
     rolesPage: PaginatedRolesResponse = {} as PaginatedRolesResponse;
+    rolesList: UserRoleListItem[] = [];
+
     tableSearch = "";
     tableOptions: DataOptions = {
         page: 1,
@@ -195,7 +197,7 @@ export default class UserRolesTabItem extends Vue {
     roleToDelete: UserRoleListItem | null = null;
 
     private throttledFetchRoles = throttle(() => {
-        this.fetchRoles();
+        this.fetchRolePage();
     }, 500);
 
     @Watch("tableOptions", { deep: true })
@@ -208,7 +210,7 @@ export default class UserRolesTabItem extends Vue {
         this.throttledFetchRoles();
     }
 
-    private async fetchRoles() {
+    private async fetchRolePage() {
         this.rolesPage = await getPaginatedRoles({
             search: this.tableSearch,
             ...this.tableOptions,
@@ -268,7 +270,8 @@ export default class UserRolesTabItem extends Vue {
             this.deleteConfirm = false;
             this.roleToDelete = null;
 
-            await this.fetchRoles();
+            await this.fetchRolePage();
+            this.$emit("rolesChanged");
 
             Vue.$toast.success("Role successfully deleted");
         }
@@ -298,7 +301,8 @@ export default class UserRolesTabItem extends Vue {
                 this.roleToEdit = null;
             }, 500);
 
-            await this.fetchRoles();
+            await this.fetchRolePage();
+            this.$emit("rolesChanged");
 
             Vue.$toast.success("Role successfully saved");
         }

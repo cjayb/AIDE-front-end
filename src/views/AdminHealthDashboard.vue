@@ -1,17 +1,17 @@
 <template>
     <v-container fluid>
         <!-- Overview -->
-        <DashboardOverview />
+        <!-- <DashboardOverview /> -->
 
-        <v-divider />
+        <!-- <v-divider /> -->
 
         <!-- Issues -->
         <IssuesTable />
 
-        <v-divider />
+        <!-- <v-divider /> -->
 
         <!-- Models -->
-        <ModelStatistics />
+        <!-- <ModelStatistics /> -->
     </v-container>
 </template>
 
@@ -29,7 +29,5 @@ import Component from "vue-class-component";
         ModelStatistics,
     },
 })
-export default class AdminHealthDashboard extends Vue {
-    // Declared as component data
-}
+export default class AdminHealthDashboard extends Vue {}
 </script>

@@ -1,6 +1,6 @@
 export interface GetAllUsersResponse {
-    totalUsers: number;
-    totalFilteredUsers: number;
+    totalUserCount: number;
+    totalFilteredUserCount: number;
     users: UserListItem[];
 }
 

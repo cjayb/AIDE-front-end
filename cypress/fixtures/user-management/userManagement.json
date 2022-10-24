@@ -1,6 +1,6 @@
 {
-    "totalUsers": 12,
-    "totalFilteredUsers": 12,
+    "totalUserCount": 12,
+    "totalFilteredUserCount": 12,
     "users": [
         {
             "id": "0",

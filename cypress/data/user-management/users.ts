@@ -5,13 +5,13 @@ import {
 import ApiMocks from "../../fixtures/mockIndex";
 
 export class UserData implements GetAllUsersResponse {
-    totalUsers: number;
-    totalFilteredUsers: number;
+    totalUserCount: number;
+    totalFilteredUserCount: number;
     users: UserListItem[];
 
     constructor(getAllUsersResponse: GetAllUsersResponse) {
-        this.totalUsers = getAllUsersResponse.totalUsers;
-        this.totalFilteredUsers = getAllUsersResponse.totalFilteredUsers;
+        this.totalUserCount = getAllUsersResponse.totalUserCount;
+        this.totalFilteredUserCount = getAllUsersResponse.totalFilteredUserCount;
         this.users = getAllUsersResponse.users;
     }
 

@@ -15,7 +15,7 @@
 
                     <v-tabs-items v-model="currentTab">
                         <UserTabItem :roles="roles" />
-                        <UserRolesTabItem />
+                        <UserRolesTabItem @rolesChanged="fetchAllRoles()" />
                     </v-tabs-items>
                 </v-tabs>
             </v-row>
@@ -28,8 +28,8 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import UserTabItem from "@/components/user-management/UserTabItem.vue";
 import UserRolesTabItem from "@/components/user-management/UserRolesTabItem.vue";
-import { getAllRoles } from "@/api/user-management/UserManagementService";
 import { UserRoleListItem } from "@/models/user-management/UserManagement";
+import { getAllRoles } from "@/api/user-management/UserManagementService";
 
 @Component({
     components: {
@@ -44,6 +44,10 @@ export default class UserManagement extends Vue {
     roles: UserRoleListItem[] = [];
 
     async mounted() {
+        this.fetchAllRoles();
+    }
+
+    async fetchAllRoles() {
         this.roles = await getAllRoles();
     }
 }
