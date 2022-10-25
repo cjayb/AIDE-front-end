@@ -284,6 +284,7 @@ export default class UserTabItem extends Vue {
 
     discardChanged() {
         this.userModal = false;
+        this.userEmailExists = false;
         setTimeout(() => {
             this.userToEdit = null;
         }, 500);
@@ -348,6 +349,7 @@ export default class UserTabItem extends Vue {
 
         if (isResultOk(response as AxiosResponse)) {
             this.userModal = false;
+            this.userEmailExists = false;
 
             // need to set the timeout so it clears form correctly
             setTimeout(() => {
@@ -363,6 +365,10 @@ export default class UserTabItem extends Vue {
             return;
         } else {
             this.userModal = false;
+            this.userEmailExists = false;
+            setTimeout(() => {
+                this.userToEdit = null;
+            }, 500);
             return;
         }
     }
@@ -380,10 +386,10 @@ export default class UserTabItem extends Vue {
 }
 </script>
 
-<style>
+<style scoped>
 div.v-menu__content.theme--light.menuable__content__active.role-filters,
 div.v-list.v-select-list.v-sheet.theme--light.v-list--dense.theme--light {
-    width: 460px;
+    width: 250px;
     text-overflow: ellipsis;
 }
 </style>

@@ -75,7 +75,7 @@ describe("Display list of users", () => {
         ];
         tuple.forEach((userType) => {
             const [userRole, position] = userType;
-            it("Selecting a role in the dropdown should filter users by that role", () => {
+            it.skip("Selecting a role in the dropdown should filter users by that role", () => {
                 userManagementPage.selectElementInDropdown(position as number);
                 userManagementPage.assertRowContainsType(userRole as string);
             });
@@ -182,7 +182,7 @@ describe("Add/Edit/Delete list of users", () => {
                 userManagementPage.assertRoles(role);
             });
         });
-        it("Selecting 'Add user' sends the correct data to the API", () => {
+        it.skip("Selecting 'Add user' sends the correct data to the API", () => {
             userManagementPage.clickDataCy("add-user");
             userManagementPage.enterAddUserDetails();
             userManagementPage.assertPostedUserCorrect();
@@ -199,7 +199,7 @@ describe("Add/Edit/Delete list of users", () => {
             userManagementPage.clickEditButtonUsers(0);
             userManagementPage.assertFieldsUser(initialUser);
         });
-        it("'Save' is inactive unless all fields are populated", () => {
+        it.skip("'Save' is inactive unless all fields are populated", () => {
             userManagementPage.clickEditButtonUsers(0);
             userManagementPage.saveDisabledUnlessAllFIeldsEntered();
         });
@@ -351,7 +351,7 @@ describe("Display list of roles - API errors", () => {
             userManagementPage.assertToast(getRolesErrorMessage);
         });
 
-        it(`UI message displayed if a ${statusCode} error is returned from the API on searching for a role`, () => {
+        it.skip(`UI message displayed if a ${statusCode} error is returned from the API on searching for a role`, () => {
             userManagementPage.errorSearchRoles(statusCode);
             userManagementPage.assertToast(getRolesErrorMessage);
         });
@@ -448,7 +448,7 @@ describe("Add/Edit/Delete list of roles", () => {
                 userManagementPage.errorAddingRole(statusCode);
                 userManagementPage.assertToast(addRoleErrorMessage);
             });
-            it(`UI message displayed if a ${statusCode} error is returned on editing existing role`, () => {
+            it.skip(`UI message displayed if a ${statusCode} error is returned on editing existing role`, () => {
                 userManagementPage.clickEditButtonRoles();
                 userManagementPage.clickDataCy("role-modal-save");
                 userManagementPage.errorEditingRole(statusCode);

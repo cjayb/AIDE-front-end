@@ -315,6 +315,26 @@ const roles: UserRoleListItem[] = [
         name: "developer admin",
         editable: true,
     },
+    {
+        id: "9g5d60assc-7b29-4013-9733-845801b90e21",
+        name: "user-clinician-user-admin-user-admin",
+        editable: true,
+    },
+    {
+        id: "8s9essa60ac-7b29-4013-9733-845801b90e21",
+        name: "admin2",
+        editable: true,
+    },
+    {
+        id: "9g5dss60ac-7b29-4013-9733-845801b90e21",
+        name: "admin-user-admin-user-admin",
+        editable: true,
+    },
+    {
+        id: "8s9essa60ac-7b29-4013-9733-845801b90e21",
+        name: "developer2",
+        editable: true,
+    },
 ];
 
 export const userManagementHandlers = [

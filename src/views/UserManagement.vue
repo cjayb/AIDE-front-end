@@ -49,6 +49,9 @@ export default class UserManagement extends Vue {
 
     async fetchAllRoles() {
         this.roles = await getAllRoles();
+        this.roles = this.roles.sort((a: UserRoleListItem, b: UserRoleListItem) =>
+            a.name.localeCompare(b.name),
+        );
     }
 }
 </script>

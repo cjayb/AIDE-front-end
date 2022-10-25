@@ -25,9 +25,9 @@
             <v-card elevation="1">
                 <v-data-table
                     :headers="roleHeaders"
-                    :items="rolesPage.roles"
+                    :items="rolesList"
                     :search="tableSearch"
-                    :server-items-length="rolesPage.totalFilteredRolesCount"
+                    :server-items-length="totalFilteredRoles"
                     :options.sync="tableOptions"
                     :footer-props="{ itemsPerPageOptions: [5, 10] }"
                     class="roles-table"
@@ -90,6 +90,7 @@
         <v-dialog persistent v-model="roleModal" max-width="500px" v-if="roleToEdit">
             <RoleModal
                 :role="roleToEdit"
+                :roleExists="roleExists"
                 @discard="discardChanged"
                 @save="confirmEditRoleDetails"
             ></RoleModal>
@@ -145,7 +146,6 @@ import {
     createRole,
     updateRole,
 } from "@/api/user-management/UserManagementService";
-import { PaginatedRolesResponse } from "@/models/user-management/UserManagement";
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Watch } from "vue-property-decorator";
@@ -153,6 +153,8 @@ import { DataOptions, DataTableHeader } from "vuetify";
 import { UserRoleListItem } from "@/models/user-management/UserManagement";
 import RoleModal from "./RoleModal.vue";
 import { throttle } from "underscore";
+import { isResultOk } from "@/utils/axios-helpers";
+import { AxiosError, AxiosResponse } from "axios";
 
 @Component({
     components: {
@@ -160,7 +162,7 @@ import { throttle } from "underscore";
     },
     computed: {
         userRoleCount(): string {
-            const count: number = this.$data.rolesPage.totalRolesCount;
+            const count: number = this.$data.totalRoles;
 
             if (count === 1) {
                 return "1 Role";
@@ -176,8 +178,12 @@ export default class UserRolesTabItem extends Vue {
         { text: "Actions", value: "id", sortable: false, align: "start", width: "150px" },
     ];
 
-    rolesPage: PaginatedRolesResponse = {} as PaginatedRolesResponse;
     rolesList: UserRoleListItem[] = [];
+
+    totalRoles = 0;
+    totalFilteredRoles = 0;
+
+    roleExists = false;
 
     tableSearch = "";
     tableOptions: DataOptions = {
@@ -211,10 +217,14 @@ export default class UserRolesTabItem extends Vue {
     }
 
     private async fetchRolePage() {
-        this.rolesPage = await getPaginatedRoles({
+        const { totalRolesCount, totalFilteredRolesCount, roles } = await getPaginatedRoles({
             search: this.tableSearch,
             ...this.tableOptions,
         });
+
+        this.totalRoles = totalRolesCount;
+        this.totalFilteredRoles = totalFilteredRolesCount;
+        this.rolesList = roles;
     }
 
     createNewRole() {
@@ -244,6 +254,7 @@ export default class UserRolesTabItem extends Vue {
 
     discardChanged() {
         this.roleModal = false;
+        this.roleExists = false;
         setTimeout(() => {
             this.roleToEdit = null;
         }, 500);
@@ -288,15 +299,20 @@ export default class UserRolesTabItem extends Vue {
     }
 
     async saveRoleDetails(role: UserRoleListItem) {
-        let responseOk = true;
+        let response = {} as AxiosResponse | AxiosError;
 
-        if (role.id) {
-            responseOk = await updateRole(role.id, role);
+        if (role.id && role.name === "") {
+            response.status = 200;
+        } else if (role.id && this.roleToEdit?.name !== role.name) {
+            response = await updateRole(role.id, role);
         } else {
-            responseOk = await createRole(role);
+            response = await createRole(role);
         }
 
-        if (responseOk) {
+        if (isResultOk(response as AxiosResponse)) {
+            this.roleModal = false;
+            this.roleExists = false;
+
             setTimeout(() => {
                 this.roleToEdit = null;
             }, 500);
@@ -305,6 +321,17 @@ export default class UserRolesTabItem extends Vue {
             this.$emit("rolesChanged");
 
             Vue.$toast.success("Role successfully saved");
+            return;
+        } else if ((response as AxiosError).response?.status === 409) {
+            this.roleExists = true;
+            return;
+        } else {
+            this.roleModal = false;
+            this.roleExists = false;
+            setTimeout(() => {
+                this.roleToEdit = null;
+            }, 500);
+            return;
         }
     }
 }

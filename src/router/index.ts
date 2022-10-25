@@ -21,7 +21,7 @@ function sleep(ms: number) {
 
 const admin = "admin";
 const clinician = "clinician";
-const user_manager = "user_manager";
+const user_management = "user_management";
 
 export const routes: Array<RouteConfig> = [
     {
@@ -116,7 +116,7 @@ export const routes: Array<RouteConfig> = [
         component: UserManagement,
         beforeEnter: roleAuthenticatedRoute,
         meta: {
-            requiredRoles: [user_manager, admin],
+            requiredRoles: [user_management, admin],
         },
     },
     {

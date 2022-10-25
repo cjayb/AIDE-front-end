@@ -2,7 +2,6 @@ import { IOverview } from "@/models/Admin/IOverview";
 import { IIndexedIssue, IIssue } from "@/models/Admin/IIssue";
 import { IModelSummary, IModelDetails } from "@/models/Admin/IModel";
 import { createAxiosInstance, ErrorMessageMap, isResultOk } from "@/utils/axios-helpers";
-import { AxiosResponse } from "axios";
 
 const errorMessages: ErrorMessageMap = {
     get: "Something unexpected went wrong retrieving executions!",
@@ -23,7 +22,7 @@ export async function getOverview(filterPeriod: string): Promise<IOverview> {
 export async function getIssues(acknowledged: string): Promise<IIssue[]> {
     const response = await http.get(`/workflowinstances/failed?acknowledged=${acknowledged}`);
 
-    return response.data;
+    return isResultOk(response) ? response.data : [];
 }
 
 export async function dismissIssue(dismissedItem: IIndexedIssue): Promise<boolean> {

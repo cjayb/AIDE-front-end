@@ -17,6 +17,11 @@
                         :rules="requiredTextRules"
                     ></v-text-field>
                 </div>
+                <div v-if="roleExists">
+                    <ErrorMessageContainer
+                        :errorMessages="['Role with this name already exists']"
+                    />
+                </div>
             </v-form>
         </div>
         <v-divider />
@@ -42,8 +47,10 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
 import { InputValidationRules } from "vuetify";
+import ErrorMessageContainer from "../Shared/ErrorMessageContainer.vue";
 
 @Component({
+    components: { ErrorMessageContainer },
     computed: {
         editing(): boolean {
             return !!this.$props.role?.id;
@@ -62,6 +69,9 @@ export default class RoleModal extends Vue {
     @Prop()
     role?: UserRoleListItem;
 
+    @Prop({ default: false })
+    roleExists?: boolean;
+
     requiredFieldsFilled = false;
     requiredTextRules: InputValidationRules = [(value) => !!value || "Required"];
     roleName = "";
@@ -72,6 +82,7 @@ export default class RoleModal extends Vue {
 
     save() {
         const role = { ...(this.role || {}) };
+
         role.name = this.roleName;
 
         this.$emit("save", role);

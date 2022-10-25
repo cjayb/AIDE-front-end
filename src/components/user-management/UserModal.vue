@@ -171,3 +171,11 @@ export default class UserModal extends Vue {
     }
 }
 </script>
+
+<style scoped>
+div.v-menu__content.theme--light.menuable__content__active.role-filters,
+div.v-list.v-select-list.v-sheet.theme--light.v-list--dense.theme--light {
+    width: 460px;
+    text-overflow: ellipsis;
+}
+</style>

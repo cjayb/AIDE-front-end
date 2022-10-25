@@ -14,7 +14,7 @@ const errorMessagesUsers: ErrorMessageMap = {
     delete: "Something unexpected went wrong deleting the user",
 };
 
-const httpUsers = createAxiosInstance(errorMessagesUsers);
+const httpUsers = createAxiosInstance(errorMessagesUsers, true);
 
 const errorMessagesRoles: ErrorMessageMap = {
     get: "Something unexpected went wrong retrieving roles",
@@ -23,7 +23,7 @@ const errorMessagesRoles: ErrorMessageMap = {
     delete: "Something unexpected went wrong deleting the role",
 };
 
-const httpRoles = createAxiosInstance(errorMessagesRoles);
+const httpRoles = createAxiosInstance(errorMessagesRoles, true);
 
 interface QueryParams {
     search?: string;
@@ -56,7 +56,7 @@ export async function updateUserDetails(
     userId: string,
     user: UserListItem,
 ): Promise<AxiosResponse | AxiosError> {
-    return await httpUsers.put(`/users/${userId}`, user).catch((error) => {
+    return httpUsers.put(`/users/${userId}`, user).catch((error) => {
         if (error) {
             return error;
         }
@@ -64,7 +64,7 @@ export async function updateUserDetails(
 }
 
 export async function createUser(user: UserListItem): Promise<AxiosResponse | AxiosError> {
-    return await httpUsers.post("/users", user).catch((error) => {
+    return httpUsers.post("/users", user).catch((error) => {
         if (error) {
             return error;
         }
@@ -100,22 +100,23 @@ export async function getPaginatedRoles(query: QueryParams): Promise<PaginatedRo
     return isResultOk(response) ? response.data : defaultData;
 }
 
-export async function createRole(role: UserRoleListItem): Promise<boolean> {
-    try {
-        const result = await httpRoles.post("/roles", role);
-        return isResultOk(result);
-    } catch {
-        return false;
-    }
+export async function createRole(role: UserRoleListItem): Promise<AxiosResponse | AxiosError> {
+    return httpRoles.post("/roles", role).catch((error) => {
+        if (error) {
+            return error;
+        }
+    });
 }
 
-export async function updateRole(roleId: string, role: UserRoleListItem): Promise<boolean> {
-    try {
-        const result = await httpRoles.put(`/roles/${roleId}`, role);
-        return isResultOk(result);
-    } catch {
-        return false;
-    }
+export async function updateRole(
+    roleId: string,
+    role: UserRoleListItem,
+): Promise<AxiosResponse | AxiosError> {
+    return httpRoles.put(`/roles/${roleId}`, role).catch((error) => {
+        if (error) {
+            return error;
+        }
+    });
 }
 
 export async function deleteRole(roleId: string): Promise<boolean> {

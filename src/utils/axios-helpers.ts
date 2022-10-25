@@ -32,6 +32,7 @@ export function attachBearerTokenInterceptor(config: AxiosRequestConfig): AxiosR
 export function onRequestErrorInterceptor(
     error: AxiosError,
     messageMap: ErrorMessageMap,
+    conflictToastHidden?: boolean,
 ): Promise<AxiosError> {
     if (error.code === "ERR_NETWORK") {
         Vue.$toast.error("Connection error. Please check your internet connection.");
@@ -40,6 +41,8 @@ export function onRequestErrorInterceptor(
     } else if (error.response?.status === 401) {
         Vue.prototype.$keycloak.logout({ redirectUri: `${window.location.origin}/#/` });
 
+        return Promise.reject(error);
+    } else if (error.response?.status === 409 && conflictToastHidden) {
         return Promise.reject(error);
     }
 
@@ -53,7 +56,10 @@ export function onRequestErrorInterceptor(
     return Promise.reject(error);
 }
 
-export function createAxiosInstance(errorMessages?: ErrorMessageMap): AxiosInstance {
+export function createAxiosInstance(
+    errorMessages?: ErrorMessageMap,
+    conflictToastHidden?: boolean,
+): AxiosInstance {
     const http = axios.create({
         baseURL: window.FRONTEND_API_HOST,
         headers: {
@@ -65,7 +71,7 @@ export function createAxiosInstance(errorMessages?: ErrorMessageMap): AxiosInsta
     http.interceptors.request.use((config) => attachBearerTokenInterceptor(config));
     http.interceptors.response.use(
         (response) => response,
-        (error) => onRequestErrorInterceptor(error, errorMessages ?? {}),
+        (error) => onRequestErrorInterceptor(error, errorMessages ?? {}, conflictToastHidden),
     );
 
     return http;
