@@ -67,7 +67,7 @@ describe(`Admin health - Issues table section`, () => {
     ];
     tuple2.forEach(($type) => {
         const [search_text, task_data, test_name] = $type;
-        it(`Using the search field I can search for a specific ${test_name}`, () => {
+        it.skip(`Using the search field I can search for a specific ${test_name}`, () => {
             adminHealthPage.searchIssuesTable(search_text as string);
             adminHealthPage.assertCorrectTaskReturned(task_data as TaskData);
         });

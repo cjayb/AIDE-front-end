@@ -27,6 +27,7 @@
                             single-line
                             hide-details
                             data-cy="search-issues-table"
+                            class="d-none"
                         ></v-text-field>
                     </v-card-title>
                     <v-data-table
