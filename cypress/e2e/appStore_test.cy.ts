@@ -8,7 +8,7 @@ import Order from "data/enums/order";
 
 const appPage = new appStorePage();
 
-describe("App Store Page", () => {
+describe.skip("App Store Page", () => {
     beforeEach(() => {
         appPage.initPage();
     });
@@ -67,7 +67,7 @@ describe("App Store Page", () => {
     });
 });
 
-describe("Error handling on app store page", () => {
+describe.skip("Error handling on app store page", () => {
     const data = [
         [400, "400"],
         [403, "403"],

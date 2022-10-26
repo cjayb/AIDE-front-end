@@ -28,7 +28,7 @@
             <v-btn
                 color="primary"
                 class="mx-1 secondary--text"
-                :disabled="!validJSON"
+                :disabled="!changed || !validJSON"
                 data-cy="save-workflow-changes"
                 @click="editConfirm = true"
             >
@@ -135,6 +135,7 @@ export default class WorkflowEditor extends Vue {
 
     editConfirm = false;
     discardChangesConfirm = false;
+    changed = false;
 
     async mounted() {
         const { workflow_id } = this.$route.params as Dictionary<string>;
@@ -149,6 +150,7 @@ export default class WorkflowEditor extends Vue {
         _previousContent: { text: string },
         { contentErrors }: OnChangeStatus,
     ) {
+        this.changed = true;
         this.validJSON =
             !(contentErrors as ContentParseError).parseError &&
             !((contentErrors as ContentValidationErrors)?.validationErrors ?? []).length;

@@ -2,7 +2,7 @@ import ClinicalReviewPage from "../pages/clinicalReview";
 
 const reviewPage = new ClinicalReviewPage();
 
-describe("Clinical review page", () => {
+describe.skip("Clinical review page", () => {
     beforeEach(() => {
         reviewPage.initPage();
     });
@@ -70,7 +70,7 @@ describe("Clinical review page", () => {
     });
 });
 
-describe("Scenarios without standard data setup", () => {
+describe.skip("Scenarios without standard data setup", () => {
     beforeEach(() => {
         Cypress.on("uncaught:exception", () => {
             //TODO: Remove this once uncaught exceptions have been removed

@@ -5,7 +5,7 @@ const dicomConfigurationPage = new Destinations();
 const destinationsData = DestinationData.DESTINATIONS_EXAMPLE;
 const newDestinationData = DestinationData.DESTINATION_ADD;
 
-describe("Display list of destinations", () => {
+describe.skip("Display list of destinations", () => {
     beforeEach(() => {
         dicomConfigurationPage.initPage();
     });
@@ -32,7 +32,7 @@ describe("Display list of destinations", () => {
         });
     });
 
-    describe("Add/Edit/Delete list of destinations", () => {
+    describe.skip("Add/Edit/Delete list of destinations", () => {
         describe("Add new destination", () => {
             it("Clicking on 'Add DICOM Configuration' opens up the modal", () => {
                 dicomConfigurationPage.clickDataCy("add-dicom-configuration-button");
@@ -134,7 +134,7 @@ describe("Display list of destinations", () => {
         });
     });
 });
-describe(" API errors", () => {
+describe.skip(" API errors", () => {
     const initError = "Something unexpected went wrong retrieving DICOM configurations";
     const deleteError = "Something unexpected went wrong deleting the DICOM configuration";
     const editError = "Something unexpected went wrong updating the DICOM configuration";

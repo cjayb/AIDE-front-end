@@ -3,7 +3,7 @@ import { AppProfileData } from "data/app-store-profile/appProfile";
 
 const appProfilePage = new AppProfilePage();
 
-describe("App profile page version 1 ", () => {
+describe.skip("App profile page version 1 ", () => {
     beforeEach(() => {
         appProfilePage.initPage1();
     });
@@ -21,7 +21,7 @@ describe("App profile page version 1 ", () => {
     });
 });
 
-describe("App profile page version 2 ", () => {
+describe.skip("App profile page version 2 ", () => {
     beforeEach(() => {
         appProfilePage.initPage2();
     });
@@ -39,7 +39,7 @@ describe("App profile page version 2 ", () => {
     });
 });
 
-describe("Error codes on app store profile page", () => {
+describe.skip("Error codes on app store profile page", () => {
     beforeEach(() => {
         cy.injectAxe();
         Cypress.on("uncaught:exception", () => {

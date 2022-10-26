@@ -223,7 +223,7 @@ function roleAuthenticatedRoute(to: Route, _: Route, next: NavigationGuardNext<V
 
 const router = new VueRouter({
     routes,
-    // mode: "history",
+    mode: "history",
 });
 
 export default router;

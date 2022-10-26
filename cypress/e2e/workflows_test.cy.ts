@@ -11,7 +11,7 @@ describe.skip("Display list of users", () => {
         workflowPage.initPage();
     });
 
-    describe("All expected elements on the page are visible", () => {
+    describe.skip("All expected elements on the page are visible", () => {
         it("Each row has an edit button visible", () => {
             workflowPage.editButtonVisibleUsers();
         });
