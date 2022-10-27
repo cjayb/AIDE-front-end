@@ -29,7 +29,7 @@ jobs:
       - name: Build Application
         run: npm ci
       - name: Run ui tests
-        run: npm run test:ui_ci
+        run: npm run tests:ui_ci
       - name: Move screenshots
         run: cp -r ${GITHUB_WORKSPACE}/.cypress-cache/screenshots ci_artifacts/
 
