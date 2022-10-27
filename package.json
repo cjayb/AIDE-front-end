@@ -9,7 +9,7 @@
     "serve:cypress": "cross-env VUE_APP_AUTH_ENABLED=false vue-cli-service serve --mode production",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "audit": "better-npm-audit audit -l moderate",
+    "audit": "better-npm-audit audit -l moderate -p",
     "tests:ui_headless": "cypress run -b chrome",
     "tests:ui_debug": "npx cross-env CYPRESS_REMOTE_DEBUGGING_PORT=9222 cypress open",
     "serve:test:debug": "npm run serve:cypress && npm run tests:ui_debug",
