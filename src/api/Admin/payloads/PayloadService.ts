@@ -57,8 +57,12 @@ export async function getPayloadExecutionArtifacts(
     return response.data;
 }
 
-export async function getPayloadExecutionMetadata(execution_id: string): Promise<unknown> {
-    const response = await http.get(`/executions/${execution_id}/metadata`);
+export async function getPayloadExecutionMetadata(
+    workflowInstanceId: string,
+    executionId: string,
+): Promise<unknown> {
+    const url = `/executions/${workflowInstanceId}/tasks/${executionId}/metadata`;
+    const response = await http.get(url);
 
     return response.data;
 }

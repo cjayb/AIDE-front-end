@@ -19,7 +19,13 @@
                 block
                 class="mb-2 ml-xl-1 no-uppercase white--text"
                 color="primary"
-                @click.stop="openJSONViewerDialog(selectedNode.execution_id, 'Logs')"
+                @click.stop="
+                    openJSONViewerDialog(
+                        selectedNode.execution_id,
+                        selectedNode.workflow_instance_id,
+                        'Logs',
+                    )
+                "
                 data-cy="view-node-logs"
             >
                 View Logs
@@ -29,7 +35,13 @@
                 block
                 class="mb-2 ml-xl-1 no-uppercase white--text"
                 color="primary"
-                @click.stop="openJSONViewerDialog(selectedNode.execution_id, 'Metadata')"
+                @click.stop="
+                    openJSONViewerDialog(
+                        selectedNode.execution_id,
+                        selectedNode.workflow_instance_id,
+                        'Metadata',
+                    )
+                "
                 data-cy="view-node-metadata"
             >
                 View Metadata
@@ -110,8 +122,19 @@ export default class ModelDetailsSection extends Vue {
     loadingArtifacts = true;
     artifacts: { [key: string]: string } = {};
 
-    openJSONViewerDialog(execution_id: string, modalType: string): void {
-        EventBus.$emit("openJSONViewerDialog", true, modalType, undefined, execution_id);
+    openJSONViewerDialog(
+        execution_id: string,
+        workflow_instance_id: string,
+        modalType: string,
+    ): void {
+        EventBus.$emit(
+            "openJSONViewerDialog",
+            true,
+            modalType,
+            undefined,
+            execution_id,
+            workflow_instance_id,
+        );
     }
 
     async mounted() {

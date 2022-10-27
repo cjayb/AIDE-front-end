@@ -69,18 +69,19 @@ export default class JSONViewerDialog extends Vue {
                 dialog2: boolean,
                 modalType: JSONViewerModalType,
                 task_id?: number,
-                execution_uid?: string,
+                executionUid?: string,
+                workflowId?: string,
             ) => {
                 this.loading = true;
                 this.data = "";
                 this.dialog2 = dialog2;
                 this.modalType = modalType;
 
-                if (execution_uid) {
-                    this.executionId = execution_uid;
+                if (executionUid && workflowId) {
+                    this.executionId = executionUid;
 
                     if (modalType === JSONViewerModalType.metadata) {
-                        await getPayloadExecutionMetadata(execution_uid)
+                        await getPayloadExecutionMetadata(workflowId, executionUid)
                             .then((metadata) => {
                                 this.data = metadata;
                             })
@@ -89,7 +90,7 @@ export default class JSONViewerDialog extends Vue {
                                 this.loading = false;
                             });
                     } else if (modalType === JSONViewerModalType.logs) {
-                        await getLogs(execution_uid)
+                        await getLogs(executionUid)
                             .then((log) => {
                                 this.data = log;
                             })
