@@ -1,8 +1,8 @@
 <template>
-    <v-alert text type="error" icon="mdi-alert" data-cy="error-container">
+    <v-alert color="red darken-4" text type="error" icon="mdi-alert" data-cy="error-container">
         <div v-if="errorMessages.length > 1">
             <li
-                class="red--text text--accent-4 mb-1 body-2"
+                class="red--text text--accent-4 mb-1 body-2 font-weight-bold"
                 :data-cy="error"
                 v-for="error in errorMessages"
                 :key="error"

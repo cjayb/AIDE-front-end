@@ -41,9 +41,55 @@ export default Vue.extend({
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:100,300,400,500,700,900");
+
 html {
     overflow: auto;
     min-width: 1000px;
+}
+
+.v-application {
+    font-family: "Open Sans", sans-serif !important;
+}
+
+#app {
+    background: #fefbff;
+}
+
+.v-data-table {
+    border: solid 1px #e0e0e0;
+}
+
+.v-data-table-header {
+    background: #fafafa;
+    text-transform: uppercase !important;
+}
+
+.primary-button {
+    text-transform: unset !important;
+    letter-spacing: normal;
+    background: #61366e !important;
+    border-radius: 6px !important;
+    color: #ffffff !important;
+}
+
+.secondary-button {
+    text-transform: unset !important;
+    letter-spacing: normal;
+    background: #f7f3f9 !important;
+    border-radius: 6px !important;
+    color: #482852 !important;
+    font-weight: bold;
+}
+
+.outlined-button {
+    text-transform: unset !important;
+    letter-spacing: normal;
+    background: #ffffff !important;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px !important;
+    color: #424242 !important;
+    font-weight: bold;
 }
 
 .section-title {
@@ -73,10 +119,6 @@ h2 {
     text-transform: unset !important;
     letter-spacing: normal;
 }
-
-/* .row {
-    margin: -12px !important;
-} */
 
 .fade-enter-active,
 .fade-leave-active {

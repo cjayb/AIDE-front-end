@@ -16,7 +16,7 @@
                             data-cy="role-search-input"
                         ></v-text-field>
                     </div>
-                    <v-btn color="primary" data-cy="add-role" @click="createNewRole">
+                    <v-btn class="primary-button" data-cy="add-role" @click="createNewRole">
                         Add new role
                         <v-icon class="ml-1">mdi-plus</v-icon>
                     </v-btn>
@@ -34,7 +34,10 @@
                 >
                     <template v-slot:item="{ item, index }">
                         <tr :data-cy="`role-table-row-${index}`">
-                            <td class="text-start" :data-cy="`role-table-row-name-${index}`">
+                            <td
+                                class="text-start font-weight-bold"
+                                :data-cy="`role-table-row-name-${index}`"
+                            >
                                 {{ item.name }}
                             </td>
                             <td
@@ -45,7 +48,7 @@
                                 <v-btn
                                     small
                                     elevation="0"
-                                    class="mr-2"
+                                    class="mr-2 secondary-button"
                                     aria-label="edit role"
                                     data-cy="role-edit"
                                     @click="
@@ -56,11 +59,12 @@
                                         })
                                     "
                                 >
-                                    <v-icon small>mdi-pencil</v-icon>
+                                    Edit
                                 </v-btn>
                                 <v-btn
                                     small
                                     elevation="0"
+                                    class="outlined-button"
                                     aria-label="delete role"
                                     data-cy="role-delete"
                                     @click="
@@ -71,7 +75,8 @@
                                         })
                                     "
                                 >
-                                    <v-icon small>mdi-delete</v-icon>
+                                    Delete
+                                    <v-icon small right> mdi-close </v-icon>
                                 </v-btn>
                             </td>
                             <td v-else />
@@ -106,9 +111,11 @@
                 <v-card-actions class="px-4 justify-end">
                     <v-btn text data-cy="role-delete-cancel" @click="cancelRoleDeletion">
                         Cancel
+                        <v-icon right> mdi-close </v-icon>
                     </v-btn>
                     <v-btn text data-cy="role-delete-ok" color="red darken-2" @click="deleteRole">
                         Yes, delete
+                        <v-icon right> mdi-check-circle-outline </v-icon>
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -124,6 +131,7 @@
                 <v-card-actions class="px-4 justify-end">
                     <v-btn text data-cy="role-edit-confirm-cancel" @click="editConfirm = false">
                         Cancel
+                        <v-icon right> mdi-close </v-icon>
                     </v-btn>
                     <v-btn
                         text
@@ -132,6 +140,7 @@
                         @click="continueSavingRoleDetails"
                     >
                         Yes, save changes
+                        <v-icon right> mdi-content-save </v-icon>
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -175,7 +184,7 @@ import { AxiosError, AxiosResponse } from "axios";
 export default class UserRolesTabItem extends Vue {
     roleHeaders: DataTableHeader[] = [
         { text: "Name", value: "name", sortable: true, align: "start", width: "83%" },
-        { text: "Actions", value: "id", sortable: false, align: "start", width: "150px" },
+        { text: "Actions", value: "id", sortable: false, align: "start", width: "210px" },
     ];
 
     rolesList: UserRoleListItem[] = [];

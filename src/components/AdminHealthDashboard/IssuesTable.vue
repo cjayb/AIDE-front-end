@@ -6,19 +6,20 @@
             </v-col>
         </v-row>
         <v-row v-if="!loading && issues !== undefined">
-            <v-layout child-flex>
+            <v-layout child-flex column>
+                <v-btn
+                    elevation="0"
+                    class="my-3 secondary-button"
+                    color="white"
+                    width="150px"
+                    @click="deleteItem(undefined)"
+                    :disabled="selectedIssues.length === 0"
+                    data-cy="dismiss-selected"
+                >
+                    Dismiss selected
+                </v-btn>
                 <v-card>
-                    <v-card-title>
-                        <v-btn
-                            elevation="0"
-                            class="ma-1 no-uppercase purple--text text--darken-4"
-                            color="white"
-                            @click="deleteItem(undefined)"
-                            :disabled="selectedIssues.length === 0"
-                            data-cy="dismiss-selected"
-                        >
-                            Dismiss selected
-                        </v-btn>
+                    <v-card-title class="d-none">
                         <v-spacer></v-spacer>
                         <v-text-field
                             v-model="search"
@@ -85,8 +86,8 @@
                         <template v-slot:[`item.actions`]="{ item }">
                             <v-btn
                                 elevation="0"
-                                class="my-1 mr-1 no-uppercase purple--text text--darken-4"
-                                color="purple lighten-5"
+                                small
+                                class="my-1 mr-1 secondary-button"
                                 @click.stop="openLogsDialog(item.task_id)"
                                 data-cy="view-logs-button"
                             >
@@ -94,9 +95,8 @@
                             </v-btn>
                             <v-btn
                                 elevation="0"
-                                outlined
-                                class="my-1 ml-md-0 ml-1 no-uppercase grey--text text--darken-3"
-                                color="grey lighten-1"
+                                small
+                                class="my-1 ml-md-0 ml-1 outlined-button"
                                 @click="deleteItem(item)"
                                 data-cy="dismiss-button"
                             >
@@ -116,20 +116,21 @@
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
                                         <v-btn
-                                            color="blue darken-1"
                                             text
                                             @click="closeDelete"
                                             data-cy="validation-cancel"
                                         >
                                             Cancel
+                                            <v-icon> mdi-close </v-icon>
                                         </v-btn>
                                         <v-btn
-                                            color="blue darken-1"
+                                            color="primary"
                                             text
                                             @click="deleteItemConfirm"
                                             data-cy="validation-ok"
                                         >
-                                            OK
+                                            Confirm
+                                            <v-icon> mdi-check-circle-outline </v-icon>
                                         </v-btn>
                                         <v-spacer></v-spacer>
                                     </v-card-actions>
@@ -157,7 +158,6 @@ import { formatDateAndTimeOfArray } from "@/utils/dateFormattingUtils";
 import { EventBus } from "@/event-bus";
 import { JSONViewerModalType } from "../Shared/JSONViewerDialog.vue";
 import { IIndexedIssue, IIssue } from "@/models/Admin/IIssue";
-import { log } from "console";
 
 @Component({
     components: {},
@@ -176,7 +176,7 @@ export default class IssuesTable extends Vue {
         { text: "Patient", value: "patient_name" },
         { text: "Patient ID", value: "patient_id" },
         { text: "Time", value: "execution_time" },
-        { text: "Actions", value: "actions" },
+        { text: "Actions", value: "actions", width: "220px" },
     ];
 
     async created(): Promise<void> {

@@ -42,6 +42,7 @@
                         :options.sync="tableOptions"
                         show-expand
                         single-expand
+                        item-key="payload_id"
                         class="elevation-1"
                         data-cy="payload"
                     >

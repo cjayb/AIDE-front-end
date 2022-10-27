@@ -4,12 +4,12 @@
             <div class="d-flex mb-4 justify-space-between">
                 <h2 class="section-title mb-4">Workflows</h2>
                 <v-btn
-                    color="primary"
+                    class="primary-button"
                     data-cy="add-workflow"
                     @click="navigateToWorkflowEditorCreate"
                 >
                     Create new workflow
-                    <v-icon class="ml-1">mdi-plus</v-icon>
+                    <v-icon small class="ml-1">mdi-plus</v-icon>
                 </v-btn>
             </div>
 
@@ -24,7 +24,10 @@
                     <template v-slot:item="{ item, index }">
                         <tr :data-cy="`workflow-table-row-${index}`">
                             <!-- name -->
-                            <td class="text-start" :data-cy="`workflow-table-row-name-${index}`">
+                            <td
+                                class="text-start font-weight-bold"
+                                :data-cy="`workflow-table-row-name-${index}`"
+                            >
                                 {{ item.name }}
                             </td>
                             <!-- AeTitle -->
@@ -51,21 +54,23 @@
                                 <v-btn
                                     small
                                     elevation="0"
-                                    class="mr-2"
+                                    class="mr-2 secondary-button"
                                     aria-label="edit workflow"
                                     data-cy="workflow-edit"
                                     @click.stop="() => navigateToWorkflowEditor(item.workflow_id)"
                                 >
-                                    <v-icon small>mdi-pencil</v-icon>
+                                    Edit
                                 </v-btn>
                                 <v-btn
                                     small
                                     elevation="0"
+                                    class="outlined-button"
                                     aria-label="delete workflow"
                                     data-cy="workflow-delete"
                                     @click.stop="() => confirmDeletion(item)"
                                 >
-                                    <v-icon small>mdi-delete</v-icon>
+                                    Delete
+                                    <v-icon small right> mdi-close </v-icon>
                                 </v-btn>
                             </td>
                         </tr>
@@ -94,6 +99,7 @@
                             @click="cancelWorkflowDeletion"
                         >
                             Cancel
+                            <v-icon right> mdi-close </v-icon>
                         </v-btn>
                         <v-btn
                             text
@@ -102,6 +108,7 @@
                             @click="deleteWorkflow"
                         >
                             Yes, delete
+                            <v-icon right> mdi-check-circle-outline </v-icon>
                         </v-btn>
                     </v-card-actions>
                 </v-card>
@@ -127,7 +134,7 @@ export default class Workflows extends Vue {
         { text: "Data Origins", value: "data_origins", sortable: false, width: "20%" },
         { text: "Version", value: "version", sortable: false, width: "10%" },
         { text: "Description", value: "description", sortable: false, width: "28%" },
-        { text: "Actions", value: "id", sortable: false, width: "150px" },
+        { text: "Actions", value: "id", sortable: false, width: "210px" },
     ];
 
     workflowPage: PaginatedWorkflowsResponse = {} as PaginatedWorkflowsResponse;

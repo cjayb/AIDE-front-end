@@ -2,6 +2,7 @@
     <v-card>
         <v-card-title class="text-h5">
             <span v-if="editing">Edit&nbsp;</span>
+            <span v-if="!editing">Add&nbsp;</span>
             Role Details
         </v-card-title>
         <div class="px-6">
@@ -26,16 +27,20 @@
         </div>
         <v-divider />
         <v-card-actions class="px-4 justify-end">
-            <v-btn text data-cy="role-modal-discard" @click="discard">Discard</v-btn>
+            <v-btn text class="secondary-button" data-cy="role-modal-discard" @click="discard">
+                Discard
+                <v-icon right> mdi-close </v-icon>
+            </v-btn>
             <v-btn
                 text
                 data-cy="role-modal-save"
-                color="primary"
+                :class="!requiredFieldsFilled ? 'secondary-button' : 'primary-button'"
                 @click="save"
                 :disabled="!requiredFieldsFilled"
             >
                 <span v-if="role.id">Save</span>
                 <span v-else>Add role</span>
+                <v-icon small right> mdi-content-save </v-icon>
             </v-btn>
         </v-card-actions>
     </v-card>

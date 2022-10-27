@@ -56,15 +56,24 @@
         </div>
         <v-divider />
         <v-card-actions class="px-4 justify-end">
-            <v-btn text data-cy="destination-create-cancel" @click="discard">Cancel</v-btn>
             <v-btn
                 text
-                color="primary"
+                class="secondary-button"
+                data-cy="destination-create-cancel"
+                @click="discard"
+            >
+                Cancel
+                <v-icon right> mdi-close </v-icon>
+            </v-btn>
+            <v-btn
+                text
+                :class="!requiredFieldsFilled ? 'secondary-button' : 'primary-button'"
                 data-cy="destination-create-save"
                 @click="save"
                 :disabled="!requiredFieldsFilled"
             >
                 Save
+                <v-icon small right> mdi-content-save </v-icon>
             </v-btn>
         </v-card-actions>
     </v-card>

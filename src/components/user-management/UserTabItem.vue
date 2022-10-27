@@ -36,9 +36,9 @@
                         >
                         </v-select>
                     </div>
-                    <v-btn color="primary" data-cy="add-user" @click="createNewUser">
+                    <v-btn class="primary-button" data-cy="add-user" @click="createNewUser">
                         Add user
-                        <v-icon class="ml-1">mdi-plus</v-icon>
+                        <v-icon small class="ml-1">mdi-plus</v-icon>
                     </v-btn>
                 </div>
             </div>
@@ -53,10 +53,16 @@
                 >
                     <template v-slot:item="{ item, index }">
                         <tr :data-cy="`user-table-row-${index}`">
-                            <td class="text-start" :data-cy="`user-table-row-firstname-${index}`">
+                            <td
+                                class="text-start font-weight-bold"
+                                :data-cy="`user-table-row-firstname-${index}`"
+                            >
                                 {{ item.firstName }}
                             </td>
-                            <td class="text-start" :data-cy="`user-table-row-lastname-${index}`">
+                            <td
+                                class="text-start font-weight-bold"
+                                :data-cy="`user-table-row-lastname-${index}`"
+                            >
                                 {{ item.lastName }}
                             </td>
                             <td class="text-start">
@@ -86,21 +92,23 @@
                                 <v-btn
                                     small
                                     elevation="0"
-                                    class="mr-2"
+                                    class="mr-2 secondary-button"
                                     aria-label="edit user"
                                     data-cy="user-edit"
                                     @click.stop="() => editUserDetails(item)"
                                 >
-                                    <v-icon small>mdi-pencil</v-icon>
+                                    Edit
                                 </v-btn>
                                 <v-btn
                                     small
                                     elevation="0"
+                                    class="outlined-button"
                                     aria-label="delete user"
                                     data-cy="user-delete"
                                     @click.stop="() => confirmDeletion(item)"
                                 >
-                                    <v-icon small>mdi-delete</v-icon>
+                                    Delete
+                                    <v-icon small right> mdi-close </v-icon>
                                 </v-btn>
                             </td>
                         </tr>
@@ -142,9 +150,11 @@
                 <v-card-actions class="px-4 justify-end">
                     <v-btn text data-cy="user-delete-cancel" @click="cancelUserDeletion">
                         Cancel
+                        <v-icon right> mdi-close </v-icon>
                     </v-btn>
                     <v-btn text data-cy="user-delete-ok" color="red darken-2" @click="deleteUser">
                         Yes, delete
+                        <v-icon right> mdi-check-circle-outline </v-icon>
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -160,6 +170,7 @@
                 <v-card-actions class="px-4 justify-end">
                     <v-btn text data-cy="user-edit-confirm-cancel" @click="editConfirm = false">
                         Cancel
+                        <v-icon right> mdi-close </v-icon>
                     </v-btn>
                     <v-btn
                         text
@@ -168,6 +179,7 @@
                         @click="continueSavingUserDetails"
                     >
                         Yes, save changes
+                        <v-icon right> mdi-content-save </v-icon>
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -230,7 +242,7 @@ export default class UserTabItem extends Vue {
         { text: "Status", value: "status", sortable: false },
         { text: "Email", value: "email", sortable: true, filterable: true },
         { text: "Roles", value: "roles", sortable: false },
-        { text: "Actions", value: "id", sortable: false, width: "150px" },
+        { text: "Actions", value: "id", sortable: false, width: "210px" },
     ];
 
     users: UserListItem[] = [];

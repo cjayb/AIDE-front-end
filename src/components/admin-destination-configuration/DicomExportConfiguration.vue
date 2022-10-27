@@ -3,35 +3,37 @@
         <div class="d-flex mb-4 justify-space-between">
             <h2 class="section-title mb-4">DICOM Configuration</h2>
             <v-btn
-                color="primary"
                 data-cy="add-dicom-configuration-button"
+                class="primary-button"
                 @click="createDestination"
             >
-                Add DICOM Configuration
-                <v-icon class="ml-1">mdi-plus</v-icon>
+                Add
+                <v-icon small class="ml-1">mdi-plus</v-icon>
             </v-btn>
         </div>
-        <v-card elevation="1">
+        <v-card elevation="2">
             <v-simple-table>
-                <thead>
+                <thead style="background: #fafafa">
                     <tr>
-                        <th>Name</th>
-                        <th>Address</th>
-                        <th>AE Name</th>
-                        <th>Port</th>
-                        <th>Echo Status</th>
-                        <th>Actions</th>
+                        <th class="text-uppercase">Name</th>
+                        <th class="text-uppercase">Address</th>
+                        <th class="text-uppercase">AE Name</th>
+                        <th class="text-uppercase">Port</th>
+                        <th class="text-uppercase">Echo Status</th>
+                        <th class="text-uppercase">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(dest, index) of destinations" :key="dest.name">
-                        <td :data-cy="`destination-name-${index}`">{{ dest.name }}</td>
-                        <td>
-                            <code :data-cy="`destination-ip-${index}`">{{ dest.hostIp }}</code>
+                        <td :data-cy="`destination-name-${index}`" class="font-weight-bold">
+                            {{ dest.name }}
+                        </td>
+                        <td :data-cy="`destination-ip-${index}`">
+                            {{ dest.hostIp }}
                         </td>
                         <td :data-cy="`destination-ae-title-${index}`">{{ dest.aeTitle }}</td>
                         <td :data-cy="`destination-port-${index}`">
-                            <code>{{ dest.port }}</code>
+                            {{ dest.port }}
                         </td>
                         <td>
                             <v-chip
@@ -49,31 +51,33 @@
                             <v-btn
                                 small
                                 elevation="0"
-                                class="mr-2"
+                                class="mr-3 secondary-button"
                                 :data-cy="`destination-action-echo-${index}`"
                                 @click="echoDestination(dest)"
                             >
                                 Echo
-                                <v-icon small>mdi-play</v-icon>
+                                <v-icon small>mdi-play-outline</v-icon>
                             </v-btn>
                             <v-btn
                                 small
-                                class="mr-2"
+                                class="mr-3 secondary-button"
                                 elevation="0"
                                 aria-label="Edit DICOM Configuration"
                                 :data-cy="`destination-action-edit-${index}`"
                                 @click="editDestination(dest)"
                             >
-                                <v-icon small>mdi-pencil</v-icon>
+                                Edit
                             </v-btn>
                             <v-btn
                                 small
                                 elevation="0"
+                                class="outlined-button"
                                 aria-label="Delete DICOM Configuration"
                                 :data-cy="`destination-action-delete-${index}`"
                                 @click="confirmDeletion(dest)"
                             >
-                                <v-icon small>mdi-delete</v-icon>
+                                Delete
+                                <v-icon small class="ml-1">mdi-window-close</v-icon>
                             </v-btn>
                         </td>
                     </tr>

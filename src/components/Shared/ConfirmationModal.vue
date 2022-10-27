@@ -8,6 +8,7 @@
             <v-card-actions class="px-4 justify-end">
                 <v-btn text :data-cy="`${dataCyPrefix}-cancel`" @click="cancelAction">
                     {{ cancelBtnText }}
+                    <v-icon right> mdi-close </v-icon>
                 </v-btn>
                 <v-btn
                     text
@@ -16,6 +17,7 @@
                     @click="continueAction"
                 >
                     {{ continueBtnText }}
+                    <v-icon right> mdi-check-circle-outline </v-icon>
                 </v-btn>
             </v-card-actions>
         </v-card>

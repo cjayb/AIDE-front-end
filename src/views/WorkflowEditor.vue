@@ -17,8 +17,7 @@
         </div>
         <v-col class="text-right">
             <v-btn
-                color="secondary"
-                class="mx-1 primary--text font-weight-bold"
+                class="mx-1 secondary-button"
                 data-cy="discard-workflow-changes"
                 @click="discardChangesConfirm = true"
             >
@@ -26,9 +25,8 @@
                 <v-icon class="ml-1">mdi-delete</v-icon>
             </v-btn>
             <v-btn
-                color="primary"
-                class="mx-1 secondary--text"
                 :disabled="!changed || !validJSON"
+                class="mx-1 primary-button"
                 data-cy="save-workflow-changes"
                 @click="editConfirm = true"
             >

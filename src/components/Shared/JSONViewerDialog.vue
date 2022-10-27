@@ -17,10 +17,21 @@
                         />
                     </v-card-text>
                     <v-card-actions class="justify-end">
-                        <v-btn v-if="modalType === 'Logs'" text @click="downloadFile">
+                        <v-btn
+                            v-if="modalType === 'Logs'"
+                            class="my-2 primary-button"
+                            text
+                            @click="downloadFile"
+                        >
                             Download Logs
                         </v-btn>
-                        <v-btn text @click="dialog2.value = false">Close</v-btn>
+                        <v-btn
+                            text
+                            class="my-2 mr-3 ml-2 secondary-button"
+                            @click="dialog2.value = false"
+                        >
+                            Close
+                        </v-btn>
                     </v-card-actions>
                 </div>
             </v-card>
