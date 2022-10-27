@@ -1,0 +1,32 @@
+name: 'Test'
+
+on:
+  pull_request:
+
+env:
+  NODE_VERSION: '16.x'
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    container:
+      image: cypress/included:10.7.0
+      options: --user 1001
+      env:
+        VUE_APP_AUTH_ENABLED: false
+        CYPRESS_CACHE_FOLDER: '${GITHUB_WORKSPACE}/.cypress-cache'
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+            fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      - name: Build Application
+        run: npm ci
+      - name: Run ui tests
+        run: npm run tests:ui_ci
