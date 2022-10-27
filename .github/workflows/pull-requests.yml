@@ -5,45 +5,6 @@ on:
   pull_request:
 
 jobs:
-  check-build-integrity:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - run: npm ci
-      - run: npm run build
-
-  lint:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      - name: Cache node modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: v1-npm-deps-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: v1-npm-deps-
-
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - run: npm ci
-      - run: sudo npx eslint './src/**/*.ts' -f json -o ./eslint.json || exit 0
-
-      - name: Archive eslint
-        uses: actions/upload-artifact@v3
-        with:
-          name: eslint
-          path: eslint.json
-
   Test-UI-Headless:
     runs-on: ubuntu-latest
 
