@@ -82,7 +82,7 @@ step "deploy-the-aide-frontend" {
                 enviromentVariables:
                   KEYCLOAK_URL: #{KeycloakUrl}
                   KEYCLOAK_URL_BACKEND: #{keycloakUrlBackend}
-                  FRONTEND_API_HOST: #{ApiHost}
+                  FRONTEND_API_HOST: #{RealmUrl}/api/
                   WADO_URI_ROOT: #{WadoUriRoot}
                   QIDO_ROOT: #{QidoRoot}
                   WADO_ROOT: #{WadoRoot}
@@ -90,7 +90,7 @@ step "deploy-the-aide-frontend" {
                   ORTHANC_API_URL: #{OrthancApiUrl}
                 
                 ingress:
-                  host: #{Host}
+                  host: #{Hostname}
                   tlsSecretName: #{CertificateSecretName}
             EOT
             Octopus.Action.Package.DownloadOnTentacle = "False"
