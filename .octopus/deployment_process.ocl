@@ -80,7 +80,7 @@ step "deploy-the-aide-frontend" {
                 imagePullSecrets:
                   - name: #{imagePullSecretName}
                 enviromentVariables:
-                  KEYCLOAK_URL: #{KeycloakUrl}
+                  KEYCLOAK_URL: #{RealmUrl}:8443/
                   KEYCLOAK_URL_BACKEND: #{keycloakUrlBackend}
                   FRONTEND_API_HOST: #{RealmUrl}/api/
                   WADO_URI_ROOT: #{WadoUriRoot}
