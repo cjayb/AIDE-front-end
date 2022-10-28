@@ -14,7 +14,7 @@ const clinician = "Clinician";
 const userManager = "User-Manager";
 const EditableRole1 = "Editable role 1";
 
-describe.skip("Display list of users", () => {
+describe("Display list of users", () => {
     beforeEach(() => {
         userManagementPage.initPage();
     });
@@ -52,7 +52,7 @@ describe.skip("Display list of users", () => {
         });
     });
 
-    describe.skip("Searching the table", () => {
+    describe("Searching the table", () => {
         it(`What I enter in the search bar is correctly sent in the request to the API`, () => {
             userManagementPage.searchUserTable("Susan" as string);
         });
@@ -71,11 +71,11 @@ describe.skip("Display list of users", () => {
         const tuple = [
             [admin, 0],
             [clinician, 1],
-            [userManager, 2],
+            [userManager, 12],
         ];
         tuple.forEach((userType) => {
             const [userRole, position] = userType;
-            it.skip("Selecting a role in the dropdown should filter users by that role", () => {
+            it("Selecting a role in the dropdown should filter users by that role", () => {
                 userManagementPage.selectElementInDropdown(position as number);
                 userManagementPage.assertRowContainsType(userRole as string);
             });
@@ -86,7 +86,7 @@ describe.skip("Display list of users", () => {
         });
     });
 
-    describe.skip("Sort", () => {
+    describe("Sort", () => {
         ["first name", "last name", "email"].forEach((field) => {
             it(`When I select the ${field} column to sort users, a request is sent to the API to sort by ${field}`, () => {
                 userManagementPage.assertRequestSort(field);
@@ -98,7 +98,7 @@ describe.skip("Display list of users", () => {
         });
     });
 
-    describe.skip("Pagination", () => {
+    describe("Pagination", () => {
         it("Pagination visible", () => {
             userManagementPage.elementVisibleGet(".v-data-footer__select");
             userManagementPage.elementVisibleGet(".v-data-footer__pagination");
@@ -114,7 +114,7 @@ describe.skip("Display list of users", () => {
     });
 });
 
-describe.skip("Display list of users - API errors", () => {
+describe("Display list of users - API errors", () => {
     const getUserErrorMessage = "Something unexpected went wrong retrieving users";
     const getRolesErrorMessage = "Something unexpected went wrong retrieving roles";
     [400, 404, 500, 502].forEach((statusCode) => {
@@ -137,7 +137,7 @@ describe.skip("Display list of users - API errors", () => {
     });
 });
 
-describe.skip("Add/Edit/Delete list of users", () => {
+describe("Add/Edit/Delete list of users", () => {
     beforeEach(() => {
         userManagementPage.initPageOneUser();
         cy.injectAxe();
@@ -182,7 +182,7 @@ describe.skip("Add/Edit/Delete list of users", () => {
                 userManagementPage.assertRoles(role);
             });
         });
-        it.skip("Selecting 'Add user' sends the correct data to the API", () => {
+        it("Selecting 'Add user' sends the correct data to the API", () => {
             userManagementPage.clickDataCy("add-user");
             userManagementPage.enterAddUserDetails();
             userManagementPage.assertPostedUserCorrect();
@@ -192,6 +192,12 @@ describe.skip("Add/Edit/Delete list of users", () => {
             userManagementPage.enterAddUserDetails();
             userManagementPage.assertAddUserDetailsCorrect(addUser);
         });
+        it("Validation on adding a user with an existing email", () => {
+            userManagementPage.clickDataCy("add-user");
+            userManagementPage.enterAddUserDetails();
+            userManagementPage.duplicateRequest("/users", "user-modal-save");
+            userManagementPage.assertErrorContainer("User with this email address already exists");
+        });
     });
 
     describe("Edit existing user", () => {
@@ -199,7 +205,7 @@ describe.skip("Add/Edit/Delete list of users", () => {
             userManagementPage.clickEditButtonUsers(0);
             userManagementPage.assertFieldsUser(initialUser);
         });
-        it.skip("'Save' is inactive unless all fields are populated", () => {
+        it("'Save' is inactive unless all fields are populated", () => {
             userManagementPage.clickEditButtonUsers(0);
             userManagementPage.saveDisabledUnlessAllFIeldsEntered();
         });
@@ -214,6 +220,13 @@ describe.skip("Add/Edit/Delete list of users", () => {
             userManagementPage.editUsers();
             userManagementPage.clickDataCy("user-modal-save");
             userManagementPage.assertEditedUserDisplayedCorrectly(initialUser, addUser);
+        });
+        it("Validation on editing a user with an existing email", () => {
+            userManagementPage.clickEditButtonUsers(0);
+            userManagementPage.editUsers();
+            userManagementPage.clickDataCy("user-modal-save");
+            userManagementPage.duplicateRequest("/users/1", "user-edit-confirm-ok");
+            userManagementPage.assertErrorContainer("User with this email address already exists");
         });
     });
 
@@ -273,7 +286,7 @@ describe("Roles", () => {
         });
     });
 
-    describe.skip("All expected elements on the roles page are visible", () => {
+    describe("All expected elements on the roles page are visible", () => {
         it("Roles that are editable have visible edit buttons", () => {
             userManagementPage.editButtonVisibleRoles();
         });
@@ -294,13 +307,13 @@ describe("Roles", () => {
         });
     });
 
-    describe.skip("GET roles", () => {
+    describe("GET roles", () => {
         it(`The roles table is populated with the data returned from the API`, () => {
             userManagementPage.assertTableDataCorrectAllRoles();
         });
     });
 
-    describe.skip("Searching the table", () => {
+    describe("Searching the table", () => {
         it(`Searching the roles table makes correct requests to the api`, () => {
             userManagementPage.searchRoleTable("Clinician" as string);
         });
@@ -310,7 +323,7 @@ describe("Roles", () => {
         });
     });
 
-    describe.skip("Sort", () => {
+    describe("Sort", () => {
         it(`Sorting roles makes correct request to API`, () => {
             userManagementPage.assertSortedRolesRequest();
         });
@@ -320,7 +333,7 @@ describe("Roles", () => {
         });
     });
 
-    describe.skip("Pagination", () => {
+    describe("Pagination", () => {
         it("Pagination visible", () => {
             userManagementPage.elementVisibleGet(".v-data-footer__select");
             userManagementPage.elementVisibleGet(".v-data-footer__pagination");
@@ -339,7 +352,7 @@ describe("Roles", () => {
     });
 });
 
-describe.skip("Display list of roles - API errors", () => {
+describe("Display list of roles - API errors", () => {
     const getRolesErrorMessage = "Something unexpected went wrong retrieving roles";
     [400, 404, 500, 502].forEach((statusCode) => {
         it(`UI message displayed if a ${statusCode} error is returned from the API on getting roles`, () => {
@@ -351,7 +364,7 @@ describe.skip("Display list of roles - API errors", () => {
             userManagementPage.assertToast(getRolesErrorMessage);
         });
 
-        it.skip(`UI message displayed if a ${statusCode} error is returned from the API on searching for a role`, () => {
+        it(`UI message displayed if a ${statusCode} error is returned from the API on searching for a role`, () => {
             userManagementPage.errorSearchRoles(statusCode);
             userManagementPage.assertToast(getRolesErrorMessage);
         });
@@ -362,7 +375,7 @@ describe.skip("Display list of roles - API errors", () => {
     });
 });
 
-describe.skip("Add/Edit/Delete list of roles", () => {
+describe("Add/Edit/Delete list of roles", () => {
     beforeEach(() => {
         userManagementPage.initPageOneRole();
         cy.injectAxe();
@@ -404,6 +417,12 @@ describe.skip("Add/Edit/Delete list of roles", () => {
             userManagementPage.enterNewRoleName();
             userManagementPage.assertAddRoleDetailsCorrect();
         });
+        it("Validation on adding a role with an existing name", () => {
+            userManagementPage.clickDataCy("add-role");
+            userManagementPage.enterNewRoleName();
+            userManagementPage.duplicateRequest("/roles", "role-modal-save");
+            userManagementPage.assertErrorContainer("Role with this name already exists");
+        });
     });
 
     describe("Edit existing role", () => {
@@ -422,6 +441,13 @@ describe.skip("Add/Edit/Delete list of roles", () => {
             userManagementPage.editRoles();
             userManagementPage.clickDataCy("role-modal-save");
             userManagementPage.assertEditedRoleDisplayedCorrectly();
+        });
+        it("Validation on editing a role with an existing name", () => {
+            userManagementPage.clickEditButtonRoles();
+            userManagementPage.editRoles();
+            userManagementPage.clickDataCy("role-modal-save");
+            userManagementPage.duplicateRequest("/roles/15", "role-edit-confirm-ok");
+            userManagementPage.assertErrorContainer("Role with this name already exists");
         });
     });
 
@@ -448,8 +474,9 @@ describe.skip("Add/Edit/Delete list of roles", () => {
                 userManagementPage.errorAddingRole(statusCode);
                 userManagementPage.assertToast(addRoleErrorMessage);
             });
-            it.skip(`UI message displayed if a ${statusCode} error is returned on editing existing role`, () => {
+            it(`UI message displayed if a ${statusCode} error is returned on editing existing role`, () => {
                 userManagementPage.clickEditButtonRoles();
+                userManagementPage.editRoles();
                 userManagementPage.clickDataCy("role-modal-save");
                 userManagementPage.errorEditingRole(statusCode);
                 userManagementPage.assertToast(editErrorMessage);

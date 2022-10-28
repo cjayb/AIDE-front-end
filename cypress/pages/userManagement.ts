@@ -6,7 +6,7 @@ import {
 } from "../../src/models/user-management/UserManagement";
 import { UserDataPost } from "data/user-management/usersPost";
 import { RolePostData } from "data/user-management/rolesPost";
-const userManagementUrl = "/#/user-management";
+const userManagementUrl = "/user-management";
 const firstName = '[aria-label="First Name: Not sorted. Activate to sort ascending."]';
 const roleName =
     ".v-window-item--active > .px-4 > .v-card > .v-data-table > .v-data-table__wrapper > table > .v-data-table-header > tr > .sortable";
@@ -728,7 +728,7 @@ export default class UserManagement extends AbstractPage {
 
     public clickEditButtonRoles() {
         cy.wait(500);
-        cy.get('[data-cy="role-edit"] > .v-btn__content > .v-icon').click();
+        cy.dataCy("role-edit").click();
     }
 
     public clickDeleteButtonUsers(index: number) {
@@ -822,7 +822,7 @@ export default class UserManagement extends AbstractPage {
         cy.dataCy("user-email").type("added.user@answerdigital.com");
         this.clickDataCy("user-roles");
         cy.get(".user-role .v-list-item").eq(1).click();
-        cy.get(".user-role .v-list-item").eq(2).click();
+        cy.get(".user-role .v-list-item").eq(12).click();
         this.clickAway();
         this.assertAddUserButton("disabled");
         this.clickDataCy("user-roles");
@@ -1014,7 +1014,7 @@ export default class UserManagement extends AbstractPage {
         this.clickDataCy("user-roles");
         cy.get(".user-role .v-list-item").eq(0).click();
         cy.get(".user-role .v-list-item").eq(1).click();
-        cy.get(".user-role .v-list-item").eq(2).click();
+        cy.get(".user-role .v-list-item").eq(12).click();
         this.clickAway();
     }
 
@@ -1031,6 +1031,24 @@ export default class UserManagement extends AbstractPage {
         });
         cy.wait(["@Post", "@Get"]);
         this.assertTableDataCorrectUsers(user);
+    }
+
+    public duplicateRequest(url: string, selector: string) {
+        cy.intercept(url, { statusCode: 409 }).as("Duplicate");
+        this.clickDataCy(selector);
+        Cypress.on("uncaught:exception", () => {
+            return false;
+        });
+        cy.wait(["@Duplicate"]);
+    }
+
+    public duplicateRoleRequestEdit() {
+        cy.intercept("PUT", "/roles/15", { statusCode: 409 }).as("Duplicate");
+        this.clickDataCy("role-edit-confirm-ok");
+        Cypress.on("uncaught:exception", () => {
+            return false;
+        });
+        cy.wait(["@Duplicate"]);
     }
 
     public assertEditedUserDisplayedCorrectly(

@@ -12,6 +12,10 @@ export class AbstractPage implements IPage {
         cy.get(selector).click({ force });
     }
 
+    public assertErrorContainer(text: string) {
+        cy.dataCy("error-container").should("contain.text", text);
+    }
+
     public clickDataCy(selector: string) {
         cy.dataCy(selector).click({ force: true });
     }
