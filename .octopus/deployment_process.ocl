@@ -61,23 +61,6 @@ step "add-certificate-secret" {
     }
 }
 
-step "add-secrets" {
-    name = "Add secrets"
-    properties = {
-        Octopus.Action.TargetRoles = "kubernetes"
-    }
-
-    action {
-        action_type = "Octopus.KubernetesRunScript"
-        properties = {
-            Octopus.Action.Script.ScriptBody = "kubectl -n $(get_octopusvariable \"namespace\") create secret generic rabbit-secret-master --from-literal=username=$(get_octopusvariable \"RabbitUser\") --from-literal=password=$(get_octopusvariable \"RabbitPassword\")  --save-config --dry-run=client -o yaml | kubectl apply -f -"
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "Bash"
-        }
-        worker_pool_variable = "WorkerPoolName"
-    }
-}
-
 step "deploy-the-aide-frontend" {
     name = "Deploy the AIDE Frontend"
     properties = {
@@ -97,7 +80,6 @@ step "deploy-the-aide-frontend" {
                 imagePullSecrets:
                   - name: #{imagePullSecretName}
                 enviromentVariables:
-                  RABBITMQ_API_URL: rabbitmq.rabbitmq:5672/api/
                   KEYCLOAK_URL: #{KeycloakUrl}
                   KEYCLOAK_URL_BACKEND: #{keycloakUrlBackend}
                   FRONTEND_API_HOST: #{ApiHost}
@@ -110,21 +92,6 @@ step "deploy-the-aide-frontend" {
                 ingress:
                   host: #{Host}
                   tlsSecretName: #{CertificateSecretName}
-                
-                storage:
-                  globalStorageClassName: #{GlobalStorageClassName}    
-                  globalDataDirectory: #{GlobalStoragePath}  
-                  dataDirectory: #{StoragePath}
-                  dataStorageCapacityRequest: #{StorageCapacityRequest}
-                  
-                enviromentVariablesFromSecrets:
-                  secrets:
-                    - name: RABBITMQ_USERNAME
-                      secretName: #{RabbitSecretName}
-                      secretKey: username
-                    - name: RABBITMQ_PASSWORD
-                      secretName: #{RabbitSecretName}
-                      secretKey: password
             EOT
             Octopus.Action.Package.DownloadOnTentacle = "False"
             Octopus.Action.Package.FeedId = "octopus-server-built-in"
