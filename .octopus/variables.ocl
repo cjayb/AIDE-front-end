@@ -26,10 +26,6 @@ variable "WadoUriRoot" {
     value "https://sit-aide.answerdigital.io:8045/dicom-web" {}
 }
 
-variable "keycloakUrlBackend" {
-    value "https://keycloak-service.keycloak.svc.cluster.local:8443/auth" {}
-}
-
 variable "CertificateSecretName" {
     value "ingress-tls-secret" {}
 }
