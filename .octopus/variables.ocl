@@ -6,18 +6,6 @@ variable "namespace" {
     value "aide" {}
 }
 
-variable "PersistentVolumeStorageCapacity" {
-    value "1Gi" {}
-}
-
-variable "PersistentVolumeName" {
-    value "aide-frontend-pv" {}
-}
-
-variable "PersistentVolumeLocalPath" {
-    value "/efs_data/aide/data" {}
-}
-
 variable "ClinicalReviewUrl" {
     value "http://clinical-review-port-5000.aide.svc.cluster.local:5000" {}
 }
@@ -60,14 +48,6 @@ variable "ApiHost" {
     value "https://sit-aide.answerdigital.io/api/" {
         machine = ["sit"]
     }
-}
-
-variable "StoragePath" {
-    value "/efs_data/aide/data/" {}
-}
-
-variable "StorageCapacityRequest" {
-    value "10Gi" {}
 }
 
 variable "KeycloakUrl" {
