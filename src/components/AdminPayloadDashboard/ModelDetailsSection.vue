@@ -11,7 +11,7 @@
         </v-chip>
         <p data-cy="selected-node-started">
             <strong class="mr-sm-7 mr-lg-0">Execution started: </strong>
-            {{ selectedNode.start_date | formatDateString }}
+            {{ selectedNode.start_date | formatDateAndTimeOfString }}
         </p>
         <v-row class="pa-3">
             <v-btn
@@ -80,11 +80,11 @@ import Vue from "vue";
 import { Prop, Watch } from "vue-property-decorator";
 import { getPayloadExecutionArtifacts } from "@/api/Admin/payloads/PayloadService";
 import { EventBus } from "@/event-bus";
-import { formatDateString } from "@/utils/date-utilities";
+import { formatDateAndTimeOfString } from "@/utils/date-utilities";
 
 @Component({
     filters: {
-        formatDateString,
+        formatDateAndTimeOfString,
         statusChipBg: (status: string) => {
             switch (status) {
                 case "Succeeded":

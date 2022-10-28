@@ -5,6 +5,8 @@ import { IIssue } from "../../../src/models/Admin/IIssue";
 import { IModelDetails, IModelSummary } from "../../../src/models/Admin/IModel";
 import { ExecStatistics } from "data/admin-dashboard/statistics";
 import { ModelDetailsData } from "../../data/admin-dashboard/graph";
+import moment from "moment";
+import { NhsDateTimeFormat } from "../../../src/utils/date-utilities";
 
 export default class AdminHealthDashboardPage {
     //OVERVIEW
@@ -45,7 +47,7 @@ export default class AdminHealthDashboardPage {
 
     public assertTableDataCorrect(task: IIssue): void {
         this.getTask(task.task_id).within(() => {
-            const dateTime = this.formatTaskDate(task.execution_time);
+            const dateTime = this.formatTaskDate(task.execution_time, false);
             cy.dataCy(AdminHealthDashboardPage.TASK_ID).should(`contain`, task.task_id);
             cy.dataCy(AdminHealthDashboardPage.STATUS).should(`contain`, task.status);
             cy.dataCy(AdminHealthDashboardPage.MODEL_NAME).should(`contain`, task.model_name);
@@ -55,12 +57,11 @@ export default class AdminHealthDashboardPage {
         });
     }
 
-    public formatTaskDate(task: string): string {
-        const date = task.split("T")[0].replace(/(\d{4})(\d{2})(\d+)/, "$1-$2-$3");
-        const hour = Number(task.split("T")[1].substring(0, 2));
-        const minutes = task.split("T")[1].substring(4, 2).toString();
-        task = date + " " + (Number(hour) < 10 ? "0" + hour : hour) + ":" + minutes;
-        return task;
+    public formatTaskDate(dateStr: string, inludeFromNow = true) {
+        const dateMoment = moment(dateStr);
+        return inludeFromNow
+            ? `${dateMoment.format(NhsDateTimeFormat)} (${dateMoment.fromNow()})`
+            : `${dateMoment.format(NhsDateTimeFormat)}`;
     }
 
     public assertLogsDisplayed(task: IIssue): void {

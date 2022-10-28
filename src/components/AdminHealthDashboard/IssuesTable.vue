@@ -154,7 +154,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { dismissIssue, getIssues } from "@/api/Admin/AdminStatisticsService";
 import { Watch } from "vue-property-decorator";
-import { formatDateAndTimeOfArray } from "@/utils/dateFormattingUtils";
+import { formatDateAndTimeOfArray } from "@/utils/date-utilities";
 import { EventBus } from "@/event-bus";
 import { JSONViewerModalType } from "../Shared/JSONViewerDialog.vue";
 import { IIndexedIssue, IIssue } from "@/models/Admin/IIssue";
@@ -191,7 +191,7 @@ export default class IssuesTable extends Vue {
         this.loading = true;
         await getIssues(new Date().toISOString())
             .then((executionIssues) => {
-                formatDateAndTimeOfArray(executionIssues, "execution_time");
+                formatDateAndTimeOfArray(executionIssues, "execution_time", false);
                 this.issues = executionIssues;
             })
             .catch((err) => {

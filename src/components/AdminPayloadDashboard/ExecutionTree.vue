@@ -37,7 +37,7 @@
                                     class="tree-node-text"
                                     :data-cy="`date ${node.name}`"
                                 >
-                                    {{ node.start_date | formatDateString }}
+                                    {{ node.start_date | formatDateAndTimeOfString }}
                                 </span>
                             </span>
                         </div>
@@ -66,7 +66,7 @@ import VueTree from "@ssthouse/vue-tree-chart";
 import Component from "vue-class-component";
 import Vue from "vue";
 import { getPayloadExecutions } from "@/api/Admin/payloads/PayloadService";
-import { formatDateString } from "@/utils/date-utilities";
+import { formatDateAndTimeOfString } from "@/utils/date-utilities";
 import ModelDetailsSection from "./ModelDetailsSection.vue";
 import { Prop } from "vue-property-decorator";
 import { mapToExecutionTree } from "@/utils/workflow-instance-mapper";
@@ -79,7 +79,7 @@ Vue.component("vue-tree", VueTree);
         ModelDetailsSection,
     },
     filters: {
-        formatDateString,
+        formatDateAndTimeOfString,
     },
 })
 export default class ExecutionTree extends Vue {

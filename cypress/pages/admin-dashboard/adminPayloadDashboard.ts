@@ -2,7 +2,8 @@ import ApiMocks from "../../fixtures/mockIndex";
 import { IPayload } from "../../../src/models/Admin/IPayload";
 import { IIssue } from "../../../src/models/Admin/IIssue";
 import { ExecutionTreeRoot } from "../../../src/utils/workflow-instance-mapper";
-import { formatDateString } from "../../../src/utils/date-utilities";
+import { formatDateAndTimeOfString } from "../../../src/utils/date-utilities";
+import moment from "moment";
 
 export default class AdminPayloadDashboardPage {
     //PAYLOADS TABLE
@@ -88,7 +89,7 @@ export default class AdminPayloadDashboardPage {
 
         tuple.forEach(($type) => {
             const [name, dateTime] = $type;
-            cy.dataCy(name).should("contain", formatDateString(dateTime));
+            cy.dataCy(name).should("contain", formatDateAndTimeOfString(dateTime));
         });
 
         tuple.forEach(($type) => {
@@ -159,7 +160,7 @@ export default class AdminPayloadDashboardPage {
 
         tuple.forEach(($type) => {
             const [name, dateTime] = $type;
-            cy.dataCy(name).should("contain", formatDateString(dateTime));
+            cy.dataCy(name).should("contain", formatDateAndTimeOfString(dateTime));
         });
     }
 
@@ -192,12 +193,14 @@ export default class AdminPayloadDashboardPage {
         cy.dataCy(AdminPayloadDashboardPage.RESET).click();
     }
 
-    public formatTaskDate(payload: string): string {
-        const date = payload.split("T")[0].replace(/(\d{4})(\d{2})(\d+)/, "$1-$2-$3");
-        const hour = Number(payload.split("T")[1].substring(0, 2));
-        const minutes = payload.split("T")[1].substring(4, 2).toString();
-        payload = date + " " + (Number(hour) < 10 ? "0" + hour : hour) + ":" + minutes;
-        return payload;
+    public formatTaskDate(dateStr: string, inludeFromNow = true) {
+        const dateMoment = moment(dateStr);
+        if (!dateMoment.isValid()) {
+            return "";
+        }
+        return inludeFromNow
+            ? `${dateMoment.format("YYYY-MM-DD hh:mm:ss")} (${dateMoment.fromNow()})`
+            : `${dateMoment.format("YYYY-MM-DD hh:mm:ss")}`;
     }
 
     public async initPagePayloadApiError(error: number) {
