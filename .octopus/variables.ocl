@@ -29,19 +29,3 @@ variable "WadoUriRoot" {
 variable "CertificateSecretName" {
     value "ingress-tls-secret" {}
 }
-
-variable "KeycloakUrl" {
-    value "https://dev-aide.answerdigital.io:8443/" {
-        description = ""
-        environment = ["dev"]
-    }
-
-    value "https://sit-aide.answerdigital.io:8443/" {
-        environment = ["sit"]
-    }
-
-    value "https://uat-aide.answerdigital.io:8443/" {
-        description = ""
-        environment = ["uat"]
-    }
-}
