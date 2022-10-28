@@ -30,22 +30,6 @@ variable "CertificateSecretName" {
     value "ingress-tls-secret" {}
 }
 
-variable "ApiHost" {
-    value "https://dev-aide.answerdigital.io/api/" {
-        description = ""
-        environment = ["dev"]
-    }
-
-    value "https://uat-aide.answerdigital.io/api/" {
-        description = ""
-        environment = ["uat"]
-    }
-
-    value "https://sit-aide.answerdigital.io/api/" {
-        machine = ["sit"]
-    }
-}
-
 variable "KeycloakUrl" {
     value "https://dev-aide.answerdigital.io:8443/" {
         description = ""
@@ -58,20 +42,6 @@ variable "KeycloakUrl" {
 
     value "https://uat-aide.answerdigital.io:8443/" {
         description = ""
-        environment = ["uat"]
-    }
-}
-
-variable "Host" {
-    value "dev-aide.answerdigital.io" {
-        environment = ["dev"]
-    }
-
-    value "sit-aide.answerdigital.io" {
-        environment = ["sit"]
-    }
-
-    value "uat-aide.answerdigital.io" {
         environment = ["uat"]
     }
 }
