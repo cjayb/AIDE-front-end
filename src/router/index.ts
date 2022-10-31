@@ -146,7 +146,7 @@ export const routes: Array<RouteConfig> = [
     },
     {
         path: "/*",
-        beforeEnter: async (to, from, next) => {
+        beforeEnter: async (to, _from, next) => {
             if (process.env.VUE_APP_AUTH_ENABLED !== "true") {
                 return next({ name: "AdminHealthDashboard" });
             }
@@ -167,23 +167,10 @@ export const routes: Array<RouteConfig> = [
                 });
             }
 
-            let destination = "Unauthorized";
-
-            const noRole = () => false;
-            const hasRealmRole = Vue.prototype.$keycloak.hasRealmRole ?? noRole;
-
-            if (hasRealmRole(admin)) {
-                destination = "AdminHealthDashboard";
-            } else if (hasRealmRole(clinician)) {
-                destination = "ClinicalReview";
-            } else if (hasRealmRole(deployer)) {
-                destination = "ApplicationRepositoryList";
-            }
-
             Vue.prototype.$keycloak.keycloak.updateToken(70).then(() => {
                 const redirect = window.localStorage.getItem("currentPage");
 
-                return next({ name: redirect ?? destination, replace: true });
+                return next({ name: redirect ?? getDefaultDestinationForUser(), replace: true });
             });
         },
     },
@@ -208,13 +195,7 @@ function roleAuthenticatedRoute(to: Route, _: Route, next: NavigationGuardNext<V
         return;
     }
 
-    const realmAccess = keycloak.tokenParsed?.realm_access;
-
-    if (!realmAccess) {
-        return;
-    }
-
-    const roles: string[] = realmAccess.roles ?? [];
+    const roles: string[] = keycloak.tokenParsed?.realm_access?.roles ?? [];
     const hasRoles = requiredRoles.some((r: string) => roles.includes(r));
 
     if (!hasRoles) {
@@ -223,6 +204,23 @@ function roleAuthenticatedRoute(to: Route, _: Route, next: NavigationGuardNext<V
 
     keycloak.keycloak?.updateToken(70);
     return next();
+}
+
+function getDefaultDestinationForUser() {
+    const noRole = () => false;
+    const hasRealmRole = Vue.prototype.$keycloak.hasRealmRole ?? noRole;
+
+    if (hasRealmRole(admin)) {
+        return "AdminHealthDashboard";
+    } else if (hasRealmRole(clinician)) {
+        return "ClinicalReview";
+    } else if (hasRealmRole(deployer)) {
+        return "ApplicationRepositoryList";
+    } else if (hasRealmRole(user_management)) {
+        return "UserManagement";
+    }
+
+    return "Unauthorized";
 }
 
 const router = new VueRouter({
@@ -235,7 +233,7 @@ router.afterEach((to) => {
         return;
     }
 
-    window.localStorage.setItem("currentPage", to.name!);
+    window.localStorage.setItem("currentPage", to.name);
 });
 
 export default router;
