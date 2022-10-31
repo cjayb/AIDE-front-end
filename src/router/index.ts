@@ -210,13 +210,13 @@ function getDefaultDestinationForUser() {
     const noRole = () => false;
     const hasRealmRole = Vue.prototype.$keycloak.hasRealmRole ?? noRole;
 
-    if (hasRealmRole("admin")) {
+    if (hasRealmRole(admin)) {
         return "AdminHealthDashboard";
-    } else if (hasRealmRole("clinician")) {
+    } else if (hasRealmRole(clinician)) {
         return "ClinicalReview";
-    } else if (hasRealmRole("deployer")) {
+    } else if (hasRealmRole(deployer)) {
         return "ApplicationRepositoryList";
-    } else if (hasRealmRole("user_management")) {
+    } else if (hasRealmRole(user_management)) {
         return "UserManagement";
     }
 
