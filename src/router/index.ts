@@ -179,7 +179,9 @@ export const routes: Array<RouteConfig> = [
             }
 
             Vue.prototype.$keycloak.keycloak.updateToken(70).then(() => {
-                return next({ name: destination, replace: true });
+                const redirect = window.localStorage.getItem("currentPage");
+
+                return next({ name: redirect ?? destination, replace: true });
             });
         },
     },
@@ -224,6 +226,14 @@ function roleAuthenticatedRoute(to: Route, _: Route, next: NavigationGuardNext<V
 const router = new VueRouter({
     routes,
     mode: "history",
+});
+
+router.afterEach((to) => {
+    if (window.location.pathname === "/" || !to.name) {
+        return;
+    }
+
+    window.localStorage.setItem("currentPage", to.name!);
 });
 
 export default router;
