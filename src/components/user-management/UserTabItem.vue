@@ -45,7 +45,7 @@
             <v-card elevation="1">
                 <v-data-table
                     :headers="userHeaders"
-                    :items="usersFiltered"
+                    :items="users"
                     :search="tableSearch"
                     :server-items-length="totalFilteredUsers"
                     :options.sync="tableOptions"
@@ -216,15 +216,6 @@ import { AxiosError, AxiosResponse } from "axios";
 
             return `${this.$data.totalUsers} Users`;
         },
-        usersFiltered(): UserListItem[] {
-            if (this.$data.selectedRole) {
-                return (this.$data.users as UserListItem[]).filter((u) =>
-                    u.realmRoles.some((r) => r.name === this.$data.selectedRole),
-                );
-            }
-
-            return this.$data.users;
-        },
     },
     filters: {
         commaSeparated(values: UserRoleListItem[]): string {
@@ -281,6 +272,11 @@ export default class UserTabItem extends Vue {
 
     @Watch("tableSearch")
     async tableSearchChanged() {
+        this.throttledFetchUsers();
+    }
+
+    @Watch("selectedRole")
+    async selectedRoleChanged() {
         this.throttledFetchUsers();
     }
 
@@ -388,6 +384,7 @@ export default class UserTabItem extends Vue {
     private async fetchAndSetUsers() {
         const { totalUserCount, totalFilteredUserCount, users } = await getAllUsers({
             search: this.tableSearch,
+            role: this.selectedRole,
             ...this.tableOptions,
         });
 

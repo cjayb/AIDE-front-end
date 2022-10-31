@@ -62,7 +62,7 @@ describe("Display list of users", () => {
         });
     });
 
-    describe("Role filter", () => {
+    describe.skip("Role filter", () => {
         it(`The correct roles are displayed in the dropdown filter`, () => {
             [admin, clinician, userManager, EditableRole1].forEach((role) => {
                 userManagementPage.assertRoles(role);

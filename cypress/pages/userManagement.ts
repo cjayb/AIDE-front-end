@@ -23,7 +23,7 @@ export default class UserManagement extends AbstractPage {
 
     public initPage() {
         cy.intercept(
-            "users?search=&first=0&max=10&sortBy=&sortDesc=",
+            "users?search=&role=&first=0&max=10&sortBy=&sortDesc=",
             ApiMocks.USER_MANAGEMENT_GET_USERS,
         ).as("users");
         cy.intercept("roles/list", ApiMocks.USER_MANAGEMENT_ROLES_LIST).as("rolesList");
@@ -36,7 +36,7 @@ export default class UserManagement extends AbstractPage {
 
     public initPageRoles() {
         cy.intercept(
-            "users?search=&first=0&max=10&sortBy=&sortDesc=",
+            "users?search=&role=&first=0&max=10&sortBy=&sortDesc=",
             ApiMocks.USER_MANAGEMENT_GET_USERS,
         ).as("users");
         cy.intercept(
@@ -55,7 +55,7 @@ export default class UserManagement extends AbstractPage {
 
     public initAccessibilityModal() {
         cy.intercept(
-            "users?search=&first=0&max=10&sortBy=&sortDesc=",
+            "users?search=&role=&first=0&max=10&sortBy=&sortDesc=",
             ApiMocks.USER_MANAGEMENT_GET_USERS,
         ).as("users");
         cy.intercept(
@@ -75,7 +75,7 @@ export default class UserManagement extends AbstractPage {
 
     public initPageOneRole() {
         cy.intercept(
-            "users?search=&first=0&max=10&sortBy=&sortDesc=",
+            "users?search=&role=&first=0&max=10&sortBy=&sortDesc=",
             ApiMocks.USER_MANAGEMENT_ONE_USER,
         ).as("users");
         cy.intercept(
@@ -93,7 +93,7 @@ export default class UserManagement extends AbstractPage {
 
     public initPageOneUser() {
         cy.intercept(
-            "users?search=&first=0&max=10&sortBy=&sortDesc=",
+            "users?search=&role=&first=0&max=10&sortBy=&sortDesc=",
             ApiMocks.USER_MANAGEMENT_ONE_USER,
         ).as("users");
         cy.intercept(
@@ -137,7 +137,7 @@ export default class UserManagement extends AbstractPage {
 
     public errorRoles(statusCode: number) {
         cy.intercept(
-            "/users?search=&first=0&max=10&sortBy=&sortDesc=",
+            "/users?search=&role=&first=0&max=10&sortBy=&sortDesc=",
             ApiMocks.USER_MANAGEMENT_GET_USERS,
         ).as("users");
         cy.intercept("/roles/list", { statusCode: statusCode }).as("roles");
@@ -152,11 +152,11 @@ export default class UserManagement extends AbstractPage {
     }
 
     public errorSort(statusCode: number) {
-        cy.intercept("GET", `/users?search=&first=0&max=10&sortBy=firstName&sortDesc=false`, {
+        cy.intercept("GET", `/users?search=&role=&first=0&max=10&sortBy=firstName&sortDesc=false`, {
             statusCode: statusCode,
         }).as("sortFirst");
         cy.intercept(
-            "/users?search=&first=0&max=10&sortBy=&sortDesc=",
+            "/users?search=&role=&first=0&max=10&sortBy=&sortDesc=",
             ApiMocks.USER_MANAGEMENT_GET_USERS,
         ).as("users");
         cy.intercept("/roles/list", ApiMocks.USER_MANAGEMENT_ROLES).as("roles");
@@ -173,7 +173,7 @@ export default class UserManagement extends AbstractPage {
 
     public errorSortRoles(statusCode: number) {
         cy.intercept(
-            "/users?search=&first=0&max=10&sortBy=&sortDesc=",
+            "/users?search=&role=&first=0&max=10&sortBy=&sortDesc=",
             ApiMocks.USER_MANAGEMENT_GET_USERS,
         ).as("users");
         cy.intercept(
@@ -196,7 +196,7 @@ export default class UserManagement extends AbstractPage {
 
     public errorSearchRoles(statusCode: number) {
         cy.intercept(
-            "/users?search=&first=0&max=10&sortBy=&sortDesc=",
+            "/users?search=&role=&first=0&max=10&sortBy=&sortDesc=",
             ApiMocks.USER_MANAGEMENT_GET_USERS,
         ).as("users");
         cy.intercept(
@@ -219,7 +219,7 @@ export default class UserManagement extends AbstractPage {
 
     public errorNextPageRoles(statusCode: number) {
         cy.intercept(
-            "/users?search=&first=0&max=10&sortBy=&sortDesc=",
+            "/users?search=&role=&first=0&max=10&sortBy=&sortDesc=",
             ApiMocks.USER_MANAGEMENT_GET_USERS,
         ).as("users");
         cy.intercept(
@@ -241,11 +241,11 @@ export default class UserManagement extends AbstractPage {
     }
 
     public errorSearch(statusCode: number) {
-        cy.intercept("GET", `/users?search=S&first=0&max=10&sortBy=&sortDesc=`, {
+        cy.intercept("GET", `/users?search=S&role=&first=0&max=10&sortBy=&sortDesc=`, {
             statusCode: statusCode,
         }).as("search");
         cy.intercept(
-            "/users?search=&first=0&max=10&sortBy=&sortDesc=",
+            "/users?search=&role=&first=0&max=10&sortBy=&sortDesc=",
             ApiMocks.USER_MANAGEMENT_GET_USERS,
         ).as("users");
         cy.intercept("/roles/list", ApiMocks.USER_MANAGEMENT_ROLES).as("roles");
@@ -262,7 +262,7 @@ export default class UserManagement extends AbstractPage {
 
     public errorPagination(statusCode: number) {
         cy.intercept(
-            "/users?search=&first=0&max=10&sortBy=&sortDesc=",
+            "/users?search=&role=&first=0&max=10&sortBy=&sortDesc=",
             ApiMocks.USER_MANAGEMENT_GET_USERS,
         ).as("users");
         cy.intercept(
@@ -272,7 +272,7 @@ export default class UserManagement extends AbstractPage {
         cy.intercept("/roles/list", ApiMocks.USER_MANAGEMENT_ROLES_LIST).as("rolesList");
         cy.visit(userManagementUrl);
         cy.wait(["@users", "@rolesList"]);
-        cy.intercept("GET", `/users?search=&first=10&max=10&sortBy=&sortDesc=`, {
+        cy.intercept("GET", `/users?search=&role=&first=10&max=10&sortBy=&sortDesc=`, {
             statusCode: statusCode,
         }).as("pagination");
         this.clickGet(nextPage);
@@ -282,7 +282,7 @@ export default class UserManagement extends AbstractPage {
     }
 
     public errorUsers(statusCode: number) {
-        cy.intercept("/users?search=&first=0&max=10&sortBy=&sortDesc=", {
+        cy.intercept("/users?search=&role=&first=0&max=10&sortBy=&sortDesc=", {
             statusCode: statusCode,
         }).as("users");
         cy.intercept("/roles/list", ApiMocks.USER_MANAGEMENT_ROLES).as("roles");
@@ -313,7 +313,7 @@ export default class UserManagement extends AbstractPage {
     public searchUserTable(text: string): void {
         cy.intercept(
             "GET",
-            `/users?search=Susan&first=0&max=10&sortBy=&sortDesc=`,
+            `/users?search=Susan&role=&first=0&max=10&sortBy=&sortDesc=`,
             ApiMocks.USER_MANAGEMENT_SEARCH,
         ).as("Susan");
         Cypress.on("uncaught:exception", () => {
@@ -474,7 +474,7 @@ export default class UserManagement extends AbstractPage {
     public paginationRequestUsers() {
         cy.intercept(
             "GET",
-            `/users?search=&first=10&max=10&sortBy=&sortDesc=`,
+            `/users?search=&role=&first=10&max=10&sortBy=&sortDesc=`,
             ApiMocks.USER_MANAGEMENT_PAGINATION,
         ).as("nextPage");
         this.clickGet(nextPage);
@@ -527,7 +527,7 @@ export default class UserManagement extends AbstractPage {
     public assertRequestToSortRole() {
         cy.intercept(
             "GET",
-            `https://localhost:8000/users?search=&first=0&max=10&sortBy=&sortDesc=`,
+            `https://localhost:8000/users?search=&role=&first=0&max=10&sortBy=&sortDesc=`,
             ApiMocks.USER_MANAGEMENT_ROLES_SORTED,
         ).as("sortFirst");
         cy.get(sortRoles).click();
@@ -556,7 +556,7 @@ export default class UserManagement extends AbstractPage {
             case "first name":
                 cy.intercept(
                     "GET",
-                    `https://localhost:8000/users?search=&first=0&max=10&sortBy=firstName&sortDesc=false`,
+                    `https://localhost:8000/users?search=&role=&first=0&max=10&sortBy=firstName&sortDesc=false`,
 
                     ApiMocks.USER_MANAGEMENT_SORT_FIRST_NAME,
                 ).as("sortFirst");
@@ -569,7 +569,7 @@ export default class UserManagement extends AbstractPage {
             case "last name":
                 cy.intercept(
                     "GET",
-                    `/users?search=&first=0&max=10&sortBy=lastName&sortDesc=false`,
+                    `/users?search=&role=&first=0&max=10&sortBy=lastName&sortDesc=false`,
                     ApiMocks.USER_MANAGEMENT_SORT_LAST_NAME,
                 ).as("sortLast");
                 this.clickGet(lastName);
@@ -581,7 +581,7 @@ export default class UserManagement extends AbstractPage {
             case "email":
                 cy.intercept(
                     "GET",
-                    `/users?search=&first=0&max=10&sortBy=email&sortDesc=false`,
+                    `/users?search=&role=&first=0&max=10&sortBy=email&sortDesc=false`,
                     ApiMocks.USER_MANAGEMENT_SORT_EMAIL,
                 ).as("sortEmail");
                 this.clickGet(email);
@@ -600,7 +600,7 @@ export default class UserManagement extends AbstractPage {
             case "first name":
                 cy.intercept(
                     "GET",
-                    `/users?search=&first=0&max=10&sortBy=firstName&sortDesc=false`,
+                    `/users?search=&role=&first=0&max=10&sortBy=firstName&sortDesc=false`,
                     ApiMocks.USER_MANAGEMENT_SORT_FIRST_NAME,
                 ).as("sortFirst");
                 this.clickGet(firstName);
@@ -616,7 +616,7 @@ export default class UserManagement extends AbstractPage {
             case "last name":
                 cy.intercept(
                     "GET",
-                    `/users?search=&first=0&max=10&sortBy=lastName&sortDesc=false`,
+                    `/users?search=&role=&first=0&max=10&sortBy=lastName&sortDesc=false`,
                     ApiMocks.USER_MANAGEMENT_SORT_LAST_NAME,
                 ).as("sortLast");
                 this.clickGet(lastName);
@@ -632,7 +632,7 @@ export default class UserManagement extends AbstractPage {
             case "email":
                 cy.intercept(
                     "GET",
-                    `/users?search=&first=0&max=10&sortBy=email&sortDesc=false`,
+                    `/users?search=&role=&first=0&max=10&sortBy=email&sortDesc=false`,
                     ApiMocks.USER_MANAGEMENT_SORT_EMAIL,
                 ).as("sortEmail");
                 this.clickGet(email);
@@ -1022,7 +1022,7 @@ export default class UserManagement extends AbstractPage {
         cy.intercept("POST", "/users", ApiMocks.USER_MANAGEMENT_ADD_USER).as("Post");
         cy.intercept(
             "GET",
-            "/users?search=&first=0&max=10&sortBy=&sortDesc=",
+            "/users?search=&role=&first=0&max=10&sortBy=&sortDesc=",
             ApiMocks.USER_MANAGEMENT_ADD_USER,
         ).as("Get");
         this.clickDataCy("user-modal-save");
@@ -1060,7 +1060,7 @@ export default class UserManagement extends AbstractPage {
         );
         cy.intercept(
             "GET",
-            "/users?search=&first=0&max=10&sortBy=&sortDesc=",
+            "/users?search=&role=&first=0&max=10&sortBy=&sortDesc=",
             ApiMocks.USER_MANAGEMENT_ADD_USER,
         ).as("Get");
         this.clickDataCy("user-edit-confirm-ok");
@@ -1077,7 +1077,7 @@ export default class UserManagement extends AbstractPage {
         );
         cy.intercept(
             "GET",
-            "/users?search=&first=0&max=10&sortBy=&sortDesc=",
+            "/users?search=&role=&first=0&max=10&sortBy=&sortDesc=",
             ApiMocks.USER_MANAGEMENT_EMPTY,
         ).as("Get");
         this.clickDataCy("user-delete-ok");
@@ -1093,7 +1093,7 @@ export default class UserManagement extends AbstractPage {
         );
         cy.intercept(
             "GET",
-            "https://localhost:8000/users?search=&first=0&max=10&sortBy=&sortDesc=",
+            "https://localhost:8000/users?search=&role=&first=0&max=10&sortBy=&sortDesc=",
             ApiMocks.USER_MANAGEMENT_EMPTY,
         ).as("Get");
         this.clickDataCy("user-delete-ok");

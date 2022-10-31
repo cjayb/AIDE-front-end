@@ -27,6 +27,7 @@ const httpRoles = createAxiosInstance(errorMessagesRoles, true);
 
 interface QueryParams {
     search?: string;
+    role?: string;
     page: number;
     itemsPerPage: number;
     sortBy: string[];
@@ -36,6 +37,7 @@ interface QueryParams {
 export async function getAllUsers(query: QueryParams): Promise<GetAllUsersResponse> {
     const params = new URLSearchParams({
         search: query.search?.replaceAll(" ", "%") ?? "",
+        role: query.role ?? "",
         first:
             query.page === 1 || query.search
                 ? "0"
