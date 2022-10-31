@@ -63,7 +63,7 @@
                     </template>
                     <v-list dense>
                         <v-list-item link v-for="(value, key) in artifacts" :key="key">
-                            <v-list-item-title @click="downloadArtifactByKey(key)">
+                            <v-list-item-title @click="downloadArtifactByKey(value)">
                                 {{ key }}
                             </v-list-item-title>
                         </v-list-item>
