@@ -116,7 +116,7 @@ export const routes: Array<RouteConfig> = [
         component: UserManagement,
         beforeEnter: roleAuthenticatedRoute,
         meta: {
-            requiredRoles: [user_management, admin],
+            requiredRoles: [user_management],
         },
     },
     {
