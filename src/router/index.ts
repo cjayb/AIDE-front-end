@@ -22,6 +22,7 @@ function sleep(ms: number) {
 const admin = "admin";
 const clinician = "clinician";
 const user_management = "user_management";
+const deployer = "deployer";
 
 export const routes: Array<RouteConfig> = [
     {
@@ -72,6 +73,7 @@ export const routes: Array<RouteConfig> = [
     {
         path: "/application-repository",
         component: AppRepo,
+        name: "ApplicationRepositoryList",
         children: [
             {
                 path: "",
@@ -107,7 +109,7 @@ export const routes: Array<RouteConfig> = [
         ],
         beforeEnter: roleAuthenticatedRoute,
         meta: {
-            requiredRoles: ["deployer"],
+            requiredRoles: [deployer],
         },
     },
     {
@@ -170,11 +172,11 @@ export const routes: Array<RouteConfig> = [
             const noRole = () => false;
             const hasRealmRole = Vue.prototype.$keycloak.hasRealmRole ?? noRole;
 
-            if (hasRealmRole("admin")) {
+            if (hasRealmRole(admin)) {
                 destination = "AdminHealthDashboard";
-            } else if (hasRealmRole("clinician")) {
+            } else if (hasRealmRole(clinician)) {
                 destination = "ClinicalReview";
-            } else if (hasRealmRole("deployer")) {
+            } else if (hasRealmRole(deployer)) {
                 destination = "ApplicationRepositoryList";
             }
 

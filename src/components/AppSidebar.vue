@@ -36,6 +36,16 @@ export default class AppSidebar extends Vue {
         };
     }
 
+    // if user has no roles.
+    getDefaultRoute() {
+        return {
+            title: "Application Repository",
+            icon: "mdi-storefront",
+            datacy: "app-store-button",
+            ...this.getRouteData("ApplicationRepositoryList"),
+        };
+    }
+
     items = [
         {
             title: "Health Dashboard",
@@ -55,13 +65,7 @@ export default class AppSidebar extends Vue {
             datacy: "clinician-button",
             ...this.getRouteData("ClinicalReview"),
         },
-        {
-            title: "Application Repository",
-            icon: "mdi-storefront",
-            route: "ApplicationRepositoryList",
-            roles: "deployer",
-            datacy: "app-store-button",
-        },
+        this.getDefaultRoute(),
         {
             title: "Export Destinations",
             icon: "mdi-application-export",
@@ -85,18 +89,22 @@ export default class AppSidebar extends Vue {
     drawer = false;
 
     mounted(): void {
-        const realmAccess = this.$keycloak.tokenParsed?.realm_access;
+        const realmAccess = this.$keycloak?.tokenParsed?.realm_access ?? Vue.prototype.localRoles;
 
         if (!realmAccess) {
+            this.items = [this.getDefaultRoute()];
             return;
         }
 
         this.roles = realmAccess.roles ?? [];
 
-        if (this.roles.length) {
+        if (this.roles.length > 0) {
             this.items = this.items.filter((item) => {
                 return this.roles.some((r) => item.roles.includes(r));
             });
+        }
+        if (this.roles.length == 0) {
+            this.items = [this.getDefaultRoute()];
         }
 
         EventBus.$on("toggleSidebar", (drawer: boolean) => {

@@ -76,5 +76,11 @@ if (process.env.VUE_APP_AUTH_ENABLED === "true") {
         },
     });
 } else {
+    if (process.env.NODE_ENV === "development") {
+        Vue.prototype.isLocal = true;
+        Vue.prototype.localRoles = {
+            roles: ["admin", "clinician", "user_management", "deployer"],
+        };
+    }
     app.$mount("#app");
 }

@@ -1,22 +1,14 @@
 <template>
     <v-app-bar app color="#fff" clipped-left class="elevation-1">
         <div class="mr-4" data-cy="logo">
-            <v-img
-                @click="$router.push({ name: 'Home' })"
-                class="mx-auto"
-                src="@/assets/nhs.png"
-                height="40px"
-                width="97px"
-            />
+            <router-link to="/">
+                <v-img class="mx-auto" src="@/assets/nhs.png" height="40px" width="97px" />
+            </router-link>
         </div>
         <div class="mr-4" data-cy="logo">
-            <v-img
-                @click="$router.push({ name: 'Home' })"
-                class="mx-auto"
-                src="@/assets/AI-centre.png"
-                height="64px"
-                width="97px"
-            />
+            <router-link to="/">
+                <v-img class="mx-auto" src="@/assets/AI-centre.png" height="64px" width="97px" />
+            </router-link>
         </div>
 
         <v-toolbar-title>{{ pageTitle }}</v-toolbar-title>
@@ -68,6 +60,10 @@ export default class AppHeader extends Vue {
         if (this.$keycloak?.authenticated) {
             this.name = this.$keycloak?.tokenParsed?.name ?? "";
         } else {
+            if (!this.$keycloak && Vue.prototype.isLocal) {
+                this.name = "Dev User";
+                return;
+            }
             this.name = "Unauthenticated User";
         }
     }
