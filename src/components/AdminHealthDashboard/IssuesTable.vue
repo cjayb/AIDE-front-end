@@ -189,15 +189,11 @@ export default class IssuesTable extends Vue {
 
     async getExecutionIssues(): Promise<void> {
         this.loading = true;
-        await getIssues(new Date().toISOString())
-            .then((executionIssues) => {
-                formatDateAndTimeOfArray(executionIssues, "execution_time", false);
-                this.issues = executionIssues;
-            })
-            .catch((err) => {
-                this.loading = false;
-                console.log(err);
-            });
+
+        const executionIssues = await getIssues();
+        formatDateAndTimeOfArray(executionIssues, "execution_time", false);
+        this.issues = executionIssues;
+
         this.loading = false;
     }
 

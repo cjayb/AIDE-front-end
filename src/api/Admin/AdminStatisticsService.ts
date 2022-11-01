@@ -19,8 +19,8 @@ export async function getOverview(filterPeriod: string): Promise<IOverview> {
 }
 
 // Issues Section
-export async function getIssues(acknowledged: string): Promise<IIssue[]> {
-    const response = await http.get(`/workflowinstances/failed?acknowledged=${acknowledged}`);
+export async function getIssues(): Promise<IIssue[]> {
+    const response = await http.get("/workflowinstances/failed");
 
     return isResultOk(response) ? response.data : [];
 }
