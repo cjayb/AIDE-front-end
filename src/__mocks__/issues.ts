@@ -54,7 +54,7 @@ const issuesData = [
 ];
 
 export const issuesHandler = [
-    rest.get(`${window.FRONTEND_API_HOST}/workflowinstances/failed`, (req, res, ctx) => {
+    rest.get(`${window.FRONTEND_API_HOST}/issues/failed`, (req, res, ctx) => {
         return res(ctx.json(issuesData));
     }),
     rest.put(

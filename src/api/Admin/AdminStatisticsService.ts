@@ -20,7 +20,7 @@ export async function getOverview(filterPeriod: string): Promise<IOverview> {
 
 // Issues Section
 export async function getIssues(): Promise<IIssue[]> {
-    const response = await http.get("/workflowinstances/failed");
+    const response = await http.get("/issues/failed");
 
     return isResultOk(response) ? response.data : [];
 }
