@@ -2,6 +2,9 @@
     <v-container fluid class="mt-3 mb-7 px-7">
         <div class="d-flex mb-4 justify-space-between">
             <h2 class="section-title mb-4">Workflow Editor</h2>
+            <v-btn data-cy="view-workflow-spec" link="true" :href="workflowSpecUrl" target="_blank"
+                >View Specification on GitHub</v-btn
+            >
         </div>
         <div v-if="workflowErrors.length > 0">
             <ErrorMessageContainer :errorMessages="workflowErrors" />
@@ -134,6 +137,8 @@ export default class WorkflowEditor extends Vue {
     editConfirm = false;
     discardChangesConfirm = false;
     changed = false;
+
+    workflowSpecUrl = process.env.VUE_APP_WORKFLOW_SPEC_URL;
 
     async mounted() {
         const { workflow_id } = this.$route.params as Dictionary<string>;
