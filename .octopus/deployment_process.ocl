@@ -89,6 +89,21 @@ step "deploy-the-aide-frontend" {
                   CLINICAL_REVIEW_URL: #{ClinicalReviewUrl}
                   ORTHANC_API_URL: #{OrthancApiUrl}
                 
+                enviromentVariablesFromSecrets:
+                  secrets:
+                    - name: RABBITMQ_USERNAME
+                      secretName: rabbit-user-secret
+                      secretKey: username
+                    - name: RABBITMQ_PASSWORD
+                      secretName: rabbit-user-secret
+                      secretKey: password
+                    - name: ELASTIC_USERNAME
+                      secretName: elastic-secret-master
+                      secretKey: username
+                    - name: ELASTIC_PASSWORD
+                      secretName: elastic-secret-master
+                      secretKey: password
+                
                 ingress:
                   host: #{Hostname}
                   tlsSecretName: #{CertificateSecretName}
