@@ -21,6 +21,7 @@ export interface WorkflowInstance {
     id: string;
     ae_title: string;
     workflow_id: string;
+    workflow_name: string;
     start_time: string;
     payload_id: string;
     status: string;

@@ -47,6 +47,7 @@ const payloads: IPagedResponse<IPayload> = {
 const payloadExecutions: WorkflowInstance[] = [
     {
         ae_title: "MonaiSCU",
+        workflow_name: "Monai workflow",
         id: "e26bec36-9a22-4be2-8402-379cb96c22e5",
         payload_id: "5f624ab5-88f2-4f47-b239-f05851a94c31",
         start_time: "2022-09-16T09:37:59.634Z",
@@ -66,6 +67,7 @@ const payloadExecutions: WorkflowInstance[] = [
     },
     {
         ae_title: "MonaiSCU",
+        workflow_name: "Monai workflow 2",
         id: "a54a30a9-516b-4906-9315-e7dc23af4539",
         payload_id: "e3a91e70-ade6-40b8-96f4-a9f8151919ac",
         start_time: "2022-09-16T09:38:560.634Z",

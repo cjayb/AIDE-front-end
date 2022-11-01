@@ -21,10 +21,16 @@
                                 :class="`tree-node d-flex flex-column ${node.status} ${
                                     selectedNode?.id === node.id ? 'selected' : ''
                                 }`"
-                                :data-cy="`node ${node.name}`"
+                                :data-cy="`node ${node.workflow_name}`"
                             >
-                                <span class="tree-node-title mt-5" :data-cy="`name ${node.name}`">
-                                    {{ node.name }}
+                                <span
+                                    class="tree-node-title mt-5"
+                                    :data-cy="`name ${node.workflow_name}`"
+                                >
+                                    <span v-if="node.id === 'workflow-instance'">{{
+                                        node.workflow_name
+                                    }}</span>
+                                    <span v-else>{{ node.name }}</span>
                                 </span>
                                 <span v-if="node.id === 'workflow-instance'" class="tree-node-text">
                                     Workflow

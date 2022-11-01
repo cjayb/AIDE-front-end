@@ -3,6 +3,7 @@ import { TaskExecution, WorkflowInstance } from "@/models/Admin/IPayload";
 export interface ExecutionTreeFirstNode {
     id: "workflow-instance";
     name: string;
+    workflow_name: string;
     workflow_instance_id: string;
     status: string;
     start_date: string;
@@ -30,6 +31,7 @@ export function mapToExecutionTreeFirstNode(instance: WorkflowInstance): Executi
     return {
         id: "workflow-instance",
         name: instance.ae_title,
+        workflow_name: instance.workflow_name,
         workflow_instance_id: instance.id,
         status: instance.status,
         start_date: instance.start_time,
