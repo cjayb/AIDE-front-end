@@ -92,6 +92,11 @@ step "deploy-the-aide-frontend" {
                 ingress:
                   host: #{Hostname}
                   tlsSecretName: #{CertificateSecretName}
+                
+                storage:
+                  globalDataDirectory: #{GlobalStoragePath}
+                  dataDirectory: #{GlobalStoragePath}data/
+                  dataStorageCapacityRequest: 10Gi
             EOT
             Octopus.Action.Package.DownloadOnTentacle = "False"
             Octopus.Action.Package.FeedId = "octopus-server-built-in"
