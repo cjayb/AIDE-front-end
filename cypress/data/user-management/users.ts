@@ -30,4 +30,7 @@ export class UserData implements GetAllUsersResponse {
     public static USER_DATA_PAGINATION: UserData = new UserData(
         <GetAllUsersResponse>ApiMocks.USER_MANAGEMENT_PAGINATION,
     );
+    public static FILTERED_USERS: UserData = new UserData(
+        <GetAllUsersResponse>ApiMocks.USER_MANAGEMENT_SORT_ADMIN_ROLE,
+    );
 }

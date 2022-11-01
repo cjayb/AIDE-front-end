@@ -4,6 +4,7 @@ import { RoleData } from "data/user-management/roles";
 
 const userManagementPage = new UserManagement();
 const allUsers = UserData.GET_ALL_USERS;
+const filteredUsers = UserData.FILTERED_USERS;
 const addUser = UserData.USER_DATA_ADD_USER;
 const initialUser = UserData.USER_DATA_INITIAL_USER;
 const SearchUser = UserData.USER_DATA_SEARCH;
@@ -62,27 +63,15 @@ describe("Display list of users", () => {
         });
     });
 
-    describe.skip("Role filter", () => {
+    describe("Role filter", () => {
         it(`The correct roles are displayed in the dropdown filter`, () => {
             [admin, clinician, userManager, EditableRole1].forEach((role) => {
                 userManagementPage.assertRoles(role);
             });
         });
-        const tuple = [
-            [admin, 0],
-            [clinician, 1],
-            [userManager, 12],
-        ];
-        tuple.forEach((userType) => {
-            const [userRole, position] = userType;
-            it("Selecting a role in the dropdown should filter users by that role", () => {
-                userManagementPage.selectElementInDropdown(position as number);
-                userManagementPage.assertRowContainsType(userRole as string);
-            });
-        });
-        it("Selecting a role assigned to no user displays no users", () => {
-            userManagementPage.selectElementInDropdown(3);
-            userManagementPage.assertNoUsers();
+        it(`Selecting a role in the dropdown should filter users by that role`, () => {
+            userManagementPage.selectElementInDropdown(0);
+            userManagementPage.assertRowContainsType(filteredUsers);
         });
     });
 

@@ -34,6 +34,7 @@ export default class ApiMocks {
     public static USER_MANAGEMENT_ONE_ROLES_LIST = require("./user-management/userManagementOneRolesList.json");
     public static USER_MANAGEMENT_ROLES_LIST_ADDED = require("./user-management/userManagementRolesListAdded.json");
     public static USER_MANAGEMENT_ROLES_EDIT_TABLE = require("./user-management/userManagementRolesEditTable.json");
+    public static USER_MANAGEMENT_SORT_ADMIN_ROLE = require("./user-management/userManagementSortAdminRole.json");
     //Workflows
     public static WORKFLOWS = require("./workflows/workflows.json");
     public static WORKFLOWS_TEN = require("./workflows/workflowsTen.json");

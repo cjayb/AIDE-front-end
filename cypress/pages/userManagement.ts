@@ -420,7 +420,15 @@ export default class UserManagement extends AbstractPage {
 
     public selectElementInDropdown(index: number) {
         cy.get(UserManagement.dropdown).click({ force: true });
+        cy.intercept(
+            "users?search=&role=Admin&first=0&max=10&sortBy=&sortDesc=",
+            ApiMocks.USER_MANAGEMENT_SORT_ADMIN_ROLE,
+        ).as("sortRoles");
         cy.get(".role-filters .v-list-item").eq(index).click({ force: true });
+        cy.wait(["@sortRoles"]);
+        Cypress.on("uncaught:exception", () => {
+            return false;
+        });
     }
 
     public assertNoUsers() {
@@ -443,26 +451,18 @@ export default class UserManagement extends AbstractPage {
         cy.dataCy("user-table-row-roles-0").should("contain", "User-Manager");
     }
 
-    public assertRowContainsType(type: string) {
-        switch (type) {
-            case "Admin":
-                [0, 1, 2, 3, 4].forEach((row) => {
-                    cy.dataCy(`user-table-row-roles-${row}`).should("contain", type);
-                });
-                break;
-            case "Clinician":
-                [0, 1, 2, 3, 4, 5].forEach((row) => {
-                    cy.dataCy(`user-table-row-roles-${row}`).should("contain", type);
-                });
-                break;
-            case "User-Manager":
-                [0, 1, 2, 3, 4].forEach((row) => {
-                    cy.dataCy(`user-table-row-roles-${row}`).should("contain", type);
-                });
-                break;
-            default:
-                throw "This scenario has not been implemented. Please review";
-        }
+    public assertRowContainsType(users: GetAllUsersResponse) {
+        [0, 1, 2].forEach((row) => {
+            cy.dataCy(`user-table-row-firstname-${row}`).should(
+                "contain",
+                users.users[row].firstName,
+            );
+            cy.dataCy(`user-table-row-lastname-${row}`).should(
+                "contain",
+                users.users[row].lastName,
+            );
+            cy.dataCy(`user-table-row-email-${row}`).should("contain", users.users[row].email);
+        });
     }
 
     public assertRowRoles(role: string) {
@@ -536,20 +536,6 @@ export default class UserManagement extends AbstractPage {
             return false;
         });
     }
-
-    // public assertTableWhenSortingRole() {
-    //     cy.intercept(
-    //         "GET",
-    //         `https://localhost:8000/users?search=&first=0&max=10&sortBy=firstName&sortDesc=false`,
-    //         //https://localhost:8000/users?search=&first=0&max=10&sortBy=firstName&sortDesc=false
-    //         ApiMocks.USER_MANAGEMENT_SORT_FIRST_NAME,
-    //     ).as("sortFirst");
-    //     this.clickGet(firstName);
-    //     //cy.wait(["@sortFirst"]);
-    //     Cypress.on("uncaught:exception", () => {
-    //         return false;
-    //     });
-    // }
 
     public assertRequestSort(column: string) {
         switch (column) {
