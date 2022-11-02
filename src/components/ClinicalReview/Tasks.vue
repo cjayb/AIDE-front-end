@@ -99,6 +99,7 @@ import Component from "vue-class-component";
 import { EventBus } from "@/event-bus";
 import { getAllExecutionsPage } from "../../api/ClinicalReview/ExecutionService";
 import { ExecutionPage } from "@/models/ClinicalReview/Execution";
+import { RawLocation } from "vue-router";
 
 @Component({})
 export default class Tasks extends Vue {
@@ -129,11 +130,18 @@ export default class Tasks extends Vue {
     }
 
     selectTask(execution: any): void {
-        this.$router.push({
-            name: "ClinicalReviewViewer",
-            params: { study_id: execution.event.origin.studyUID },
-        });
+        let routeObj: RawLocation = {
+            name: execution ? "ClinicalReviewViewer" : "ClinicalReview",
+        };
 
+        if (execution) {
+            routeObj = {
+                ...routeObj,
+                params: { study_id: execution.event.origin.studyUID },
+            };
+        }
+
+        this.$router.push(routeObj);
         EventBus.$emit("selectTask", execution);
     }
 
@@ -147,20 +155,18 @@ export default class Tasks extends Vue {
             .then((response) => {
                 this.setTaskList(response, idToRemove);
                 this.allTasks = response.total;
-                EventBus.$emit("tasksNotEmpty", this.tasks.length > 0);
-                const study_id = this.tasks[0].event.origin.studyUID;
-                this.$router.push({ name: "ClinicalReviewViewer", params: { study_id: study_id } });
-                this.selectTask(this.tasks[0]);
-                this.loading = false;
+                const tasksNotEmpty = this.tasks.length > 0;
+                EventBus.$emit("tasksNotEmpty", tasksNotEmpty);
+
+                const taskToSelect = tasksNotEmpty ? this.tasks[0] : null;
+                this.selectTask(taskToSelect);
             })
-            .catch((err) => {
-                EventBus.$emit("tasksNotEmpty", false);
-                this.loading = false;
-            });
+            .catch(() => EventBus.$emit("tasksNotEmpty", false))
+            .finally(() => (this.loading = false));
     }
 
     setTaskList(response: ExecutionPage, idToRemove?: string) {
-        if (typeof idToRemove !== "undefined") {
+        if (idToRemove !== undefined) {
             response.results.forEach((result) => {
                 const index = this.tasks.findIndex(
                     (ex) => ex.model.execution_uid == result.model.execution_uid,
