@@ -116,6 +116,7 @@ export default class AppHeader extends Vue {
         const logout = this.$keycloak?.logoutFn;
 
         if (logout !== undefined) {
+            sessionStorage.clear();
             logout({ redirectUri: `${window.location.origin}/#/` });
         }
     }
