@@ -1,7 +1,7 @@
 <template>
     <v-app-bar app color="#fff" clipped-left class="elevation-1">
         <div class="mr-4" data-cy="logo">
-            <router-link to="/">
+            <router-link :to="{ name: getDefaultDestinationForUser() }">
                 <v-img class="mx-auto" src="@/assets/nhs.png" height="40px" width="97px" />
             </router-link>
         </div>
@@ -47,12 +47,14 @@
 import Vue from "vue";
 import { Watch } from "vue-property-decorator";
 import Component from "vue-class-component";
+import { getDefaultDestinationForUser } from "@/utils/user-utilities";
 
 @Component
 export default class AppHeader extends Vue {
     // Class properties will be component data
     pageTitle = "Page Title";
     name = "";
+    getDefaultDestinationForUser = getDefaultDestinationForUser;
 
     // Methods will be component methods
     mounted(): void {
