@@ -12,17 +12,13 @@ import UserManagement from "@/views/UserManagement.vue";
 import Workflows from "@/views/Workflows.vue";
 import WorkflowEditor from "@/views/WorkflowEditor.vue";
 import { VueKeycloakInstance } from "@dsb-norge/vue-keycloak-js/dist/types";
+import { getDefaultDestinationForUser, UserRole } from "@/utils/user-utilities";
 
 Vue.use(VueRouter);
 
 function sleep(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
-
-const admin = "admin";
-const clinician = "clinician";
-const user_management = "user_management";
-const deployer = "deployer";
 
 export const routes: Array<RouteConfig> = [
     {
@@ -31,7 +27,7 @@ export const routes: Array<RouteConfig> = [
         component: AdminHealthDashboard,
         beforeEnter: roleAuthenticatedRoute,
         meta: {
-            requiredRoles: [admin],
+            requiredRoles: [UserRole.admin],
         },
     },
     {
@@ -40,7 +36,7 @@ export const routes: Array<RouteConfig> = [
         component: AdminPayloadDashboard,
         beforeEnter: roleAuthenticatedRoute,
         meta: {
-            requiredRoles: [admin],
+            requiredRoles: [UserRole.admin],
         },
     },
     {
@@ -49,7 +45,7 @@ export const routes: Array<RouteConfig> = [
         component: AdminDicomConfiguration,
         beforeEnter: roleAuthenticatedRoute,
         meta: {
-            requiredRoles: [admin],
+            requiredRoles: [UserRole.admin],
         },
     },
     {
@@ -58,7 +54,7 @@ export const routes: Array<RouteConfig> = [
         component: ClinicalReview,
         beforeEnter: roleAuthenticatedRoute,
         meta: {
-            requiredRoles: [clinician],
+            requiredRoles: [UserRole.clinician],
         },
     },
     {
@@ -67,7 +63,7 @@ export const routes: Array<RouteConfig> = [
         component: ClinicalReview,
         beforeEnter: roleAuthenticatedRoute,
         meta: {
-            requiredRoles: [clinician],
+            requiredRoles: [UserRole.clinician],
         },
     },
     {
@@ -109,7 +105,7 @@ export const routes: Array<RouteConfig> = [
         ],
         beforeEnter: roleAuthenticatedRoute,
         meta: {
-            requiredRoles: [admin, deployer],
+            requiredRoles: [UserRole.deployer, UserRole.admin],
         },
     },
     {
@@ -118,7 +114,7 @@ export const routes: Array<RouteConfig> = [
         component: UserManagement,
         beforeEnter: roleAuthenticatedRoute,
         meta: {
-            requiredRoles: [user_management],
+            requiredRoles: [UserRole.user_management],
         },
     },
     {
@@ -127,7 +123,7 @@ export const routes: Array<RouteConfig> = [
         component: Workflows,
         beforeEnter: roleAuthenticatedRoute,
         meta: {
-            requiredRoles: [admin],
+            requiredRoles: [UserRole.admin],
         },
     },
     {
@@ -136,7 +132,7 @@ export const routes: Array<RouteConfig> = [
         component: WorkflowEditor,
         beforeEnter: roleAuthenticatedRoute,
         meta: {
-            requiredRoles: [admin],
+            requiredRoles: [UserRole.admin],
         },
     },
     {
@@ -204,23 +200,6 @@ function roleAuthenticatedRoute(to: Route, _: Route, next: NavigationGuardNext<V
 
     keycloak.keycloak?.updateToken(70);
     return next();
-}
-
-function getDefaultDestinationForUser() {
-    const noRole = () => false;
-    const hasRealmRole = Vue.prototype.$keycloak.hasRealmRole ?? noRole;
-
-    if (hasRealmRole(admin)) {
-        return "AdminHealthDashboard";
-    } else if (hasRealmRole(clinician)) {
-        return "ClinicalReview";
-    } else if (hasRealmRole(deployer)) {
-        return "ApplicationRepositoryList";
-    } else if (hasRealmRole(user_management)) {
-        return "UserManagement";
-    }
-
-    return "Unauthorized";
 }
 
 const router = new VueRouter({
