@@ -6,17 +6,17 @@ const workflowInitData = WorkflowData.WORKFLOWS_INIT;
 const workflowPage = new Workflows();
 const workflowEmpty = WorkflowExampleData.WORKFLOW_EMPTY;
 
-describe.skip("Display list of users", () => {
+describe("Display list of workflows", () => {
     beforeEach(() => {
         workflowPage.initPage();
     });
 
-    describe.skip("All expected elements on the page are visible", () => {
+    describe("All expected elements on the page are visible", () => {
         it("Each row has an edit button visible", () => {
-            workflowPage.editButtonVisibleUsers();
+            workflowPage.editButtonVisible();
         });
         it("Each row has a delete button visible", () => {
-            workflowPage.deleteButtonVisibleUsers();
+            workflowPage.deleteButtonVisible();
         });
         it("A create new workflow button is visible", () => {
             workflowPage.elementVisibleDataCy("add-workflow");
@@ -24,7 +24,7 @@ describe.skip("Display list of users", () => {
     });
 
     describe("GET workflows", () => {
-        it(`The users table is populated with the data returned from the API`, () => {
+        it(`The workflows table is populated with the data returned from the API`, () => {
             workflowPage.assertTableDataCorrect(workflowInitData);
         });
     });
@@ -42,15 +42,15 @@ describe.skip("Display list of users", () => {
             workflowPage.checkNextPageButtonStatus(workflowInitData);
         });
         it("Selecting next page sends a request for the next page's workflows to the API", () => {
-            workflowPage.paginationRequestUsers();
+            workflowPage.paginationRequestWorkflows();
         });
-        it("Users returned from API are displayed correctly", () => {
-            workflowPage.paginationRequestUsers();
+        it("Workflows returned from API are displayed correctly", () => {
+            workflowPage.paginationRequestWorkflows();
             workflowPage.assertTableDataCorrect(workflowInitData);
         });
     });
 
-    describe("Delete existing user", () => {
+    describe("Delete existing workflow", () => {
         it("Selecting delete sends a delete request to the API", () => {
             workflowPage.clickDeleteButtonWorkflows(0);
             workflowPage.assertCorrectDeleteRequest(workflowInitData);
@@ -91,11 +91,12 @@ describe.skip("Display list of users", () => {
         });
         it("Selecting save and then cancel on the modal keeps you on the editor page", () => {
             workflowPage.workflowEditRequest();
+            workflowPage.editWorkflow();
             workflowPage.clickDataCy("save-workflow-changes");
             workflowPage.clickDataCy("workflow-edit-confirm-cancel");
             workflowPage.assertEditUrl(workflowInitData);
         });
-        it("Selecting cancel and then cancel on the modal keeps you on the editor page", () => {
+        it("Selecting discard and then cancel on the modal keeps you on the editor page", () => {
             workflowPage.workflowEditRequest();
             workflowPage.clickDataCy("discard-workflow-changes");
             workflowPage.clickDataCy("workflow-discard-confirm-cancel");
@@ -109,35 +110,41 @@ describe.skip("Display list of users", () => {
         });
         it("Saving an edited workflow sends a PUT request to the API", () => {
             workflowPage.workflowEditRequest();
+            workflowPage.editWorkflow();
             workflowPage.clickDataCy("save-workflow-changes");
             workflowPage.assertPut();
         });
         it("Saving a workflow minimises the confirmation modal", () => {
             workflowPage.workflowEditRequest();
+            workflowPage.editWorkflow();
             workflowPage.clickDataCy("save-workflow-changes");
             workflowPage.assertPut();
         });
-        it("If an 400 statusCode error is returned from the API, the error text is displayed at the top of the page", () => {
+        it("If a 400 statusCode error is returned from the API, the error text is displayed at the top of the page", () => {
             workflowPage.workflowEditRequest();
+            workflowPage.editWorkflow();
             workflowPage.clickDataCy("save-workflow-changes");
             workflowPage.returnEditError();
             workflowPage.errorsDisplayed();
         });
-        it("If a 400 status code is returned from the API, no toast should be displayed", () => {
+        it.skip("If a 400 status code is returned from the API, no toast should be displayed", () => {
             workflowPage.workflowEditRequest();
+            workflowPage.editWorkflow();
             workflowPage.clickDataCy("save-workflow-changes");
             workflowPage.returnEditError();
             workflowPage.assertNoToast();
         });
         it("A successful response takes you back to the workflow table page", () => {
             workflowPage.workflowEditRequest();
+            workflowPage.editWorkflow();
             workflowPage.clickDataCy("save-workflow-changes");
             workflowPage.returnSuccess();
             workflowPage.assertWorkflowsUrl();
         });
-        it("A successful response displays a toast on the workflow table page letting the user know the edit was successful", () => {
+        it("A successful response displays a toast", () => {
             const successToast = "Workflow updated successfully";
             workflowPage.workflowEditRequest();
+            workflowPage.editWorkflow();
             workflowPage.clickDataCy("save-workflow-changes");
             workflowPage.returnSuccess();
             workflowPage.assertToast(successToast);
@@ -170,17 +177,18 @@ describe.skip("Display list of users", () => {
         });
         it("Selecting save and then cancel on the modal keeps you on the editor page", () => {
             workflowPage.clickDataCy("add-workflow");
+            workflowPage.editWorkflow();
             workflowPage.clickDataCy("save-workflow-changes");
             workflowPage.clickDataCy("workflow-edit-confirm-cancel");
             workflowPage.assertAddUrl();
         });
-        it("Selecting cancel and then cancel on the modal keeps you on the editor page", () => {
+        it("Selecting discard and then cancel on the modal keeps you on the editor page", () => {
             workflowPage.clickDataCy("add-workflow");
             workflowPage.clickDataCy("discard-workflow-changes");
             workflowPage.clickDataCy("workflow-discard-confirm-cancel");
             workflowPage.assertAddUrl();
         });
-        it("Selecting cancel and then confirm on the modal returns you to the workflow tables page", () => {
+        it("Selecting discard and then confirm on the modal returns you to the workflow tables page", () => {
             workflowPage.clickDataCy("add-workflow");
             workflowPage.clickDataCy("discard-workflow-changes");
             workflowPage.clickDataCy("workflow-discard-confirm-ok");
@@ -188,30 +196,35 @@ describe.skip("Display list of users", () => {
         });
         it("Saving an added workflow sends a POST request to the API", () => {
             workflowPage.clickDataCy("add-workflow");
+            workflowPage.editWorkflow();
             workflowPage.clickDataCy("save-workflow-changes");
             workflowPage.assertPost();
         });
         it("If an error is returned from the API, the error text is displayed at the top of the page", () => {
             workflowPage.clickDataCy("add-workflow");
+            workflowPage.editWorkflow();
             workflowPage.clickDataCy("save-workflow-changes");
             workflowPage.returnAddError();
             workflowPage.errorsDisplayed();
         });
         it("If a 400 status code is returned from the API, no toast should be displayed", () => {
             workflowPage.clickDataCy("add-workflow");
+            workflowPage.editWorkflow();
             workflowPage.clickDataCy("save-workflow-changes");
             workflowPage.returnAddError();
             workflowPage.assertNoToast();
         });
         it("A successful response takes you back to the workflow table page", () => {
             workflowPage.clickDataCy("add-workflow");
+            workflowPage.editWorkflow();
             workflowPage.clickDataCy("save-workflow-changes");
             workflowPage.assertPost();
             workflowPage.assertWorkflowsUrl();
         });
-        it("A successful response displays a toast on the workflow table page letting the user know the edit was successful", () => {
+        it("A successful response displays a toast", () => {
             const successToast = "Workflow created successfully";
             workflowPage.clickDataCy("add-workflow");
+            workflowPage.editWorkflow();
             workflowPage.clickDataCy("save-workflow-changes");
             workflowPage.assertPost();
             workflowPage.assertToast(successToast);
@@ -219,7 +232,7 @@ describe.skip("Display list of users", () => {
     });
 });
 
-describe.skip(" API errors", () => {
+describe(" API errors", () => {
     const initError = "Something unexpected went wrong retrieving workflows";
     const deleteErrorMessage = "Something unexpected went wrong deleting the workflow";
     const getErrorMessage = "Something unexpected went wrong retrieving workflows";
@@ -234,7 +247,7 @@ describe.skip(" API errors", () => {
         it(`Toast displayed if a ${statusCode} error is returned on deleting existing workflow`, () => {
             workflowPage.initPage();
             workflowPage.clickDeleteButtonWorkflows(0);
-            workflowPage.errorDeleteUser(workflowInitData, statusCode);
+            workflowPage.errorDeleteWorkflow(workflowInitData, statusCode);
             workflowPage.assertToast(deleteErrorMessage);
         });
         it(`Toast displayed if a ${statusCode} error is returned on getting existing workflow`, () => {
@@ -247,6 +260,7 @@ describe.skip(" API errors", () => {
         it(`Toast displayed if a ${statusCode} error is returned on editing a workflow`, () => {
             workflowPage.initPage();
             workflowPage.workflowEditRequest();
+            workflowPage.editWorkflow();
             workflowPage.clickDataCy("save-workflow-changes");
             workflowPage.returnEditToastError(workflowEmpty, statusCode);
             workflowPage.assertToast(putErrorMessage);
@@ -254,6 +268,7 @@ describe.skip(" API errors", () => {
         it(`UI message displayed if a ${statusCode} error is returned on adding a workflow`, () => {
             workflowPage.initPage();
             workflowPage.clickDataCy("add-workflow");
+            workflowPage.editWorkflow();
             workflowPage.clickDataCy("save-workflow-changes");
             workflowPage.returnErrorPost(statusCode);
             workflowPage.assertToast(postErrorMessage);

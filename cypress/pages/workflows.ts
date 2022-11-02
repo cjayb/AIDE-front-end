@@ -13,7 +13,7 @@ const ErrorFour = "ERROR: Task destination export-task not found.";
 export default class Workflows extends AbstractPage {
     public initPage() {
         cy.intercept("/workflows?pageNumber=1&pageSize=10", ApiMocks.WORKFLOWS).as("workflows");
-        cy.visit("/#/workflows");
+        cy.visit("/workflows");
         cy.wait(["@workflows"]);
         Cypress.on("uncaught:exception", () => {
             return false;
@@ -24,14 +24,14 @@ export default class Workflows extends AbstractPage {
         cy.intercept("/workflows?pageNumber=1&pageSize=10", { statusCode: statuscode }).as(
             "workflows",
         );
-        cy.visit("/#/workflows");
+        cy.visit("/workflows");
         cy.wait(["@workflows"]);
         Cypress.on("uncaught:exception", () => {
             return false;
         });
     }
 
-    public paginationRequestUsers() {
+    public paginationRequestWorkflows() {
         cy.intercept("GET", `/workflows?pageNumber=2&pageSize=10`, ApiMocks.WORKFLOWS).as(
             "nextPage",
         );
@@ -54,7 +54,7 @@ export default class Workflows extends AbstractPage {
         cy.wait(["@Delete", "@Get"]);
     }
 
-    public errorDeleteUser(workflow: WorkflowData, statusCode: number) {
+    public errorDeleteWorkflow(workflow: WorkflowData, statusCode: number) {
         cy.intercept("DELETE", `/workflows/${workflow.data[0].workflow_id}`, {
             statusCode: statusCode,
         }).as("Delete");
@@ -66,7 +66,7 @@ export default class Workflows extends AbstractPage {
         cy.wait(["@Delete"]);
     }
 
-    public editButtonVisibleUsers() {
+    public editButtonVisible() {
         [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].forEach((row) => {
             cy.dataCy(`workflow-table-row-actions-${row}`).within(() => {
                 cy.dataCy("workflow-edit").should("be.visible");
@@ -74,7 +74,7 @@ export default class Workflows extends AbstractPage {
         });
     }
 
-    public deleteButtonVisibleUsers() {
+    public deleteButtonVisible() {
         [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].forEach((row) => {
             cy.dataCy(`workflow-table-row-actions-${row}`).within(() => {
                 cy.dataCy("workflow-delete").should("be.visible");
@@ -88,8 +88,15 @@ export default class Workflows extends AbstractPage {
     }
 
     public assertTableDataCorrect(workflow: WorkflowData) {
-        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].forEach((row) => {
+        [0, 1, 2, 3, 4, 5].forEach((row) => {
             cy.dataCy(`workflow-table-row-name-${row}`).should(`contain`, workflow.data[row].name);
+            cy.dataCy(`workflow-table-row-aetitle-${row}`).should(
+                `contain`,
+                workflow.data[row].ae_title,
+            );
+            workflow.data[row].data_origins.forEach((data_origin) => {
+                cy.dataCy(`workflow-table-row-data-${row}`).should(`contain`, data_origin);
+            });
             cy.dataCy(`workflow-table-row-version-${row}`).should(
                 `contain`,
                 workflow.data[row].version,
@@ -209,6 +216,10 @@ export default class Workflows extends AbstractPage {
         cy.get("modal").should("not.exist");
     }
 
+    public editWorkflow() {
+        cy.get(".cm-content").clear().wait(500).type("{{}}").wait(500);
+    }
+
     public assertPut() {
         cy.intercept("PUT", `/workflows/12345-abcde`).as("put");
         this.clickDataCy("workflow-edit-confirm-ok");
@@ -289,7 +300,7 @@ export default class Workflows extends AbstractPage {
     }
 
     public assertWorkflowsUrl() {
-        cy.url().should("eql", "http://localhost:8080/#/workflows");
+        cy.url().should("eql", "http://localhost:8080/workflows");
     }
 
     public assertNoText() {
