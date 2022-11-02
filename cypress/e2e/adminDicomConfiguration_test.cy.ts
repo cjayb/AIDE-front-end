@@ -49,6 +49,12 @@ describe.skip("Display list of destinations", () => {
                     dicomConfigurationPage.requiredFieldsValidationDestinations(field);
                 });
             });
+            ["destination-name", "destination-ae-title"].forEach((field) => {
+                it(`Validation should be displayed to the user to indicate the '${field}' doesn't allows spaces or special characters`, () => {
+                    dicomConfigurationPage.clickDataCy("add-dicom-configuration-button");
+                    dicomConfigurationPage.noSpacesOrSpecialCharactersValidation(field);
+                });
+            })
             it("'Save' button is inactive until all fields are populated", () => {
                 dicomConfigurationPage.clickDataCy("add-dicom-configuration-button");
                 dicomConfigurationPage.saveDisabledUnlessAllFIeldsEntered(newDestinationData);
