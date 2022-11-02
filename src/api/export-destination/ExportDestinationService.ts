@@ -18,33 +18,37 @@ export async function getExportDestinations(): Promise<IExportDestination[]> {
     return isResultOk(result) ? result.data : [];
 }
 
-export async function createExportDestination(destination: IExportDestination): Promise<boolean> {
+export async function createExportDestination(
+    destination: IExportDestination,
+): Promise<[boolean, string]> {
     const result = await httpService.post("/destinations", destination, {
         validateStatus: (status) => (status >= 200 && status <= 299) || status === 409,
     });
 
     const success = isResultOk(result);
+    let message = "";
 
     if (!success && result.status === 409) {
-        Vue.$toast.error("A DICOM configuration with this name already exists");
+        message = "A DICOM configuration with this name already exists";
     }
 
-    return success;
+    return [success, message];
 }
 
 export async function updateExportDestination(
     destinationName: string,
     destination: IExportDestination,
-): Promise<boolean> {
+): Promise<[boolean, string]> {
     const result = await httpService.put(`/destinations/${destinationName}`, destination);
 
     const success = isResultOk(result);
+    let message = "";
 
     if (!success && result.status === 409) {
-        Vue.$toast.error("A DICOM configuration with this name already exists");
+        message = "A DICOM configuration with this name already exists";
     }
 
-    return success;
+    return [success, message];
 }
 
 export async function echoExportDestination(destinationName: string): Promise<AxiosResponse> {

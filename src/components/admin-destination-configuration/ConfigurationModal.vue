@@ -52,6 +52,9 @@
                         :rules="portRules"
                     ></v-text-field>
                 </div>
+                <div v-if="hasErrorMessage">
+                    <ErrorMessageContainer :errorMessages="[errorMessage]" />
+                </div>
             </v-form>
         </div>
         <v-divider />
@@ -85,8 +88,12 @@ import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
 import { InputValidationRules } from "vuetify";
 import { IExportDestination } from "@/models/export-destinations/ExportDestination";
+import ErrorMessageContainer from "@/components/Shared/ErrorMessageContainer.vue";
 
 @Component({
+    components: {
+        ErrorMessageContainer,
+    },
     computed: {
         editing(): boolean {
             return !!this.$props.destination?.name;
@@ -128,6 +135,13 @@ import { IExportDestination } from "@/models/export-destinations/ExportDestinati
 export default class ConfigurationModal extends Vue {
     @Prop()
     destination?: IExportDestination;
+
+    @Prop({ default: "" })
+    errorMessage: string | undefined;
+
+    get hasErrorMessage() {
+        return !!this.errorMessage || this.errorMessage?.trim() !== "";
+    }
 
     requiredFieldsFilled = false;
     destinationDetails = {} as IExportDestination;

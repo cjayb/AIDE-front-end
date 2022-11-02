@@ -88,6 +88,7 @@
         <!-- create/edit modal -->
         <v-dialog persistent v-model="destinationModal" max-width="350px" v-if="destination">
             <ConfigurationModal
+                :errorMessage="errorMessage"
                 :destination="destination"
                 @save="saveDestination"
                 @discard="cancelCreate"
@@ -174,6 +175,7 @@ export default class DicomExportConfiguration extends Vue {
 
     confirmDeleteModal = false;
     confirmEditModal = false;
+    errorMessage = "";
 
     async mounted() {
         await this.fetchDestinations();
@@ -246,6 +248,7 @@ export default class DicomExportConfiguration extends Vue {
     }
 
     async saveDestination(destination: IExportDestination) {
+        this.errorMessage = "";
         this.destinationToSave = destination;
 
         if (this.destination?.name) {
@@ -254,9 +257,10 @@ export default class DicomExportConfiguration extends Vue {
             return;
         }
 
-        const success = await createExportDestination(this.destinationToSave);
+        const [success, message] = await createExportDestination(this.destinationToSave);
 
         if (!success) {
+            this.errorMessage = message;
             return;
         }
 
@@ -270,6 +274,7 @@ export default class DicomExportConfiguration extends Vue {
     }
 
     async updateDestination() {
+        this.errorMessage = "";
         if (!this.destinationToSave || !this.destination) {
             return;
         }
@@ -298,6 +303,7 @@ export default class DicomExportConfiguration extends Vue {
     }
 
     private clearDestinationObject() {
+        this.errorMessage = "";
         setTimeout(() => {
             this.destination = null;
         }, 500);
