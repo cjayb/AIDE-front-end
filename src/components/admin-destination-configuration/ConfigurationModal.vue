@@ -12,7 +12,7 @@
                         data-cy="destination-name"
                         v-model="name"
                         :disabled="editing"
-                        :rules="requiredTextRules"
+                        :rules="alphanumericCharactersRules"
                     ></v-text-field>
                 </div>
 
@@ -24,7 +24,7 @@
                         label="AE Title"
                         data-cy="destination-ae-title"
                         v-model="aeTitle"
-                        :rules="requiredTextRules"
+                        :rules="alphanumericCharactersRules"
                     ></v-text-field>
                 </div>
 
@@ -163,6 +163,12 @@ export default class ConfigurationModal extends Vue {
     portRules: InputValidationRules = [
         ...this.requiredTextRules,
         (value: number) => value > 0 || "Invalid port",
+    ];
+
+    alphanumericCharactersRules: InputValidationRules = [
+        ...this.requiredTextRules,
+        (value: string) =>
+            /^[a-zA-Z0-9]*$/.test(value) || "No spaces or special characters allowed",
     ];
 
     private resetForm() {

@@ -176,8 +176,21 @@ export default class Destinations extends AbstractPage {
         this.assertRequiredText();
     }
 
+    public noSpacesOrSpecialCharactersValidation(field) {
+        this.clickDataCy(field);
+        cy.dataCy(field).type("_");
+        this.assertNoSpacesOrSpecialCharactersText();
+    }
+
     public assertRequiredText() {
         cy.get(".v-messages__message").should("contain.text", "Required");
+    }
+
+    public assertNoSpacesOrSpecialCharactersText() {
+        cy.get(".v-messages__message").should(
+            "contain.text",
+            "No spaces or special characters allowed",
+        );
     }
 
     public clickAway() {
