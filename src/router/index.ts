@@ -168,7 +168,7 @@ export const routes: Array<RouteConfig> = [
             }
 
             Vue.prototype.$keycloak.keycloak.updateToken(70).then(() => {
-                const redirect = window.localStorage.getItem("currentPage");
+                const redirect = window.sessionStorage.getItem("currentPage");
 
                 return next({ name: redirect ?? getDefaultDestinationForUser(), replace: true });
             });
@@ -233,7 +233,7 @@ router.afterEach((to) => {
         return;
     }
 
-    window.localStorage.setItem("currentPage", to.name);
+    window.sessionStorage.setItem("currentPage", to.name);
 });
 
 export default router;
