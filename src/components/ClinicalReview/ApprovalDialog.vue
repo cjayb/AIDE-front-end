@@ -93,8 +93,8 @@ export default class ApprovalDialog extends Vue {
         );
     }
 
-    updateEventsAndClose(response: any) {
-        if (response.status === true) {
+    updateEventsAndClose(response?: any) {
+        if (response.success === true) {
             EventBus.$emit("updateTaskList", this.executionId);
         }
         this.loading = false;
@@ -104,16 +104,9 @@ export default class ApprovalDialog extends Vue {
     async acceptReview() {
         if (this.checkbox) {
             this.loading = true;
-            const response = await updateClinicalReview(
-                this.executionId,
-                "true",
-                "",
-                this.description,
-            )
+            await updateClinicalReview(this.executionId, "true", "", this.description)
                 .then(this.updateEventsAndClose)
-                .catch((err) => {
-                    this.loading = false;
-                });
+                .catch(() => (this.loading = false));
         } else {
             alert("Required fields not filled!");
         }
@@ -122,16 +115,9 @@ export default class ApprovalDialog extends Vue {
     async rejectReview() {
         if (this.checkbox && this.reason !== "") {
             this.loading = true;
-            const response = await updateClinicalReview(
-                this.executionId,
-                "false",
-                this.reason,
-                this.description,
-            )
+            await updateClinicalReview(this.executionId, "false", this.reason, this.description)
                 .then(this.updateEventsAndClose)
-                .catch((err) => {
-                    this.loading = false;
-                });
+                .catch(() => (this.loading = false));
         } else {
             alert("Required fields not filled!");
         }

@@ -212,12 +212,11 @@ export default class Header extends Vue {
 
     created(): void {
         EventBus.$on("selectTask", (execution: any) => {
-            this.selectedExecutionMetaData = execution.event.origin.series[0];
-            this.selectedModel = execution.model;
-            this.correlation_id = execution.correlation_id;
-            if (this.selectedModel) {
-                this.loaded = true;
-            }
+            this.selectedExecutionMetaData = execution ? execution.event.origin.series[0] : {};
+            this.selectedModel = execution ? execution.model : {};
+            this.correlation_id = execution ? execution.correlation_id : "";
+
+            this.loaded = true;
         });
 
         EventBus.$on("tasksNotEmpty", (tasksEmpty: boolean) => {
