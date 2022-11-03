@@ -109,7 +109,7 @@ export const routes: Array<RouteConfig> = [
         ],
         beforeEnter: roleAuthenticatedRoute,
         meta: {
-            requiredRoles: [deployer],
+            requiredRoles: [admin, deployer],
         },
     },
     {
