@@ -3,6 +3,7 @@
         <div class="d-flex mb-4 justify-space-between">
             <h2 class="section-title mb-4">DICOM Configuration</h2>
             <v-btn
+                v-show="!loading"
                 data-cy="add-dicom-configuration-button"
                 class="primary-button"
                 @click="createDestination"
@@ -12,7 +13,7 @@
             </v-btn>
         </div>
         <v-card elevation="2">
-            <v-simple-table>
+            <v-simple-table v-show="!loading">
                 <thead style="background: #fafafa">
                     <tr>
                         <th class="text-uppercase">Name</th>
@@ -83,6 +84,9 @@
                     </tr>
                 </tbody>
             </v-simple-table>
+            <v-col v-if="loading" cols="12">
+                <v-skeleton-loader class="mx-auto" type="table"></v-skeleton-loader>
+            </v-col>
         </v-card>
 
         <!-- create/edit modal -->
@@ -168,6 +172,8 @@ type IExportDestinationStatus = IExportDestination & {
 })
 export default class DicomExportConfiguration extends Vue {
     destinations: IExportDestinationStatus[] = [];
+
+    loading = false;
 
     destinationModal = false;
     destination: IExportDestination | null = null;
@@ -310,7 +316,9 @@ export default class DicomExportConfiguration extends Vue {
     }
 
     private async fetchDestinations() {
+        this.loading = true;
         this.destinations = (await getExportDestinations()) as IExportDestinationStatus[];
+        this.loading = false;
     }
 }
 </script>

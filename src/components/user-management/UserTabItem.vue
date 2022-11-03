@@ -1,6 +1,6 @@
 <template>
     <v-tab-item>
-        <v-card class="px-4 py-4">
+        <v-card v-show="!loading" class="px-4 py-4">
             <div class="d-flex mb-4 justify-space-between">
                 <div class="text-h5">{{ userCount }}</div>
                 <div class="d-flex align-center">
@@ -184,6 +184,10 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+
+        <v-col v-if="loading" cols="12">
+            <v-skeleton-loader class="mx-auto" type="table"></v-skeleton-loader>
+        </v-col>
     </v-tab-item>
 </template>
 
@@ -227,6 +231,8 @@ export default class UserTabItem extends Vue {
     @Prop({ default: () => [] })
     roles!: UserRoleListItem[];
 
+    loading = false;
+
     userHeaders: DataTableHeader[] = [
         { text: "First Name", value: "firstName", sortable: true, filterable: true },
         { text: "Last Name", value: "lastName", sortable: true, filterable: true },
@@ -267,7 +273,9 @@ export default class UserTabItem extends Vue {
 
     @Watch("tableOptions", { deep: true })
     tableOptionsChanged() {
+        this.loading = true;
         this.throttledFetchUsers();
+        this.loading = false;
     }
 
     @Watch("tableSearch")
@@ -277,7 +285,9 @@ export default class UserTabItem extends Vue {
 
     @Watch("selectedRole")
     async selectedRoleChanged() {
+        this.loading = true;
         this.throttledFetchUsers();
+        this.loading = false;
     }
 
     createNewUser() {

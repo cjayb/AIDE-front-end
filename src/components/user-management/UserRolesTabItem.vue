@@ -1,6 +1,6 @@
 <template>
     <v-tab-item>
-        <v-card class="px-4 py-4">
+        <v-card v-show="!loading" class="px-4 py-4">
             <div class="d-flex mb-4 justify-space-between">
                 <div class="text-h5">{{ userRoleCount }}</div>
                 <div class="d-flex align-center">
@@ -92,6 +92,7 @@
                 </v-data-table>
             </v-card>
         </v-card>
+
         <v-dialog persistent v-model="roleModal" max-width="500px" v-if="roleToEdit">
             <RoleModal
                 :role="roleToEdit"
@@ -145,6 +146,10 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+
+        <v-col v-if="loading" cols="12">
+            <v-skeleton-loader class="mx-auto" type="table"></v-skeleton-loader>
+        </v-col>
     </v-tab-item>
 </template>
 
@@ -189,6 +194,8 @@ export default class UserRolesTabItem extends Vue {
 
     rolesList: UserRoleListItem[] = [];
 
+    loading = false;
+
     totalRoles = 0;
     totalFilteredRoles = 0;
 
@@ -217,7 +224,9 @@ export default class UserRolesTabItem extends Vue {
 
     @Watch("tableOptions", { deep: true })
     async tableOptionsChanged() {
+        this.loading = true;
         this.throttledFetchRoles();
+        this.loading = false;
     }
 
     @Watch("tableSearch")

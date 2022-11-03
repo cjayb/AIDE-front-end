@@ -9,7 +9,7 @@
         <div v-if="workflowErrors.length > 0">
             <ErrorMessageContainer :errorMessages="workflowErrors" />
         </div>
-        <div>
+        <div v-show="!loading">
             <JSONViewer
                 mode="text"
                 :content="content"
@@ -18,7 +18,7 @@
                 :mainMenuBar="false"
             />
         </div>
-        <v-col class="text-right">
+        <v-col v-show="!loading" class="text-right">
             <v-btn
                 class="mx-1 secondary-button"
                 data-cy="discard-workflow-changes"
@@ -36,6 +36,10 @@
                 Save changes
                 <v-icon class="ml-1">mdi-floppy</v-icon>
             </v-btn>
+        </v-col>
+
+        <v-col v-if="loading" cols="12">
+            <v-skeleton-loader class="mx-auto" type="image"></v-skeleton-loader>
         </v-col>
 
         <v-dialog persistent v-model="editConfirm" data-cy="save-changes-modal" max-width="350px">
@@ -131,6 +135,8 @@ export default class WorkflowEditor extends Vue {
     workflowToSave = {};
     workflowErrors: string[] = [];
 
+    loading = false;
+
     readOnly = false;
     validJSON = true;
 
@@ -144,7 +150,9 @@ export default class WorkflowEditor extends Vue {
         const { workflow_id } = this.$route.params as Dictionary<string>;
 
         if (workflow_id) {
+            this.loading = true;
             this.workflow = await getWorkflow(workflow_id);
+            this.loading = false;
         }
     }
 

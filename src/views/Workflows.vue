@@ -4,6 +4,7 @@
             <div class="d-flex mb-4 justify-space-between">
                 <h2 class="section-title mb-4">Workflows</h2>
                 <v-btn
+                    v-show="!loading"
                     class="primary-button"
                     data-cy="add-workflow"
                     @click="navigateToWorkflowEditorCreate"
@@ -15,6 +16,7 @@
 
             <v-card elevation="1">
                 <v-data-table
+                    v-show="!loading"
                     :headers="workflowHeaders"
                     :items="workflowPage.data"
                     :server-items-length="workflowPage.totalRecords"
@@ -83,6 +85,10 @@
                         <span class="grey--text text--darken-2"> No workflows found </span>
                     </template>
                 </v-data-table>
+
+                <v-col v-if="loading" cols="12">
+                    <v-skeleton-loader class="mx-auto" type="table"></v-skeleton-loader>
+                </v-col>
             </v-card>
 
             <v-dialog persistent v-model="deleteConfirm" max-width="350px">
@@ -137,6 +143,8 @@ export default class Workflows extends Vue {
         { text: "Actions", value: "id", sortable: false, width: "210px" },
     ];
 
+    loading = false;
+
     workflowPage: PaginatedWorkflowsResponse = {} as PaginatedWorkflowsResponse;
     tableOptions: DataOptions = {
         page: 1,
@@ -152,7 +160,9 @@ export default class Workflows extends Vue {
 
     @Watch("tableOptions", { deep: true })
     tableOptionsChanged() {
+        this.loading = true;
         this.throttledFetchWorkflows();
+        this.loading = false;
     }
 
     confirmDeletion(workflow: WorkflowListItem) {
