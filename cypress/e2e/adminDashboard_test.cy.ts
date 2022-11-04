@@ -72,14 +72,14 @@ describe(`Admin health - Issues table section`, () => {
             adminHealthPage.assertCorrectTaskReturned(task_data as TaskData);
         });
     });
-    it(`I can view a task's execution logs`, () => {
+    it.skip(`I can view a task's execution logs`, () => {
         adminHealthPage.assertLogsDisplayed(TaskData.TASK_DATA_1);
     });
     it(`I am able to remove individual issues by clicking the dismiss button on each task`, () => {
         adminHealthPage.assertTaskCanBeDismissed(TaskData.TASK_DATA_1);
         abstractPage.assertToast(`You have successfully dismissed 1 task.`);
     });
-    it(`I am able to dismiss all selected issues by clicking the 'Dismiss selected' button`, () => {
+    it.skip(`I am able to dismiss all selected issues by clicking the 'Dismiss selected' button`, () => {
         adminHealthPage.selectAllIssues();
         adminHealthPage.selectDismissSelectedButton();
         adminHealthPage.selectCancelValidation();

@@ -38,7 +38,7 @@
                         :items-per-page="5"
                         v-model="selectedIssues"
                         show-select
-                        item-key="task_id"
+                        item-key="execution_id"
                         class="elevation-1"
                         data-cy="task"
                     >
@@ -88,7 +88,9 @@
                                 elevation="0"
                                 small
                                 class="my-1 mr-1 secondary-button"
-                                @click.stop="openLogsDialog(item.task_id)"
+                                @click.stop="
+                                    openLogsDialog(item.execution_id, item.workflow_instance_id)
+                                "
                                 data-cy="view-logs-button"
                             >
                                 View Logs
@@ -206,7 +208,7 @@ export default class IssuesTable extends Vue {
             results.push(result);
             if (result) {
                 const _issue = this.selectedIssues.filter(
-                    (si) => si.task_id == issue.issue.task_id,
+                    (si) => si.execution_id == issue.issue.execution_id,
                 )[0];
                 const index = this.selectedIssues.indexOf(_issue);
                 if (index != -1) {
@@ -255,8 +257,14 @@ export default class IssuesTable extends Vue {
         });
     }
 
-    openLogsDialog(task_id: number): void {
-        EventBus.$emit("openJSONViewerDialog", true, JSONViewerModalType.logs, task_id);
+    openLogsDialog(execution_id: string, workflow_id: string): void {
+        EventBus.$emit(
+            "openJSONViewerDialog",
+            true,
+            JSONViewerModalType.logs,
+            execution_id,
+            workflow_id,
+        );
     }
 }
 </script>
