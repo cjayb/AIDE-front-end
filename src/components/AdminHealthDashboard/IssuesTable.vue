@@ -172,6 +172,7 @@ export default class IssuesTable extends Vue {
     issues: IIssue[] = [];
     dialogDelete = false;
     headers = [
+        { text: "Payload ID", value: "payload_id" },
         { text: "Task ID", value: "task_id" },
         { text: "Status", value: "status" },
         { text: "Model", value: "model_name" },

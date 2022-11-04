@@ -3,6 +3,7 @@ import ApiMocks from "../../fixtures/mockIndex";
 
 export class TaskData implements IIssue {
     task_id: string;
+    payload_id: string;
     status: string;
     model_name: string;
     patient_name: string;
@@ -13,6 +14,7 @@ export class TaskData implements IIssue {
 
     constructor(task: IIssue) {
         this.task_id = task.task_id;
+        this.payload_id = task.payload_id;
         this.status = task.status;
         this.model_name = task.model_name;
         this.patient_name = task.patient_name;
