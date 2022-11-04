@@ -63,7 +63,7 @@
                     </template>
                     <v-list dense>
                         <v-list-item link v-for="(value, key) in artifacts" :key="key">
-                            <v-list-item-title @click="downloadArtifactByKey(value)">
+                            <v-list-item-title @click="downloadArtifactByKey(value, key)">
                                 {{ key }}
                             </v-list-item-title>
                         </v-list-item>
@@ -78,7 +78,10 @@
 import Component from "vue-class-component";
 import Vue from "vue";
 import { Prop, Watch } from "vue-property-decorator";
-import { getPayloadExecutionArtifacts } from "@/api/Admin/payloads/PayloadService";
+import {
+    getPayloadExecutionArtifacts,
+    getPayloadExecutionOutput,
+} from "@/api/Admin/payloads/PayloadService";
 import { EventBus } from "@/event-bus";
 import { formatDateAndTimeOfString } from "@/utils/date-utilities";
 
@@ -153,8 +156,16 @@ export default class ModelDetailsSection extends Vue {
         this.loadingArtifacts = Object.keys(this.artifacts).length === 0;
     }
 
-    downloadArtifactByKey(key: string) {
-        window.open(`${window.FRONTEND_API_HOST}/executions/artifact-download?key=${key}`);
+    async downloadArtifactByKey(objectKey: string, fileName: string) {
+        const data = await getPayloadExecutionOutput(objectKey);
+
+        const url = window.URL.createObjectURL(new Blob([data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", fileName);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
 }
 </script>

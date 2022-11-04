@@ -66,3 +66,11 @@ export async function getPayloadExecutionMetadata(
 
     return response.data;
 }
+
+export async function getPayloadExecutionOutput(objectKey: string): Promise<Blob> {
+    const response = await http.get<Blob>(`/executions/artifact-download?key=${objectKey}`, {
+        responseType: "blob",
+    });
+
+    return response.data;
+}
