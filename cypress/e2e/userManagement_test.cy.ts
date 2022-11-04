@@ -15,7 +15,7 @@ const clinician = "Clinician";
 const userManager = "User-Manager";
 const EditableRole1 = "Editable role 1";
 
-describe("Display list of users", () => {
+describe.skip("Display list of users", () => {
     beforeEach(() => {
         userManagementPage.initPage();
     });
@@ -75,18 +75,6 @@ describe("Display list of users", () => {
         });
     });
 
-    describe("Sort", () => {
-        ["first name", "last name", "email"].forEach((field) => {
-            it(`When I select the ${field} column to sort users, a request is sent to the API to sort by ${field}`, () => {
-                userManagementPage.assertRequestSort(field);
-            });
-
-            it(`When the sorted users are returned, the users are displayed by ${field}`, () => {
-                userManagementPage.sortedUsersDisplayedCorrectly(field);
-            });
-        });
-    });
-
     describe("Pagination", () => {
         it("Pagination visible", () => {
             userManagementPage.elementVisibleGet(".v-data-footer__select");
@@ -103,7 +91,7 @@ describe("Display list of users", () => {
     });
 });
 
-describe("Display list of users - API errors", () => {
+describe.skip("Display list of users - API errors", () => {
     const getUserErrorMessage = "Something unexpected went wrong retrieving users";
     const getRolesErrorMessage = "Something unexpected went wrong retrieving roles";
     [400, 404, 500, 502].forEach((statusCode) => {
@@ -126,7 +114,7 @@ describe("Display list of users - API errors", () => {
     });
 });
 
-describe("Add/Edit/Delete list of users", () => {
+describe.skip("Add/Edit/Delete list of users", () => {
     beforeEach(() => {
         userManagementPage.initPageOneUser();
         cy.injectAxe();
@@ -257,7 +245,7 @@ describe("Add/Edit/Delete list of users", () => {
     });
 });
 
-describe("Roles", () => {
+describe.skip("Roles", () => {
     beforeEach(() => {
         userManagementPage.initPageRoles();
         cy.injectAxe();
@@ -341,7 +329,7 @@ describe("Roles", () => {
     });
 });
 
-describe("Display list of roles - API errors", () => {
+describe.skip("Display list of roles - API errors", () => {
     const getRolesErrorMessage = "Something unexpected went wrong retrieving roles";
     [400, 404, 500, 502].forEach((statusCode) => {
         it(`UI message displayed if a ${statusCode} error is returned from the API on getting roles`, () => {
@@ -364,7 +352,7 @@ describe("Display list of roles - API errors", () => {
     });
 });
 
-describe("Add/Edit/Delete list of roles", () => {
+describe.skip("Add/Edit/Delete list of roles", () => {
     beforeEach(() => {
         userManagementPage.initPageOneRole();
         cy.injectAxe();

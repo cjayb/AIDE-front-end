@@ -52,23 +52,23 @@
                         <template v-slot:no-results>
                             <span class="grey--text text--darken-3">No results found</span>
                         </template>
-                        <template v-slot:[`item.patient_name`]="{ item }">
-                            <strong data-cy="patient-name-payload">
+                        <template v-slot:[`item.patient_name`]="{ item, index }">
+                            <strong :data-cy="`patient-name-payload-${index}`">
                                 {{ item.patient_name }}
                             </strong>
                         </template>
-                        <template v-slot:[`item.patient_id`]="{ item }">
-                            <span data-cy="patient-id-payload">
+                        <template v-slot:[`item.patient_id`]="{ item, index }">
+                            <span :data-cy="`patient-id-payload-${index}`">
                                 {{ item.patient_id }}
                             </span>
                         </template>
-                        <template v-slot:[`item.payload_id`]="{ item }">
-                            <span data-cy="payload-id">
+                        <template v-slot:[`item.payload_id`]="{ item, index }">
+                            <span :data-cy="`payload-id-${index}`">
                                 {{ item.payload_id }}
                             </span>
                         </template>
-                        <template v-slot:[`item.payload_received`]="{ item }">
-                            <span data-cy="payload-received">
+                        <template v-slot:[`item.payload_received`]="{ item, index }">
+                            <span :data-cy="`payload-received-${index}`">
                                 {{ item.payload_received }}
                             </span>
                         </template>

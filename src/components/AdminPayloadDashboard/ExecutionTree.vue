@@ -21,16 +21,21 @@
                                 :class="`tree-node d-flex flex-column ${node.status} ${
                                     selectedNode?.id === node.id ? 'selected' : ''
                                 }`"
-                                :data-cy="`node ${node.workflow_name}`"
+                                :data-cy="
+                                    node.workflow_name
+                                        ? `node-${node.workflow_name}`
+                                        : `node-${node.name}`
+                                "
                             >
-                                <span
-                                    class="tree-node-title mt-5"
-                                    :data-cy="`name ${node.workflow_name}`"
-                                >
-                                    <span v-if="node.id === 'workflow-instance'">{{
-                                        node.workflow_name
+                                <span class="tree-node-title mt-5">
+                                    <span
+                                        :data-cy="`node-name-${node.workflow_name}`"
+                                        v-if="node.id === 'workflow-instance'"
+                                        >{{ node.workflow_name }}</span
+                                    >
+                                    <span :data-cy="`node-name-${node.name}`" v-else>{{
+                                        node.name
                                     }}</span>
-                                    <span v-else>{{ node.name }}</span>
                                 </span>
                                 <span v-if="node.id === 'workflow-instance'" class="tree-node-text">
                                     Workflow
@@ -41,7 +46,11 @@
                                 <span
                                     v-if="node.id !== 'root-node'"
                                     class="tree-node-text"
-                                    :data-cy="`date ${node.name}`"
+                                    :data-cy="
+                                        node.workflow_name
+                                            ? `node-date-${node.workflow_name}`
+                                            : `node-date-${node.name}`
+                                    "
                                 >
                                     {{ node.start_date | formatDateAndTimeOfString }}
                                 </span>

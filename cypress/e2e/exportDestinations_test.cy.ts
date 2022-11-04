@@ -1,5 +1,5 @@
 import { DestinationData } from "data/dicom-configuration/destinations";
-import Destinations from "pages/adminDicomConfiguration";
+import Destinations from "pages/exportDestinations";
 
 const dicomConfigurationPage = new Destinations();
 const destinationsData = DestinationData.DESTINATIONS_EXAMPLE;
@@ -54,7 +54,7 @@ describe.skip("Display list of destinations", () => {
                     dicomConfigurationPage.clickDataCy("add-dicom-configuration-button");
                     dicomConfigurationPage.noSpacesOrSpecialCharactersValidation(field);
                 });
-            })
+            });
             it("'Save' button is inactive until all fields are populated", () => {
                 dicomConfigurationPage.clickDataCy("add-dicom-configuration-button");
                 dicomConfigurationPage.saveDisabledUnlessAllFIeldsEntered(newDestinationData);

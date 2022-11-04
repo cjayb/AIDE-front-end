@@ -234,10 +234,10 @@ export default class UserTabItem extends Vue {
     loading = false;
 
     userHeaders: DataTableHeader[] = [
-        { text: "First Name", value: "firstName", sortable: true, filterable: true },
-        { text: "Last Name", value: "lastName", sortable: true, filterable: true },
+        { text: "First Name", value: "firstName", sortable: false, filterable: true },
+        { text: "Last Name", value: "lastName", sortable: false, filterable: true },
         { text: "Status", value: "status", sortable: false },
-        { text: "Email", value: "email", sortable: true, filterable: true },
+        { text: "Email", value: "email", sortable: false, filterable: true },
         { text: "Roles", value: "roles", sortable: false },
         { text: "Actions", value: "id", sortable: false, width: "210px" },
     ];
@@ -260,8 +260,6 @@ export default class UserTabItem extends Vue {
     tableOptions: DataOptions = {
         page: 1,
         itemsPerPage: 10,
-        sortBy: [] as string[],
-        sortDesc: [] as boolean[],
     } as DataOptions;
 
     totalUsers = 0;

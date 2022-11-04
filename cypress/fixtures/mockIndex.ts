@@ -1,17 +1,20 @@
 export default class ApiMocks {
-    //Admin Dashboard
-    public static ADMIN_DASHBOARD_MODELS = require("./admin-dashboard/adminDashboardModels.json");
-    public static ADMIN_DASHBOARD_MODEL_DETAILS_ONE_DAY = require("./admin-dashboard/adminDashboardModelDetailsOneDay.json");
-    public static ADMIN_DASHBOARD_MODEL_DETAILS_TEN_DAYS = require("./admin-dashboard/adminDashboardModelDetailsTenDays.json");
-    public static ADMIN_DASHBOARD_MODEL_DETAILS_ONE_HUNDRED_DAYS = require("./admin-dashboard/adminDashboardModelDetailsOneHundredDays.json");
-    public static ADMIN_DASHBOARD_EXECUTION_LOGS = require("./admin-dashboard/adminDashboardExecutionLogs.json");
-    public static ADMIN_DASHBOARD_NO_FAILED_MODELS = require("./admin-dashboard/adminDashboardNoFailedModels.json");
-    public static ADMIN_DASHBOARD_FAILED_MODELS = require("./admin-dashboard/adminDashboardFailedModels.json");
-    public static ADMIN_DASHBOARD_TASKS = require("./admin-dashboard/adminDashboardIssues.json");
-    public static ADMIN_DASHBOARD_SINGLE_TASK = require("./admin-dashboard/adminDashboardSingleIssue.json");
-    public static ADMIN_DASHBOARD_PAYLOAD_TABLE = require("./admin-dashboard/adminDashboardPayloadTable.json");
-    public static ADMIN_DASHBOARD_PAYLOAD_EXECUTIONS = require("./admin-dashboard/adminDashboardPayloadExecutions.json");
-    public static ADMIN_DASHBOARD_ISSUES_DISMISS = require("./admin-dashboard/adminDashboardIssuesDismiss.json");
+    //Health Dashboard
+    public static ADMIN_DASHBOARD_MODELS = require("./health-dashboard/adminDashboardModels.json");
+    public static ADMIN_DASHBOARD_MODEL_DETAILS_ONE_DAY = require("./health-dashboard/adminDashboardModelDetailsOneDay.json");
+    public static ADMIN_DASHBOARD_MODEL_DETAILS_TEN_DAYS = require("./health-dashboard/adminDashboardModelDetailsTenDays.json");
+    public static ADMIN_DASHBOARD_MODEL_DETAILS_ONE_HUNDRED_DAYS = require("./health-dashboard/adminDashboardModelDetailsOneHundredDays.json");
+    public static ADMIN_DASHBOARD_EXECUTION_LOGS = require("./health-dashboard/adminDashboardExecutionLogs.json");
+    public static ADMIN_DASHBOARD_NO_FAILED_MODELS = require("./health-dashboard/adminDashboardNoFailedModels.json");
+    public static ADMIN_DASHBOARD_FAILED_MODELS = require("./health-dashboard/adminDashboardFailedModels.json");
+    public static ADMIN_DASHBOARD_TASKS = require("./health-dashboard/adminDashboardIssues.json");
+    public static ADMIN_DASHBOARD_SINGLE_TASK = require("./health-dashboard/adminDashboardSingleIssue.json");
+    public static ADMIN_DASHBOARD_ISSUES_DISMISS = require("./health-dashboard/adminDashboardIssuesDismiss.json");
+    //Payload Dashboard
+    public static ADMIN_DASHBOARD_PAYLOAD_TABLE = require("./payload-dashboard/payloadTable.json");
+    public static ADMIN_DASHBOARD_PAYLOAD_EXECUTIONS = require("./payload-dashboard/payloadExecutions.json");
+    public static PAYLOAD_SEARCH = require("./payload-dashboard/payloadSearch.json");
+    public static PAYLOAD_METADATA = require("./payload-dashboard/payloadMetadata.json");
     //User Management
     public static USER_MANAGEMENT_GET_USERS = require("./user-management/userManagement.json");
     public static USER_MANAGEMENT_ROLES = require("./user-management/userManagementRoles.json");

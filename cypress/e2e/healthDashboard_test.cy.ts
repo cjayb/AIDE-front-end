@@ -1,15 +1,11 @@
-import { TaskData } from "../data/admin-dashboard/issues";
-import { ModelSummaryData } from "../data/admin-dashboard/models";
-import { ModelDetailsData } from "../data/admin-dashboard/graph";
-import { ExecStatistics } from "../data/admin-dashboard/statistics";
-import AdminPayloadDashboardPage from "pages/admin-dashboard/adminPayloadDashboard";
-import AdminHealthDashboardPage from "../pages/admin-dashboard/adminHealthDashboard";
-import { PayloadData } from "data/admin-dashboard/payloadTable";
-import { PayloadTreeData } from "data/admin-dashboard/payloadTree";
+import { TaskData } from "../data/health-dashboard/issues";
+import { ModelSummaryData } from "../data/health-dashboard/models";
+import { ModelDetailsData } from "../data/health-dashboard/graph";
+import { ExecStatistics } from "../data/health-dashboard/statistics";
+import AdminHealthDashboardPage from "../pages/healthDashboard";
 import { AbstractPage } from "pages/abstractPage";
 
 const adminHealthPage = new AdminHealthDashboardPage();
-const adminPayloadPage = new AdminPayloadDashboardPage();
 const abstractPage = new AbstractPage();
 
 describe.skip(`Admin health - Overview section`, () => {
@@ -161,116 +157,5 @@ describe.skip(`Admin health - API errors`, () => {
             adminHealthPage.initPageModelsApiErrors(error_code as number);
             adminHealthPage.assertLatestErrorContainsMessage(text);
         });
-    });
-});
-
-describe.skip(`Admin Payload - Table`, () => {
-    beforeEach(() => {
-        adminPayloadPage.initPagePayload();
-        cy.injectAxe();
-    });
-    const tuple = [
-        [PayloadData.PAYLOAD_DATA_1, `Payload 1`],
-        [PayloadData.PAYLOAD_DATA_2, `Payload 2`],
-        [PayloadData.PAYLOAD_DATA_3, `Payload 3`],
-        [PayloadData.PAYLOAD_DATA_4, `Payload 4`],
-        [PayloadData.PAYLOAD_DATA_5, `Payload 5`],
-    ];
-    tuple.forEach(($type) => {
-        const [payload_data, test_name] = $type;
-        it(`I can view the data returned by the API for ${test_name} in the
-        Payload table`, () => {
-            adminPayloadPage.assertTableDataCorrect(payload_data as PayloadData);
-        });
-    });
-    const tuple2 = [
-        [`1`, PayloadData.PAYLOAD_DATA_1, `Payload ID`],
-        [`Louiza Van-Der-Varintaford`, PayloadData.PAYLOAD_DATA_2, `patient name`],
-        [`423 323 2235`, PayloadData.PAYLOAD_DATA_3, `patient ID`],
-        [`2022-05-26 08:05`, PayloadData.PAYLOAD_DATA_5, `execution data/time`],
-    ];
-    tuple2.forEach(($type) => {
-        const [search_text, payload_data, test_name] = $type;
-        it(`Using the search field I can search for a specific ${test_name}`, () => {
-            adminPayloadPage.searchIssuesTable(search_text as string);
-            adminPayloadPage.assertCorrectTaskReturned(payload_data as PayloadData);
-        });
-    });
-});
-
-describe.skip(`Admin Payload - Tree`, () => {
-    beforeEach(() => {
-        adminPayloadPage.initPagePayload();
-        adminPayloadPage.expandAndViewTree(PayloadData.PAYLOAD_DATA_1);
-        cy.injectAxe();
-    });
-    it(`When I click on the drop down, all the model names
-        in the tree are correct`, () => {
-        adminPayloadPage.assertModelNameCorrect(PayloadTreeData.TREE_DATA_1);
-    });
-    it(`When I click on the drop down, all the model finish
-        dates in the tree are correct`, () => {
-        adminPayloadPage.assertModelDateCorrect(PayloadTreeData.TREE_DATA_1);
-    });
-    it(`When I click on the drop down, the model node colours
-        in the tree are green if they succeeded and red if they failed`, () => {
-        adminPayloadPage.assertNodeColour(PayloadTreeData.TREE_DATA_1);
-    });
-    it(`When I click on zoom in, the tree data is still present`, () => {
-        adminPayloadPage.clickZoomIn();
-        adminPayloadPage.assertModelNameCorrect(PayloadTreeData.TREE_DATA_1);
-        adminPayloadPage.assertModelDateCorrect(PayloadTreeData.TREE_DATA_1);
-    });
-    it(`When I click on zoom out, the tree data is still present`, () => {
-        adminPayloadPage.clickZoomOut();
-        adminPayloadPage.assertModelNameCorrect(PayloadTreeData.TREE_DATA_1);
-        adminPayloadPage.assertModelDateCorrect(PayloadTreeData.TREE_DATA_1);
-    });
-    it(`When I click on reset, the tree data is still present`, () => {
-        adminPayloadPage.clickZoomIn();
-        adminPayloadPage.clickReset();
-        adminPayloadPage.assertModelNameCorrect(PayloadTreeData.TREE_DATA_1);
-        adminPayloadPage.assertModelDateCorrect(PayloadTreeData.TREE_DATA_1);
-    });
-});
-
-describe.skip(`Admin payload - API errors`, () => {
-    const text = "Something unexpected went wrong retrieving executions!";
-    const tuple = [
-        [400, "400"],
-        [404, "404"],
-        [500, "500"],
-        [502, "502"],
-        [301, "301"],
-    ];
-    tuple.forEach(($type) => {
-        const [error_code, title] = $type;
-        it(`Error is displayed when a request for payloads is made and the API returns a ${title} error`, () => {
-            adminPayloadPage.initPagePayloadApiError(error_code as number);
-            adminPayloadPage.assertLatestErrorContainsMessage(text);
-        });
-        it(`Error is displayed when a request for payload tree data is made and the API returns a ${title} error`, () => {
-            adminPayloadPage.initPagePayloadTreeApiError(error_code as number);
-            adminPayloadPage.assertLatestErrorContainsMessage(text);
-        });
-    });
-});
-
-describe.skip(`Admin Payload - Model Details Popover Information`, () => {
-    beforeEach(() => {
-        adminPayloadPage.initPagePayload();
-        adminPayloadPage.expandAndViewTree(PayloadData.PAYLOAD_DATA_1);
-        cy.injectAxe();
-    });
-    it(`When I click each node, the model name should be correct in the popover menu`, () => {
-        adminPayloadPage.clickZoomOut();
-        adminPayloadPage.assertModelNameMatchesPopover(PayloadTreeData.TREE_DATA_1);
-    });
-    it(`When I click each node, the node colour should be similar to the popover menu status tag colour`, () => {
-        adminPayloadPage.clickZoomOut();
-        adminPayloadPage.assertModelColourMatchesPopover(PayloadTreeData.TREE_DATA_1);
-    });
-    it(`When I click on the View Logs button, I should be able to see the log data`, () => {
-        adminPayloadPage.assertPopoverLogsDisplayed(TaskData.TASK_DATA_1);
     });
 });

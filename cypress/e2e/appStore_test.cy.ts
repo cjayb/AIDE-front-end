@@ -1,8 +1,5 @@
-/// <reference types="cypress" />
-
 import appStorePage from "../pages/appStore";
 import { ApplicationData } from "../data/app-store/application";
-import { nodeTerminal, a11yConfig } from "utils/a11y_util";
 import AppStorePage from "../pages/appStore";
 import Order from "data/enums/order";
 

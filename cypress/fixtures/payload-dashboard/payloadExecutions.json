@@ -1,0 +1,62 @@
+[
+    {
+        "ae_title": "MonaiSCU",
+        "id": "e26bec36-9a22-4be2-8402-379cb96c22e5",
+        "payload_id": "5f624ab5-88f2-4f47-b239-f05851a94c31",
+        "start_time": "2022-08-15T09:37:59.634Z",
+        "status": "Succeeded",
+        "tasks": [
+            {
+                "execution_id": "1f3d4b42-8a8f-41b1-9cc7-bfb19d9716de",
+                "next_task": [],
+                "payload_id": "5f624ab5-88f2-4f47-b239-f05851a94c31",
+                "status": "Succeeded",
+                "task_id": "export-task-connectathon",
+                "task_start_time": "2022-11-03T09:37:59.634Z",
+                "workflow_instance_id": "e26bec36-9a22-4be2-8402-379cb96c22e5"
+            }
+        ],
+        "workflow_id": "ba85e76a-f03e-4b54-b2ea-c7736afa8c13",
+        "workflow_name": "Workflow-test-1"
+    },
+    {
+        "ae_title": "MonaiSC2",
+        "id": "666a30a9-516b-4906-9315-e7dc23af4666",
+        "payload_id": "e3a91e70-ade6-40b8-96f4-a9f8151919ac",
+        "start_time": "2022-09-16T09:38:560.634Z",
+        "status": "Dispatched",
+        "tasks": [
+            {
+                "execution_id": "8a070831-53a3-4dfe-b568-a3edbf62282f",
+                "next_task": [],
+                "payload_id": "e3a91e70-ade6-40b8-96f4-a9f8151919ac",
+                "status": "Dispatched",
+                "task_id": "export-task-connectathon2",
+                "task_start_time": "2022-09-16T09:37:59.634Z",
+                "workflow_instance_id": "666a30a9-516b-4906-9315-e7dc23af4666"
+            }
+        ],
+        "workflow_id": "739e4f70-a6c0-4e98-8e47-469f7b8b9606",
+        "workflow_name": "Workflow-test-2"
+    },
+    {
+        "ae_title": "MonaiSC2",
+        "id": "a54a30a9-516b-4906-9315-e7dc23af4539",
+        "payload_id": "e3a91e70-ade6-40b8-96f4-a9f8151919ac",
+        "start_time": "2022-09-16T09:38:560.634Z",
+        "status": "Failed",
+        "tasks": [
+            {
+                "execution_id": "8a070831-53a3-4dfe-b568-a3edbf62282f",
+                "next_task": [],
+                "payload_id": "e3a91e70-ade6-40b8-96f4-a9f8151919ac",
+                "status": "Failed",
+                "task_id": "export-task-connectathon3",
+                "task_start_time": "2022-09-16T09:37:59.634Z",
+                "workflow_instance_id": "a54a30a9-516b-4906-9315-e7dc23af4539"
+            }
+        ],
+        "workflow_id": "739e4f70-a6c0-4e98-8e47-469f7b8b9606",
+        "workflow_name": "Workflow-test-2"
+    }
+]
