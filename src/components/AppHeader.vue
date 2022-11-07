@@ -117,7 +117,7 @@ export default class AppHeader extends Vue {
 
         if (logout !== undefined) {
             sessionStorage.clear();
-            logout({ redirectUri: `${window.location.origin}/#/` });
+            logout();
         }
     }
 

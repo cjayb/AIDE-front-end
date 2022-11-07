@@ -76,21 +76,24 @@ export const routes: Array<RouteConfig> = [
         name: "ApplicationRepositoryList",
         children: [
             {
-                path: "",
+                path: "/",
                 name: "ApplicationRepositoryList",
                 component: ListView,
+                beforeEnter: roleAuthenticatedRoute,
                 meta: {
                     breadCrumb: [
                         {
                             text: "Application Repository",
                         },
                     ],
+                    requiredRoles: [deployer],
                 },
             },
             {
                 path: ":application_id",
                 name: "ApplicationRepositoryDetail",
                 component: DetailView,
+                beforeEnter: roleAuthenticatedRoute,
                 meta: {
                     breadCrumb(route: Route) {
                         const application_id = route.params.application_id;
@@ -104,6 +107,7 @@ export const routes: Array<RouteConfig> = [
                             },
                         ];
                     },
+                    requiredRoles: [deployer],
                 },
             },
         ],
@@ -162,9 +166,7 @@ export const routes: Array<RouteConfig> = [
                     return;
                 }
 
-                login({
-                    redirectUri: `${window.location.origin}/#${to.path}`,
-                });
+                login({ redirectUri: window.location.origin });
             }
 
             Vue.prototype.$keycloak.keycloak.updateToken(70).then(() => {
@@ -229,7 +231,7 @@ const router = new VueRouter({
 });
 
 router.afterEach((to) => {
-    if (window.location.pathname === "/" || !to.name) {
+    if (window.location.pathname === "/" || !to.name || to.name === "Unauthorized") {
         return;
     }
 
