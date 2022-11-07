@@ -56,6 +56,7 @@ describe(`Admin health - Issues table section`, () => {
 
     const tuple2 = [
         [`1`, TaskData.TASK_DATA_1, `task ID`],
+        [`041293d0-ab97-4ea1-b967-42ec62f26111`, TaskData.TASK_DATA_1, `payload ID`],
         [`Test model 2`, TaskData.TASK_DATA_2, `model name`],
         [`Dr Joseph Batts`, TaskData.TASK_DATA_3, `patient name`],
         [`111235999`, TaskData.TASK_DATA_4, `patient ID`],

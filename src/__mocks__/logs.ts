@@ -3,6 +3,7 @@ import { rest } from "msw";
 const logs = [
     {
         task_id: 1,
+        payload_id: "041293d0-ab97-4ea1-b967-42ec62f26111",
         status: "Error",
         model_name: "test model 1",
         patient_name: "test patient",
@@ -11,6 +12,7 @@ const logs = [
     },
     {
         task_id: 2,
+        payload_id: "041293d0-ab97-4ea1-b967-42ec62f26222",
         status: "Error",
         model_name: "test model 2",
         patient_name: "test patient",
@@ -19,6 +21,7 @@ const logs = [
     },
     {
         task_id: 3,
+        payload_id: "041293d0-ab97-4ea1-b967-42ec62f26333",
         status: "Error",
         model_name: "test model 3",
         patient_name: "test patient",
@@ -27,6 +30,7 @@ const logs = [
     },
     {
         task_id: 4,
+        payload_id: "041293d0-ab97-4ea1-b967-42ec62f26444",
         status: "Error",
         model_name: "test model 4",
         patient_name: "test patient",
@@ -35,6 +39,7 @@ const logs = [
     },
     {
         task_id: 5,
+        payload_id: "041293d0-ab97-4ea1-b967-42ec62f26555",
         status: "Error",
         model_name: "test model 5",
         patient_name: "test patient",
@@ -43,6 +48,7 @@ const logs = [
     },
     {
         task_id: 6,
+        payload_id: "041293d0-ab97-4ea1-b967-42ec62f26666",
         status: "Error",
         model_name: "test model 6",
         patient_name: "test patient",
@@ -51,6 +57,7 @@ const logs = [
     },
     {
         task_id: 7,
+        payload_id: "041293d0-ab97-4ea1-b967-42ec62f26777",
         status: "Error",
         model_name: "test model 7",
         patient_name: "test patient",
