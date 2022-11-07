@@ -71,6 +71,9 @@ if (process.env.VUE_APP_AUTH_ENABLED === "true") {
             realm: process.env.VUE_APP_KEYCLOAK_REALM,
             clientId: process.env.VUE_APP_KEYCLOAK_CLIENT_ID,
         },
+        logout: {
+            redirectUri: window.location.origin,
+        },
         onReady: () => {
             app.$mount("#app");
         },
