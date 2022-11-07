@@ -57,12 +57,12 @@ describe(`Admin Payload - Tree`, () => {
 describe(`Admin payload - API errors`, () => {
     const text = "Something unexpected went wrong retrieving executions!";
 
-    [400, 404, 500, 502].forEach((code) => {
-        it(`Error is displayed when a request for payloads is made and the API returns a ${code} error`, () => {
+    [400, 404, 500].forEach((code) => {
+        it(`Toast displayed if a ${code} error is returned when a request for payloads is made`, () => {
             adminPayloadPage.initPagePayloadApiError(code);
             adminPayloadPage.assertToast(text);
         });
-        it(`Error is displayed when a request for payload tree data is made and the API returns a ${code} error`, () => {
+        it(`Toast displayed if a ${code} error is returned when a request for payload tree data is made`, () => {
             adminPayloadPage.initPagePayload();
             adminPayloadPage.initPagePayloadTreeApiError(code, payloadTableData as PayloadData);
             adminPayloadPage.assertToast(text);

@@ -6,40 +6,82 @@ import { IExportDestination } from "../../src/models/export-destinations/ExportD
 export default class Destinations extends AbstractPage {
     public initPage() {
         cy.intercept("/destinations", ApiMocks.DESTINATIONS_EXAMPLE).as("destinations");
-        cy.visit("/#/admin-export-configuration");
+        cy.visit("/admin-export-configuration");
         cy.wait(["@destinations"]);
         Cypress.on("uncaught:exception", () => {
             return false;
         });
     }
 
-    public initPageErrors(code: number) {
-        cy.intercept("/destinations", { statusCode: code }).as("error");
-        cy.visit("/#/admin-export-configuration");
-        cy.wait(["@error"]);
-        Cypress.on("uncaught:exception", () => {
-            return false;
-        });
-    }
-
-    public initPageError(statuscode: number) {
-        cy.intercept("/destinations", { statusCode: statuscode }).as("destinations");
-        cy.visit("/#/admin-export-configuration");
-        cy.wait(["@destinations"]);
-        Cypress.on("uncaught:exception", () => {
-            return false;
-        });
+    public modalButtons(scenario: string) {
+        switch (scenario) {
+            case "add-cancel":
+                cy.intercept("POST", "/destinations", ApiMocks.DESTINATION_ADD);
+                cy.intercept("GET", "/destinations", ApiMocks.DESTINATIONS_ADDED);
+                this.clickDataCy(`destination-create-cancel`);
+                break;
+            case "add-save":
+                cy.intercept("POST", "/destinations", ApiMocks.DESTINATION_ADD);
+                cy.intercept("GET", "/destinations", ApiMocks.DESTINATIONS_ADDED).as("get");
+                this.clickDataCy(`destination-create-save`);
+                cy.wait("@get");
+                break;
+            case "edit-cancel":
+                cy.intercept("PUT", "/destinations/USEAST", ApiMocks.DESTINATION_ADD);
+                cy.intercept("GET", "/destinations", ApiMocks.DESTINATIONS_ADDED);
+                this.clickDataCy("destination-create-cancel");
+                break;
+            case "edit-save":
+                cy.intercept("PUT", "/destinations/USEAST", ApiMocks.DESTINATION_ADD).as("put");
+                cy.intercept("GET", "/destinations", ApiMocks.DESTINATIONS_ADDED).as("get");
+                this.clickDataCy(`destination-edit-continue`);
+                cy.wait(["@put", "@get"]);
+                break;
+            case "delete-save":
+                cy.intercept("DELETE", `/destinations/USEAST`, {
+                    statusCode: 200,
+                }).as("Delete");
+                cy.intercept("GET", "/destinations", ApiMocks.DESTINATIONS_ADDED).as("Get");
+                this.clickDataCy("destination-delete-continue");
+                Cypress.on("uncaught:exception", () => {
+                    return false;
+                });
+                cy.wait(["@Delete", "@Get"]);
+                break;
+            case "delete-cancel":
+                cy.intercept("DELETE", `/destinations/USEAST`, {
+                    statusCode: 200,
+                });
+                cy.intercept("GET", "/destinations", ApiMocks.DESTINATIONS_ADDED);
+                this.clickDataCy("destination-delete-cancel");
+                Cypress.on("uncaught:exception", () => {
+                    return false;
+                });
+                break;
+            default:
+                throw "This scenario has not been implemented. Please review";
+        }
     }
 
     public deleteDestinationAPIRequest(destination: DestinationData, statusCode: number) {
         cy.intercept("DELETE", `/destinations/${destination.name}`, {
             statusCode: statusCode,
         }).as("Delete");
+        cy.intercept("GET", "/destinations", ApiMocks.DESTINATIONS_ADDED);
         this.clickDataCy("destination-delete-continue");
         Cypress.on("uncaught:exception", () => {
             return false;
         });
         cy.wait(["@Delete"]);
+    }
+
+    public initPageError(statuscode: number) {
+        cy.intercept("/destinations", { statusCode: statuscode }).as("destinations");
+        cy.visit("/admin-export-configuration");
+        cy.wait(["@destinations"]);
+        Cypress.on("uncaught:exception", () => {
+            return false;
+        });
     }
 
     public editDestinationAPIRequest(destination: DestinationData, statusCode: number) {
@@ -62,28 +104,6 @@ export default class Destinations extends AbstractPage {
             return false;
         });
         cy.wait(["@Post"]);
-    }
-
-    public editButtonVisibleDestinations() {
-        [0, 1].forEach((row) => {
-            cy.dataCy(`destination-action-edit-${row}`).should("be.visible");
-        });
-    }
-
-    public deleteButtonVisibleDestinations() {
-        [0, 1].forEach((row) => {
-            cy.dataCy(`destination-action-delete-${row}`).should("be.visible");
-        });
-    }
-
-    public echoButtonVisibleDestinations() {
-        [0, 1].forEach((row) => {
-            cy.dataCy(`destination-action-echo-${row}`).should("be.visible");
-        });
-    }
-
-    public createDestinationsButtonVisible() {
-        cy.dataCy("add-dicom-configuration-button").should("be.visible");
     }
 
     public assertTableDataCorrect(destination: IExportDestination) {
@@ -126,18 +146,7 @@ export default class Destinations extends AbstractPage {
         this.assertAddDICOMConfigurationButton("enabled");
     }
 
-    public assertAddedDestinationDetailsCorrect(newDestination: IExportDestination) {
-        cy.intercept("POST", "/destinations", newDestination).as("Post");
-        cy.intercept("GET", "/destinations", newDestination).as("Get");
-        this.clickDataCy("destination-create-save");
-        Cypress.on("uncaught:exception", () => {
-            return false;
-        });
-        cy.wait(["@Post", "@Get"]);
-        this.assertTableDataCorrect(newDestination);
-    }
-
-    public assertDestinationNotSaved(destination: IExportDestination) {
+    public assertTableCorrect(destination: IExportDestination) {
         cy.dataCy(`destination-name-0`).should(`contain`, destination.name);
         cy.dataCy(`destination-port-0`).should(`contain`, destination.port);
         cy.dataCy(`destination-ae-title-0`).should(`contain`, destination.aeTitle);
@@ -203,18 +212,9 @@ export default class Destinations extends AbstractPage {
         cy.get(tag).should("be.visible");
     }
 
-    public elementNotVisibleDataCy(tag: string) {
-        cy.wait(500);
-        cy.dataCy(tag).should("not.be.visible");
-    }
-
     public elementVisibleDataCy(tag: string) {
         cy.wait(500);
         cy.dataCy(tag).should("be.visible");
-    }
-
-    public elementNotVisibleGet(tag: string) {
-        cy.get(tag).should("not.be.visible");
     }
 
     public elementDisabled(tag: string) {

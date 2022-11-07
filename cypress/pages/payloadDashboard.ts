@@ -5,9 +5,7 @@ import {
     TaskExecution,
     WorkflowInstance,
 } from "../../src/models/Admin/IPayload";
-import { ExecutionTreeRoot } from "../../src/utils/workflow-instance-mapper";
 import { formatDateAndTimeOfString } from "../../src/utils/date-utilities";
-import moment from "moment";
 import { formatDateAndTimeOfArray } from "../../src/utils/date-utilities";
 import { AbstractPage } from "./abstractPage";
 
@@ -337,16 +335,6 @@ export default class AdminPayloadDashboardPage extends AbstractPage {
             statusCode: error,
         }).as(`executions`);
         cy.get(`tbody > :nth-child(${payload_id}) > :nth-child(1)`).click();
-        cy.wait([`@executions`]);
-        Cypress.on(`uncaught:exception`, () => {
-            return false;
-        });
-    }
-
-    public expandAndViewTreeWithoutData(payload: IPayload): void {
-        const payload_id = payload.payload_id;
-        cy.intercept(`/payloads/${payload_id}/executions`, { statusCode: 400 }).as(`executions`);
-        cy.get(`tbody > :nth-child(${payload_id}) > :nth-child(1)`).should(`exist`).click();
         cy.wait([`@executions`]);
         Cypress.on(`uncaught:exception`, () => {
             return false;

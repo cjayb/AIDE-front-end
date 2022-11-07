@@ -57,7 +57,8 @@ export default class ApiMocks {
     //App Profile
     public static APP_PROFILE_PAGE1 = require("./app-profile/appProfilePage1.json");
     public static APP_PROFILE_PAGE2 = require("./app-profile/appProfilePage2.json");
-    //DICOM Configuration
-    public static DESTINATIONS_EXAMPLE = require("./dicom-configuration/destinations.json");
-    public static DESTINATION_ADD = require("./dicom-configuration/newDestination.json");
+    //Export Destinations
+    public static DESTINATIONS_EXAMPLE = require("./export-Destinations/destinations.json");
+    public static DESTINATION_ADD = require("./export-Destinations/newDestination.json");
+    public static DESTINATIONS_ADDED = require("./export-Destinations/addedDestination.json");
 }

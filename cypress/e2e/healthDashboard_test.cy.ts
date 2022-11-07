@@ -30,46 +30,17 @@ describe(`Admin health - Issues table section`, () => {
         adminHealthPage.initPage();
         cy.injectAxe();
     });
-    const tuple = [
-        [TaskData.TASK_DATA_1, `Task 1`],
-        [TaskData.TASK_DATA_2, `Task 2`],
-        [TaskData.TASK_DATA_3, `Task 3`],
-        [TaskData.TASK_DATA_4, `Task 4`],
-        [TaskData.TASK_DATA_5, `Task 5`],
-    ];
-    tuple.forEach(($type) => {
-        const [task_data, test_name] = $type;
-        it(`I can view the data returned by the API for ${test_name} in the Issues table`, () => {
-            adminHealthPage.assertTableDataCorrect(task_data as TaskData);
-        });
+    it(`I can view the task data in the issues table`, () => {
+        adminHealthPage.assertTableDataCorrect(TaskData.TASK_DATA_1);
+        adminHealthPage.assertTableDataCorrect(TaskData.TASK_DATA_2);
     });
-
-    it(`I can tick the 'Select all' checkbox to select all issues`, () => {
+    it(`I can select all and unselect all issues`, () => {
         adminHealthPage.selectAllIssues();
         adminHealthPage.assertCheckboxesSelected();
-    });
-    it(`I can un-tick the 'Select all' checkbox to unselect all issues`, () => {
-        adminHealthPage.selectAllIssues();
         adminHealthPage.unselectAllIssues();
         adminHealthPage.assertCheckboxesUnselected();
     });
-
-    const tuple2 = [
-        [`1`, TaskData.TASK_DATA_1, `task ID`],
-        [`041293d0-ab97-4ea1-b967-42ec62f26111`, TaskData.TASK_DATA_1, `payload ID`],
-        [`Test model 2`, TaskData.TASK_DATA_2, `model name`],
-        [`Dr Joseph Batts`, TaskData.TASK_DATA_3, `patient name`],
-        [`111235999`, TaskData.TASK_DATA_4, `patient ID`],
-        [`31`, TaskData.TASK_DATA_5, `execution data/time`],
-    ];
-    tuple2.forEach(($type) => {
-        const [search_text, task_data, test_name] = $type;
-        it.skip(`Using the search field I can search for a specific ${test_name}`, () => {
-            adminHealthPage.searchIssuesTable(search_text as string);
-            adminHealthPage.assertCorrectTaskReturned(task_data as TaskData);
-        });
-    });
-    it.skip(`I can view a task's execution logs`, () => {
+    it(`I can view a task's execution logs`, () => {
         adminHealthPage.assertLogsDisplayed(TaskData.TASK_DATA_1);
     });
     it(`I am able to remove individual issues by clicking the dismiss button on each task`, () => {
@@ -85,7 +56,7 @@ describe(`Admin health - Issues table section`, () => {
         adminHealthPage.assertNoIssues();
         abstractPage.assertToast(`You have successfully dismissed 5 tasks.`);
     });
-    it(`I am unable to dismiss a task when there is a error`, () => {
+    it(`I am unable to dismiss a task when there is an error`, () => {
         adminHealthPage.assertDismisalOfTaskFailure(TaskData.TASK_DATA_1);
         abstractPage.assertToast(`Something unexpected went wrong with your dismissal request!`);
     });
@@ -127,35 +98,29 @@ describe.skip(`Admin health - Graph section`, () => {
     });
 });
 
-describe.skip(`Admin health - API errors`, () => {
+describe(`Admin health - API errors`, () => {
     const text = "Something unexpected went wrong retrieving executions!";
-    const tuple = [
-        [400, "400"],
-        [404, "404"],
-        [500, "500"],
-        [502, "502"],
-        [301, "301"],
-    ];
-    tuple.forEach(($type) => {
-        const [error_code, title] = $type;
-        it(`Error is displayed during an overview section request when the API returns a ${title} error code`, () => {
+    const dismissalText = "Something unexpected went wrong with your dismissal request!";
+    [400, 404, 500].forEach((error_code) => {
+        it.skip(`Toast displayed on an overview GET request when a ${error_code} status is returned`, () => {
             adminHealthPage.initPageOverviewApiErrors(error_code as number);
             adminHealthPage.assertLatestErrorContainsMessage(text);
         });
-        it(`Error is displayed during a tasks section request when the API returns a ${title} error code`, () => {
+        it(`Toast displayed on an issues/tasks GET request when a ${error_code} status is returned`, () => {
             adminHealthPage.initPageIssuesApiErrors(error_code as number);
             adminHealthPage.assertLatestErrorContainsMessage(text);
         });
-        it(`Error is displayed during a models section request when the API returns a ${title} error code`, () => {
+        it(`Toast displayed on a task dismissal request when a ${error_code} status is returned`, () => {
+            adminHealthPage.initPage();
+            adminHealthPage.assertDismisalOfTaskFailure(TaskData.TASK_DATA_1);
+            abstractPage.assertToast(dismissalText);
+        });
+        it.skip(`Toast displayed on a models section GET request when a ${error_code} status is returned`, () => {
             adminHealthPage.initPageModelsApiErrors(error_code as number);
             adminHealthPage.assertLatestErrorContainsMessage(text);
         });
-        it(`Error is displayed during a model statistics request when the API returns a ${title} error code`, () => {
+        it.skip(`Toast displayed on a model statistics GET request when a ${error_code} status is returned`, () => {
             adminHealthPage.initPageModelStatisticsApiErrors(error_code as number);
-            adminHealthPage.assertLatestErrorContainsMessage(text);
-        });
-        it(`Error is displayed during a task dismisal when the API returns a ${title} error code`, () => {
-            adminHealthPage.initPageModelsApiErrors(error_code as number);
             adminHealthPage.assertLatestErrorContainsMessage(text);
         });
     });

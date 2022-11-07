@@ -66,27 +66,6 @@ export default class Workflows extends AbstractPage {
         cy.wait(["@Delete"]);
     }
 
-    public editButtonVisible() {
-        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].forEach((row) => {
-            cy.dataCy(`workflow-table-row-actions-${row}`).within(() => {
-                cy.dataCy("workflow-edit").should("be.visible");
-            });
-        });
-    }
-
-    public deleteButtonVisible() {
-        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].forEach((row) => {
-            cy.dataCy(`workflow-table-row-actions-${row}`).within(() => {
-                cy.dataCy("workflow-delete").should("be.visible");
-            });
-        });
-    }
-
-    public elementVisibleDataCy(tag: string) {
-        cy.wait(500);
-        cy.dataCy(tag).should("be.visible");
-    }
-
     public assertTableDataCorrect(workflow: WorkflowData) {
         [0, 1, 2, 3, 4, 5].forEach((row) => {
             cy.dataCy(`workflow-table-row-name-${row}`).should(`contain`, workflow.data[row].name);
@@ -108,31 +87,9 @@ export default class Workflows extends AbstractPage {
         });
     }
 
-    public elementVisibleGet(tag: string) {
-        cy.get(tag).should("be.visible");
-    }
-
-    public assertTotalWorkflows(workflow: WorkflowData) {
-        cy.get(".v-data-footer__pagination").should("contain", workflow.totalRecords);
-    }
-
-    public checkNextPageButtonStatus(workflow: WorkflowData) {
-        if (workflow.totalRecords > 10) {
-            cy.get(".v-data-footer__icons-after > .v-btn").should("be.enabled");
-        } else if (workflow.totalRecords <= 10) {
-            cy.get(".v-data-footer__icons-after > .v-btn").should("be.disabled");
-        }
-    }
-
     public clickDeleteButtonWorkflows(index: number) {
         cy.dataCy(`workflow-table-row-actions-${index}`).within(() => {
             cy.dataCy("workflow-delete").click();
-        });
-    }
-
-    public clickEditButtonUsers(index: number) {
-        cy.dataCy(`workflow-table-row-actions-${index}`).within(() => {
-            cy.dataCy("workflow-edit").click();
         });
     }
 
@@ -151,10 +108,6 @@ export default class Workflows extends AbstractPage {
         cy.get(".jse-message").should("be.visible");
         cy.get(".cm-content").clear().type("{").type("{rightArrow}").type("{");
         cy.get(".jse-message").should("be.visible");
-    }
-
-    public triggerJsonValidation() {
-        cy.get(".cm-content").clear().type("{ {");
     }
 
     public clearJson() {
@@ -212,21 +165,8 @@ export default class Workflows extends AbstractPage {
         cy.get(".cm-content").should("contain", "router_1");
     }
 
-    public assertNoModal() {
-        cy.get("modal").should("not.exist");
-    }
-
     public editWorkflow() {
         cy.get(".cm-content").clear().wait(500).type("{{}}").wait(500);
-    }
-
-    public assertPut() {
-        cy.intercept("PUT", `/workflows/12345-abcde`).as("put");
-        this.clickDataCy("workflow-edit-confirm-ok");
-        cy.wait(["@put"]);
-        Cypress.on("uncaught:exception", () => {
-            return false;
-        });
     }
 
     public assertPost() {
