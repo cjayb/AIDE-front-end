@@ -165,7 +165,6 @@ export default class ModelDetailsSection extends Vue {
         link.setAttribute("download", fileName);
         document.body.appendChild(link);
         link.click();
-        document.body.removeChild(link);
     }
 }
 </script>
