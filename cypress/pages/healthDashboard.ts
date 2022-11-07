@@ -64,7 +64,7 @@ export default class AdminHealthDashboardPage {
     }
 
     public assertLogsDisplayed(task: IIssue): void {
-        cy.intercept(`/logs/4543534`, ApiMocks.ADMIN_DASHBOARD_EXECUTION_LOGS).as(`Logs`);
+        cy.intercept(`/logs/4543531`, ApiMocks.ADMIN_DASHBOARD_EXECUTION_LOGS).as(`Logs`);
         this.getTask(task.task_id).within(() => {
             cy.dataCy(AdminHealthDashboardPage.VIEW_LOGS_BUTTON).click();
             cy.wait([`@Logs`]);
@@ -82,7 +82,7 @@ export default class AdminHealthDashboardPage {
         cy.get(`tbody > :nth-child(${task.task_id})`).within(() => {
             cy.dataCy(AdminHealthDashboardPage.DISMISS_BUTTON).click();
         });
-        cy.intercept(`/workflowinstances/345435/executions/4543534/acknowledge`, {
+        cy.intercept(`/workflowinstances/345435/executions/4543531/acknowledge`, {
             statusCode: 200,
         }).as(`AcknowledgedIssues`);
         cy.intercept(`/issues/failed`, {
@@ -103,7 +103,7 @@ export default class AdminHealthDashboardPage {
         cy.get(`tbody > :nth-child(${task.task_id})`).within(() => {
             cy.dataCy(AdminHealthDashboardPage.DISMISS_BUTTON).click();
         });
-        cy.intercept(`/workflowinstances/345435/executions/4543534/acknowledge`, {
+        cy.intercept(`/workflowinstances/345435/executions/4543531/acknowledge`, {
             statusCode: 400,
         }).as(`FailedDismiss`);
         cy.dataCy(AdminHealthDashboardPage.VALIDATION_OK).click({ multiple: true, force: true });

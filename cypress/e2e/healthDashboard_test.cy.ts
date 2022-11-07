@@ -47,7 +47,7 @@ describe(`Admin health - Issues table section`, () => {
         adminHealthPage.assertTaskCanBeDismissed(TaskData.TASK_DATA_1);
         abstractPage.assertToast(`You have successfully dismissed 1 task.`);
     });
-    it.skip(`I am able to dismiss all selected issues by clicking the 'Dismiss selected' button`, () => {
+    it(`I am able to dismiss all selected issues by clicking the 'Dismiss selected' button`, () => {
         adminHealthPage.selectAllIssues();
         adminHealthPage.selectDismissSelectedButton();
         adminHealthPage.selectCancelValidation();

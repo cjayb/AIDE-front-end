@@ -37,6 +37,16 @@ export default class Destinations extends AbstractPage {
                 this.clickDataCy(`destination-edit-continue`);
                 cy.wait(["@put", "@get"]);
                 break;
+            case "delete-cancel":
+                cy.intercept("DELETE", `/destinations/USEAST`, {
+                    statusCode: 200,
+                });
+                cy.intercept("GET", "/destinations", ApiMocks.DESTINATIONS_ADDED);
+                this.clickDataCy("destination-delete-cancel");
+                Cypress.on("uncaught:exception", () => {
+                    return false;
+                });
+                break;
             case "delete-save":
                 cy.intercept("DELETE", `/destinations/USEAST`, {
                     statusCode: 200,
@@ -47,16 +57,6 @@ export default class Destinations extends AbstractPage {
                     return false;
                 });
                 cy.wait(["@Delete", "@Get"]);
-                break;
-            case "delete-cancel":
-                cy.intercept("DELETE", `/destinations/USEAST`, {
-                    statusCode: 200,
-                });
-                cy.intercept("GET", "/destinations", ApiMocks.DESTINATIONS_ADDED);
-                this.clickDataCy("destination-delete-cancel");
-                Cypress.on("uncaught:exception", () => {
-                    return false;
-                });
                 break;
             default:
                 throw "This scenario has not been implemented. Please review";

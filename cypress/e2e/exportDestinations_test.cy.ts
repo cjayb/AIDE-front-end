@@ -9,11 +9,13 @@ describe("Destinations", () => {
     beforeEach(() => {
         dicomConfigurationPage.initPage();
     });
+
     describe("GET destinations", () => {
         it(`The destinations table is populated with the data returned from the API`, () => {
             dicomConfigurationPage.assertTableDataCorrect(destinationsData);
         });
     });
+
     describe("Add new destination", () => {
         [
             "destination-name",
