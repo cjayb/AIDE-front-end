@@ -82,7 +82,7 @@ export const routes: Array<RouteConfig> = [
                             text: "Application Repository",
                         },
                     ],
-                    requiredRoles: [deployer],
+                    requiredRoles: [UserRole.deployer],
                 },
             },
             {
@@ -103,7 +103,7 @@ export const routes: Array<RouteConfig> = [
                             },
                         ];
                     },
-                    requiredRoles: [deployer],
+                    requiredRoles: [UserRole.deployer],
                 },
             },
         ],
