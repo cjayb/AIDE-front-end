@@ -63,11 +63,6 @@
                                 <strong>{{ item.status }}</strong>
                             </v-chip>
                         </template>
-                        <template v-slot:[`item.model_name`]="{ item }">
-                            <span data-cy="model-name">
-                                {{ item.model_name }}
-                            </span>
-                        </template>
                         <template v-slot:[`item.patient_name`]="{ item }">
                             <span data-cy="patient-name">
                                 {{ item.patient_name }}
@@ -175,7 +170,6 @@ export default class IssuesTable extends Vue {
         { text: "Payload ID", value: "payload_id" },
         { text: "Task ID", value: "task_id" },
         { text: "Status", value: "status" },
-        { text: "Model", value: "model_name" },
         { text: "Patient", value: "patient_name" },
         { text: "Patient ID", value: "patient_id" },
         { text: "Time", value: "execution_time" },

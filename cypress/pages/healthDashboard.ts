@@ -49,7 +49,6 @@ export default class AdminHealthDashboardPage {
             const dateTime = this.formatTaskDate(task.execution_time, false);
             cy.dataCy(AdminHealthDashboardPage.TASK_ID).should(`contain`, task.task_id);
             cy.dataCy(AdminHealthDashboardPage.STATUS).should(`contain`, task.status);
-            cy.dataCy(AdminHealthDashboardPage.MODEL_NAME).should(`contain`, task.model_name);
             cy.dataCy(AdminHealthDashboardPage.PATIENT_NAME).should(`contain`, task.patient_name);
             cy.dataCy(AdminHealthDashboardPage.PATIENT_ID).should(`contain`, task.patient_id);
             cy.dataCy(AdminHealthDashboardPage.EXECUTION_DATE_TIME).should(`contain`, dateTime);
