@@ -42,6 +42,7 @@
                         :options.sync="tableOptions"
                         show-expand
                         single-expand
+                        @item-expanded="onExpand"
                         item-key="payload_id"
                         class="elevation-1"
                         data-cy="payload"
@@ -74,7 +75,7 @@
                         </template>
                         <template v-slot:[`expanded-item`]="{ item }">
                             <td :colspan="5">
-                                <ExecutionTree :payload-id="item.payload_id" />
+                                <ExecutionTree :key="renderKey" :payload-id="item.payload_id" />
                             </td>
                         </template>
                     </v-data-table>
@@ -106,7 +107,7 @@ import { throttle } from "underscore";
 export default class PayloadsTable extends Vue {
     loading = false;
     paginatedPayloads: IPagedResponse<IPayload> = {} as IPagedResponse<IPayload>;
-
+    renderKey = 0;
     searchParameter = "patientId";
     tableSearch = "";
     tableOptions: DataOptions = {
@@ -120,6 +121,10 @@ export default class PayloadsTable extends Vue {
         { text: "Payload ID", value: "payload_id", sortable: false },
         { text: "Payload Received", value: "payload_received", sortable: false },
     ];
+
+    onExpand() {
+        this.renderKey++;
+    }
 
     private throttledGetPaginatedPayloads = throttle(() => {
         this.getPaginatedPayloads();
