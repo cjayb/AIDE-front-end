@@ -84,6 +84,7 @@ import {
 } from "@/api/Admin/payloads/PayloadService";
 import { EventBus } from "@/event-bus";
 import { formatDateAndTimeOfString } from "@/utils/date-utilities";
+import mimeTypes from "mime-types";
 
 @Component({
     filters: {
@@ -157,14 +158,38 @@ export default class ModelDetailsSection extends Vue {
     }
 
     async downloadArtifactByKey(objectKey: string, fileName: string) {
-        const data = await getPayloadExecutionOutput(objectKey);
+        const { status, data, headers } = await getPayloadExecutionOutput(objectKey);
+
+        if (status !== 200) {
+            return;
+        }
+
+        const contentType = headers["Content-Type"] || headers["content-type"];
+        const file = this.createFilename(fileName, contentType);
 
         const url = window.URL.createObjectURL(new Blob([data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", fileName);
+        link.setAttribute("download", file);
         document.body.appendChild(link);
         link.click();
+    }
+
+    private createFilename(fileName: string, contentType?: string): string {
+        if (!contentType) {
+            return fileName;
+        }
+
+        const hasExt = mimeTypes.extension(contentType);
+        let ext = hasExt as string;
+
+        if (!hasExt) {
+            const map: Record<string, string> = { "application/dicom": "dcm" };
+
+            ext = map[contentType];
+        }
+
+        return `${fileName}.${ext}`;
     }
 }
 </script>

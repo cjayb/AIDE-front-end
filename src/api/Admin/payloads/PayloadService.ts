@@ -1,5 +1,6 @@
 import { IPagedResponse, IPayload, WorkflowInstance } from "@/models/Admin/IPayload";
 import { createAxiosInstance, ErrorMessageMap, isResultOk } from "@/utils/axios-helpers";
+import { AxiosResponse } from "axios";
 
 const errorMessages: ErrorMessageMap = {
     get: "Something unexpected went wrong retrieving executions!",
@@ -67,10 +68,8 @@ export async function getPayloadExecutionMetadata(
     return response.data;
 }
 
-export async function getPayloadExecutionOutput(objectKey: string): Promise<Blob> {
-    const response = await http.get<Blob>(`/executions/artifact-download?key=${objectKey}`, {
-        responseType: "blob",
-    });
-
-    return response.data;
+export async function getPayloadExecutionOutput(
+    objectKey: string,
+): Promise<AxiosResponse<ArrayBuffer>> {
+    return await http.get<ArrayBuffer>(`/executions/artifact-download?key=${objectKey}`);
 }

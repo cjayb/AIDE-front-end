@@ -8,6 +8,7 @@ module.exports = defineConfig({
             alias: {
                 "keycloak-js": join(__dirname, "node_modules/keycloak-js"),
             },
+            fallback: { path: false },
         },
         experiments: {
             topLevelAwait: process.env.NODE_ENV === "development",
