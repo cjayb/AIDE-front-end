@@ -88,7 +88,7 @@ describe("Add/Edit/Delete users", () => {
         userManagementPage.clickEditButtonUsers(0);
         userManagementPage.editUsers();
         userManagementPage.clickDataCy("user-modal-save");
-        userManagementPage.duplicateRequest("/users/1", "user-edit-confirm-ok");
+        userManagementPage.duplicateRequest("/users/1", "user-edit-confirm-continue");
         userManagementPage.assertErrorContainer("User with this email address already exists");
     });
     it("I can edit a user", () => {
@@ -171,7 +171,7 @@ describe("Add/Edit/Delete list of roles", () => {
         userManagementPage.clickEditButtonRoles();
         userManagementPage.editRoles();
         userManagementPage.clickDataCy("role-modal-save");
-        userManagementPage.duplicateRequest("/roles/15", "role-edit-confirm-ok");
+        userManagementPage.duplicateRequest("/roles/15", "role-edit-confirm-continue");
         userManagementPage.assertErrorContainer("Role with this name already exists");
     });
     it("I can edit a role", () => {

@@ -92,7 +92,7 @@ export default class UserManagement extends AbstractPage {
 
     public errorEditUser(statusCode: number) {
         cy.intercept("PUT", "/users/1", { statusCode: statusCode }).as("put");
-        this.clickDataCy("user-edit-confirm-ok");
+        this.clickDataCy("user-edit-confirm-continue");
         cy.wait(["@put"]);
         Cypress.on("uncaught:exception", () => {
             return false;
@@ -101,7 +101,7 @@ export default class UserManagement extends AbstractPage {
 
     public errorDeleteUser(statusCode: number) {
         cy.intercept("DELETE", "/users/1", { statusCode: statusCode }).as("delete");
-        this.clickDataCy("user-delete-ok");
+        this.clickDataCy("user-delete-continue");
         cy.wait(["@delete"]);
         Cypress.on("uncaught:exception", () => {
             return false;
@@ -555,7 +555,7 @@ export default class UserManagement extends AbstractPage {
             "https://localhost:8000/roles?search=&first=0&max=10&sortBy=&sortDesc=",
             ApiMocks.USER_MANAGEMENT_ROLES_EDIT_TABLE,
         ).as("Get");
-        this.clickDataCy("role-edit-confirm-ok");
+        this.clickDataCy("role-edit-confirm-continue");
         Cypress.on("uncaught:exception", () => {
             return false;
         });
@@ -596,7 +596,7 @@ export default class UserManagement extends AbstractPage {
             "/users?search=&role=&first=0&max=10&sortBy=&sortDesc=false",
             ApiMocks.USER_MANAGEMENT_ADD_USER,
         );
-        this.clickDataCy("user-edit-confirm-ok");
+        this.clickDataCy("user-edit-confirm-continue");
         Cypress.on("uncaught:exception", () => {
             return false;
         });
@@ -632,7 +632,7 @@ export default class UserManagement extends AbstractPage {
             "https://localhost:8000/roles?search=&first=0&max=10&sortBy=&sortDesc=",
             ApiMocks.USER_MANAGEMENT_ROLES_EDIT,
         ).as("Get");
-        this.clickDataCy("role-edit-confirm-ok");
+        this.clickDataCy("role-edit-confirm-continue");
         Cypress.on("uncaught:exception", () => {
             return false;
         });
@@ -646,7 +646,7 @@ export default class UserManagement extends AbstractPage {
             "https://localhost:8000/roles?search=&first=0&max=10&sortBy=&sortDesc=",
             ApiMocks.USER_MANAGEMENT_ROLES_EDIT,
         ).as("Delete");
-        this.clickDataCy("role-delete-ok");
+        this.clickDataCy("role-delete-continue");
         Cypress.on("uncaught:exception", () => {
             return false;
         });
@@ -725,7 +725,7 @@ export default class UserManagement extends AbstractPage {
             "https://localhost:8000/users?search=&role=&first=0&max=10&sortBy=&sortDesc=false",
             {},
         ).as("Get");
-        this.clickDataCy("user-delete-ok");
+        this.clickDataCy("user-delete-continue");
         Cypress.on("uncaught:exception", () => {
             return false;
         });
@@ -739,7 +739,7 @@ export default class UserManagement extends AbstractPage {
             "https://localhost:8000/roles?search=&first=0&max=10&sortBy=&sortDesc=",
             ApiMocks.USER_MANAGEMENT_ROLES_EMPTY,
         ).as("Get");
-        this.clickDataCy("role-delete-ok");
+        this.clickDataCy("role-delete-continue");
         Cypress.on("uncaught:exception", () => {
             return false;
         });

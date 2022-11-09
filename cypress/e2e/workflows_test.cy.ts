@@ -51,7 +51,7 @@ describe("Workflows", () => {
         it("Selecting discard and then confirm on the modal returns you to the workflow tables page", () => {
             workflowPage.workflowEditRequest();
             workflowPage.clickDataCy("discard-workflow-changes");
-            workflowPage.clickDataCy("workflow-discard-confirm-ok");
+            workflowPage.clickDataCy("workflow-discard-confirm-continue");
             workflowPage.assertWorkflowsUrl();
         });
         it("I can save an edited workflow", () => {
@@ -98,7 +98,7 @@ describe("Workflows", () => {
         it("Selecting discard and then confirm on the modal returns you to the workflow tables page", () => {
             workflowPage.clickDataCy("add-workflow");
             workflowPage.clickDataCy("discard-workflow-changes");
-            workflowPage.clickDataCy("workflow-discard-confirm-ok");
+            workflowPage.clickDataCy("workflow-discard-confirm-continue");
             workflowPage.assertWorkflowsUrl();
         });
         it("If a 400 error is returned on saving, the error message is displayed at the top of the page", () => {

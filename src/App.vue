@@ -82,6 +82,15 @@ html {
     font-weight: bold;
 }
 
+.alert-button {
+    text-transform: unset !important;
+    letter-spacing: normal;
+    background: #e81c0d !important;
+    border-radius: 6px !important;
+    color: #ffffff !important;
+    font-weight: bold;
+}
+
 .outlined-button {
     text-transform: unset !important;
     letter-spacing: normal;
@@ -113,6 +122,11 @@ h2 {
     font-size: 18px;
     line-height: 24px;
     color: #000;
+}
+
+.required::after {
+    content: " *";
+    color: #b51c1c;
 }
 
 .no-uppercase {

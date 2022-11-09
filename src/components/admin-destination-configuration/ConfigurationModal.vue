@@ -1,7 +1,8 @@
 <template>
     <v-card>
         <v-card-title><span v-if="editing">Edit&nbsp;</span>DICOM Configuration</v-card-title>
-        <div class="px-4">
+        <v-divider />
+        <div class="px-4 pt-3">
             <v-form v-model="requiredFieldsFilled" ref="form">
                 <div>
                     <span class="font-weight-medium mb-2 required">Name</span>

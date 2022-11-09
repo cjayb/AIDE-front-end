@@ -8,6 +8,10 @@ export enum UserRole {
 }
 
 export const getDefaultDestinationForUser = () => {
+    if (process.env.VUE_APP_AUTH_ENABLED === "false") {
+        return "AdminHealthDashboard";
+    }
+
     const noRole = () => false;
     const hasRealmRole = Vue.prototype.$keycloak.hasRealmRole ?? noRole;
 

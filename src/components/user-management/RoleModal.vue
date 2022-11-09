@@ -5,7 +5,8 @@
             <span v-if="!editing">Add&nbsp;</span>
             Role Details
         </v-card-title>
-        <div class="px-6">
+        <v-divider />
+        <div class="px-6 pt-3">
             <v-form v-model="requiredFieldsFilled">
                 <div>
                     <span class="font-weight-medium mb-2 required">Name</span>
@@ -28,7 +29,7 @@
         <v-divider />
         <v-card-actions class="px-4 justify-end">
             <v-btn text class="secondary-button" data-cy="role-modal-discard" @click="discard">
-                Discard
+                Cancel
                 <v-icon right> mdi-close </v-icon>
             </v-btn>
             <v-btn

@@ -5,14 +5,14 @@
             <span v-if="!editing">Add&nbsp;</span>
             User Details
         </v-card-title>
-        <div class="px-4">
+        <v-divider />
+        <div class="px-6 pt-3">
             <v-form v-model="requiredFieldsFilled" ref="form">
                 <div>
                     <span class="font-weight-medium mb-2 required">First Name</span>
                     <v-text-field
                         outlined
                         dense
-                        validate-on-blur
                         label="First Name"
                         data-cy="user-first-name"
                         v-model="firstName"
@@ -24,7 +24,6 @@
                     <v-text-field
                         outlined
                         dense
-                        validate-on-blur
                         label="Last Name"
                         data-cy="user-last-name"
                         v-model="lastName"
@@ -36,7 +35,6 @@
                     <v-text-field
                         outlined
                         dense
-                        validate-on-blur
                         label="Email"
                         type="email"
                         data-cy="user-email"
@@ -51,7 +49,6 @@
                         dense
                         multiple
                         hidden
-                        validate-on-blur
                         return-object
                         label="Roles"
                         item-text="name"
@@ -72,7 +69,7 @@
         <v-divider />
         <v-card-actions class="px-4 justify-end">
             <v-btn text class="secondary-button" data-cy="user-modal-discard" @click="discard">
-                Discard
+                Cancel
                 <v-icon right> mdi-close </v-icon>
             </v-btn>
             <v-btn

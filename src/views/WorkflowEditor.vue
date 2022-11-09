@@ -2,12 +2,21 @@
     <v-container fluid class="mt-3 mb-7 px-7">
         <div class="d-flex mb-4 justify-space-between">
             <h2 class="section-title mb-4">Workflow Editor</h2>
-            <v-btn data-cy="view-workflow-spec" link="true" :href="workflowSpecUrl" target="_blank"
-                >View Specification on GitHub</v-btn
+            <v-btn
+                class="secondary-button"
+                data-cy="view-workflow-spec"
+                link="true"
+                :href="workflowSpecUrl"
+                target="_blank"
             >
+                View Specification on GitHub
+            </v-btn>
         </div>
         <div v-if="workflowErrors.length > 0">
-            <ErrorMessageContainer :errorMessages="workflowErrors" />
+            <ErrorMessageContainer
+                title="Workflow validation failed because of the following reasons:"
+                :errorMessages="workflowErrors"
+            />
         </div>
         <div v-show="!loading">
             <JSONViewer
@@ -42,67 +51,36 @@
             <v-skeleton-loader class="mx-auto" type="image"></v-skeleton-loader>
         </v-col>
 
-        <v-dialog persistent v-model="editConfirm" data-cy="save-changes-modal" max-width="350px">
-            <v-card>
-                <v-card-title>Confirm changes</v-card-title>
-                <v-card-text class="grey--text text--darken-3">
-                    Are you sure you wish to make these changes to the workflow?
-                </v-card-text>
-                <v-card-actions class="px-4 justify-end">
-                    <v-btn text data-cy="workflow-edit-confirm-cancel" @click="editConfirm = false">
-                        Cancel
-                        <v-icon class="ml-1">mdi-close</v-icon>
-                    </v-btn>
-                    <v-btn
-                        text
-                        data-cy="workflow-edit-confirm-ok"
-                        color="primary"
-                        @click="saveWorkflowChanges"
-                    >
-                        Confirm
-                        <v-icon class="ml-1">mdi-check-circle-outline</v-icon>
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
-
-        <v-dialog
-            persistent
-            v-model="discardChangesConfirm"
-            data-cy="discard-changes-modal"
-            max-width="350px"
+        <confirmation-modal
+            :persistent="true"
+            v-model="editConfirm"
+            title="Confirm changes"
+            continue-btn-text="Confirm"
+            data-cy-prefix="workflow-edit-confirm"
+            @cancel="editConfirm = false"
+            @continue="saveWorkflowChanges"
         >
-            <v-card>
-                <v-card-title>Discard changes</v-card-title>
-                <v-card-text class="grey--text text--darken-3">
-                    Are you sure you wish to discard the changes to the workflow?
-                </v-card-text>
-                <v-card-actions class="px-4 justify-end">
-                    <v-btn
-                        text
-                        data-cy="workflow-discard-confirm-cancel"
-                        @click="discardChangesConfirm = false"
-                    >
-                        Cancel
-                        <v-icon class="ml-1">mdi-close</v-icon>
-                    </v-btn>
-                    <v-btn
-                        text
-                        data-cy="workflow-discard-confirm-ok"
-                        color="primary"
-                        @click="routeBackToWorkflows"
-                    >
-                        Confirm
-                        <v-icon class="ml-1">mdi-check-circle-outline</v-icon>
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
+            Are you sure you wish to make these changes to the workflow?
+        </confirmation-modal>
+
+        <confirmation-modal
+            :persistent="true"
+            v-model="discardChangesConfirm"
+            title="Discard changes"
+            continue-btn-text="Confirm"
+            data-cy-prefix="workflow-discard-confirm"
+            :deletionModal="true"
+            @cancel="discardChangesConfirm = false"
+            @continue="routeBackToWorkflows"
+        >
+            Are you sure you wish to discard the changes to the workflow?
+        </confirmation-modal>
     </v-container>
 </template>
 
 <script lang="ts">
 import { createWorkflow, getWorkflow, updateWorkflow } from "@/api/workflows/WorkflowService";
+import ConfirmationModal from "@/components/Shared/ConfirmationModal.vue";
 import ErrorMessageContainer from "@/components/Shared/ErrorMessageContainer.vue";
 import { MonaiWorkflow, WorkflowError } from "@/models/workflows/Workflow";
 import { isResultOk } from "@/utils/axios-helpers";
@@ -117,6 +95,7 @@ import JSONViewer from "../components/Shared/JSONViewer.vue";
     components: {
         JSONViewer,
         ErrorMessageContainer,
+        ConfirmationModal,
     },
     computed: {
         content() {

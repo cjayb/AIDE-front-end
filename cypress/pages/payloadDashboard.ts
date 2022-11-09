@@ -45,7 +45,7 @@ export default class AdminPayloadDashboardPage extends AbstractPage {
             `/payloads/${payload_id}/executions`,
             ApiMocks.ADMIN_DASHBOARD_PAYLOAD_EXECUTIONS,
         ).as(`executions`);
-        cy.get("tbody > :nth-child(1) > :nth-child(1) > .v-icon").click({ force: true });
+        cy.get("tbody > :nth-child(1) > :nth-child(5) > .v-icon").click({ force: true });
         Cypress.on(`uncaught:exception`, () => {
             return false;
         });
@@ -263,7 +263,7 @@ export default class AdminPayloadDashboardPage extends AbstractPage {
             this.assertPopoverModalText(ApiMocks.PAYLOAD_METADATA.workflowInstanceId);
             this.assertPopoverModalText(ApiMocks.PAYLOAD_METADATA.duration);
             this.assertPopoverModalText(ApiMocks.PAYLOAD_METADATA.startedAt);
-            cy.get(".mr-3").click();
+            cy.get(".my-2").click();
         });
     }
 

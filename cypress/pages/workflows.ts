@@ -47,7 +47,7 @@ export default class Workflows extends AbstractPage {
             "Delete",
         );
         cy.intercept("GET", "/workflows?pageNumber=1&pageSize=10", ApiMocks.WORKFLOWS).as("Get");
-        this.clickDataCy("workflow-delete-ok");
+        this.clickDataCy("workflow-delete-continue");
         Cypress.on("uncaught:exception", () => {
             return false;
         });
@@ -59,7 +59,7 @@ export default class Workflows extends AbstractPage {
             statusCode: statusCode,
         }).as("Delete");
         cy.intercept("GET", "/workflows?pageNumber=1&pageSize=10", ApiMocks.WORKFLOWS).as("Get");
-        this.clickDataCy("workflow-delete-ok");
+        this.clickDataCy("workflow-delete-continue");
         Cypress.on("uncaught:exception", () => {
             return false;
         });
@@ -171,7 +171,7 @@ export default class Workflows extends AbstractPage {
 
     public assertPost() {
         cy.intercept("POST", `/workflows`, { statusCode: 200 }).as("post");
-        this.clickDataCy("workflow-edit-confirm-ok");
+        this.clickDataCy("workflow-edit-confirm-continue");
         cy.wait(["@post"]);
         Cypress.on("uncaught:exception", () => {
             return false;
@@ -180,7 +180,7 @@ export default class Workflows extends AbstractPage {
 
     public returnErrorPost(statusCode: number) {
         cy.intercept("POST", `/workflows`, { statusCode: statusCode }).as("post");
-        this.clickDataCy("workflow-edit-confirm-ok");
+        this.clickDataCy("workflow-edit-confirm-continue");
         cy.wait(["@post"]);
         Cypress.on("uncaught:exception", () => {
             return false;
@@ -192,7 +192,7 @@ export default class Workflows extends AbstractPage {
             statusCode: 400,
             body: ApiMocks.WORKFLOW_ERRORS,
         }).as("error");
-        this.clickDataCy("workflow-edit-confirm-ok");
+        this.clickDataCy("workflow-edit-confirm-continue");
         cy.wait(["@error"]);
         Cypress.on("uncaught:exception", () => {
             return false;
@@ -203,7 +203,7 @@ export default class Workflows extends AbstractPage {
         cy.intercept("PUT", `/workflows/12345-abcde`, {
             statusCode: statusCode,
         }).as("error");
-        this.clickDataCy("workflow-edit-confirm-ok");
+        this.clickDataCy("workflow-edit-confirm-continue");
         cy.wait(["@error"]);
         Cypress.on("uncaught:exception", () => {
             return false;
@@ -214,7 +214,7 @@ export default class Workflows extends AbstractPage {
         cy.intercept("POST", `/workflows`, { statusCode: 400, body: ApiMocks.WORKFLOW_ERRORS }).as(
             "post",
         );
-        this.clickDataCy("workflow-edit-confirm-ok");
+        this.clickDataCy("workflow-edit-confirm-continue");
         cy.wait(["@post"]);
         Cypress.on("uncaught:exception", () => {
             return false;
@@ -232,7 +232,7 @@ export default class Workflows extends AbstractPage {
         cy.intercept("PUT", `/workflows/12345-abcde`, {
             statusCode: 200,
         }).as("success");
-        this.clickDataCy("workflow-edit-confirm-ok");
+        this.clickDataCy("workflow-edit-confirm-continue");
         cy.wait(["@success"]);
         Cypress.on("uncaught:exception", () => {
             return false;

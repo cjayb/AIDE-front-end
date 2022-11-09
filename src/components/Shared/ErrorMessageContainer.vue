@@ -1,5 +1,8 @@
 <template>
-    <v-alert color="red darken-4" text type="error" icon="mdi-alert" data-cy="error-container">
+    <v-alert color="#C62828" text type="error" icon="mdi-alert" data-cy="error-container">
+        <p v-if="title" class="red--text text--accent-4 mb-1 body-2 font-weight-bold">
+            {{ title }}
+        </p>
         <div v-if="errorMessages.length > 1">
             <li
                 class="red--text text--accent-4 mb-1 body-2 font-weight-bold"
@@ -26,5 +29,13 @@ import { Prop } from "vue-property-decorator";
 @Component
 export default class ErrorMessageContainer extends Vue {
     @Prop() errorMessages!: string[];
+    @Prop() title?: string;
 }
 </script>
+
+<style scoped>
+.v-alert {
+    color: #ffffff !important;
+    background-color: #ffebee !important;
+}
+</style>

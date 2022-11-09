@@ -91,34 +91,19 @@
                 </v-col>
             </v-card>
 
-            <v-dialog persistent v-model="deleteConfirm" max-width="350px">
-                <v-card>
-                    <v-card-title>Delete workflow</v-card-title>
-                    <v-card-text class="grey--text text--darken-3"
-                        >Are you sure you would like to delete
-                        <strong> {{ workflowToDelete?.name }} </strong>?
-                    </v-card-text>
-                    <v-card-actions class="px-4 justify-end">
-                        <v-btn
-                            text
-                            data-cy="workflow-delete-cancel"
-                            @click="cancelWorkflowDeletion"
-                        >
-                            Cancel
-                            <v-icon right> mdi-close </v-icon>
-                        </v-btn>
-                        <v-btn
-                            text
-                            data-cy="workflow-delete-ok"
-                            color="red darken-2"
-                            @click="deleteWorkflow"
-                        >
-                            Yes, delete
-                            <v-icon right> mdi-check-circle-outline </v-icon>
-                        </v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-dialog>
+            <confirmation-modal
+                :persistent="true"
+                v-model="deleteConfirm"
+                title="Delete workflow"
+                continue-btn-text="Confirm"
+                data-cy-prefix="workflow-delete"
+                :deletionModal="true"
+                @cancel="cancelWorkflowDeletion"
+                @continue="deleteWorkflow"
+            >
+                Are you sure you would like to delete
+                <strong> {{ workflowToDelete?.name }} </strong>?
+            </confirmation-modal>
         </v-container>
     </v-container>
 </template>
@@ -131,12 +116,17 @@ import { DataOptions, DataTableHeader } from "vuetify";
 import { getAllWorkflows, deleteWorkflow } from "@/api/workflows/WorkflowService";
 import { PaginatedWorkflowsResponse, WorkflowListItem } from "@/models/workflows/Workflow";
 import { throttle } from "underscore";
+import ConfirmationModal from "@/components/Shared/ConfirmationModal.vue";
 
-@Component
+@Component({
+    components: {
+        ConfirmationModal,
+    },
+})
 export default class Workflows extends Vue {
     workflowHeaders: DataTableHeader[] = [
         { text: "Name", value: "name", sortable: false, width: "20%" },
-        { text: "AeTitle", value: "ae_title", sortable: false, width: "20%" },
+        { text: "AE Title", value: "ae_title", sortable: false, width: "20%" },
         { text: "Data Origins", value: "data_origins", sortable: false, width: "20%" },
         { text: "Version", value: "version", sortable: false, width: "10%" },
         { text: "Description", value: "description", sortable: false, width: "28%" },

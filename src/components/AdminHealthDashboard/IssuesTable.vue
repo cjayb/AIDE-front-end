@@ -101,38 +101,18 @@
                                 <v-icon right> mdi-close </v-icon>
                             </v-btn>
 
-                            <v-dialog
+                            <confirmation-modal
                                 v-model="dialogDelete"
-                                max-width="500px"
-                                :retain-focus="false"
+                                :persistent="true"
+                                title="Confirm dismiss"
+                                continue-btn-text="Confirm"
+                                data-cy-prefix="validation"
+                                :deletionModal="true"
+                                @cancel="closeDelete"
+                                @continue="deleteItemConfirm"
                             >
-                                <v-card>
-                                    <v-card-title class="text-h5">
-                                        Are you sure you want to dismiss?
-                                    </v-card-title>
-                                    <v-card-actions>
-                                        <v-spacer></v-spacer>
-                                        <v-btn
-                                            text
-                                            @click="closeDelete"
-                                            data-cy="validation-cancel"
-                                        >
-                                            Cancel
-                                            <v-icon> mdi-close </v-icon>
-                                        </v-btn>
-                                        <v-btn
-                                            color="primary"
-                                            text
-                                            @click="deleteItemConfirm"
-                                            data-cy="validation-ok"
-                                        >
-                                            Confirm
-                                            <v-icon> mdi-check-circle-outline </v-icon>
-                                        </v-btn>
-                                        <v-spacer></v-spacer>
-                                    </v-card-actions>
-                                </v-card>
-                            </v-dialog>
+                                Are you sure you want to dismiss?
+                            </confirmation-modal>
                         </template>
                     </v-data-table>
                 </v-card>
@@ -155,9 +135,10 @@ import { formatDateAndTimeOfArray } from "@/utils/date-utilities";
 import { EventBus } from "@/event-bus";
 import { JSONViewerModalType } from "../Shared/JSONViewerDialog.vue";
 import { IIndexedIssue, IIssue } from "@/models/Admin/IIssue";
+import ConfirmationModal from "../Shared/ConfirmationModal.vue";
 
 @Component({
-    components: {},
+    components: { ConfirmationModal },
 })
 export default class IssuesTable extends Vue {
     loading = false;

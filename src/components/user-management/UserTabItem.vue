@@ -139,51 +139,33 @@
             ></UserModal>
         </v-dialog>
 
-        <v-dialog persistent v-model="deleteConfirm" max-width="350px">
-            <v-card>
-                <v-card-title>Delete user</v-card-title>
-                <v-card-text class="grey--text text--darken-3"
-                    >Are you sure you would like to delete
-                    <strong>{{ userToDelete?.firstName }} {{ userToDelete?.lastName }}</strong
-                    >?</v-card-text
-                >
-                <v-card-actions class="px-4 justify-end">
-                    <v-btn text data-cy="user-delete-cancel" @click="cancelUserDeletion">
-                        Cancel
-                        <v-icon right> mdi-close </v-icon>
-                    </v-btn>
-                    <v-btn text data-cy="user-delete-ok" color="red darken-2" @click="deleteUser">
-                        Yes, delete
-                        <v-icon right> mdi-check-circle-outline </v-icon>
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
+        <confirmation-modal
+            :persistent="true"
+            v-model="deleteConfirm"
+            title="Delete user"
+            continue-btn-text="Confirm"
+            data-cy-prefix="user-delete"
+            :deletionModal="true"
+            @cancel="cancelUserDeletion"
+            @continue="deleteUser"
+        >
+            Are you sure you would like to delete
+            <strong>{{ userToDelete?.firstName }} {{ userToDelete?.lastName }}</strong>
+            ?
+        </confirmation-modal>
 
-        <v-dialog persistent v-model="editConfirm" max-width="350px">
-            <v-card>
-                <v-card-title>Edit user</v-card-title>
-                <v-card-text class="grey--text text--darken-3">
-                    Are you sure you wish to make changes to
-                    <strong>{{ userToEdit?.firstName }} {{ userToEdit?.lastName }} </strong>?
-                </v-card-text>
-                <v-card-actions class="px-4 justify-end">
-                    <v-btn text data-cy="user-edit-confirm-cancel" @click="editConfirm = false">
-                        Cancel
-                        <v-icon right> mdi-close </v-icon>
-                    </v-btn>
-                    <v-btn
-                        text
-                        data-cy="user-edit-confirm-ok"
-                        color="primary"
-                        @click="continueSavingUserDetails"
-                    >
-                        Yes, save changes
-                        <v-icon right> mdi-content-save </v-icon>
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
+        <confirmation-modal
+            :persistent="true"
+            v-model="editConfirm"
+            title="Edit user"
+            continue-btn-text="Confirm"
+            data-cy-prefix="user-edit-confirm"
+            @cancel="editConfirm = false"
+            @continue="continueSavingUserDetails"
+        >
+            Are you sure you wish to make changes to
+            <strong>{{ userToEdit?.firstName }} {{ userToEdit?.lastName }} </strong>?
+        </confirmation-modal>
 
         <v-col v-if="loading" cols="12">
             <v-skeleton-loader class="mx-auto" type="table"></v-skeleton-loader>
@@ -207,10 +189,12 @@ import { Prop, Watch } from "vue-property-decorator";
 import { throttle } from "underscore";
 import { isResultOk } from "@/utils/axios-helpers";
 import { AxiosError, AxiosResponse } from "axios";
+import ConfirmationModal from "../Shared/ConfirmationModal.vue";
 
 @Component({
     components: {
         UserModal,
+        ConfirmationModal,
     },
     computed: {
         userCount(): string {

@@ -18,7 +18,7 @@
                     <tr>
                         <th class="text-uppercase">Name</th>
                         <th class="text-uppercase">Address</th>
-                        <th class="text-uppercase">AE Name</th>
+                        <th class="text-uppercase">AE Title</th>
                         <th class="text-uppercase">Port</th>
                         <th class="text-uppercase">Echo Status</th>
                         <th class="text-uppercase">Actions</th>
@@ -100,11 +100,12 @@
         </v-dialog>
 
         <confirmation-modal
-            persistent
+            :persistent="true"
             v-model="confirmDeleteModal"
             title="Delete destination"
-            continue-btn-text="Yes, delete"
+            continue-btn-text="Confirm"
             data-cy-prefix="destination-delete"
+            :deletionModal="true"
             @cancel="cancelDestinationDelete"
             @continue="deleteDestination"
         >
@@ -113,11 +114,12 @@
         </confirmation-modal>
 
         <confirmation-modal
-            persistent
+            :persistent="true"
             v-model="confirmEditModal"
             title="Edit destination"
-            continue-btn-text="Yes, save changes"
+            continue-btn-text="Confirm"
             data-cy-prefix="destination-edit"
+            :deletionModal="false"
             @cancel="cancelDestinationEdit"
             @continue="updateDestination"
         >

@@ -25,6 +25,7 @@
                         <v-text-field
                             v-model="tableSearch"
                             append-icon="mdi-magnify"
+                            style="max-width: 30%"
                             label="Search"
                             single-line
                             outlined
@@ -41,11 +42,13 @@
                         :footer-props="{ itemsPerPageOptions: [5, 10] }"
                         :options.sync="tableOptions"
                         show-expand
+                        expand-icon="mdi-menu-down"
                         single-expand
                         @item-expanded="onExpand"
                         item-key="payload_id"
                         class="elevation-1"
                         data-cy="payload"
+                        @click:row="(item, slot) => slot.expand(!slot.isExpanded)"
                     >
                         <template v-slot:no-data>
                             <span class="grey--text text--darken-3">No data available</span>
@@ -120,6 +123,7 @@ export default class PayloadsTable extends Vue {
         { text: "Patient ID", value: "patient_id", sortable: false },
         { text: "Payload ID", value: "payload_id", sortable: false },
         { text: "Payload Received", value: "payload_received", sortable: false },
+        { text: "", value: "data-table-expand" },
     ];
 
     onExpand() {
@@ -165,5 +169,9 @@ export default class PayloadsTable extends Vue {
 
 .v-data-table >>> .v-data-table__wrapper tbody tr.v-data-table__expanded__content td {
     padding: 0;
+}
+
+.v-data-table >>> .v-data-table__expand-icon {
+    color: #61366e !important;
 }
 </style>

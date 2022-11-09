@@ -3,14 +3,14 @@ import { rest } from "msw";
 
 const destinations = [
     {
-        name: "SOME_NAME",
-        aeTitle: "AE_TITLE_A",
+        name: "SOMENAME",
+        aeTitle: "AETITLEA",
         port: 5000,
         hostIp: "0.0.0.0",
     },
     {
-        name: "FAIL_ECHO",
-        aeTitle: "AE_TITLE_A",
+        name: "FAILECHO",
+        aeTitle: "AETITLEA",
         port: 5000,
         hostIp: "0.0.0.0",
     },

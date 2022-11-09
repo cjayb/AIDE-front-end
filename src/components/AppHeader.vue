@@ -1,17 +1,27 @@
 <template>
     <v-app-bar app color="#fff" clipped-left class="elevation-1">
-        <div class="mr-4" data-cy="logo">
+        <div class="ml-4 mr-3" data-cy="logo">
             <router-link :to="{ name: getDefaultDestinationForUser() }">
-                <v-img class="mx-auto" src="@/assets/nhs.png" height="40px" width="97px" />
-            </router-link>
-        </div>
-        <div class="mr-4" data-cy="logo">
-            <router-link to="/">
-                <v-img class="mx-auto" src="@/assets/AI-centre.png" height="64px" width="97px" />
+                <v-img
+                    class="mx-auto mt-1"
+                    src="@/assets/NHSlogo.svg"
+                    height="170px"
+                    width="97px"
+                />
             </router-link>
         </div>
 
-        <v-toolbar-title>{{ pageTitle }}</v-toolbar-title>
+        <v-divider vertical />
+
+        <div class="mx-3" data-cy="logo">
+            <router-link to="/">
+                <v-img class="mx-auto" src="@/assets/AIClogo.svg" width="65px" />
+            </router-link>
+        </div>
+
+        <v-divider vertical />
+
+        <v-toolbar-title class="ml-4">{{ pageTitle }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon disabled aria-label="notification bell">
             <v-icon>mdi-bell</v-icon>
@@ -129,3 +139,9 @@ export default class AppHeader extends Vue {
     }
 }
 </script>
+
+<style>
+.v-toolbar__content {
+    padding: 0px !important;
+}
+</style>

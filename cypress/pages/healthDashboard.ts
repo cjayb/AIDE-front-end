@@ -28,7 +28,7 @@ export default class AdminHealthDashboardPage {
     static TASK = `task`;
     static SELECT_ALL = `[aria-label=""] > .v-data-table__checkbox > .v-input--selection-controls__input > .v-input--selection-controls__ripple`;
     static CHECKBOX = `checkbox`;
-    static VALIDATION_OK = `validation-ok`;
+    static VALIDATION_OK = `validation-continue`;
     static VALIDATION_CANCEL = `validation-cancel`;
     static SEARCH_ISSUES_TABLE = `search-issues-table`;
     //GRAPH

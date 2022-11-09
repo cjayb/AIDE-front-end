@@ -102,50 +102,32 @@
             ></RoleModal>
         </v-dialog>
 
-        <v-dialog persistent v-model="deleteConfirm" max-width="350px">
-            <v-card>
-                <v-card-title>Delete role</v-card-title>
-                <v-card-text class="grey--text text--darken-3"
-                    >Are you sure you would like to delete <strong>{{ roleToDelete?.name }}</strong
-                    >?</v-card-text
-                >
-                <v-card-actions class="px-4 justify-end">
-                    <v-btn text data-cy="role-delete-cancel" @click="cancelRoleDeletion">
-                        Cancel
-                        <v-icon right> mdi-close </v-icon>
-                    </v-btn>
-                    <v-btn text data-cy="role-delete-ok" color="red darken-2" @click="deleteRole">
-                        Yes, delete
-                        <v-icon right> mdi-check-circle-outline </v-icon>
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
+        <confirmation-modal
+            :persistent="true"
+            v-model="deleteConfirm"
+            title="Delete role"
+            continue-btn-text="Confirm"
+            data-cy-prefix="role-delete"
+            :deletionModal="true"
+            @cancel="cancelRoleDeletion"
+            @continue="deleteRole"
+        >
+            Are you sure you would like to delete <strong>{{ roleToDelete?.name }}</strong>
+            ?
+        </confirmation-modal>
 
-        <v-dialog persistent v-model="editConfirm" max-width="350px">
-            <v-card>
-                <v-card-title>Edit role</v-card-title>
-                <v-card-text class="grey--text text--darken-3">
-                    Are you sure you wish to make changes to
-                    <strong> {{ roleToEdit?.name }} </strong>?
-                </v-card-text>
-                <v-card-actions class="px-4 justify-end">
-                    <v-btn text data-cy="role-edit-confirm-cancel" @click="editConfirm = false">
-                        Cancel
-                        <v-icon right> mdi-close </v-icon>
-                    </v-btn>
-                    <v-btn
-                        text
-                        data-cy="role-edit-confirm-ok"
-                        color="primary"
-                        @click="continueSavingRoleDetails"
-                    >
-                        Yes, save changes
-                        <v-icon right> mdi-content-save </v-icon>
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
+        <confirmation-modal
+            :persistent="true"
+            v-model="editConfirm"
+            title="Edit role"
+            continue-btn-text="Confirm"
+            data-cy-prefix="role-edit-confirm"
+            @cancel="editConfirm = false"
+            @continue="continueSavingRoleDetails"
+        >
+            Are you sure you wish to make changes to
+            <strong> {{ roleToEdit?.name }} </strong>?
+        </confirmation-modal>
 
         <v-col v-if="loading" cols="12">
             <v-skeleton-loader class="mx-auto" type="table"></v-skeleton-loader>
@@ -169,10 +151,12 @@ import RoleModal from "./RoleModal.vue";
 import { throttle } from "underscore";
 import { isResultOk } from "@/utils/axios-helpers";
 import { AxiosError, AxiosResponse } from "axios";
+import ConfirmationModal from "../Shared/ConfirmationModal.vue";
 
 @Component({
     components: {
         RoleModal,
+        ConfirmationModal,
     },
     computed: {
         userRoleCount(): string {
