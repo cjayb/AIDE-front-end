@@ -34,6 +34,20 @@ describe("Destinations", () => {
                 dicomConfigurationPage.noSpacesOrSpecialCharactersValidation(field);
             });
         });
+        it(`When I enter an incorrect IP or hostname into the modal, validation should be shown`, () => {
+            dicomConfigurationPage.clickDataCy("add-dicom-configuration-button");
+            dicomConfigurationPage.addressValidation("destination-ip-address");
+        });
+        it.skip(`I can only enter numbers into the port field`, () => {
+            dicomConfigurationPage.clickDataCy("add-dicom-configuration-button");
+            dicomConfigurationPage.portValidation("destination-port");
+        });
+        it(`When I enter an export destination name that already exists, validation should be shown`, () => {
+            dicomConfigurationPage.clickDataCy("add-dicom-configuration-button");
+            dicomConfigurationPage.enterAddDestinationDetails(newDestinationData);
+            dicomConfigurationPage.return409();
+            dicomConfigurationPage.assertSameNameValidation();
+        });
         it("'Save' button is inactive until all fields are populated", () => {
             dicomConfigurationPage.clickDataCy("add-dicom-configuration-button");
             dicomConfigurationPage.saveDisabledUnlessAllFIeldsEntered(newDestinationData);

@@ -13,6 +13,18 @@ export default class Destinations extends AbstractPage {
         });
     }
 
+    public return409() {
+        cy.intercept("POST", "/destinations", { statusCode: 409 });
+        this.clickDataCy(`destination-create-save`);
+    }
+
+    public assertSameNameValidation() {
+        cy.dataCy("error-container").should(
+            "contain",
+            "A DICOM configuration with this name already exist",
+        );
+    }
+
     public modalButtons(scenario: string) {
         switch (scenario) {
             case "add-cancel":
@@ -182,24 +194,61 @@ export default class Destinations extends AbstractPage {
         this.clickDataCy(field);
         cy.dataCy(field).clear();
         this.clickAway();
-        this.assertRequiredText();
+        this.assertValidationText("Required");
     }
 
     public noSpacesOrSpecialCharactersValidation(field) {
         this.clickDataCy(field);
         cy.dataCy(field).type("_");
-        this.assertNoSpacesOrSpecialCharactersText();
+        this.assertValidationText("No spaces or special characters allowed");
     }
 
-    public assertRequiredText() {
-        cy.get(".v-messages__message").should("contain.text", "Required");
+    public sameNameValidation(field) {
+        this.clickDataCy(field);
+        cy.dataCy(field).type("SameName");
+        this.assertValidationText("No spaces or special characters allowed");
     }
 
-    public assertNoSpacesOrSpecialCharactersText() {
-        cy.get(".v-messages__message").should(
-            "contain.text",
-            "No spaces or special characters allowed",
-        );
+    public addressValidation(field) {
+        this.clickDataCy(field);
+        cy.dataCy(field).type("_");
+        this.assertValidationText("Invalid address");
+        cy.dataCy(field).clear().type("/");
+        this.assertValidationText("Invalid address");
+        cy.dataCy(field).clear().type(".");
+        this.assertValidationText("Invalid address");
+
+        cy.dataCy(field).clear().type("1.");
+        this.assertValidationText("Invalid address");
+        cy.dataCy(field).clear().type("1.1.");
+        this.assertValidationText("Invalid address");
+    }
+
+    public portValidation(field) {
+        this.clickDataCy(field);
+        cy.dataCy(field).type("-");
+        this.assertValidationText("Invalid port: numbers from 1 to 65535 only");
+        cy.dataCy(field).clear().type(".");
+        this.assertValidationText("Invalid port: numbers from 1 to 65535 only");
+        cy.dataCy(field).clear().type("+");
+        this.assertValidationText("Invalid port: numbers from 1 to 65535 only");
+        cy.dataCy(field).clear().type("0");
+        this.assertValidationText("Invalid port: numbers from 1 to 65535 only");
+        cy.dataCy(field).clear().type("65536");
+        this.assertValidationText("Invalid port: numbers from 1 to 65535 only");
+        cy.dataCy(field).clear().type("655356");
+        this.assertValidationText("Invalid port: numbers from 1 to 65535 only");
+        cy.dataCy(field).clear().type("65535.");
+        this.assertValidationText("Invalid port: numbers from 1 to 65535 only");
+
+        cy.dataCy(field).clear().type("1.");
+        this.assertValidationText("Invalid address");
+        cy.dataCy(field).clear().type("1.1.");
+        this.assertValidationText("Invalid port: numbers from 1 to 65535 only");
+    }
+
+    public assertValidationText(text: string) {
+        cy.get(".v-messages__message").should("contain.text", text);
     }
 
     public clickAway() {
