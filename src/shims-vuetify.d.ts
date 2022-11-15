@@ -17,3 +17,4 @@ declare module "cornerstone-math";
 declare module "hammerjs";
 declare module "numeral";
 declare module "@ssthouse/vue-tree-chart";
+declare module "cornerstone-wado-image-loader";
