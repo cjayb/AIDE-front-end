@@ -11,6 +11,7 @@
     "lint": "vue-cli-service lint",
     "audit": "better-npm-audit audit -l moderate -p",
     "tests:ui_headless": "cypress run -b chrome",
+    "tests:ui_components": "cypress run --component -b chrome",
     "tests:ui_debug": "npx cross-env CYPRESS_REMOTE_DEBUGGING_PORT=9222 cypress open",
     "serve:test:debug": "npm run serve:cypress && npm run tests:ui_debug",
     "tests:ui_ci": "start-server-and-test serve:cypress http://localhost:8080 tests:ui_headless",

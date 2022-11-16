@@ -1,6 +1,6 @@
 <template>
     <v-card>
-        <v-card-title class="text-h5">
+        <v-card-title class="text-h5" data-cy="role-modal-title">
             <span v-if="editing">Edit&nbsp;</span>
             <span v-if="!editing">Add&nbsp;</span>
             Role Details
