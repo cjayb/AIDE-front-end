@@ -47,6 +47,9 @@ import EmptyTaskList from "../views/EmptyTaskList.vue";
 import { EventBus } from "@/event-bus";
 
 @Component({
+    metaInfo: {
+        title: "Clinical Review",
+    },
     components: {
         CustomDicomViewer,
         Header,

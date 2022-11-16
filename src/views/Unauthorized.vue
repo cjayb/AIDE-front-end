@@ -17,6 +17,9 @@ import Vue from "vue";
 import Component from "vue-class-component";
 
 @Component({
+    metaInfo: {
+        title: "Unauthorized",
+    },
     components: {},
 })
 export default class Unauthorized extends Vue {

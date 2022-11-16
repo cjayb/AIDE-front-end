@@ -9,6 +9,9 @@ import { defineComponent } from "vue";
 import DicomView from "@/components/clinical-review/dicom-view.vue";
 
 export default defineComponent({
+    metaInfo: {
+        title: "Clinical Review",
+    },
     components: {
         DicomView,
     },

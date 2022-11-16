@@ -18,12 +18,18 @@
 
 <script lang="ts">
 import Vue from "vue";
+import MetaInfo from "vue-meta";
 import AppHeader from "./components/AppHeader.vue";
 import AppSidebar from "./components/AppSidebar.vue";
 import JSONViewerDialog from "./components/Shared/JSONViewerDialog.vue";
 
 export default Vue.extend({
     name: "App",
+    metaInfo(): MetaInfo {
+        return {
+            titleTemplate: "%s | AIDE",
+        };
+    },
     data: () => ({
         drawer: null,
         items: [

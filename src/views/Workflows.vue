@@ -119,6 +119,9 @@ import { throttle } from "underscore";
 import ConfirmationModal from "@/components/Shared/ConfirmationModal.vue";
 
 @Component({
+    metaInfo: {
+        title: "Workflows",
+    },
     components: {
         ConfirmationModal,
     },

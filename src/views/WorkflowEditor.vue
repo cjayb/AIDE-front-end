@@ -92,6 +92,9 @@ import { Dictionary } from "vue-router/types/router";
 import JSONViewer from "../components/Shared/JSONViewer.vue";
 
 @Component({
+    metaInfo: {
+        title: "Workflow Editor",
+    },
     components: {
         JSONViewer,
         ErrorMessageContainer,

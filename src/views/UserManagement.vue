@@ -32,6 +32,9 @@ import { UserRoleListItem } from "@/models/user-management/UserManagement";
 import { getAllRoles } from "@/api/user-management/UserManagementService";
 
 @Component({
+    metaInfo: {
+        title: "Users",
+    },
     components: {
         UserTabItem,
         UserRolesTabItem,
