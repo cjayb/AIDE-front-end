@@ -46,6 +46,3 @@ To modify the Backend API host or the Keycloak url, you must update the env-conf
 ```
 window.FRONTEND_API_HOST = "http://localhost:5000";
 window.KEYCLOAK_URL = "https://localhost:8443/auth";
-window.WADO_URI_ROOT = "http://localhost:8045/dicom-web";
-window.QIDO_ROOT = "http://localhost:8045/dicom-web";
-window.WADO_ROOT = "http://localhost:8045/dicom-web";
