@@ -1,5 +1,6 @@
 import { VueKeycloakInstance } from "@dsb-norge/vue-keycloak-js/dist/types";
-import { mount } from "cypress/vue2";
+import { mount } from "cypress/vue";
+import { Commands } from "../cypress/support/commands";
 
 declare module "vue/types/vue" {
     interface VueConstructor {
@@ -17,6 +18,7 @@ declare global {
     namespace Cypress {
         interface Chainable {
             mount: typeof mount;
+            dataCy: typeof Commands.dataCy;
         }
     }
 }

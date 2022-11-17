@@ -3,11 +3,11 @@
         <v-col cols="2"></v-col>
         <v-col>
             <v-layout justify-center>
-                <v-btn-toggle dark dense>
-                    <v-btn disabled>
+                <v-btn-toggle dark dense data-cy="dicom-footer">
+                    <v-btn disabled data-cy="dicom-footer-slice">
                         <span>Slice {{ currentSlice + 1 }}/{{ totalSlices }}</span>
                     </v-btn>
-                    <v-btn disabled>
+                    <v-btn disabled data-cy="dicom-footer-windowing">
                         <span>WW/WC {{ windowing.windowWidth }}/{{ windowing.windowCenter }}</span>
                     </v-btn>
                 </v-btn-toggle>

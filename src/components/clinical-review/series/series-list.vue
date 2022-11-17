@@ -6,36 +6,78 @@
         hide-overlay
         dark
         floating
-        :value="displaySeries"
+        :value="showSeries"
         :stateless="true"
+        data-cy="series-list"
     >
-        <v-list></v-list>
+        <v-list>
+            <v-list-item-group v-model="activeSeries" mandatory>
+                <series-item
+                    v-for="item of study"
+                    :key="item.series_id"
+                    :series="item"
+                    @item-selected="selectItem"
+                />
+            </v-list-item-group>
+        </v-list>
     </v-navigation-drawer>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
+import { ClinicalReviewSeries } from "@/models/ClinicalReview/ClinicalReviewTask";
+import SeriesItem from "./series-item.vue";
 
 export default defineComponent({
-    computed: {
-        displaySeries(): boolean {
-            return this.showSeries;
-        },
+    components: {
+        SeriesItem,
     },
     props: {
         showSeries: { default: false, type: Boolean },
+        selectedSeries: { type: String },
+        study: { default: () => [], type: Array as PropType<ClinicalReviewSeries[]> },
+    },
+    emits: ["series-selected", "item-selected"],
+    computed: {
+        activeSeries: {
+            get(): string | undefined {
+                return this.selectedSeries;
+            },
+            set(newValue: string) {
+                this.$emit("series-selected", newValue);
+            },
+        },
+    },
+    methods: {
+        selectItem(item: { modality: string; document?: { data: Uint8Array } }) {
+            this.$emit("item-selected", item);
+        },
     },
 });
 </script>
 
 <style lang="scss" scoped>
 .theme--dark.v-navigation-drawer {
-    background: none;
+    background: rgba($color: #000000, $alpha: 0.5);
+    z-index: 1;
 }
 
 .v-navigation-drawer--is-mobile,
 .v-navigation-drawer--temporary {
     box-shadow: none;
     top: 60px !important;
+    bottom: 0;
+    height: initial !important;
+}
+
+.v-list {
+    padding-right: 12px;
+    padding-left: 12px;
+
+    .v-list-item,
+    .v-list-item::before,
+    .v-list-item > .v-ripple__container {
+        border-radius: 12px !important;
+    }
 }
 </style>

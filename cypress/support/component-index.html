@@ -103,9 +103,23 @@ h2 {
 .v-data-table-header th {
     white-space: nowrap;
 }
+
+.dicom-canvas-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+html,
+body,
+[data-cy-root] {
+    height: 100%;
+}
     </style>
   </head>
-  <body class="v-application v-application--is-ltr theme--light" style="padding: 20px;">
+  <body class="v-application v-application--is-ltr theme--light">
     <div data-cy-root></div>
   </body>
 </html>

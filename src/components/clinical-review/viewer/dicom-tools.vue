@@ -2,7 +2,7 @@
     <v-row class="toolbar">
         <v-col cols="3">
             <v-layout justify-start>
-                <v-btn dark text @click="toggleSeriesPanel">
+                <v-btn dark text @click="toggleSeriesPanel" data-cy="dicom-tool-toggle-series">
                     <v-icon v-if="showSeries">mdi-chevron-left</v-icon>
 
                     <span v-if="showSeries">Hide</span>
@@ -14,7 +14,7 @@
             </v-layout>
         </v-col>
         <v-col cols="6">
-            <v-layout justify-center>
+            <v-layout v-show="showTools" justify-center data-cy="dicom-tools">
                 <!-- tools -->
                 <v-btn-toggle dark dense mandatory v-model="activeTool">
                     <v-tooltip v-for="tool of tools" bottom open-delay="500" :key="tool.name">
@@ -30,9 +30,9 @@
                 <v-btn dark class="ml-4" @click="resetView">Reset View</v-btn>
             </v-layout>
         </v-col>
-        <v-col cols="3" style="">
-            <v-layout justify-end>
-                <v-btn dark text @click="toggleMetadataPanel">
+        <v-col cols="3">
+            <v-layout justify-end v-show="showTools">
+                <v-btn dark text @click="toggleMetadataPanel" data-cy="dicom-tool-toggle-metadata">
                     <v-icon v-if="!showMetadata">mdi-chevron-left</v-icon>
 
                     <span v-if="showMetadata">Hide</span>
@@ -48,7 +48,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { WindowLevelTool, ZoomTool, PanTool, TrackballRotateTool } from "@cornerstonejs/tools";
+import { WindowLevelTool, ZoomTool, PanTool } from "@cornerstonejs/tools";
+import { RotateTool } from "@/utils/cornerstone-tool/rotate-tool";
 
 type DicomToolItem = {
     name: string;
@@ -72,7 +73,7 @@ export default defineComponent({
                     title: "Change Windowing",
                 },
                 {
-                    name: TrackballRotateTool.toolName,
+                    name: RotateTool.toolName,
                     icon: "mdi-rotate-right",
                     title: "Rotate",
                 },
@@ -93,6 +94,7 @@ export default defineComponent({
     props: {
         showMetadata: { default: false, type: Boolean },
         showSeries: { default: false, type: Boolean },
+        showTools: { default: true, type: Boolean },
     },
     watch: {
         activeTool(toolIndex: number) {
@@ -120,6 +122,8 @@ export default defineComponent({
     position: absolute;
     top: 0;
     width: 100%;
+    z-index: 1;
+    background: rgba($color: #000000, $alpha: 0.5);
 
     &.row {
         margin: 0;

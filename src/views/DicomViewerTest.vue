@@ -1,6 +1,12 @@
 <template>
     <v-container fluid class="clinical-review-container">
-        <dicom-view />
+        <v-row class="patient-header"></v-row>
+        <v-row class="clinical-review">
+            <v-col class="task-list"></v-col>
+            <v-col class="dicom-view">
+                <dicom-view :task-execution-id="currentTask" />
+            </v-col>
+        </v-row>
     </v-container>
 </template>
 
@@ -15,6 +21,11 @@ export default defineComponent({
     components: {
         DicomView,
     },
+    data() {
+        return {
+            currentTask: "0d956b22-37dc-4491-9750-ff4dbe96b39a",
+        };
+    },
 });
 </script>
 
@@ -22,6 +33,18 @@ export default defineComponent({
 .clinical-review-container {
     height: 100%;
     padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    > .row {
+        margin: 0;
+    }
+}
+
+.patient-header {
+    background-color: #e4e4e4;
+    height: 80px;
 }
 
 .clinical-review {
@@ -31,27 +54,11 @@ export default defineComponent({
     > .col {
         padding: 0;
     }
-}
 
-.task-panel {
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-
-    > .row {
-        margin: 0;
-    }
-
-    .patient-header {
+    .task-list {
+        width: 350px;
         flex: initial;
-    }
-
-    .task-panel-dicom {
-        flex: 1 !important;
-
-        .dicom-canvas-wrapper {
-            width: 100%;
-        }
+        background-color: rgb(243, 255, 209);
     }
 }
 </style>

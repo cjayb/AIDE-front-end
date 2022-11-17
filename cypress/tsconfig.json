@@ -1,7 +1,8 @@
 {
     "compilerOptions": {
       "baseUrl": "./",
-      "target": "es5",
+      "target": "ES2016",
+      "module": "esnext",
       "lib": ["dom", "esnext"],
       "types": ["cypress", "node", "cypress-axe"],
       "esModuleInterop": true,

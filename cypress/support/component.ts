@@ -1,5 +1,5 @@
 // Import commands.js using ES2015 syntax:
-import "./commands";
+import { Commands } from "./commands";
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
@@ -23,3 +23,5 @@ declare global {
 Cypress.Commands.add("mount", (component, options) => {
     return mount(component, { vuetify, ...options });
 });
+
+Cypress.Commands.add("dataCy", Commands.dataCy);

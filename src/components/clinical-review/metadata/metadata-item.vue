@@ -1,16 +1,18 @@
 <template>
-    <v-list-item data-cy="metadata-series" :class="{ outlined: pinned }" class="mb-2">
+    <v-list-item data-cy="metadata-item" :class="{ outlined: pinned }" class="mb-2">
         <v-list-item-content>
             <v-tooltip bottom open-delay="250">
                 <template v-slot:activator="{ on, attrs }">
-                    <v-list-item-title v-bind="attrs" v-on="on">{{ name }}</v-list-item-title>
+                    <v-list-item-title v-bind="attrs" v-on="on" data-cy="metadata-name">
+                        {{ name }}
+                    </v-list-item-title>
                 </template>
                 <span>{{ name }}</span>
             </v-tooltip>
 
             <v-tooltip bottom open-delay="250">
                 <template v-slot:activator="{ on, attrs }">
-                    <v-list-item-subtitle v-bind="attrs" v-on="on">
+                    <v-list-item-subtitle v-bind="attrs" v-on="on" data-cy="metadata-value">
                         {{ value }}
                     </v-list-item-subtitle>
                 </template>

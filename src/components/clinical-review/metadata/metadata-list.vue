@@ -8,25 +8,32 @@
         floating
         :value="displayMetadata"
         :stateless="true"
+        data-cy="metadata-list"
     >
         <v-list>
-            <v-list-item-group style="margin-bottom: 12px">
+            <v-list-item-group
+                data-cy="metadata-list-pinned"
+                v-show="pinned.length"
+                style="margin-bottom: 12px"
+            >
                 <v-subheader>PINNED</v-subheader>
                 <metadata-item
-                    name="SpecificCharacterSet"
-                    value="ISO_IR 100"
-                    @pin-item="pinItem"
-                    :pinned="true"
+                    v-for="item of pinned"
+                    :key="item.name"
+                    :name="item.name"
+                    :value="item.value"
+                    pinned
+                    @pin-item="unpinItem"
                 />
             </v-list-item-group>
-            <v-list-item-group>
-                <v-subheader>METADATA</v-subheader>
-                <metadata-item name="SpecificCharacterSet" value="ISO_IR 100" @pin-item="pinItem" />
-                <metadata-item name="ImageType" value="ORIGINAL\PRIMARY\AXIAL" />
-                <metadata-item name="SOPClassUID" value="1.2.840.10008.5.1.4.1.1.2" />
+            <v-list-item-group data-cy="metadata-list-not-pinned">
+                <v-subheader v-show="pinned.length">METADATA</v-subheader>
                 <metadata-item
-                    name="SOPInstanceUID"
-                    value="1.2.276.0.7230010.3.1.4.296485376.1.1521713546.1839361"
+                    v-for="item of metadata"
+                    :key="item.name"
+                    :name="item.name"
+                    :value="item.value"
+                    @pin-item="pinItem"
                 />
             </v-list-item-group>
         </v-list>
@@ -34,42 +41,93 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 import MetadataItem from "./metadata-item.vue";
+import { getDicomFile } from "@/api/ClinicalReview/ClinicalReviewService";
+import { DicomMetadata, parseMetadata } from "@/utils/dicom-metadata-parser";
+
+type MetadataListData = {
+    pinnedItemNames: string[];
+    pinned: DicomMetadata[];
+    metadata: DicomMetadata[];
+    allMetadata: DicomMetadata[];
+};
 
 export default defineComponent({
     components: {
         MetadataItem,
+    },
+    props: {
+        showMetadata: { default: false, type: Boolean },
+        currentImageIndex: { default: -1, type: Number },
+        imageSlices: { default: () => [], type: Array as PropType<string[]> },
     },
     computed: {
         displayMetadata(): boolean {
             return this.showMetadata;
         },
     },
-    props: {
-        showMetadata: { default: false, type: Boolean },
+    watch: {
+        async currentImageIndex() {
+            await this.getDicomFile(this.currentImageIndex);
+        },
+        async imageSlices() {
+            await this.getDicomFile(this.currentImageIndex);
+        },
+        pinnedItemNames() {
+            this.filterMetadata();
+        },
     },
     methods: {
         pinItem(name: string) {
-            console.log(name);
+            this.pinnedItemNames.push(name);
         },
+        unpinItem(name: string) {
+            this.pinnedItemNames = this.pinnedItemNames.filter((n) => n !== name);
+        },
+        async getDicomFile(index: number) {
+            const buffer = await getDicomFile(this.imageSlices[index]);
+            this.allMetadata = parseMetadata(new Uint8Array(buffer));
+            this.filterMetadata();
+        },
+        filterMetadata() {
+            this.pinned = this.allMetadata.filter((m) => this.pinnedItemNames.includes(m.name));
+            this.metadata = this.allMetadata.filter((m) => !this.pinnedItemNames.includes(m.name));
+        },
+    },
+    mounted() {
+        if (this.imageSlices.length && this.currentImageIndex >= 0) {
+            this.getDicomFile(0);
+        }
+    },
+    data(): MetadataListData {
+        return {
+            pinnedItemNames: [],
+            pinned: [],
+            metadata: [],
+            allMetadata: [],
+        };
     },
 });
 </script>
 
 <style lang="scss" scoped>
 .theme--dark.v-navigation-drawer {
-    background: none;
+    background: rgba($color: #000000, $alpha: 0.5);
+    z-index: 1;
 }
 
 .v-navigation-drawer--is-mobile,
 .v-navigation-drawer--temporary {
     box-shadow: none;
     top: 60px !important;
+    bottom: 0;
+    height: initial !important;
 }
 
 .v-list {
     padding-right: 12px;
+    padding-left: 12px;
 
     .v-list-item,
     .v-list-item::before,

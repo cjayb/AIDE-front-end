@@ -23,18 +23,26 @@
 
         <slot name="footer" v-bind="{ currentImageIndex, voiRange }" />
 
-        <slot name="metadata" v-bind="{ showMetadata }" />
+        <slot name="metadata" v-bind="{ currentImageIndex, showMetadata }" />
 
         <slot name="series" v-bind="{ showSeries }" />
 
-        <v-overlay :value="loading" :absolute="true" color="#cecece" z-index="10">
+        <slot name="pdf-viewer" />
+
+        <v-overlay
+            data-cy="dicom-viewer-loader"
+            :value="loading"
+            :absolute="true"
+            color="#cecece"
+            z-index="10"
+        >
             <v-progress-circular size="100" color="primary" indeterminate />
         </v-overlay>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, PropType } from "vue";
 import { init, RenderingEngine, Enums, eventTarget } from "@cornerstonejs/core";
 import {
     init as initTools,
@@ -44,12 +52,12 @@ import {
     PanTool,
     StackScrollMouseWheelTool,
     WindowLevelTool,
-    TrackballRotateTool,
 } from "@cornerstonejs/tools";
 import { IToolGroup } from "@cornerstonejs/tools/dist/esm/types";
 import { MouseBindings } from "@cornerstonejs/tools/dist/esm/enums";
-import { IStackViewport, EventTypes, ICamera, VOIRange } from "@cornerstonejs/core/dist/esm/types";
+import { IStackViewport, EventTypes, VOIRange } from "@cornerstonejs/core/dist/esm/types";
 import initCornerstoneWADOImageLoader from "@/utils/cornerstone-wado-image-loader";
+import { RotateTool } from "@/utils/cornerstone-tool/rotate-tool";
 import { debounce } from "underscore";
 
 const dicomCanvas = ref<HTMLDivElement>();
@@ -59,7 +67,6 @@ type ComponentData = {
     viewport?: IStackViewport;
     tools?: IToolGroup;
     voiRange?: VOIRange;
-    defaultCamera?: ICamera;
     currentImageId?: string;
     currentImageIndex: number;
     loading: boolean;
@@ -74,7 +81,7 @@ export default defineComponent({
             viewport: undefined,
             tools: undefined,
             voiRange: undefined,
-            loading: true,
+            loading: false,
             currentImageIndex: 0,
             showMetadata: true,
             showSeries: true,
@@ -82,7 +89,7 @@ export default defineComponent({
     },
     props: {
         activeTool: { default: PanTool.toolName as string },
-        imageIds: { default: () => [] as string[] },
+        imageIds: { default: () => [], type: Array as PropType<string[]> },
     },
     watch: {
         imageIds() {
@@ -121,9 +128,6 @@ export default defineComponent({
 
             eventTarget.addEventListener(Enums.Events.IMAGE_LOAD_PROGRESS, startLoading);
             eventTarget.addEventListener(Enums.Events.IMAGE_LOADED, stopLoading);
-            eventTarget.addEventListener(Enums.Events.STACK_VIEWPORT_NEW_STACK, () => {
-                this.defaultCamera = this.viewport?.getCamera();
-            });
 
             this.dicomCanvas.addEventListener(Enums.Events.VOI_MODIFIED, (ev) => {
                 const { detail } = ev as EventTypes.VoiModifiedEvent;
@@ -158,7 +162,7 @@ export default defineComponent({
                 addTool(PanTool);
                 addTool(StackScrollMouseWheelTool);
                 addTool(WindowLevelTool);
-                addTool(TrackballRotateTool);
+                addTool(RotateTool);
             } catch {
                 // do nothing
             }
@@ -174,7 +178,7 @@ export default defineComponent({
             this.tools?.addTool(PanTool.toolName);
             this.tools?.addTool(StackScrollMouseWheelTool.toolName);
             this.tools?.addTool(WindowLevelTool.toolName);
-            this.tools?.addTool(TrackballRotateTool.toolName);
+            this.tools?.addTool(RotateTool.toolName);
 
             this.tools?.setToolActive(WindowLevelTool.toolName, {
                 bindings: [
@@ -198,7 +202,7 @@ export default defineComponent({
                 ],
             });
             this.tools?.setToolActive(StackScrollMouseWheelTool.toolName);
-            this.tools?.setToolActive(TrackballRotateTool.toolName);
+            this.tools?.setToolActive(RotateTool.toolName);
         },
         setActiveTool(toolName: string) {
             const currentPrimaryTool = this.tools?.getActivePrimaryMouseButtonTool();
@@ -216,17 +220,18 @@ export default defineComponent({
             });
         },
         resetView() {
-            if (this.defaultCamera) {
-                this.viewport?.setCamera(this.defaultCamera);
-            }
-
             this.viewport?.resetCamera(true, true);
             this.viewport?.resetProperties();
-            this.viewport?.setProperties({ rotation: 0 }, true);
             this.viewport?.render();
             this.setActiveTool(PanTool.toolName);
         },
         async loadImages() {
+            if (!this.imageIds.length) {
+                this.loading = false;
+                return;
+            }
+
+            this.loading = true;
             await this.viewport?.setStack(this.imageIds, 0);
             this.imageIds.forEach((_, index) => this.viewport?.setImageIdIndex(index));
             await this.viewport?.setImageIdIndex(0);

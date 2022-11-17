@@ -15,7 +15,7 @@ export function isResultOk({ status }: AxiosResponse): boolean {
 
 export function authenticationEnabledInterceptor(config: AxiosRequestConfig): AxiosRequestConfig {
     if (process.env.VUE_APP_AUTH_ENABLED === "true") {
-        Vue.prototype.$keycloak.keycloak.updateToken(70);
+        Vue.prototype.$keycloak?.keycloak.updateToken(70);
     }
 
     return config;
@@ -35,11 +35,11 @@ export function onRequestErrorInterceptor(
     conflictToastHidden?: boolean,
 ): Promise<AxiosError> {
     if (error.code === "ERR_NETWORK") {
-        Vue.$toast.error("Connection error. Please check your internet connection.");
+        Vue.$toast?.error("Connection error. Please check your internet connection.");
 
         return Promise.reject(error);
     } else if (error.response?.status === 401) {
-        Vue.prototype.$keycloak.logout({ redirectUri: `${window.location.origin}/#/` });
+        Vue.prototype.$keycloak?.logout({ redirectUri: `${window.location.origin}/#/` });
 
         return Promise.reject(error);
     } else if (error.response?.status === 409 && conflictToastHidden) {
@@ -47,11 +47,11 @@ export function onRequestErrorInterceptor(
     }
 
     const messageKey = `${
-        error.request?.method || error.config!.method
+        error.request?.method || error.config?.method
     }`.toLowerCase() as keyof ErrorMessageMap;
     const message = messageMap[messageKey] ?? "Something unexpected went wrong.";
 
-    Vue.$toast.error(message);
+    Vue.$toast?.error(message);
 
     return Promise.reject(error);
 }
