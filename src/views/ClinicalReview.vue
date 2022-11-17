@@ -1,13 +1,16 @@
 <template>
-    <v-container style="max-width: 100%" fluid>
-        <Header />
-        <v-row>
+    <v-container fluid class="clinical-review-container">
+        <v-row class="patient-header">
+            <Header />
+        </v-row>
+        <v-row class="clinical-review">
             <!-- Task List -->
-            <v-col cols="2">
+            <v-col class="task-list">
+                <v-divider class="mt-4" />
                 <Tasks />
             </v-col>
             <!-- Viewer -->
-            <v-col cols="10" v-if="tasksNotEmpty">
+            <v-col class="dicom-view" v-if="tasksNotEmpty">
                 <!-- <Header /> -->
                 <v-card
                     style="
@@ -68,17 +71,31 @@ export default class ClinicalReview extends Vue {
 }
 </script>
 
-<style scoped>
-.header-title {
-    /* font-family: Bai Jamjuree; */
-    font-style: normal;
-    font-weight: 300;
-    font-size: 34px;
-    line-height: 40px;
-    /* identical to box height, or 118% */
+<style lang="scss" scoped>
+.clinical-review-container {
+    height: 100%;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    > .row {
+        margin: 0;
+    }
+}
 
-    letter-spacing: 0.0025em;
-
-    color: #000000;
+.patient-header {
+    height: 70px;
+    align-content: center;
+}
+.clinical-review {
+    margin: 0;
+    height: 100%;
+    > .col {
+        padding: 0;
+    }
+    .task-list {
+        width: 350px;
+        flex: initial;
+    }
 }
 </style>

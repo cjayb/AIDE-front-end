@@ -51,6 +51,12 @@ export default class ApiMocks {
     public static CLINICAL_REVIEW_REVIEWED = require("./clinical-review/clinicalReviewed.json");
     public static CLINICAL_REVIEW_RESPONSE = require("./clinical-review/clinicalReviewResponse.json");
     public static REMOTE_DICOM_METADATA = require("./clinical-review/remoteDicomMetadata.json");
+    //Clinical Review NEW
+    public static CLINICAL_REVIEW_TASKS = require("./clinical-review-new/clinicalReviewTasks.json");
+    public static CLINICAL_REVIEW_SEARCH_PATIENT_ID = require("./clinical-review-new/searchPatientId.json");
+    public static CLINICAL_REVIEW_SEARCH_PATIENT_NAME = require("./clinical-review-new/searchPatientName.json");
+    public static CLINICAL_REVIEW_SEARCH_APPLICATION_NAME = require("./clinical-review-new/searchApplicationName.json");
+    public static CLINICAL_REVIEW_PAGINATION = require("./clinical-review-new/pagination.json");
     //App Store
     public static APP_STORE_ALL_PERMUTATIONS = require("./app-store/appStoreAllPermutations.json");
     public static APP_STORE_SPECIALITY_DROP_DOWN = require("./app-store/appStoreSpecialityDropDown.json");

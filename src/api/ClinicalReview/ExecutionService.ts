@@ -2,11 +2,11 @@ import { Execution, ExecutionPage } from "@/models/ClinicalReview/Execution";
 import { ExecutionStat } from "@/models/ClinicalReview/ExecutionStat";
 import { createAxiosInstance, ErrorMessageMap } from "@/utils/axios-helpers";
 
-const errorMessages: ErrorMessageMap = {
+const executionsErrorMessages: ErrorMessageMap = {
     get: "Something unexpected went wrong retrieving the executions",
 };
 
-const http = createAxiosInstance(errorMessages);
+const http = createAxiosInstance(executionsErrorMessages);
 
 export async function getAllExecutionsPage(
     from: string,

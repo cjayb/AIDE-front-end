@@ -1,21 +1,20 @@
 import { rest } from "msw";
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+import * as executionsListMock from "../../cypress/fixtures/clinical-review/allExecutionsForReview.json";
 import dicomFile from "!url-loader!./fixtures/report-dicom.dcm";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import reportFile from "!url-loader!./fixtures/report-pdf.pdf";
 
 export const executionsHandlers = [
+    rest.get(`${window.FRONTEND_API_HOST}/pipeline/:correlation_id`, (_req, res, ctx) => {
+        return res(ctx.json(executionsListMock));
+    }),
     rest.get(
-        `${window.FRONTEND_API_HOST}/executions/:worflowInstanceId/tasks/:executionId/artifacts`,
+        `${window.FRONTEND_API_HOST}/executions/:workflowInstanceId/tasks/:executionId/artifacts`,
         (_req, res, ctx) => {
             return res(ctx.json({ "report-dicom": "report-dicom", "report-pdf": "report-pdf" }));
         },
     ),
     rest.get(
-        `${window.FRONTEND_API_HOST}/executions/:worflowInstanceId/tasks/:executionId/metadata`,
+        `${window.FRONTEND_API_HOST}/executions/:workflowInstanceId/tasks/:executionId/metadata`,
         (_req, res, ctx) => {
             return res(ctx.json({ key: "value" }));
         },

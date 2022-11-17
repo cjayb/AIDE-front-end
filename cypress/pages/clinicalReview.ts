@@ -2,24 +2,32 @@ import ApiMocks from "../fixtures/mockIndex";
 import { AbstractPage } from "./abstractPage";
 import moment from "moment";
 import { RejectReason } from "../data/clinical-review/rejectReason";
-import { ExecutionData } from "../data/clinical-review/execution";
+import { ClinicalReviewTaskData } from "../data/clinical-review/listOfTasks";
 import { filterObject } from "utils/data_util";
+import { formatDateAndTimeOfString } from "../../src/utils/date-utilities";
+import { PagedClinicalReviewList } from "../../src/models/ClinicalReview/ClinicalReviewTask";
 
-const dianeName = ExecutionData.REVIEW_DIANE_ANDERSON.event.origin.series[0]["PatientName"];
-const kellyName = ExecutionData.REVIEW_KELLY_MALDONADO.event.origin.series[0]["PatientName"];
-const leoneName = ExecutionData.REVIEW_LEONE_GOODPASTURE.event.origin.series[0]["PatientName"];
-const fionaName = "Fiona";
+const allTasks = ClinicalReviewTaskData.LIST_OF_ALL_TASKS;
+const searchPatientIdTaskData =
+    ClinicalReviewTaskData.SEARCH_PATIENT_ID.data[0].clinical_review_message;
+const searchPatientNameTaskData =
+    ClinicalReviewTaskData.SEARCH_PATIENT_ID.data[0].clinical_review_message;
+const searchApplicationNameTaskData =
+    ClinicalReviewTaskData.SEARCH_PATIENT_ID.data[0].clinical_review_message;
+
+const nextPage = "[aria-label='Next page']";
+const previousPage = "[aria-label='Previous page']";
+const pageTen = "[aria-label='Goto Page 10']";
+const pageNine = "[aria-label='Goto Page 9']";
 
 export default class ClinicalReviewPage extends AbstractPage {
     //Clinical review worklist
-    private static FREETEXT_SEARCH = "worklist-search";
     public static PATIENT_NAME_VIEWER = "patient-name";
     public static PATIENT_DOB_VIEWER = "patient-dob";
     public static PATIENT_ID_VIEWER = "patient-id";
     public static PATIENT_SEX_VIEWER = "patient-sex";
     public static STUDY_DATE_VIEWER = "study-date";
-    private static CLEAR_FREETEXT_SEARCH = ".v-input__icon--clear";
-    private static WORKLIST_ITEM = "worklist-item";
+    //private static WORKLIST_ITEM = "worklist-item";
     public static ACCEPT_BUTTON = "accept-btn";
     public static REJECT_BUTTON = "reject-btn";
 
@@ -52,25 +60,120 @@ export default class ClinicalReviewPage extends AbstractPage {
     public initPage() {
         cy.intercept(
             "GET",
-            "/executions?approved=false",
-            ApiMocks.CLINICAL_REVIEW_ALL_EXECUTIONS,
+            "https://localhost:8000/clinical-review?pageNumber=1&pageSize=10&patientId=&patientName=&applicationName=",
+            ApiMocks.CLINICAL_REVIEW_TASKS,
         ).as("All executions for review");
-        cy.intercept("GET", "/executions?from=0*", ApiMocks.CLINICAL_REVIEW_PAGE_1).as(
-            "Executions for review page 1",
-        );
-        cy.intercept("GET", "/executions?from=10*", ApiMocks.CLINICAL_REVIEW_PAGE_2).as(
-            "Executions for review page 2",
-        );
-        cy.intercept("POST", "/executions/*/approvals?*", ApiMocks.CLINICAL_REVIEW_RESPONSE).as(
-            "Review response",
-        );
-        cy.visit("#/clinical-review");
+        cy.visit("clinical-review");
         Cypress.on("uncaught:exception", () => {
-            //TODO: Remove this once uncaught exceptions have been removed
             return false;
         });
         this.imageRenderCount = 0;
     }
+
+    public assertViewAndFilterTasks() {
+        this.assertTaskSelected(ClinicalReviewTaskData.LIST_OF_ALL_TASKS, 0);
+        this.assertTaskDetails(ClinicalReviewTaskData.LIST_OF_ALL_TASKS, 0);
+        this.searchPatientId();
+        this.searchPatientName();
+        this.searchApplicationName();
+    }
+
+    public assertPaginationandViewTasks() {
+        this.changePage(nextPage, 2);
+        this.assertTaskDetails(ClinicalReviewTaskData.PAGINATION, 0);
+        this.changePage(previousPage, 1);
+        this.assertTaskDetails(ClinicalReviewTaskData.PAGINATION, 0);
+        this.changePage(pageTen, 10);
+        this.assertTaskDetails(ClinicalReviewTaskData.PAGINATION, 0);
+        this.changePage(pageNine, 9);
+        this.assertTaskDetails(ClinicalReviewTaskData.PAGINATION, 0);
+    }
+
+    public changePage(page: string, pageNumber: number) {
+        cy.intercept(
+            "GET",
+            `/clinical-review?pageNumber=${pageNumber}&pageSize=${allTasks.pageSize}&patientId=&patientName=&applicationName=`,
+            ApiMocks.CLINICAL_REVIEW_PAGINATION,
+        ).as("pagination");
+        cy.get(page).click();
+        cy.wait("@pagination");
+        cy.wait(100);
+    }
+
+    public assertTaskSelected(task: PagedClinicalReviewList, index: number) {
+        cy.dataCy(task.data[index].clinical_review_message.patient_metadata.patient_id).should(
+            "have.attr",
+            "aria-selected",
+            "true",
+        );
+    }
+
+    public searchPatientId() {
+        cy.intercept(
+            "GET",
+            `/clinical-review?pageNumber=1&pageSize=10&patientId=${searchPatientIdTaskData.patient_metadata.patient_id}&patientName=&applicationName=`,
+            ApiMocks.CLINICAL_REVIEW_SEARCH_PATIENT_ID,
+        ).as("patient-id");
+        cy.dataCy("patient-id-radiobtn").click({ force: true }).should("not.have.text");
+        cy.dataCy("worklist-search").type(searchPatientIdTaskData.patient_metadata.patient_id);
+        cy.wait("@patient-id");
+        this.assertTaskDetails(ClinicalReviewTaskData.SEARCH_PATIENT_ID, 0);
+    }
+
+    public searchPatientName() {
+        cy.intercept(
+            "GET",
+            `/clinical-review?pageNumber=1&pageSize=10&patientId=&patientName=${searchPatientNameTaskData.patient_metadata.patient_name}&applicationName=`,
+            ApiMocks.CLINICAL_REVIEW_SEARCH_PATIENT_NAME,
+        ).as("patient-name");
+        cy.dataCy("patient-name-radiobtn").click({ force: true }).should("not.have.text");
+        cy.dataCy("worklist-search")
+            .clear({ force: true })
+            .type(searchPatientNameTaskData.patient_metadata.patient_name);
+        cy.wait("@patient-name");
+        this.assertTaskDetails(ClinicalReviewTaskData.SEARCH_PATIENT_NAME, 0);
+    }
+
+    public searchApplicationName() {
+        cy.intercept(
+            "GET",
+            `/clinical-review?pageNumber=1&pageSize=10&patientId=&patientName=&applicationName=${searchApplicationNameTaskData.application_metadata.application_name}`,
+            ApiMocks.CLINICAL_REVIEW_SEARCH_APPLICATION_NAME,
+        ).as("application-name");
+        cy.dataCy("application-name-radiobtn").click({ force: true }).should("not.have.text");
+        cy.dataCy("worklist-search")
+            .clear({ force: true })
+            .type(searchApplicationNameTaskData.application_metadata.application_name);
+        cy.wait("@application-name");
+        this.assertTaskDetails(ClinicalReviewTaskData.SEARCH_APPLICATION_NAME, 0);
+    }
+
+    public assertTaskDetails(task: PagedClinicalReviewList, index: number) {
+        const taskdate = formatDateAndTimeOfString(task.data[index].received.toString(), false);
+        cy.dataCy(task.data[index].clinical_review_message.patient_metadata.patient_id)
+            .should(
+                "contain",
+                task.data[index].clinical_review_message.patient_metadata.patient_name,
+            )
+            .and("contain", task.data[index].clinical_review_message.patient_metadata.patient_id)
+            .and("contain", task.data[index].clinical_review_message.patient_metadata.patient_Age)
+            .and("contain", task.data[index].clinical_review_message.patient_metadata.patient_sex)
+            .and(
+                "contain",
+                task.data[index].clinical_review_message.application_metadata.application_name,
+            )
+            .and(
+                "contain",
+                task.data[index].clinical_review_message.application_metadata.application_version,
+            )
+            .and(
+                "contain",
+                task.data[index].clinical_review_message.application_metadata.application_mode,
+            )
+            .and("contain", taskdate);
+    }
+
+    //Methods below from old tests
 
     public pinMetadata(metadataKey: string) {
         cy.dataCy(ClinicalReviewPage.METADATA_SERIES)
@@ -128,20 +231,6 @@ export default class ClinicalReviewPage extends AbstractPage {
             );
         });
         return this;
-    }
-
-    public searchWorklist(text: string): ClinicalReviewPage {
-        cy.dataCy(ClinicalReviewPage.FREETEXT_SEARCH).type(text);
-        return this;
-    }
-
-    public clearWorklistSearch(): ClinicalReviewPage {
-        cy.get(ClinicalReviewPage.CLEAR_FREETEXT_SEARCH).click();
-        return this;
-    }
-
-    public worklistItemWithText(text: string): Cypress.Chainable {
-        return cy.dataCy(ClinicalReviewPage.WORKLIST_ITEM).contains(text);
     }
 
     public formatDate(text: string): string {
@@ -202,44 +291,6 @@ export default class ClinicalReviewPage extends AbstractPage {
             cy.get(ClinicalReviewPage.CHECKBOX).click();
         }
         return this;
-    }
-
-    public selectNextPage() {
-        cy.get("[aria-label='Next page']").click();
-        return this;
-    }
-
-    public selectPreviousPage() {
-        cy.get("[aria-label='Previous page']").click();
-        return this;
-    }
-
-    public assertViewAndFilterWorklist() {
-        this.searchWorklist("de")
-            .worklistItemWithText(dianeName)
-            .click()
-            .should("contain.text", dianeName);
-
-        this.clearWorklistSearch()
-            .searchWorklist("Kel")
-            .worklistItemWithText(kellyName)
-            .click()
-            .should("contain.text", kellyName);
-    }
-
-    public assertPatientDataFields() {
-        const patientDob: string = this.formatDate(
-            ExecutionData.REVIEW_LEONE_GOODPASTURE.event.origin.series[0]["PatientBirthDate"],
-        );
-        const patientId =
-            ExecutionData.REVIEW_LEONE_GOODPASTURE.event.origin.series[0]["PatientID"];
-        const patientSex =
-            ExecutionData.REVIEW_LEONE_GOODPASTURE.event.origin.series[0]["PatientSex"];
-        const studyDate = this.formatDate(
-            ExecutionData.REVIEW_LEONE_GOODPASTURE.event.origin.series[0]["StudyDate"],
-        );
-        this.searchWorklist("leo").worklistItemWithText(leoneName).click();
-        this.assertHeaderDetails(leoneName, patientDob, patientId, patientSex, studyDate);
     }
 
     public assertAcceptWorklistItem() {

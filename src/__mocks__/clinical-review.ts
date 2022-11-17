@@ -1,8 +1,74 @@
 import { rest } from "msw";
-
 import ctSlice1 from "!url-loader!./fixtures/CT000000.dcm";
 import ctSlice2 from "!url-loader!./fixtures/CT000010.dcm";
 import docSlice from "!url-loader!./fixtures/DO000000.dcm";
+import { PagedClinicalReviewList } from "@/models/ClinicalReview/ClinicalReviewTask";
+
+const clinicalReviewTasks: PagedClinicalReviewList = {
+    pageNumber: 1,
+    pageSize: 10,
+    totalPages: 10,
+    totalRecords: 1,
+    data: [
+        {
+            _id: "678",
+            clinical_review_message: {
+                task_id: "",
+                reviewed_task_id: "cde",
+                execution_id: "677",
+                reviewed_execution_id: "abc",
+                correlation_id: "123",
+                workflow_name: "bobwf",
+                patient_metadata: {
+                    patient_name: "Joe Batt",
+                    patient_id: "1299-123-232-3422",
+                    patient_sex: "M",
+                    patient_Dob: "10-10-2000",
+                    patient_Age: "23",
+                },
+                files: [],
+                reviewer_roles: ["admin", "clinician"],
+                application_metadata: {
+                    application_name: "stroke model",
+                    application_version: "1.1",
+                    application_mode: "CU",
+                },
+            },
+            reviewed: false,
+            received: new Date(),
+        },
+        {
+            _id: "678",
+            clinical_review_message: {
+                task_id: "",
+                reviewed_task_id: "cde",
+                execution_id: "678",
+                reviewed_execution_id: "abc",
+                correlation_id: "123",
+                workflow_name: "bobwf",
+                patient_metadata: {
+                    patient_name: "Alexis Bazin",
+                    patient_id: "1299-123-232-3424",
+                    patient_sex: "M",
+                    patient_Dob: "10-10-2000",
+                    patient_Age: "23",
+                },
+                files: [],
+                reviewer_roles: ["admin", "clinician"],
+                application_metadata: {
+                    application_name: "Application 1",
+                    application_version: "1.1",
+                    application_mode: "CU",
+                },
+            },
+            reviewed: false,
+            received: new Date(),
+        },
+    ],
+    succeeded: true,
+    errors: null,
+    message: null,
+};
 
 export const clinicalReviewHandlers = [
     rest.get(`${window.FRONTEND_API_HOST}/clinical-review/dicom`, async (req, res, ctx) => {
@@ -57,5 +123,8 @@ export const clinicalReviewHandlers = [
         };
 
         return res(ctx.json(study));
+    }),
+    rest.get(`${window.FRONTEND_API_HOST}/clinical-review`, (_req, res, ctx) => {
+        return res(ctx.json(clinicalReviewTasks));
     }),
 ];

@@ -144,7 +144,7 @@ export default class SeriesSelector extends Vue {
 
 .list-enter-active,
 .list-leave-active {
-    transition: all 1s ease;
+    transition: all;
 }
 .list-enter-from,
 .list-leave-to {
