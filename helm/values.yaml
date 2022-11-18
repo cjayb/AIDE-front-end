@@ -10,31 +10,15 @@ imagePullSecrets:
 
 enviromentVariables:
   KEYCLOAK_URL: https://dev-aide.answerdigital.io:8443/auth
-  FRONTEND_API_HOST: http://dev-aide.answerdigital.io:5000
-  ORTHANC_API_URL: https://dev-aide.answerdigital.io:8045
+  CLINICAL_REVIEW_URL: http://clinical-review-port-5000.aide.svc.cluster.local:5000
   VUE_APP_AUTH_ENABLED: true
-
+  FRONTEND_API_HOST: https://sit-aide.answerdigital.io/api/
+      
 ingress:
   host: sit-aide.answerdigital.io
   tlsSecretName: certificatesecret
 
 service:
   type: ClusterIP
-  port: 80
-
-volumes:
-  - name: aide-storage
-    claimName: aide-frontend-pvc
-
-volumeMounts:
-  - name: aide-storage
-    mountPath: /aide/data
-
-storage:
-  globalStorageClassName: global-sc
-  globalDataDirectory: /efs_data/aide/
-  storageClassName: aide-sc
-  storageClaimName: aide-frontend-pvc
-  dataDirectory: /efs_data/aide/data/
-  dataVolumeLabel: aide-frontend
-  dataStorageCapacityRequest: 10Gi
+  port: 80  
+ 
