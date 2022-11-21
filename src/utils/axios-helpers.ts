@@ -76,21 +76,3 @@ export function createAxiosInstance(
 
     return http;
 }
-
-export function createAxiosOrthancInstance(errorMessages?: ErrorMessageMap): AxiosInstance {
-    const http = axios.create({
-        baseURL: window.ORTHANC_API_URL,
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-
-    http.interceptors.request.use((config) => authenticationEnabledInterceptor(config));
-    http.interceptors.request.use((config) => attachBearerTokenInterceptor(config));
-    http.interceptors.response.use(
-        (response) => response,
-        (error) => onRequestErrorInterceptor(error, errorMessages ?? {}),
-    );
-
-    return http;
-}

@@ -1,0 +1,71 @@
+import { formatDateTime } from "@/utils/date-utilities";
+import TaskItem from "./task-item.vue";
+
+const task = {
+    _id: "678",
+    clinical_review_message: {
+        task_id: "",
+        reviewed_task_id: "cde",
+        execution_id: "677",
+        reviewed_execution_id: "abc",
+        correlation_id: "123",
+        workflow_name: "bobwf",
+        patient_metadata: {
+            patient_name: "Joe Bloggs",
+            patient_id: "1299-123-232-3422",
+            patient_sex: "M",
+            patient_dob: "10-10-2000",
+            patient_age: "23",
+        },
+        files: [],
+        reviewer_roles: ["admin", "clinician"],
+        application_metadata: {
+            application_name: "stroke model",
+            application_version: "1.1",
+            application_mode: "CU",
+        },
+    },
+    reviewed: false,
+    received: "2022-11-11T11:11:11",
+};
+
+describe("<task-item />", () => {
+    it("renders task item with data", () => {
+        const { clinical_review_message } = task;
+
+        cy.mount(TaskItem, {
+            propsData: {
+                patient: clinical_review_message.patient_metadata,
+                application: clinical_review_message.application_metadata,
+                received: task.received,
+            },
+        });
+
+        cy.get("[data-cy=patient-name]").should(
+            "contain.text",
+            task.clinical_review_message.patient_metadata.patient_name,
+        );
+        cy.get("[data-cy=patient-id]").should(
+            "contain.text",
+            task.clinical_review_message.patient_metadata.patient_id,
+        );
+        cy.get("[data-cy=patient-age]").should(
+            "contain.text",
+            task.clinical_review_message.patient_metadata.patient_age,
+        );
+        cy.get("[data-cy=patient-sex]").should(
+            "contain.text",
+            task.clinical_review_message.patient_metadata.patient_sex,
+        );
+        cy.get("[data-cy=application]").should(
+            "contain.text",
+            task.clinical_review_message.application_metadata.application_name,
+            task.clinical_review_message.application_metadata.application_version,
+        );
+        cy.get("[data-cy=mode]").should(
+            "contain.text",
+            task.clinical_review_message.application_metadata.application_mode,
+        );
+        cy.get("[data-cy=received]").should("contain.text", formatDateTime(task.received));
+    });
+});

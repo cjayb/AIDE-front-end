@@ -18,12 +18,12 @@ describe("<dicom-view />", () => {
         cy.intercept("/clinical-review/5da2469c-df16-451a-a6f2-be94edc5a703", {
             study: [
                 {
-                    series_id: "5910155b-3c21-4438-b00a-27754596dd28",
+                    series_uid: "5910155b-3c21-4438-b00a-27754596dd28",
                     modality: "CT",
                     files: ["CT000000.dcm"],
                 },
                 {
-                    series_id: "7d6563ea-852c-4962-a820-637c681f47f1",
+                    series_uid: "7d6563ea-852c-4962-a820-637c681f47f1",
                     modality: "DOC",
                     files: ["DO000000.dcm"],
                 },

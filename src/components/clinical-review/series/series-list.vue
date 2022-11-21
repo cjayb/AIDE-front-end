@@ -14,7 +14,7 @@
             <v-list-item-group v-model="activeSeries" mandatory>
                 <series-item
                     v-for="item of study"
-                    :key="item.series_id"
+                    :key="item.series_uid"
                     :series="item"
                     @item-selected="selectItem"
                 />

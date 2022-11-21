@@ -1,5 +1,5 @@
 <template>
-    <v-list-item data-cy="metadata-item" :class="{ outlined: pinned }" class="mb-2">
+    <v-list-item inactive data-cy="metadata-item" :class="{ outlined: pinned }" class="mb-2">
         <v-list-item-content>
             <v-tooltip bottom open-delay="250">
                 <template v-slot:activator="{ on, attrs }">

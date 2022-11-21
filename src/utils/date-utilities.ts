@@ -14,6 +14,20 @@ export const formatDateAndTimeOfArray = (
     });
 };
 
+export function formatDateAndTimeOfTypedArray<T>(
+    items: T[],
+    itemProperty: keyof T,
+    includeFromNow = true,
+): T[] {
+    return items.map((item: T) => {
+        const date = item[itemProperty] as string;
+        const obj = { ...item } as any;
+        obj[itemProperty] = formatDateAndTimeOfString(date, includeFromNow);
+
+        return obj;
+    });
+}
+
 /// Returns date time for examples...
 /// 27 Oct 2022 1.05pm (44 minutes ago)
 /// 27 Oct 2022 1.05pm (20 years ago)
@@ -26,4 +40,24 @@ export function formatDateAndTimeOfString(dateStr: string, inludeFromNow = true)
     return inludeFromNow
         ? `${dateMoment.format(NhsDateTimeFormat)} (${dateMoment.fromNow()})`
         : `${dateMoment.format(NhsDateTimeFormat)}`;
+}
+
+export function formatDate(dateString: string, format = "DD-MMM-YYYY"): string {
+    const date = moment(dateString);
+
+    if (!date.isValid()) {
+        return "";
+    }
+
+    return date.format(format);
+}
+
+export function formatDateTime(dateString: string, format = "DD-MMM-YYYY h:mma"): string {
+    const date = moment(dateString);
+
+    if (!date.isValid()) {
+        return "";
+    }
+
+    return date.format(format);
 }

@@ -15,7 +15,7 @@ describe("<series-item />", () => {
 
         const propsData = {
             series: {
-                series_id: "5910155b-3c21-4438-b00a-27754596dd28",
+                series_uid: "5910155b-3c21-4438-b00a-27754596dd28",
                 modality: "CT",
                 files: ["CT000000.dcm"],
             },

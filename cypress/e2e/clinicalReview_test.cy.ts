@@ -2,7 +2,7 @@ import ClinicalReviewPage from "../pages/clinicalReview";
 
 const reviewPage = new ClinicalReviewPage();
 
-describe("Clinical review page", () => {
+describe.skip("Clinical review page", () => {
     beforeEach(() => {
         reviewPage.initPage();
     });
