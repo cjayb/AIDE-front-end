@@ -1,6 +1,6 @@
 import { Execution, ExecutionPage } from "@/models/ClinicalReview/Execution";
 import { ExecutionStat } from "@/models/ClinicalReview/ExecutionStat";
-import { createAxiosInstance, ErrorMessageMap } from "@/utils/axios-helpers";
+import { createAxiosInstance, ErrorMessageMap, isResultOk } from "@/utils/axios-helpers";
 
 const executionsErrorMessages: ErrorMessageMap = {
     get: "Something unexpected went wrong retrieving the executions",
@@ -50,10 +50,13 @@ export async function updateClinicalReview(
     reason: string,
     message: string,
 ): Promise<any> {
-    const response = await http.post(
-        `/executions/${execution_uid}/approvals?acceptance=${acceptance}&reason=${reason}&message=${message}`,
-    );
-    return response.data;
+    const response = await http.post(`/clinical-review`, {
+        acceptance: acceptance,
+        task_id: execution_uid,
+        reason: reason,
+        message: message,
+    });
+    return isResultOk(response);
 }
 
 export async function getFile(file_path: string): Promise<any> {
