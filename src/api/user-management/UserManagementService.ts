@@ -30,8 +30,6 @@ interface QueryParams {
     role?: string;
     page: number;
     itemsPerPage: number;
-    sortBy: string[];
-    sortDesc: boolean[];
 }
 
 export async function getAllUsers(query: QueryParams): Promise<GetAllUsersResponse> {
@@ -43,8 +41,6 @@ export async function getAllUsers(query: QueryParams): Promise<GetAllUsersRespon
                 ? "0"
                 : `${query.page * query.itemsPerPage - query.itemsPerPage}`,
         max: `${query.itemsPerPage}`,
-        sortBy: query.sortBy.length ? query.sortBy[0] : "",
-        sortDesc: query.sortDesc.length ? `${query.sortDesc[0]}` : "",
     });
 
     const response = await httpUsers.get<GetAllUsersResponse>(`/users?${params}`);
@@ -92,8 +88,6 @@ export async function getPaginatedRoles(query: QueryParams): Promise<PaginatedRo
         search: query.search?.replaceAll(" ", "%") ?? "",
         first: query.page === 1 ? "0" : `${query.page * query.itemsPerPage - query.itemsPerPage}`,
         max: `${query.itemsPerPage}`,
-        sortBy: query.sortBy.length ? query.sortBy[0] : "",
-        sortDesc: query.sortDesc.length ? `${query.sortDesc[0]}` : "",
     });
 
     const defaultData = { totalRolesCount: 0, totalFilteredRolesCount: 0, roles: [] };
