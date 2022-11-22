@@ -10,7 +10,6 @@ imagePullSecrets:
 
 enviromentVariables:
   KEYCLOAK_URL: https://dev-aide.answerdigital.io:8443/auth
-  CLINICAL_REVIEW_URL: http://clinical-review-port-5000.aide.svc.cluster.local:5000
   VUE_APP_AUTH_ENABLED: true
   FRONTEND_API_HOST: https://sit-aide.answerdigital.io/api/
       
