@@ -44,21 +44,6 @@ export async function getModelExecutionStats(
     return response.data;
 }
 
-export async function updateClinicalReview(
-    execution_uid: string,
-    acceptance: string,
-    reason: string,
-    message: string,
-): Promise<any> {
-    const response = await http.post(`/clinical-review`, {
-        acceptance: acceptance,
-        task_id: execution_uid,
-        reason: reason,
-        message: message,
-    });
-    return isResultOk(response);
-}
-
 export async function getFile(file_path: string): Promise<any> {
     const response = await http.post("/file", { file_path: file_path }, { responseType: "blob" });
     if (response.headers["content-type"] === "application/zip") {

@@ -42,9 +42,11 @@
 </template>
 
 <script lang="ts">
+import Vue from "vue";
 import { defineComponent } from "vue";
 import DicomView from "@/components/clinical-review/dicom-view.vue";
 import ClinicalReviewTaskList from "@/components/clinical-review/tasks/task-list.vue";
+import { updateClinicalReview } from "../api/ClinicalReview/ClinicalReviewService";
 import PatientHeader from "@/components/clinical-review/patient-header.vue";
 import AcceptRejectDialog from "@/components/clinical-review/accept-reject-dialog.vue";
 import {
@@ -101,14 +103,52 @@ export default defineComponent({
             this.actionModal = true;
             this.reject = true;
         },
-        performAction(
+        async performAction(
             data: { reason: string | undefined; description: string },
             fetchTasks: () => void,
         ) {
-            // TODO in another ticket
-            // call the right endpoint based on `this.reject`
             console.log(data);
             this.actionModal = false;
+
+            let executionId = "";
+            if (typeof this.currentTaskExecutionId === "string") {
+                executionId = this.currentTaskExecutionId;
+            }
+
+            const accepted = data.reason === "";
+            if (accepted) {
+                const responseOk = await updateClinicalReview(
+                    executionId,
+                    "true",
+                    "",
+                    data.description,
+                );
+
+                if (responseOk) {
+                    Vue.$toast.success("Clinical Review has been accepted");
+                } else {
+                    Vue.$toast.warning("Something unexpected went wrong. Please try again.");
+                }
+            } else {
+                let reason = "";
+                if (typeof data.reason === "string") {
+                    reason = data.reason;
+                }
+
+                const responseOk = await updateClinicalReview(
+                    executionId,
+                    "false",
+                    reason,
+                    data.description,
+                );
+
+                if (responseOk) {
+                    Vue.$toast.error("Clinical Review has been rejected");
+                } else {
+                    Vue.$toast.warning("Something unexpected went wrong. Please try again.");
+                }
+            }
+
             fetchTasks();
         },
     },

@@ -48,3 +48,18 @@ export async function getClinicalReviewTasks(
     const response = await http.get(`/clinical-review?${params}`);
     return isResultOk(response) ? response.data : [];
 }
+
+export async function updateClinicalReview(
+    execution_uid: string,
+    acceptance: string,
+    reason: string,
+    message: string,
+): Promise<any> {
+    const response = await http.post(`/clinical-review`, {
+        acceptance: acceptance,
+        task_id: execution_uid,
+        reason: reason,
+        message: message,
+    });
+    return isResultOk(response);
+}

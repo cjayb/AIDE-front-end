@@ -8,47 +8,74 @@
             <v-alert dense type="info">This action will be signed by you</v-alert>
 
             <v-form ref="form" v-model="requiredFieldsFilled">
-                <v-select
-                    dense
-                    outlined
-                    v-if="reject"
-                    data-cy="reject-reason"
-                    label="Reason for rejection"
-                    v-model="reason"
-                    :items="rejectReasons"
-                    :rules="rejectValidation"
-                />
-                <v-textarea
-                    dense
-                    outlined
-                    data-cy="action-description"
-                    label="Description"
-                    v-model="description"
-                />
+                <div v-if="reject">
+                    <span class="font-weight-medium mb-2 required">Reason for rejection</span>
+                    <v-select
+                        outlined
+                        dense
+                        hidden
+                        filled
+                        validate-on-blur
+                        return-object
+                        data-cy="reject-reason"
+                        label="Reason for rejection"
+                        v-model="reason"
+                        :items="rejectReasons"
+                        :rules="rejectValidation"
+                    ></v-select>
+                </div>
+                <div>
+                    <span
+                        class="font-weight-medium mb-2"
+                        :class="reason === 'Other' ? 'required' : ''"
+                        >Description</span
+                    >
+                    <v-text-field
+                        outlined
+                        dense
+                        filled
+                        :validate-on-blur="false"
+                        data-cy="action-description"
+                        v-model="description"
+                        :rules="reason === 'Other' ? rejectValidation : undefined"
+                    ></v-text-field>
+                </div>
                 <v-checkbox
-                    data-cy="action-accept"
+                    color="#61366E"
                     label="I accept that this is signed under my name"
+                    data-cy="action-accept"
                     :rules="acceptValidation"
-                />
+                ></v-checkbox>
             </v-form>
         </div>
         <v-card-actions class="px-4 justify-end">
-            <v-btn data-cy="action-cancel" @click="cancel">Cancel</v-btn>
+            <v-btn text class="secondary-button" data-cy="action-cancel" @click="cancel">
+                Cancel
+                <v-icon right> mdi-close </v-icon>
+            </v-btn>
+
             <v-btn
-                data-cy="action-reject"
                 v-if="reject"
-                @click="performAction"
+                text
+                data-cy="action-reject"
+                :class="!requiredFieldsFilled ? 'secondary-button' : 'primary-button'"
                 :disabled="!requiredFieldsFilled"
+                @click="performAction"
             >
                 Reject
+                <v-icon right> mdi-cancel </v-icon>
             </v-btn>
+
             <v-btn
-                data-cy="action-accept"
                 v-else
+                text
+                data-cy="action-accept"
+                :class="!requiredFieldsFilled ? 'secondary-button' : 'primary-button'"
                 @click="performAction"
                 :disabled="!requiredFieldsFilled"
             >
                 Accept
+                <v-icon right> mdi-checkbox-marked-circle </v-icon>
             </v-btn>
         </v-card-actions>
     </v-card>
