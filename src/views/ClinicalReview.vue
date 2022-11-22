@@ -1,101 +1,158 @@
 <template>
     <v-container fluid class="clinical-review-container">
-        <v-row class="patient-header">
-            <Header />
-        </v-row>
+        <patient-header
+            v-if="taskCount > 0 && currentTaskClinicalReviewMessage"
+            :patient-metadata="currentTaskClinicalReviewMessage.patient_metadata"
+            :study-date="studyDate"
+            @task-accepted="acceptTask"
+            @task-rejected="rejectTask"
+        />
         <v-row class="clinical-review">
-            <!-- Task List -->
             <v-col class="task-list">
-                <v-divider class="mt-4" />
-                <Tasks />
-            </v-col>
-            <!-- Viewer -->
-            <v-col class="dicom-view" v-if="tasksNotEmpty">
-                <!-- <Header /> -->
-                <v-card
-                    style="
-                        width: 100%;
-                        height: calc(100vh - 164px);
-                        overflow: hidden;
-                        background: black;
-                    "
-                    class="my-4"
+                <clinical-review-task-list
+                    @task-selected="taskSelected"
+                    @tasks-count-updated="taskCountUpdated"
                 >
-                    <v-row>
-                        <transition name="fade" mode="out-in">
-                            <v-col cols="12" :key="$route.path">
-                                <CustomDicomViewer :key="$route.path" />
-                            </v-col>
-                        </transition>
-                    </v-row>
-                </v-card>
+                    <template v-slot="{ throttledFetchTasks }">
+                        <v-dialog :value="actionModal" persistent max-width="500px">
+                            <accept-reject-dialog
+                                v-if="currentTaskClinicalReviewMessage"
+                                :open="actionModal"
+                                :reject="reject"
+                                :application-name="
+                                    currentTaskClinicalReviewMessage.application_metadata
+                                        .application_name
+                                "
+                                @cancel="actionModal = false"
+                                @perform-action="(data) => performAction(data, throttledFetchTasks)"
+                            />
+                        </v-dialog>
+                    </template>
+                </clinical-review-task-list>
             </v-col>
-            <v-col v-else>
-                <EmptyTaskList />
+            <v-col class="dicom-view">
+                <dicom-view
+                    v-if="currentTaskExecutionId"
+                    :task-execution-id="currentTaskExecutionId"
+                    @study-selected="studySelected"
+                />
             </v-col>
         </v-row>
-
-        <ApprovalDialog />
     </v-container>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
-import CustomDicomViewer from "../components/ClinicalReview/DicomViewer/CustomDicomViewer.vue";
-import Header from "../components/ClinicalReview/Header.vue";
-import Tasks from "../components/ClinicalReview/Tasks.vue";
-import ApprovalDialog from "../components/ClinicalReview/ApprovalDialog.vue";
-import EmptyTaskList from "../views/EmptyTaskList.vue";
-import { EventBus } from "@/event-bus";
+import { defineComponent } from "vue";
+import DicomView from "@/components/clinical-review/dicom-view.vue";
+import ClinicalReviewTaskList from "@/components/clinical-review/tasks/task-list.vue";
+import PatientHeader from "@/components/clinical-review/patient-header.vue";
+import AcceptRejectDialog from "@/components/clinical-review/accept-reject-dialog.vue";
+import {
+    ClinicalReviewTask,
+    ClinicalReviewTaskDetail,
+    ClinicalReviewTaskDetails,
+} from "@/models/ClinicalReview/ClinicalReviewTask";
 
-@Component({
+type ClinicalReviewData = {
+    currentTaskExecutionId?: string;
+    currentTaskClinicalReviewMessage?: ClinicalReviewTaskDetails;
+    taskCount: number;
+    actionModal: boolean;
+    reject: boolean;
+    studyDate?: string;
+};
+
+export default defineComponent({
     metaInfo: {
         title: "Clinical Review",
     },
     components: {
-        CustomDicomViewer,
-        Header,
-        Tasks,
-        ApprovalDialog,
-        EmptyTaskList,
+        DicomView,
+        ClinicalReviewTaskList,
+        PatientHeader,
+        AcceptRejectDialog,
     },
-})
-export default class ClinicalReview extends Vue {
-    tasksNotEmpty = true;
-    created(): void {
-        EventBus.$on("tasksNotEmpty", (tasksEmpty: boolean) => {
-            this.tasksNotEmpty = tasksEmpty;
-        });
-    }
-}
+    data(): ClinicalReviewData {
+        return {
+            currentTaskExecutionId: "",
+            currentTaskClinicalReviewMessage: undefined,
+            studyDate: "",
+            taskCount: 0,
+            actionModal: false,
+            reject: false,
+        };
+    },
+    methods: {
+        taskSelected(execution_id: string, task: ClinicalReviewTask) {
+            this.currentTaskExecutionId = execution_id;
+            this.currentTaskClinicalReviewMessage = task.clinical_review_message;
+        },
+        taskCountUpdated(count: number) {
+            this.taskCount = count;
+        },
+        studySelected(study: ClinicalReviewTaskDetail) {
+            this.studyDate = study.study_date;
+        },
+        acceptTask() {
+            this.actionModal = true;
+            this.reject = false;
+        },
+        rejectTask() {
+            this.actionModal = true;
+            this.reject = true;
+        },
+        performAction(
+            data: { reason: string | undefined; description: string },
+            fetchTasks: () => void,
+        ) {
+            // TODO in another ticket
+            // call the right endpoint based on `this.reject`
+            console.log(data);
+            this.actionModal = false;
+            fetchTasks();
+        },
+    },
+});
 </script>
 
 <style lang="scss" scoped>
+.headerLabel {
+    color: #424242;
+    font-weight: bold;
+    line-height: 24px;
+    vertical-align: middle;
+}
+
 .clinical-review-container {
     height: 100%;
     padding: 0;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+
     > .row {
         margin: 0;
     }
 }
 
 .patient-header {
-    height: 70px;
-    align-content: center;
+    background-color: #fbfbfb;
+    height: 80px;
 }
+
 .clinical-review {
     margin: 0;
     height: 100%;
+    min-width: 1000px;
+
     > .col {
         padding: 0;
     }
+
     .task-list {
         width: 350px;
         flex: initial;
+        display: flex;
     }
 }
 </style>

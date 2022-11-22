@@ -34,7 +34,7 @@
             <series-list
                 :show-series="showSeries"
                 :study="study"
-                :selected-series="currentSeries?.series_id"
+                :selected-series="currentSeries?.series_uid"
                 @series-selected="newSeriesSelected"
                 @item-selected="itemSelected"
             />
@@ -86,6 +86,7 @@ export default defineComponent({
     props: {
         taskExecutionId: { default: "", type: String },
     },
+    emits: ["study-selected"],
     computed: {
         imageIds: function (): string[] {
             return this.imageSlices.map(
@@ -107,13 +108,14 @@ export default defineComponent({
     },
     methods: {
         async getStudy(taskExecutionId: string) {
-            const { study } = await getStudy(taskExecutionId);
+            const study = await getStudy(taskExecutionId);
 
-            this.study = study;
-            this.currentSeries = study.find((series) => series.modality !== "DOC");
+            this.study = study.study;
+            this.currentSeries = study.study.find((series) => series.modality !== "DOC");
+            this.$emit("study-selected", study);
         },
         newSeriesSelected(seriesId: string) {
-            this.currentSeries = this.study.find((series) => series.series_id === seriesId);
+            this.currentSeries = this.study.find((series) => series.series_uid === seriesId);
         },
         itemSelected(item: { modality: string; document?: { data: Uint8Array } }) {
             this.documentView = item.modality === "DOC";

@@ -1,10 +1,11 @@
 export interface ClinicalReviewSeries {
-    series_id: string;
+    series_uid: string;
     modality: string;
     files: string[];
 }
 
 export interface ClinicalReviewTaskDetail {
+    study_date?: string;
     study: ClinicalReviewSeries[];
 }
 
@@ -46,8 +47,8 @@ export interface ClinicalReviewTaskDetails {
 export interface PatientMetadata {
     patient_name: string;
     patient_id: string;
-    patient_Dob: string;
-    patient_Age: string;
+    patient_dob: string;
+    patient_age: string;
     patient_sex: string;
 }
 
@@ -66,7 +67,7 @@ export interface Credentials {
 }
 
 export interface ClinicalReviewSeries {
-    series_id: string;
+    series_uid: string;
     modality: string;
     files: string[];
 }
@@ -103,20 +104,21 @@ export interface ClinicalReviewTaskDetails {
     patient_metadata: PatientMetadata;
     files: File[];
     reviewer_roles: string[];
-    application_metadata: {
-        application_name: string;
-        application_version: string;
-        application_mode: string;
-        //application_received: string;
-    }; //to be defined
+    application_metadata: ApplicationMetadata;
 }
 
 export interface PatientMetadata {
     patient_name: string;
     patient_id: string;
-    patient_Dob: string;
-    patient_Age: string;
+    patient_dob: string;
+    patient_age: string;
     patient_sex: string;
+}
+
+export interface ApplicationMetadata {
+    application_name: string;
+    application_version: string;
+    application_mode: string;
 }
 
 export interface File {

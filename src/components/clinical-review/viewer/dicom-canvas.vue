@@ -122,8 +122,18 @@ export default defineComponent({
             }, 250);
 
             const resizeCanvas = debounce(() => {
-                this.renderer?.resize(true);
-                this.viewport?.resize();
+                if (!this.viewport || !this.renderer) {
+                    return;
+                }
+
+                const properties = this.viewport.getProperties();
+                const camera = this.viewport.getCamera();
+
+                this.renderer.resize(true, false);
+                this.viewport.resize();
+
+                this.viewport.setProperties(properties);
+                this.viewport.setCamera(camera);
             }, 100);
 
             eventTarget.addEventListener(Enums.Events.IMAGE_LOAD_PROGRESS, startLoading);
@@ -233,8 +243,12 @@ export default defineComponent({
 
             this.loading = true;
             await this.viewport?.setStack(this.imageIds, 0);
+
+            // TODO: only download other slices when users attempt to scroll through?
             this.imageIds.forEach((_, index) => this.viewport?.setImageIdIndex(index));
             await this.viewport?.setImageIdIndex(0);
+
+            this.loading = false;
         },
         toggleMetadataPanel() {
             this.showMetadata = !this.showMetadata;
@@ -245,6 +259,15 @@ export default defineComponent({
     },
     mounted() {
         this.configureCornerstone();
+    },
+    beforeDestroy() {
+        this.renderer?.disableElement("dicom-viewport");
+        this.renderer?.destroy();
+        ToolGroupManager.destroy();
+
+        this.viewport = undefined;
+        this.renderer = undefined;
+        this.tools = undefined;
     },
     setup() {
         return {

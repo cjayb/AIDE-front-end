@@ -14,8 +14,6 @@ import WorkflowEditor from "@/views/WorkflowEditor.vue";
 import { VueKeycloakInstance } from "@dsb-norge/vue-keycloak-js/dist/types";
 import { getDefaultDestinationForUser, UserRole } from "@/utils/user-utilities";
 
-import DicomViewerTest from "@/views/DicomViewerTest.vue";
-
 Vue.use(VueRouter);
 
 function sleep(ms: number) {
@@ -23,11 +21,6 @@ function sleep(ms: number) {
 }
 
 export const routes: Array<RouteConfig> = [
-    {
-        path: "/dicom-viewer-test",
-        name: "DicomViewerTest",
-        component: DicomViewerTest,
-    },
     {
         path: "/admin-health-dashboard",
         name: "AdminHealthDashboard",
@@ -58,15 +51,6 @@ export const routes: Array<RouteConfig> = [
     {
         path: "/clinical-review",
         name: "ClinicalReview",
-        component: ClinicalReview,
-        beforeEnter: roleAuthenticatedRoute,
-        meta: {
-            requiredRoles: [UserRole.clinician],
-        },
-    },
-    {
-        path: "/clinical-review/viewer/:study_id",
-        name: "ClinicalReviewViewer",
         component: ClinicalReview,
         beforeEnter: roleAuthenticatedRoute,
         meta: {

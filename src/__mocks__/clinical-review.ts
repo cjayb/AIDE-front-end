@@ -23,8 +23,8 @@ const clinicalReviewTasks: PagedClinicalReviewList = {
                     patient_name: "Joe Batt",
                     patient_id: "1299-123-232-3422",
                     patient_sex: "M",
-                    patient_Dob: "10-10-2000",
-                    patient_Age: "23",
+                    patient_dob: "2000-10-10T00:00:00",
+                    patient_age: "23",
                 },
                 files: [],
                 reviewer_roles: ["admin", "clinician"],
@@ -50,8 +50,8 @@ const clinicalReviewTasks: PagedClinicalReviewList = {
                     patient_name: "Alexis Bazin",
                     patient_id: "1299-123-232-3424",
                     patient_sex: "M",
-                    patient_Dob: "10-10-2000",
-                    patient_Age: "23",
+                    patient_dob: "2000-10-10T00:00:00",
+                    patient_age: "23",
                 },
                 files: [],
                 reviewer_roles: ["admin", "clinician"],
@@ -108,14 +108,16 @@ export const clinicalReviewHandlers = [
     }),
     rest.get(`${window.FRONTEND_API_HOST}/clinical-review/:taskExecutionId`, (req, res, ctx) => {
         const study = {
+            study_date: "2021-11-11T10:00:00",
+            study_description: "Description",
             study: [
                 {
-                    series_id: "8244bd56-3f1f-4d3f-b9be-5d6d4c37b4b1",
+                    series_uid: "8244bd56-3f1f-4d3f-b9be-5d6d4c37b4b1",
                     modality: "CT",
                     files: ["CT000000.dcm", "CT000010.dcm"],
                 },
                 {
-                    series_id: "8621ca92-d3b7-4ee6-8cb0-c662675f5b18",
+                    series_uid: "8621ca92-d3b7-4ee6-8cb0-c662675f5b18",
                     modality: "DOC",
                     files: ["DO000000.dcm"],
                 },

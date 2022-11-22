@@ -172,7 +172,7 @@ import ConfirmationModal from "../Shared/ConfirmationModal.vue";
 })
 export default class UserRolesTabItem extends Vue {
     roleHeaders: DataTableHeader[] = [
-        { text: "Name", value: "name", sortable: true, align: "start", width: "83%" },
+        { text: "Name", value: "name", sortable: false, align: "start", width: "83%" },
         { text: "Actions", value: "id", sortable: false, align: "start", width: "210px" },
     ];
 
@@ -189,8 +189,6 @@ export default class UserRolesTabItem extends Vue {
     tableOptions: DataOptions = {
         page: 1,
         itemsPerPage: 10,
-        sortBy: [] as string[],
-        sortDesc: [] as boolean[],
     } as DataOptions;
 
     roleModal = false;
