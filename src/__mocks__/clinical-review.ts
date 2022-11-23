@@ -84,16 +84,12 @@ export const clinicalReviewHandlers = [
 
         let responseBuffer: ArrayBuffer | undefined = undefined;
 
-        switch (key) {
-            case "DO000000.dcm":
-                responseBuffer = docBuffer;
-                break;
-            case "CT000000.dcm":
-                responseBuffer = ct1Buffer;
-                break;
-            case "CT000010.dcm":
-                responseBuffer = ct2Buffer;
-                break;
+        if (key.startsWith("DO000000")) {
+            responseBuffer = docBuffer;
+        } else if (key.startsWith("CT000000")) {
+            responseBuffer = ct1Buffer;
+        } else if (key.startsWith("CT000010")) {
+            responseBuffer = ct2Buffer;
         }
 
         if (!responseBuffer) {
@@ -107,19 +103,21 @@ export const clinicalReviewHandlers = [
         );
     }),
     rest.get(`${window.FRONTEND_API_HOST}/clinical-review/:taskExecutionId`, (req, res, ctx) => {
+        const executionId = req.params.taskExecutionId as string;
+
         const study = {
             study_date: "2021-11-11T10:00:00",
             study_description: "Description",
             study: [
                 {
-                    series_uid: "8244bd56-3f1f-4d3f-b9be-5d6d4c37b4b1",
+                    series_uid: `8244bd56-3f1f-4d3f-b9be-5d6d4c37b4b1-${executionId}`,
                     modality: "CT",
-                    files: ["CT000000.dcm", "CT000010.dcm"],
+                    files: [`CT000000-${executionId}.dcm`, `CT000010-${executionId}.dcm`],
                 },
                 {
-                    series_uid: "8621ca92-d3b7-4ee6-8cb0-c662675f5b18",
+                    series_uid: `8621ca92-d3b7-4ee6-8cb0-c662675f5b18-${executionId}`,
                     modality: "DOC",
-                    files: ["DO000000.dcm"],
+                    files: [`DO000000-${executionId}.dcm`],
                 },
             ],
         };

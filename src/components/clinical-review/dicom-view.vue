@@ -96,7 +96,7 @@ export default defineComponent({
     },
     watch: {
         async taskExecutionId() {
-            await getStudy(this.taskExecutionId);
+            await this.getTaskDetails(this.taskExecutionId);
         },
         currentSeries(newSeries?: ClinicalReviewSeries) {
             if (!newSeries || newSeries.modality === "DOC") {
@@ -107,7 +107,7 @@ export default defineComponent({
         },
     },
     methods: {
-        async getStudy(taskExecutionId: string) {
+        async getTaskDetails(taskExecutionId: string) {
             const study = await getStudy(taskExecutionId);
 
             this.study = study.study;
@@ -123,7 +123,7 @@ export default defineComponent({
         },
     },
     mounted() {
-        this.getStudy(this.taskExecutionId);
+        this.getTaskDetails(this.taskExecutionId);
     },
     data(): DicomViewData {
         return {

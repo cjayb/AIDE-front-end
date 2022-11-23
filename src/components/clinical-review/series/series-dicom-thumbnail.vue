@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import { init, RenderingEngine, Enums } from "@cornerstonejs/core";
 import initCornerstoneWADOImageLoader from "@/utils/cornerstone-wado-image-loader";
 import { IStackViewport } from "@cornerstonejs/core/dist/esm/types";
@@ -16,15 +16,13 @@ type ComponentData = {
     viewport?: IStackViewport;
 };
 
-const dicomCanvas = ref<HTMLDivElement>();
-
 export default defineComponent({
     props: {
         imageId: { type: String, default: "" },
     },
     watch: {
         imageId() {
-            this.loadImage();
+            this.configureDicomViewer();
         },
     },
     methods: {
@@ -32,14 +30,14 @@ export default defineComponent({
             await init();
             initCornerstoneWADOImageLoader(this.$keycloak?.token);
 
-            if (!this.dicomCanvas) {
+            if (!(this.$refs.dicomCanvas as HTMLDivElement)) {
                 return;
             }
 
             this.renderer = new RenderingEngine("dicom-thumbnail-canvas");
             this.renderer.enableElement({
                 viewportId: "dicom-thumbnail-viewport",
-                element: this.dicomCanvas,
+                element: this.$refs.dicomCanvas as HTMLDivElement,
                 type: Enums.ViewportType.STACK,
             });
 
@@ -47,17 +45,16 @@ export default defineComponent({
             await this.loadImage();
         },
         async loadImage() {
+            if (!this.imageId) {
+                return;
+            }
+
             await this.viewport?.setStack([this.imageId], 0);
         },
     },
     data(): ComponentData {
         return {
             renderer: undefined,
-        };
-    },
-    setup() {
-        return {
-            dicomCanvas,
         };
     },
     mounted() {

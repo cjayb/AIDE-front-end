@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, PropType } from "vue";
+import { defineComponent, PropType } from "vue";
 import { init, RenderingEngine, Enums, eventTarget } from "@cornerstonejs/core";
 import {
     init as initTools,
@@ -59,8 +59,6 @@ import { IStackViewport, EventTypes, VOIRange } from "@cornerstonejs/core/dist/e
 import initCornerstoneWADOImageLoader from "@/utils/cornerstone-wado-image-loader";
 import { RotateTool } from "@/utils/cornerstone-tool/rotate-tool";
 import { debounce } from "underscore";
-
-const dicomCanvas = ref<HTMLDivElement>();
 
 type ComponentData = {
     renderer?: RenderingEngine;
@@ -92,13 +90,16 @@ export default defineComponent({
         imageIds: { default: () => [], type: Array as PropType<string[]> },
     },
     watch: {
-        imageIds() {
-            this.loadImages();
+        imageIds: {
+            handler() {
+                this.loadImages();
+            },
+            deep: true,
         },
     },
     methods: {
         async configureCornerstone() {
-            if (!this.dicomCanvas) {
+            if (!this.$refs.dicomCanvas) {
                 return;
             }
 
@@ -139,13 +140,16 @@ export default defineComponent({
             eventTarget.addEventListener(Enums.Events.IMAGE_LOAD_PROGRESS, startLoading);
             eventTarget.addEventListener(Enums.Events.IMAGE_LOADED, stopLoading);
 
-            this.dicomCanvas.addEventListener(Enums.Events.VOI_MODIFIED, (ev) => {
-                const { detail } = ev as EventTypes.VoiModifiedEvent;
+            (this.$refs.dicomCanvas as HTMLDivElement).addEventListener(
+                Enums.Events.VOI_MODIFIED,
+                (ev) => {
+                    const { detail } = ev as EventTypes.VoiModifiedEvent;
 
-                this.voiRange = detail.range;
-            });
+                    this.voiRange = detail.range;
+                },
+            );
 
-            this.dicomCanvas.addEventListener(
+            (this.$refs.dicomCanvas as HTMLDivElement).addEventListener(
                 Enums.Events.STACK_VIEWPORT_SCROLL,
                 updateCurrentImage,
             );
@@ -156,7 +160,7 @@ export default defineComponent({
             this.renderer = new RenderingEngine("dicom-canvas");
             this.renderer.enableElement({
                 viewportId: "dicom-viewport",
-                element: this.dicomCanvas,
+                element: this.$refs.dicomCanvas as HTMLDivElement,
                 type: Enums.ViewportType.STACK,
             });
 
@@ -268,11 +272,6 @@ export default defineComponent({
         this.viewport = undefined;
         this.renderer = undefined;
         this.tools = undefined;
-    },
-    setup() {
-        return {
-            dicomCanvas,
-        };
     },
 });
 </script>
