@@ -5,6 +5,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ printf "%s-%s" $fullName "ingress" | quote }}
+  labels:
+    {{- include "deploy.labels" . | nindent 4 }}
 spec:
   ingressClassName: nginx
   tls:
