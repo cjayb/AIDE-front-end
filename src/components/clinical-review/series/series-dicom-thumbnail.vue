@@ -19,6 +19,7 @@ type ComponentData = {
 export default defineComponent({
     props: {
         imageId: { type: String, default: "" },
+        seriesUid: { type: String },
     },
     watch: {
         imageId() {
@@ -34,14 +35,16 @@ export default defineComponent({
                 return;
             }
 
-            this.renderer = new RenderingEngine("dicom-thumbnail-canvas");
+            const viewportId = `dicom-thumbnail-viewport-${this.seriesUid}`;
+
+            this.renderer = new RenderingEngine(`dicom-thumbnail-canvas-${this.seriesUid}`);
             this.renderer.enableElement({
-                viewportId: "dicom-thumbnail-viewport",
+                viewportId,
                 element: this.$refs.dicomCanvas as HTMLDivElement,
                 type: Enums.ViewportType.STACK,
             });
 
-            this.viewport = this.renderer.getViewport("dicom-thumbnail-viewport") as IStackViewport;
+            this.viewport = this.renderer.getViewport(viewportId) as IStackViewport;
             await this.loadImage();
         },
         async loadImage() {
@@ -59,6 +62,10 @@ export default defineComponent({
     },
     mounted() {
         this.configureDicomViewer();
+    },
+    beforeDestroy() {
+        this.renderer?.disableElement(`dicom-thumbnail-viewport-${this.seriesUid}`);
+        this.renderer?.destroy();
     },
 });
 </script>

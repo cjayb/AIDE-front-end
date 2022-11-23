@@ -48,6 +48,11 @@ export default defineComponent({
             },
         },
     },
+    watch: {
+        selectedSeries() {
+            this.$emit("series-selected", this.selectedSeries);
+        },
+    },
     methods: {
         selectItem(item: { modality: string; document?: { data: Uint8Array } }) {
             this.$emit("item-selected", item);

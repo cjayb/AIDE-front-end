@@ -112,7 +112,10 @@ export const clinicalReviewHandlers = [
                 {
                     series_uid: `8244bd56-3f1f-4d3f-b9be-5d6d4c37b4b1-${executionId}`,
                     modality: "CT",
-                    files: [`CT000000-${executionId}.dcm`, `CT000010-${executionId}.dcm`],
+                    files:
+                        executionId === "678"
+                            ? [`CT000000-${executionId}.dcm`, `CT000010-${executionId}.dcm`]
+                            : [`CT000010-${executionId}.dcm`, `CT000000-${executionId}.dcm`],
                 },
                 {
                     series_uid: `8621ca92-d3b7-4ee6-8cb0-c662675f5b18-${executionId}`,
@@ -121,6 +124,14 @@ export const clinicalReviewHandlers = [
                 },
             ],
         };
+
+        if (executionId === "678") {
+            study.study.push({
+                series_uid: `8244bd56-3f1f-4d3f-b9be-5d6d4c37b123-${executionId}`,
+                modality: "CT",
+                files: [`CT000000-2-${executionId}.dcm`, `CT000010-2-${executionId}.dcm`],
+            });
+        }
 
         return res(ctx.json(study));
     }),

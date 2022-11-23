@@ -115,7 +115,9 @@ export default defineComponent({
             this.$emit("study-selected", study);
         },
         newSeriesSelected(seriesId: string) {
-            this.currentSeries = this.study.find((series) => series.series_uid === seriesId);
+            const series = this.study.find((series) => series.series_uid === seriesId);
+            this.currentSeries = series;
+            this.documentView = series?.modality === "DOC";
         },
         itemSelected(item: { modality: string; document?: { data: Uint8Array } }) {
             this.documentView = item.modality === "DOC";

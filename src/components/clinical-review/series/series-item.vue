@@ -4,13 +4,14 @@
             <v-list-item-title data-cy="series-title" style="margin-bottom: 5px">
                 {{ series.modality }} ({{ series.files.length }})
             </v-list-item-title>
-            <pdf
-                v-if="series.modality === 'DOC' && document"
-                class="pdf-thumbnail"
-                :src="document"
-                :text="false"
+            <div v-if="series.modality === 'DOC'" class="pdf-thumbnail-container">
+                <pdf v-if="document" class="pdf-thumbnail" :src="document" :text="false" />
+            </div>
+            <DicomThumbnail
+                v-else-if="series.modality !== 'DOC'"
+                :image-id="imageId"
+                :series-uid="series.series_uid"
             />
-            <DicomThumbnail v-else-if="series.modality !== 'DOC'" :imageId="imageId" />
         </v-list-item-content>
     </v-list-item>
 </template>
@@ -81,11 +82,16 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.pdf-thumbnail-container,
 .slice-thumbnail,
 .pdf-thumbnail {
     width: 200px;
     height: 200px;
     overflow: hidden;
+}
+
+.pdf-thumbnail-container {
+    background-color: white;
 }
 
 ::v-deep #viewerContainer {
