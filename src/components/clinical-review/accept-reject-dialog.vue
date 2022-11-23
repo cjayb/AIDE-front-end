@@ -6,11 +6,15 @@
         </v-card-title>
         <v-divider />
         <div class="px-6 pt-3">
-            <v-alert dense type="info">This action will be signed by you</v-alert>
+            <v-alert dense type="info" data-cy="action-signing"
+                >This action will be signed by you</v-alert
+            >
 
             <v-form ref="form" v-model="requiredFieldsFilled">
                 <div v-if="reject">
-                    <span class="font-weight-medium mb-2 required">Reason for rejection</span>
+                    <span class="font-weight-medium mb-2 required" data-cy="reject-reason-text"
+                        >Reason for rejection</span
+                    >
                     <v-select
                         outlined
                         dense
@@ -41,7 +45,7 @@
                     ></v-text-field>
                 </div>
 
-                <v-checkbox data-cy="action-accept" :rules="acceptValidation">
+                <v-checkbox data-cy="action-accept-permission" :rules="acceptValidation">
                     <template v-slot:label>
                         <span class="font-weight-medium mb-2 required" style="color: #000"
                             >I accept that this is signed under my name</span
