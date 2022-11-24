@@ -68,12 +68,11 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from "vue";
+import { debounce } from "underscore";
+import TaskItem from "./task-item.vue";
 import { getClinicalReviewTasks } from "@/api/ClinicalReview/ClinicalReviewService";
 import { ClinicalReviewTask } from "@/models/ClinicalReview/ClinicalReviewTask";
-import { formatDateAndTimeOfTypedArray } from "@/utils/date-utilities";
-import TaskItem from "./task-item.vue";
-import { debounce } from "underscore";
-import { defineComponent } from "vue";
 
 export default defineComponent({
     components: {
@@ -114,7 +113,7 @@ export default defineComponent({
         async getTasks() {
             this.loading = true;
 
-            const { data } = await getClinicalReviewTasks({
+            const { data, pageNumber, totalPages } = await getClinicalReviewTasks({
                 pageNumber: this.currentPage,
                 pageSize: 10,
                 patientName: this.searchParameter === "patientName" ? this.search : "",
@@ -123,6 +122,8 @@ export default defineComponent({
             });
 
             this.tasks = data;
+            this.currentPage = pageNumber;
+            this.totalPages = totalPages;
 
             this.$emit("tasks-count-updated", this.tasks.length);
 
