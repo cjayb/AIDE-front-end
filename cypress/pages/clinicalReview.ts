@@ -441,7 +441,6 @@ export default class ClinicalReviewPage extends AbstractPage {
     }
 
     public assertPageRefresh() {
-        this.waitForInitialViewerLoad();
         cy.reload();
         cy.contains("Something unexpected went wrong").should("not.exist");
     }
