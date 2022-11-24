@@ -34,7 +34,13 @@ export class ClinicalReviewTaskData implements PagedClinicalReviewList {
     public static SEARCH_APPLICATION_NAME: ClinicalReviewTaskData = new ClinicalReviewTaskData(
         <PagedClinicalReviewList>ApiMocks.CLINICAL_REVIEW_SEARCH_APPLICATION_NAME,
     );
-    public static PAGINATION: ClinicalReviewTaskData = new ClinicalReviewTaskData(
-        <PagedClinicalReviewList>ApiMocks.CLINICAL_REVIEW_PAGINATION,
+    public static PAGINATION_PAGE_2: ClinicalReviewTaskData = new ClinicalReviewTaskData(
+        <PagedClinicalReviewList>ApiMocks.CLINICAL_REVIEW_PAGINATION_PAGE_2,
+    );
+    public static PAGINATION_PAGE_9: ClinicalReviewTaskData = new ClinicalReviewTaskData(
+        <PagedClinicalReviewList>ApiMocks.CLINICAL_REVIEW_PAGINATION_PAGE_9,
+    );
+    public static PAGINATION_PAGE_10: ClinicalReviewTaskData = new ClinicalReviewTaskData(
+        <PagedClinicalReviewList>ApiMocks.CLINICAL_REVIEW_PAGINATION_PAGE_10,
     );
 }

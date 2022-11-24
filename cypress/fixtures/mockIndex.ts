@@ -44,19 +44,16 @@ export default class ApiMocks {
     public static WORKFLOW_EXAMPLE = require("./workflows/workflowExample.json");
     public static WORKFLOW_EMPTY = require("./workflows/workflowEmpty.json");
     public static WORKFLOW_ERRORS = require("./workflows/workflowsErrors.json");
-    //Clinical Review
-    public static CLINICAL_REVIEW_ALL_EXECUTIONS = require("./clinical-review/allExecutionsForReview.json");
-    public static CLINICAL_REVIEW_PAGE_1 = require("./clinical-review/clinicalReviewPage1.json");
-    public static CLINICAL_REVIEW_PAGE_2 = require("./clinical-review/clinicalReviewPage2.json");
-    public static CLINICAL_REVIEW_REVIEWED = require("./clinical-review/clinicalReviewed.json");
-    public static CLINICAL_REVIEW_RESPONSE = require("./clinical-review/clinicalReviewResponse.json");
-    public static REMOTE_DICOM_METADATA = require("./clinical-review/remoteDicomMetadata.json");
     //Clinical Review NEW
     public static CLINICAL_REVIEW_TASKS = require("./clinical-review-new/clinicalReviewTasks.json");
     public static CLINICAL_REVIEW_SEARCH_PATIENT_ID = require("./clinical-review-new/searchPatientId.json");
     public static CLINICAL_REVIEW_SEARCH_PATIENT_NAME = require("./clinical-review-new/searchPatientName.json");
     public static CLINICAL_REVIEW_SEARCH_APPLICATION_NAME = require("./clinical-review-new/searchApplicationName.json");
-    public static CLINICAL_REVIEW_PAGINATION = require("./clinical-review-new/pagination.json");
+    public static CLINICAL_REVIEW_PAGINATION_PAGE_2 = require("./clinical-review-new/paginationPage2.json");
+    public static CLINICAL_REVIEW_PAGINATION_PAGE_9 = require("./clinical-review-new/paginationPage9.json");
+    public static CLINICAL_REVIEW_PAGINATION_PAGE_10 = require("./clinical-review-new/paginationPage10.json");
+    public static CLINICAL_REVIEW_EXECUTION_1 = require("./clinical-review-new/executionIdRequest1.json");
+    public static CLINICAL_REVIEW_EXECUTION_2 = require("./clinical-review-new/executionIdRequest2.json");
     //App Store
     public static APP_STORE_ALL_PERMUTATIONS = require("./app-store/appStoreAllPermutations.json");
     public static APP_STORE_SPECIALITY_DROP_DOWN = require("./app-store/appStoreSpecialityDropDown.json");
