@@ -48,10 +48,10 @@ export default class AppSidebar extends Vue {
 
     items = [
         {
-            title: "Health Dashboard",
+            title: "System Dashboard",
             icon: "mdi-cog",
             datacy: "admin-button",
-            ...this.getRouteData("AdminHealthDashboard"),
+            ...this.getRouteData("AdminSystemDashboard"),
         },
         {
             title: "Payload Dashboard",
