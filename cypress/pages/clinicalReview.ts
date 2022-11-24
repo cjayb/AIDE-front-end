@@ -345,7 +345,6 @@ export default class ClinicalReviewPage extends AbstractPage {
         if (signed) {
             cy.get(ClinicalReviewPage.CHECKBOX).click();
         }
-
         return this;
     }
 
