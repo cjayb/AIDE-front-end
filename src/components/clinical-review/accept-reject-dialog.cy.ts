@@ -84,7 +84,7 @@ describe("<accept-reject-dialog, validation for accept />", () => {
 });
 
 describe("<accept-reject-dialog, validation for reject />", () => {
-    it("enables reject button when Wrong Diagnosis reason is selected and the checkbox is clicked", () => {
+    it("enables reject button when a non-Other reason is selected and the checkbox is clicked", () => {
         cy.mount(AcceptRejectDialog, {
             propsData: {
                 open: true,
@@ -94,7 +94,7 @@ describe("<accept-reject-dialog, validation for reject />", () => {
         });
 
         cy.dataCy("action-reject").should("have.class", "v-btn--disabled");
-        cy.get("[data-cy=reject-reason]").type("Wrong Diagnosis{enter}", { force: true });
+        cy.get("[data-cy=reject-reason]").type("Input{enter}", { force: true });
         cy.dataCy("action-accept-permission").click({ force: true });
         cy.dataCy("action-reject").should("not.have.class", "v-btn--disabled");
         cy.dataCy("action-description").type("Description Goes Here");
