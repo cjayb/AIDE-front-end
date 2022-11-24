@@ -77,8 +77,8 @@ export default class AppHeader extends Vue {
 
     updatePageTitle(): void {
         switch (this.$route.name) {
-            case "AdminHealthDashboard":
-                this.pageTitle = "Admin Health Dashboard";
+            case "AdminSystemDashboard":
+                this.pageTitle = "Admin System Dashboard";
                 break;
 
             case "AdminPayloadDashboard":

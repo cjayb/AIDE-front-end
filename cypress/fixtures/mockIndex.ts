@@ -1,15 +1,15 @@
 export default class ApiMocks {
-    //Health Dashboard
-    public static ADMIN_DASHBOARD_MODELS = require("./health-dashboard/adminDashboardModels.json");
-    public static ADMIN_DASHBOARD_MODEL_DETAILS_ONE_DAY = require("./health-dashboard/adminDashboardModelDetailsOneDay.json");
-    public static ADMIN_DASHBOARD_MODEL_DETAILS_TEN_DAYS = require("./health-dashboard/adminDashboardModelDetailsTenDays.json");
-    public static ADMIN_DASHBOARD_MODEL_DETAILS_ONE_HUNDRED_DAYS = require("./health-dashboard/adminDashboardModelDetailsOneHundredDays.json");
-    public static ADMIN_DASHBOARD_EXECUTION_LOGS = require("./health-dashboard/adminDashboardExecutionLogs.json");
-    public static ADMIN_DASHBOARD_NO_FAILED_MODELS = require("./health-dashboard/adminDashboardNoFailedModels.json");
-    public static ADMIN_DASHBOARD_FAILED_MODELS = require("./health-dashboard/adminDashboardFailedModels.json");
-    public static ADMIN_DASHBOARD_TASKS = require("./health-dashboard/adminDashboardIssues.json");
-    public static ADMIN_DASHBOARD_SINGLE_TASK = require("./health-dashboard/adminDashboardSingleIssue.json");
-    public static ADMIN_DASHBOARD_ISSUES_DISMISS = require("./health-dashboard/adminDashboardIssuesDismiss.json");
+    //System Dashboard
+    public static ADMIN_DASHBOARD_MODELS = require("./system-dashboard/adminDashboardModels.json");
+    public static ADMIN_DASHBOARD_MODEL_DETAILS_ONE_DAY = require("./system-dashboard/adminDashboardModelDetailsOneDay.json");
+    public static ADMIN_DASHBOARD_MODEL_DETAILS_TEN_DAYS = require("./system-dashboard/adminDashboardModelDetailsTenDays.json");
+    public static ADMIN_DASHBOARD_MODEL_DETAILS_ONE_HUNDRED_DAYS = require("./system-dashboard/adminDashboardModelDetailsOneHundredDays.json");
+    public static ADMIN_DASHBOARD_EXECUTION_LOGS = require("./system-dashboard/adminDashboardExecutionLogs.json");
+    public static ADMIN_DASHBOARD_NO_FAILED_MODELS = require("./system-dashboard/adminDashboardNoFailedModels.json");
+    public static ADMIN_DASHBOARD_FAILED_MODELS = require("./system-dashboard/adminDashboardFailedModels.json");
+    public static ADMIN_DASHBOARD_TASKS = require("./system-dashboard/adminDashboardIssues.json");
+    public static ADMIN_DASHBOARD_SINGLE_TASK = require("./system-dashboard/adminDashboardSingleIssue.json");
+    public static ADMIN_DASHBOARD_ISSUES_DISMISS = require("./system-dashboard/adminDashboardIssuesDismiss.json");
     //Payload Dashboard
     public static ADMIN_DASHBOARD_PAYLOAD_TABLE = require("./payload-dashboard/payloadTable.json");
     public static ADMIN_DASHBOARD_PAYLOAD_EXECUTIONS = require("./payload-dashboard/payloadExecutions.json");
