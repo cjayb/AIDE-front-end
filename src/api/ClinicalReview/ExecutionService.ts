@@ -1,6 +1,6 @@
 import { Execution, ExecutionPage } from "@/models/ClinicalReview/Execution";
 import { ExecutionStat } from "@/models/ClinicalReview/ExecutionStat";
-import { createAxiosInstance, ErrorMessageMap, isResultOk } from "@/utils/axios-helpers";
+import { createAxiosInstance, ErrorMessageMap } from "@/utils/axios-helpers";
 
 const executionsErrorMessages: ErrorMessageMap = {
     get: "Something unexpected went wrong retrieving the executions",

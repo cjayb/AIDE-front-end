@@ -51,13 +51,12 @@ export async function getClinicalReviewTasks(
 
 export async function updateClinicalReview(
     execution_uid: string,
-    acceptance: string,
+    acceptance: boolean,
     reason: string,
     message: string,
-): Promise<any> {
-    const response = await http.post(`/clinical-review`, {
+) {
+    const response = await http.put(`/clinical-review/${execution_uid}`, {
         acceptance: acceptance,
-        task_id: execution_uid,
         reason: reason,
         message: message,
     });

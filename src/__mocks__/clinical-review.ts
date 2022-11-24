@@ -138,7 +138,7 @@ export const clinicalReviewHandlers = [
     rest.get(`${window.FRONTEND_API_HOST}/clinical-review`, (_req, res, ctx) => {
         return res(ctx.json(clinicalReviewTasks));
     }),
-    rest.post(`${window.FRONTEND_API_HOST}/clinical-review`, (_req, res, ctx) => {
+    rest.put(`${window.FRONTEND_API_HOST}/clinical-review/:clinicalReviewId`, (_req, res, ctx) => {
         return res(ctx.status(201));
     }),
 ];

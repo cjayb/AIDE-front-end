@@ -107,9 +107,6 @@ export default defineComponent({
             data: { reason: string | undefined; description: string },
             fetchTasks: () => void,
         ) {
-            console.log(data);
-            this.actionModal = false;
-
             let executionId = "";
             if (typeof this.currentTaskExecutionId === "string") {
                 executionId = this.currentTaskExecutionId;
@@ -119,13 +116,15 @@ export default defineComponent({
             if (accepted) {
                 const responseOk = await updateClinicalReview(
                     executionId,
-                    "true",
+                    true,
                     "",
                     data.description,
                 );
 
                 if (responseOk) {
                     Vue.$toast.success("Clinical Review has been accepted");
+                    this.actionModal = false;
+                    fetchTasks();
                 } else {
                     Vue.$toast.warning("Something unexpected went wrong. Please try again.");
                 }
@@ -137,19 +136,19 @@ export default defineComponent({
 
                 const responseOk = await updateClinicalReview(
                     executionId,
-                    "false",
+                    false,
                     reason,
                     data.description,
                 );
 
                 if (responseOk) {
                     Vue.$toast.error("Clinical Review has been rejected");
+                    this.actionModal = false;
+                    fetchTasks();
                 } else {
                     Vue.$toast.warning("Something unexpected went wrong. Please try again.");
                 }
             }
-
-            fetchTasks();
         },
     },
 });
