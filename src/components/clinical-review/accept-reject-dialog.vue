@@ -92,7 +92,13 @@
 import { defineComponent } from "vue";
 import { InputValidationRules } from "vuetify";
 
-const rejectReasons = ["Other", "Wrong Diagnosis"];
+const rejectReasons = [
+    "Input data is not appropriate",
+    "Input data is not valid for this model",
+    "Result is not correct",
+    "Result is poor quality",
+    "Other",
+];
 const rejectValidation: InputValidationRules = [(value) => !!value || "Required"];
 const acceptValidation: InputValidationRules = [
     (value) => !!value || "You need to accept before saving",

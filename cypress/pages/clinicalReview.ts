@@ -305,7 +305,7 @@ export default class ClinicalReviewPage extends AbstractPage {
     public assertRejectWorklistItem() {
         this.acceptRejects(false);
         cy.intercept("GET", "/executions?from=0*", ApiMocks.CLINICAL_REVIEW_REVIEWED);
-        this.fillReviewModal(true, RejectReason.WRONG_DIAGNOSIS, "The diagnosis is wrong!")
+        this.fillReviewModal(true, RejectReason.INPUTINVALID, "For some reason!")
             .acceptRejectModal(false)
             .worklistItemWithText(kellyName)
             .should("not.exist");
