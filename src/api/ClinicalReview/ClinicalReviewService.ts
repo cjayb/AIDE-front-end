@@ -48,3 +48,17 @@ export async function getClinicalReviewTasks(
     const response = await http.get(`/clinical-review?${params}`);
     return isResultOk(response) ? response.data : [];
 }
+
+export async function updateClinicalReview(
+    execution_uid: string,
+    acceptance: boolean,
+    reason: string,
+    message: string,
+) {
+    const response = await http.put(`/clinical-review/${execution_uid}`, {
+        acceptance: acceptance,
+        reason: reason,
+        message: message,
+    });
+    return isResultOk(response);
+}
