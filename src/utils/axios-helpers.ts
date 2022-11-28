@@ -29,6 +29,10 @@ export function isResultOk({ status }: AxiosResponse): boolean {
     return status >= 200 && status <= 299;
 }
 
+export function provideDefaultResult<T>(response: AxiosResponse<T>, defaultResult: T): T {
+    return isResultOk(response) ? response.data : defaultResult;
+}
+
 export function authenticationEnabledInterceptor(config: AxiosRequestConfig): AxiosRequestConfig {
     if (process.env.VUE_APP_AUTH_ENABLED === "true") {
         Vue.prototype.$keycloak?.keycloak.updateToken(70);

@@ -32,8 +32,8 @@ export interface PagedClinicalReviewList {
     totalRecords: number;
     data: ClinicalReviewTask[];
     succeeded: boolean;
-    errors: any;
-    message: any;
+    errors?: any;
+    message?: any;
 }
 
 export interface ClinicalReviewTask {
@@ -86,21 +86,6 @@ export interface ClinicalReviewSeries {
     series_uid: string;
     modality: string;
     files: string[];
-}
-
-export interface ClinicalReviewTaskDetail {
-    study: ClinicalReviewSeries[];
-}
-
-export interface PagedClinicalReviewList {
-    pageNumber: number;
-    pageSize: number;
-    totalPages: number;
-    totalRecords: number;
-    data: ClinicalReviewTask[];
-    succeeded: boolean;
-    errors: any;
-    message: any;
 }
 
 export interface ClinicalReviewTask {

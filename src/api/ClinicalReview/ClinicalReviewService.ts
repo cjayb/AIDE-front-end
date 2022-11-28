@@ -18,7 +18,12 @@ import {
     ClinicalReviewTaskDetail,
     PagedClinicalReviewList,
 } from "@/models/ClinicalReview/ClinicalReviewTask";
-import { createAxiosInstance, ErrorMessageMap, isResultOk } from "@/utils/axios-helpers";
+import {
+    createAxiosInstance,
+    ErrorMessageMap,
+    isResultOk,
+    provideDefaultResult,
+} from "@/utils/axios-helpers";
 
 const clinicalReviewErrorMessages: ErrorMessageMap = {
     get: "Something unexpected went wrong retrieving clinical review tasks",
@@ -39,7 +44,7 @@ export async function getStudy(taskExecutionId: string): Promise<ClinicalReviewT
         `/clinical-review/${taskExecutionId}`,
     );
 
-    return response.data;
+    return provideDefaultResult(response, { study: [] });
 }
 
 export async function getDicomFile(key: string): Promise<ArrayBuffer> {
@@ -61,8 +66,16 @@ export async function getClinicalReviewTasks(
         applicationName: query.applicationName ?? "",
     });
 
-    const response = await http.get(`/clinical-review?${params}`);
-    return isResultOk(response) ? response.data : [];
+    const response = await http.get<PagedClinicalReviewList>(`/clinical-review?${params}`);
+
+    return provideDefaultResult(response, {
+        pageNumber: 0,
+        pageSize: 0,
+        totalPages: 0,
+        totalRecords: 0,
+        data: [],
+        succeeded: false,
+    });
 }
 
 export async function updateClinicalReview(

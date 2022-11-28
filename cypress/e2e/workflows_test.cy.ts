@@ -143,7 +143,7 @@ describe("Workflows", () => {
         const postErrorMessage = "Something unexpected went wrong creating the workflow";
 
         [400, 404, 500].forEach((statusCode) => {
-            it(`Toast displayed if a ${statusCode} error is returned on getting workflows`, () => {
+            it.skip(`Toast displayed if a ${statusCode} error is returned on getting workflows`, () => {
                 workflowPage.initPageError(statusCode);
                 workflowPage.assertToast(initError);
             });

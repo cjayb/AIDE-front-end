@@ -15,7 +15,7 @@
  */
 
 import { IPagedResponse, IPayload, WorkflowInstance } from "@/models/Admin/IPayload";
-import { createAxiosInstance, ErrorMessageMap, isResultOk } from "@/utils/axios-helpers";
+import { createAxiosInstance, ErrorMessageMap, provideDefaultResult } from "@/utils/axios-helpers";
 import { AxiosResponse } from "axios";
 
 const errorMessages: ErrorMessageMap = {
@@ -54,13 +54,13 @@ export async function getPayloads(query: QueryParams): Promise<IPagedResponse<IP
     };
 
     const response = await http.get<IPagedResponse<IPayload>>(`/payloads?${params}`);
-    return isResultOk(response) ? response.data : defaultData;
+    return provideDefaultResult(response, defaultData);
 }
 
 export async function getPayloadExecutions(payload_id: string): Promise<WorkflowInstance[]> {
     const response = await http.get(`/payloads/${payload_id}/executions`);
 
-    return response.data;
+    return provideDefaultResult(response, []);
 }
 
 export async function getPayloadExecutionArtifacts(
@@ -71,7 +71,7 @@ export async function getPayloadExecutionArtifacts(
         `/executions/${workflow_instance_id}/tasks/${execution_id}/artifacts`,
     );
 
-    return response.data;
+    return provideDefaultResult(response, {});
 }
 
 export async function getPayloadExecutionMetadata(

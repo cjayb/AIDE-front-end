@@ -20,7 +20,12 @@ import {
     UserListItem,
     UserRoleListItem,
 } from "@/models/user-management/UserManagement";
-import { createAxiosInstance, ErrorMessageMap, isResultOk } from "@/utils/axios-helpers";
+import {
+    createAxiosInstance,
+    ErrorMessageMap,
+    isResultOk,
+    provideDefaultResult,
+} from "@/utils/axios-helpers";
 import { AxiosError, AxiosResponse } from "axios";
 
 const errorMessagesUsers: ErrorMessageMap = {
@@ -50,12 +55,9 @@ interface QueryParams {
 
 export async function getAllUsers(query: QueryParams): Promise<GetAllUsersResponse> {
     const params = new URLSearchParams({
-        search: query.search?.replaceAll(" ", "%") ?? "",
+        search: query.search ?? "",
         role: query.role ?? "",
-        first:
-            query.page === 1 || query.search
-                ? "0"
-                : `${query.page * query.itemsPerPage - query.itemsPerPage}`,
+        first: query.page === 1 ? "0" : `${query.page * query.itemsPerPage - query.itemsPerPage}`,
         max: `${query.itemsPerPage}`,
     });
 
@@ -63,7 +65,7 @@ export async function getAllUsers(query: QueryParams): Promise<GetAllUsersRespon
 
     const defaultData = { totalUserCount: 0, totalFilteredUserCount: 0, users: [] };
 
-    return isResultOk(response) ? response.data : defaultData;
+    return provideDefaultResult(response, defaultData);
 }
 
 export async function updateUserDetails(
@@ -96,12 +98,12 @@ export async function deleteUser(userId: string): Promise<boolean> {
 
 export async function getAllRoles(): Promise<UserRoleListItem[]> {
     const response = await httpRoles.get<UserRoleListItem[]>("/roles/list");
-    return isResultOk(response) ? response.data : [];
+    return provideDefaultResult(response, []);
 }
 
 export async function getPaginatedRoles(query: QueryParams): Promise<PaginatedRolesResponse> {
     const params = new URLSearchParams({
-        search: query.search?.replaceAll(" ", "%") ?? "",
+        search: query.search ?? "",
         first: query.page === 1 ? "0" : `${query.page * query.itemsPerPage - query.itemsPerPage}`,
         max: `${query.itemsPerPage}`,
     });
@@ -109,10 +111,12 @@ export async function getPaginatedRoles(query: QueryParams): Promise<PaginatedRo
     const defaultData = { totalRolesCount: 0, totalFilteredRolesCount: 0, roles: [] };
 
     const response = await httpRoles.get<PaginatedRolesResponse>(`/roles?${params}`);
-    return isResultOk(response) ? response.data : defaultData;
+    return provideDefaultResult(response, defaultData);
 }
 
-export async function createRole(role: UserRoleListItem): Promise<AxiosResponse | AxiosError> {
+export async function createRole(
+    role: Pick<UserRoleListItem, "name">,
+): Promise<AxiosResponse | AxiosError> {
     return httpRoles.post("/roles", role).catch((error) => {
         if (error) {
             return error;
