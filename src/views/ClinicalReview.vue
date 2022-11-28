@@ -24,10 +24,11 @@
             @task-rejected="rejectTask"
         />
         <v-row class="clinical-review">
-            <v-col class="task-list">
+            <v-col class="task-list" v-show="!tasksLoading && taskCount > 0">
                 <clinical-review-task-list
                     @task-selected="taskSelected"
                     @tasks-count-updated="taskCountUpdated"
+                    @tasks-loading-changed="tasksLoadingChanged"
                 >
                     <template v-slot="{ throttledFetchTasks }">
                         <v-dialog :value="actionModal" persistent max-width="500px">
@@ -52,6 +53,14 @@
                     :task-execution-id="currentTaskExecutionId"
                     @study-selected="studySelected"
                 />
+
+                <div
+                    v-if="!currentTaskExecutionId && !tasksLoading && taskCount === 0"
+                    class="no-tasks-left"
+                >
+                    <v-icon x-large color="success">mdi-checkbox-marked-circle-outline</v-icon>
+                    <p class="mt-2">There are no application outputs left to review</p>
+                </div>
             </v-col>
         </v-row>
     </v-container>
@@ -75,6 +84,7 @@ type ClinicalReviewData = {
     currentTaskExecutionId?: string;
     currentTaskClinicalReviewMessage?: ClinicalReviewTaskDetails;
     taskCount: number;
+    tasksLoading: boolean;
     actionModal: boolean;
     reject: boolean;
     studyDate?: string;
@@ -96,6 +106,7 @@ export default defineComponent({
             currentTaskClinicalReviewMessage: undefined,
             studyDate: "",
             taskCount: 0,
+            tasksLoading: true,
             actionModal: false,
             reject: false,
         };
@@ -111,6 +122,9 @@ export default defineComponent({
         studySelected(study: ClinicalReviewStudyDetails) {
             this.studyDate = study.study_date;
         },
+        tasksLoadingChanged(loading: boolean) {
+            this.tasksLoading = loading;
+        },
         acceptTask() {
             this.actionModal = true;
             this.reject = false;
@@ -120,50 +134,26 @@ export default defineComponent({
             this.reject = true;
         },
         async performAction(
-            data: { reason: string | undefined; description: string },
+            data: { reason: string | undefined; description: string; acceptance: boolean },
             fetchTasks: () => void,
         ) {
-            let executionId = "";
-            if (typeof this.currentTaskExecutionId === "string") {
-                executionId = this.currentTaskExecutionId;
+            if (!this.currentTaskExecutionId) {
+                return;
             }
 
-            const accepted = data.reason === "";
-            if (accepted) {
-                const responseOk = await updateClinicalReview(
-                    executionId,
-                    true,
-                    "",
-                    data.description,
+            const responseOk = await updateClinicalReview(
+                this.currentTaskExecutionId,
+                data.acceptance,
+                data.description,
+                data.acceptance ? undefined : data.reason,
+            );
+
+            if (responseOk) {
+                Vue.$toast.success(
+                    `Clinical Review has been ${!data.acceptance ? "rejected" : "accepted"}`,
                 );
-
-                if (responseOk) {
-                    Vue.$toast.success("Clinical Review has been accepted");
-                    this.actionModal = false;
-                    fetchTasks();
-                } else {
-                    Vue.$toast.warning("Something unexpected went wrong. Please try again.");
-                }
-            } else {
-                let reason = "";
-                if (typeof data.reason === "string") {
-                    reason = data.reason;
-                }
-
-                const responseOk = await updateClinicalReview(
-                    executionId,
-                    false,
-                    reason,
-                    data.description,
-                );
-
-                if (responseOk) {
-                    Vue.$toast.error("Clinical Review has been rejected");
-                    this.actionModal = false;
-                    fetchTasks();
-                } else {
-                    Vue.$toast.warning("Something unexpected went wrong. Please try again.");
-                }
+                this.actionModal = false;
+                fetchTasks();
             }
         },
     },
@@ -209,5 +199,13 @@ export default defineComponent({
         flex: initial;
         display: flex;
     }
+}
+
+.no-tasks-left {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
 }
 </style>

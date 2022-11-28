@@ -29,6 +29,7 @@ import {
 
 const clinicalReviewErrorMessages: ErrorMessageMap = {
     get: "Something unexpected went wrong retrieving clinical review tasks",
+    put: "Something unexpected went wrong saving your review",
 };
 
 const http = createAxiosInstance(clinicalReviewErrorMessages);
@@ -76,8 +77,8 @@ export async function getClinicalReviewTasks(
 export async function updateClinicalReview(
     execution_uid: string,
     acceptance: boolean,
-    reason: string,
     message: string,
+    reason?: string,
 ) {
     const response = await http.put(`/clinical-review/${execution_uid}`, {
         acceptance: acceptance,
