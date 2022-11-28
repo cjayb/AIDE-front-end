@@ -1,63 +1,29 @@
 <template>
     <v-app>
         <!-- Sidebar -->
-        <v-navigation-drawer v-model="drawer" app>
-            <v-list-item>
-                <v-list-item-content>
-                    <v-list-item-title class="text-h6"> Application</v-list-item-title>
-                    <v-list-item-subtitle> Name or Logo </v-list-item-subtitle>
-                </v-list-item-content>
-            </v-list-item>
-
-            <v-divider></v-divider>
-
-            <v-list dense nav>
-                <v-list-item v-for="item in items" :key="item.title" link>
-                    <v-list-item-icon>
-                        <v-icon>{{ item.icon }}</v-icon>
-                    </v-list-item-icon>
-
-                    <v-list-item-content>
-                        <v-list-item-title>{{ item.title }}</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-            </v-list>
-        </v-navigation-drawer>
+        <AppSidebar />
 
         <!-- TopBar -->
-        <v-app-bar app>
-            <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-
-            <v-toolbar-title>Page Title</v-toolbar-title>
-
-            <v-spacer></v-spacer>
-
-            <v-btn icon>
-                <v-icon>mdi-magnify</v-icon>
-            </v-btn>
-
-            <v-btn icon>
-                <v-icon>mdi-account-circle</v-icon>
-            </v-btn>
-
-            <v-btn icon>
-                <v-icon>mdi-dots-vertical</v-icon>
-            </v-btn>
-        </v-app-bar>
+        <AppHeader />
 
         <!-- Main Content -->
         <v-main>
-            <router-view />
+            <transition name="fade" mode="out-in">
+                <router-view />
+            </transition>
         </v-main>
+        <JSONViewerDialog />
     </v-app>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import AppHeader from "./components/AppHeader.vue";
+import AppSidebar from "./components/AppSidebar.vue";
+import JSONViewerDialog from "./components/Shared/JSONViewerDialog.vue";
 
 export default Vue.extend({
     name: "App",
-
     data: () => ({
         drawer: null,
         items: [
@@ -66,5 +32,146 @@ export default Vue.extend({
             { title: "Menu Item 3", icon: "mdi-help-box" },
         ],
     }),
+    components: {
+        AppHeader,
+        AppSidebar,
+        JSONViewerDialog,
+    },
 });
 </script>
+
+<style>
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:100,300,400,500,700,900");
+
+html {
+    overflow: auto;
+    min-width: 1000px;
+}
+
+.v-application {
+    font-family: "Open Sans", sans-serif !important;
+}
+
+#app {
+    background: #fefbff;
+}
+
+.v-data-table {
+    border: solid 1px #e0e0e0;
+}
+
+.v-data-table-header {
+    background: #fafafa;
+    text-transform: uppercase !important;
+}
+
+.primary-button {
+    text-transform: unset !important;
+    letter-spacing: normal;
+    background: #61366e !important;
+    border-radius: 6px !important;
+    color: #ffffff !important;
+}
+
+.secondary-button {
+    text-transform: unset !important;
+    letter-spacing: normal;
+    background: #f7f3f9 !important;
+    border-radius: 6px !important;
+    color: #482852 !important;
+    font-weight: bold;
+}
+
+.alert-button {
+    text-transform: unset !important;
+    letter-spacing: normal;
+    background: #e81c0d !important;
+    border-radius: 6px !important;
+    color: #ffffff !important;
+    font-weight: bold;
+}
+
+.outlined-button {
+    text-transform: unset !important;
+    letter-spacing: normal;
+    background: #ffffff !important;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px !important;
+    color: #424242 !important;
+    font-weight: bold;
+}
+
+.section-title {
+    font-family: "Bai Jamjuree", sans-serif !important;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 32px;
+}
+
+h1 {
+    font-family: "Bai Jamjuree", sans-serif !important;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 36px;
+    color: #000;
+}
+
+h2 {
+    font-family: "Open Sans", sans-serif !important;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    color: #000;
+}
+
+.required::after {
+    content: " *";
+    color: #b51c1c;
+}
+
+.no-uppercase {
+    text-transform: unset !important;
+    letter-spacing: normal;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+.v-toast__item.v-toast__item--error {
+    background-color: #a10000;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #61366e;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #5f2e6e;
+}
+
+.v-data-table-header th {
+    white-space: nowrap;
+}
+</style>

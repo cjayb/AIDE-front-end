@@ -1,0 +1,20 @@
+{
+    "totalUserCount": 1,
+    "totalFilteredUserCount": 1,
+    "users": [
+        {
+            "id": "1",
+            "firstName": "Susan",
+            "lastName": "Susanson",
+            "email": "susan.susanson@answerdigital.com",
+            "realmRoles": [
+                {
+                    "id": "0",
+                    "name": "Admin",
+                    "editable": false
+                }
+            ],
+            "enabled": true
+        }
+    ]
+}

@@ -1,0 +1,68 @@
+replicaCount: 3
+
+image:
+  repository: 847264867502.dkr.ecr.eu-west-2.amazonaws.com/aide-frontend
+  pullPolicy: IfNotPresent
+  tag: latest
+
+imagePullSecrets:
+ - name: regcred
+
+enviromentVariables:
+  RABBITMQ_HOST: host.docker.internal
+  RABBITMQ_API_URL: http://host.docker.internal:15672/api/
+  RABBITMQ_PORT: 5672
+  STORAGE_DIR: /aide/data
+  INPUT_MOUNT: /aide/data
+  ELASTIC_HOST: https://opensearch.shared.svc.cluster.local:9200  
+  ELASTIC_INDEX: model_config
+  WORKER_CLASS: uvicorn.workers.UvicornH11Worker
+  PACS_HOST: internal-pacs.aide.svc.cluster.local
+  PACS_PORT: 4242
+  EXTERNAL_PACS_PORT: 4242
+  EXTERNAL_PACS_HOST: external-pacs-port-4242.aide.svc.cluster.local
+  EXTERNAL_PACS_AE_TITLE: ORTHANC
+  KEYCLOAK_URL: https://dev-aide.answerdigital.io:8443/auth
+  KEYCLOAK_URL_BACKEND: https://keycloak.aide.svc.cluster.local:8443/auth
+  FRONTEND_API_HOST: http://dev-aide.answerdigital.io:5000
+  WADO_URI_ROOT: https://dev-aide.answerdigital.io:8045/dicom-web
+  QIDO_ROOT: https://dev-aide.answerdigital.io:8045/dicom-web
+  WADO_ROOT: https://dev-aide.answerdigital.io:8045/dicom-web
+  CLINICAL_REVIEW_URL: http://clinical-review-port-5000.aide.svc.cluster.local:5000
+  ORTHANC_API_URL: https://dev-aide.answerdigital.io:8045
+  VUE_APP_AUTH_ENABLED: true
+
+
+enviromentVariablesFromSecrets:
+  secrets:
+    - name: RABBITMQ_USERNAME
+      secretName: rabbit-secret-master
+      secretKey: username
+    - name: RABBITMQ_PASSWORD
+      secretName: rabbit-secret-master
+      secretKey: password   
+      
+ingress:
+  host: sit-aide.answerdigital.io
+  tlsSecretName: certificatesecret
+
+service:
+  type: ClusterIP
+  port: 80  
+ 
+volumes:
+  - name: aide-storage
+    claimName: aide-frontend-pvc  
+        
+volumeMounts:
+  - name: aide-storage
+    mountPath: /aide/data
+    
+storage:
+  globalStorageClassName: global-sc    
+  globalDataDirectory: /efs_data/aide/
+  storageClassName: aide-sc
+  storageClaimName: aide-frontend-pvc
+  dataDirectory: /efs_data/aide/data/
+  dataVolumeLabel: aide-frontend
+  dataStorageCapacityRequest: 10Gi

@@ -1,0 +1,16 @@
+{
+  "totalRolesCount": 2,
+  "totalFilteredRolesCount": 2,
+  "roles": [
+    {
+        "id": "12345",
+        "name": "admin",
+        "editable": false
+    },
+    {
+        "id": "12346",
+        "name": "clinician",
+        "editable": true
+    }
+]
+}

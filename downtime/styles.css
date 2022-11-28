@@ -1,0 +1,57 @@
+body {
+    margin: 0;
+}
+
+.header {
+    display: flex;
+    padding: 1% 1% 0% 1%;
+    justify-items: flex-start;
+    align-items: center;
+}
+
+.logo {
+    padding: 0 1%;
+}
+
+.downtime-content {
+    margin: auto;
+    margin-top: 10%;
+    width: 40%;
+    text-align: center;
+}
+
+.downtime-text {
+    margin: 3rem 0;
+}
+
+.downtime-content:nth-child(3) {
+    color: #61366e;
+}
+
+#sand-timer-icon {
+    margin: auto 1%;
+}
+
+p {
+    font-size: 18px;
+    font-weight: bolder;
+    font-family: "Open Sans", sans-serif !important;
+}
+
+h1 {
+    font-family: "Bai Jamjuree", sans-serif !important;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 36px;
+    color: #424242;
+}
+
+#downtime-estimation {
+    display: flex;
+    justify-content: center;
+    background: #61366e;
+    color: #ffffff;
+    width: 70%;
+    margin: auto;
+    font-weight: normal;
+}

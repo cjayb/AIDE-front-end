@@ -1,0 +1,11 @@
+{
+    "totalRolesCount": 13,
+    "totalFilteredRolesCount": 1,
+    "roles": [
+        {
+            "id": "0",
+            "name": "Clinician",
+            "editable": false
+        }
+    ]
+}

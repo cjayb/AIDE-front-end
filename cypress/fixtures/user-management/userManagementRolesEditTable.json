@@ -1,0 +1,11 @@
+{
+    "totalRolesCount": 6,
+    "totalFilteredRolesCount": 6,
+    "roles": [
+        {
+            "id": "15",
+            "name": "Edited role",
+            "editable": true
+        }
+    ]
+}

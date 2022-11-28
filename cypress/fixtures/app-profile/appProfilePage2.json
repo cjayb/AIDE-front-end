@@ -1,0 +1,227 @@
+{
+    "application_id": "06e5e7fc-f1b6-4a09-8c8a-32d6bee02fdd",
+    "name": "3D Foetal Brain MRI - Page 2",
+    "createdAt": "2022-03-17T14:18:33.316Z",
+    "updatedAt": "2022-03-17T14:18:33.316Z",
+    "versions": [
+        {
+            "id": "5ae54fb1-24cc-46e5-a90e-bb65bdbb65c7",
+            "application_id": "6fc9ae13-1673-4e00-b67f-bb890290ddb9",
+            "version_string": "1.0",
+            "createdAt": "2022-02-17T14:18:33.493Z",
+            "updatedAt": "2022-02-17T14:18:33.493Z",
+            "version_details": [
+                {
+                    "id": "21200c88-47e5-4dc2-a94f-9e6f4e9fd383",
+                    "version_id": "5ae54fb1-24cc-46e5-a90e-bb65bdbb65c6",
+                    "long_desc": "This app uses computer vision algorithms and deep learning to perform automated 3D reconstruction of foetal brain MRI data. Image registration and super resolution methods are used to convert multiple stacks of 2D MRI slices into a fully motion-corrected 3D MRI volume. Two deep learning tasks are performed using 3D UNet neural networks, which negates the need for manual intervention by the radiographer or clinician. The first 3D UNet performs automatic segmentation of the foetal brain. The second 3D UNet performs automatic reorientation of the foetal brain into a standard radiographic orientation appropriate for clinical reporting.",
+                    "short_desc": "This is version 1",
+                    "intended_use": "Brain imaging in foetuses aged 23-34 weeks gestational age. This app converts 2-dimensional MR images of the foetal brain into fully motion-corrected 3-dimensional images. The app is compatible with standard T2-weighted sequences available on any 1.5T or 3T MRI scanner.",
+                    "collaborators": ["test@gmail.com", "test2@gmail.com", "test3@gmail.com", "test4@gmail.com"],
+                    "certification_details": "This app is intended for research use. The methods have been developed for more than 10 years and used as part of clinical pathways at St Thomas' Hospital for more than 5 years.",
+                    "developer_details": "This application was developed by the Perinatal Imaging & Health (PIH) department at King's College London. PIH is a leading perinatal research group based at St Thomas' Hospital in London (UK). The group is highly interdisciplinary comprising researchers, clinicians, radiographers and midwives. The algorithms implemented in this work are based on the open-source slice-to-volume registration reconstruction toolkit (SVRTK): https://svrtk.github.io/",
+                    "developer_name": "Perinatal Imaging & Health, KCL",
+                    "ce_certified": true,
+                    "fda_certified": true,
+                    "ukca_certified": true,
+                    "min_gpu_memory": 1,
+                    "min_cpu_cores": 1,
+                    "min_disk_space": 250,
+                    "min_ram": 100,
+                    "status": "Live",
+                    "public": true,
+                    "createdAt": "2022-03-17T14:18:33.502Z",
+                    "updatedAt": "2022-03-17T14:18:33.502Z",
+                    "application_version_files": [],
+                    "medical_specialities": [
+                        {
+                            "id": "e7224343-3cac-466b-b015-e69c3e79b0de",
+                            "name": "Foetal"
+                        },
+                        {
+                            "id": "e7224343-3cac-466b-b015-e69c3e79b0df",
+                            "name": "Geriatric"
+                        },
+                        {
+                            "id": "e7224343-3cac-466b-b015-e69c3e79b0dg",
+                            "name": "Surgery"
+                        },
+                        {
+                            "id": "e7224343-3cac-466b-b015-e69c3e79b0dh",
+                            "name": "Cancer"
+                        },
+                        {
+                            "id": "e7224343-3cac-466b-b015-e69c3e79b0di",
+                            "name": "Other"
+                        }
+                    ],
+                    "input_types": [
+                        {
+                            "id": "c8a55e0d-72a0-46ef-b280-8f05b6758723",
+                            "name": "pdf"
+                        },
+                        {
+                            "id": "c8a55e0d-72a0-46ef-b280-8f05b6758724",
+                            "name": "DICOM"
+                        },
+                        {
+                            "id": "c8a55e0d-72a0-46ef-b280-8f05b6758725",
+                            "name": "Excel"
+                        }
+                    ],
+                    "output_types": [
+                        {
+                            "id": "221c645f-dfa8-4014-a757-53ab00f15890",
+                            "name": "dicom"
+                        },
+                        {
+                            "id": "221c645f-dfa8-4014-a757-53ab00f15890",
+                            "name": "Word document"
+                        },
+                        {
+                            "id": "221c645f-dfa8-4014-a757-53ab00f15890",
+                            "name": "JPEG"
+                        },
+                        {
+                            "id": "221c645f-dfa8-4014-a757-53ab00f15890",
+                            "name": "TIFF"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "77b55852-ed79-4b95-9986-666be993fefd",
+            "application_id": "6fc9ae13-1673-4e00-b67f-bb890290ddb9",
+            "version_string": "2.0",
+            "createdAt": "2022-03-17T14:18:33.493Z",
+            "updatedAt": "2022-03-17T14:18:33.493Z",
+            "version_details": [
+                {
+                    "id": "b3761c3b-430e-4a49-9366-d2f22644f7d7",
+                    "version_id": "77b55852-ed79-4b95-9986-666be993fefd",
+                    "long_desc": "Very short long desc",
+                    "short_desc": "This is version 2",
+                    "intended_use": "Brain imaging in foetuses aged 23-34 weeks gestational age. This app converts 2-dimensional MR images of the foetal brain into fully motion-corrected 3-dimensional images. The app is compatible with standard T2-weighted sequences available on any 1.5T or 3T MRI scanner.",
+                    "collaborators": ["test@gmail.com", "test2@gmail.com"],
+                    "certification_details": "This app is intended for research use. The methods have been developed for more than 10 years and used as part of clinical pathways at St Thomas' Hospital for more than 5 years.",
+                    "developer_details": "This application was developed by the Perinatal Imaging & Health (PIH) department at King's College London. PIH is a leading perinatal research group based at St Thomas' Hospital in London (UK). The group is highly interdisciplinary comprising researchers, clinicians, radiographers and midwives. The algorithms implemented in this work are based on the open-source slice-to-volume registration reconstruction toolkit (SVRTK): https://svrtk.github.io/",
+                    "developer_name": "Perinatal Imaging & Health, KCL",
+                    "ce_certified": true,
+                    "fda_certified": true,
+                    "ukca_certified": true,
+                    "min_gpu_memory": 12,
+                    "min_cpu_cores": 8,
+                    "min_disk_space": 25,
+                    "min_ram": 1,
+                    "status": "Live",
+                    "public": true,
+                    "createdAt": "2022-03-17T14:18:33.514Z",
+                    "updatedAt": "2022-03-17T14:18:33.514Z",
+                    "application_version_files": [
+                        {
+                            "id": "513f4816-bcdb-48ac-be14-62a6c8e7a924",
+                            "version_deta": "b3761c3b-430e-4a49-9366-d2f22644f7d7",
+                            "label": "hero_image",
+                            "url": "https://via.placeholder.com/5000x300",
+                            "createdAt": "2022-03-17T14:18:33.545Z",
+                            "updatedAt": "2022-03-17T14:18:33.545Z"
+                        }
+                    ],
+                    "medical_specialities": [],
+                    "input_types": [],
+                    "output_types": []
+                }
+            ]
+        },
+        {
+            "id": "77b55852-ed79-4b95-9986-666be993fefd",
+            "application_id": "6fc9ae13-1673-4e00-b67f-bb890290ddb9",
+            "version_string": "3.0",
+            "createdAt": "2022-03-17T14:18:33.493Z",
+            "updatedAt": "2022-03-17T14:18:33.493Z",
+            "version_details": [
+                {
+                    "id": "b3761c3b-430e-4a49-9366-d2f22644f7d7",
+                    "version_id": "77b55852-ed79-4b95-9986-666be993fefd",
+                    "long_desc": "Very short long desc",
+                    "short_desc": "This is version 3",
+                    "intended_use": "Brain imaging in foetuses aged 23-34 weeks gestational age. This app converts 2-dimensional MR images of the foetal brain into fully motion-corrected 3-dimensional images. The app is compatible with standard T2-weighted sequences available on any 1.5T or 3T MRI scanner.",
+                    "collaborators": ["test@gmail.com", "test2@gmail.com"],
+                    "certification_details": "This app is intended for research use. The methods have been developed for more than 10 years and used as part of clinical pathways at St Thomas' Hospital for more than 5 years.",
+                    "developer_details": "This application was developed by the Perinatal Imaging & Health (PIH) department at King's College London. PIH is a leading perinatal research group based at St Thomas' Hospital in London (UK). The group is highly interdisciplinary comprising researchers, clinicians, radiographers and midwives. The algorithms implemented in this work are based on the open-source slice-to-volume registration reconstruction toolkit (SVRTK): https://svrtk.github.io/",
+                    "developer_name": "Perinatal Imaging & Health, KCL",
+                    "ce_certified": true,
+                    "fda_certified": true,
+                    "ukca_certified": true,
+                    "min_gpu_memory": 12,
+                    "min_cpu_cores": 8,
+                    "min_disk_space": 25,
+                    "min_ram": 1,
+                    "status": "Live",
+                    "public": true,
+                    "createdAt": "2022-03-17T14:18:33.514Z",
+                    "updatedAt": "2022-03-17T14:18:33.514Z",
+                    "application_version_files": [
+                        {
+                            "id": "513f4816-bcdb-48ac-be14-62a6c8e7a924",
+                            "version_deta": "b3761c3b-430e-4a49-9366-d2f22644f7d7",
+                            "label": "hero_image",
+                            "url": "https://via.placeholder.com/5000x300",
+                            "createdAt": "2022-03-17T14:18:33.545Z",
+                            "updatedAt": "2022-03-17T14:18:33.545Z"
+                        }
+                    ],
+                    "medical_specialities": [],
+                    "input_types": [],
+                    "output_types": []
+                }
+            ]
+        },
+        {
+            "id": "77b55852-ed79-4b95-9986-666be993fefd",
+            "application_id": "6fc9ae13-1673-4e00-b67f-bb890290ddb9",
+            "version_string": "4.0",
+            "createdAt": "2022-03-17T14:18:33.493Z",
+            "updatedAt": "2022-03-17T14:18:33.493Z",
+            "version_details": [
+                {
+                    "id": "b3761c3b-430e-4a49-9366-d2f22644f7d7",
+                    "version_id": "77b55852-ed79-4b95-9986-666be993fefd",
+                    "long_desc": "Very short long desc",
+                    "short_desc": "This is version 4",
+                    "intended_use": "Brain imaging in foetuses aged 23-34 weeks gestational age. This app converts 2-dimensional MR images of the foetal brain into fully motion-corrected 3-dimensional images. The app is compatible with standard T2-weighted sequences available on any 1.5T or 3T MRI scanner.",
+                    "collaborators": ["test@gmail.com", "test2@gmail.com"],
+                    "certification_details": "This app is intended for research use. The methods have been developed for more than 10 years and used as part of clinical pathways at St Thomas' Hospital for more than 5 years.",
+                    "developer_details": "This application was developed by the Perinatal Imaging & Health (PIH) department at King's College London. PIH is a leading perinatal research group based at St Thomas' Hospital in London (UK). The group is highly interdisciplinary comprising researchers, clinicians, radiographers and midwives. The algorithms implemented in this work are based on the open-source slice-to-volume registration reconstruction toolkit (SVRTK): https://svrtk.github.io/",
+                    "developer_name": "Perinatal Imaging & Health, KCL",
+                    "ce_certified": true,
+                    "fda_certified": true,
+                    "ukca_certified": true,
+                    "min_gpu_memory": 12,
+                    "min_cpu_cores": 8,
+                    "min_disk_space": 25,
+                    "min_ram": 1,
+                    "status": "Live",
+                    "public": true,
+                    "createdAt": "2022-03-17T14:18:33.514Z",
+                    "updatedAt": "2022-03-17T14:18:33.514Z",
+                    "application_version_files": [
+                        {
+                            "id": "513f4816-bcdb-48ac-be14-62a6c8e7a924",
+                            "version_deta": "b3761c3b-430e-4a49-9366-d2f22644f7d7",
+                            "label": "hero_image",
+                            "url": "https://via.placeholder.com/5000x300",
+                            "createdAt": "2022-03-17T14:18:33.545Z",
+                            "updatedAt": "2022-03-17T14:18:33.545Z"
+                        }
+                    ],
+                    "medical_specialities": [],
+                    "input_types": [],
+                    "output_types": []
+                }
+            ]
+        }
+    ]
+}
+

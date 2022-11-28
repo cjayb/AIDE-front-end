@@ -1,0 +1,71 @@
+{
+    "totalRolesCount": 22,
+    "totalFilteredRolesCount": 15,
+    "roles": [
+        {
+            "id": "0",
+            "name": "Admin",
+            "editable": false
+        },
+        {
+            "id": "1",
+            "name": "Clinician",
+            "editable": false
+        },
+        {
+            "id": "2",
+            "name": "User-Manager",
+            "editable": false
+        },
+        {
+            "id": "3",
+            "name": "Editable role 1",
+            "editable": true
+        },
+        {
+            "id": "4",
+            "name": "Editable role 2",
+            "editable": true
+        },
+        {
+            "id": "5",
+            "name": "Editable role 3",
+            "editable": true
+        },
+        {
+            "id": "5",
+            "name": "Editable role 4",
+            "editable": true
+        },
+        {
+            "id": "5",
+            "name": "Editable role 5",
+            "editable": false
+        },
+        {
+            "id": "5",
+            "name": "Editable role 6",
+            "editable": true
+        },
+        {
+            "id": "5",
+            "name": "Editable role 7",
+            "editable": true
+        },
+        {
+            "id": "5",
+            "name": "Editable role 8",
+            "editable": true
+        },
+        {
+            "id": "5",
+            "name": "Editable role 9",
+            "editable": true
+        },
+        {
+            "id": "5",
+            "name": "Editable role 10",
+            "editable": true
+        }
+    ]
+}

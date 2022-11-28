@@ -1,0 +1,8 @@
+{
+    "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+    "title": "Bad Request",
+    "status": 400,
+    "detail": "Failed to validate workflow: 'router_1kjgdksgdkasgdkhasgdkhasgdhasgdjhs' is not a valid Workflow Name (source: Workflow)., Found Task(s) without any task destinations to it: export-task-mr, Task: argo-task-mr has task destination: export-task that could not be found., ERROR: Task destination export-task not found.",
+    "instance": "/workflows",
+    "traceId": "00-3c5c7d68ff25c5e7b566f5c712a53fc1-ec86670feb4627bf-00"
+}
