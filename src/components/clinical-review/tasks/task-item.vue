@@ -116,7 +116,7 @@ export default defineComponent({
         execution_id: { type: String },
         patient: { type: Object as PropType<PatientMetadata> },
         application: { type: Object as PropType<ApplicationMetadata> },
-        received: { type: String },
+        received: { type: Date },
     },
 });
 </script>

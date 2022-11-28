@@ -14,7 +14,8 @@
  *  limitations under the License.
  */
 
-import { IPagedResponse, IPayload, WorkflowInstance } from "@/models/Admin/IPayload";
+import { IPayload, WorkflowInstance } from "@/models/Admin/IPayload";
+import { IPagedResponse } from "@/models/common/IPagedResponse";
 import { createAxiosInstance, ErrorMessageMap, provideDefaultResult } from "@/utils/axios-helpers";
 import { AxiosResponse } from "axios";
 

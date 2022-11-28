@@ -88,13 +88,13 @@ import { defineComponent } from "vue";
 import { debounce } from "underscore";
 import TaskItem from "./task-item.vue";
 import { getClinicalReviewTasks } from "@/api/ClinicalReview/ClinicalReviewService";
-import { ClinicalReviewTask } from "@/models/ClinicalReview/ClinicalReviewTask";
+import { IClincalReviewTaskListData } from "@/models/ClinicalReview/ClinicalReviewTask";
 
 export default defineComponent({
     components: {
         TaskItem,
     },
-    data() {
+    data(): IClincalReviewTaskListData {
         return {
             search: "",
             loading: false,
@@ -102,7 +102,7 @@ export default defineComponent({
             currentPage: 1,
             totalPages: 1,
             searchParameter: "patientId",
-            tasks: [] as ClinicalReviewTask[],
+            tasks: [],
         };
     },
     emits: ["task-selected", "tasks-count-updated"],

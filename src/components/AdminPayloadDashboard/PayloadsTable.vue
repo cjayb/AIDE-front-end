@@ -111,12 +111,13 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { getPayloads } from "@/api/Admin/payloads/PayloadService";
-import { IPagedResponse, IPayload } from "@/models/Admin/IPayload";
+import { IPayload } from "@/models/Admin/IPayload";
 import ExecutionTree from "@/components/AdminPayloadDashboard/ExecutionTree.vue";
 import { formatDateAndTimeOfArray } from "@/utils/date-utilities";
 import { DataOptions } from "vuetify";
 import { Watch } from "vue-property-decorator";
 import { throttle } from "underscore";
+import { IPagedResponse } from "@/models/common/IPagedResponse";
 
 @Component({
     components: {

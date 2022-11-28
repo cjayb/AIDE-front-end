@@ -66,8 +66,8 @@ import { updateClinicalReview } from "../api/ClinicalReview/ClinicalReviewServic
 import PatientHeader from "@/components/clinical-review/patient-header.vue";
 import AcceptRejectDialog from "@/components/clinical-review/accept-reject-dialog.vue";
 import {
-    ClinicalReviewTask,
-    ClinicalReviewTaskDetail,
+    ClinicalReviewRecord,
+    ClinicalReviewStudyDetails,
     ClinicalReviewTaskDetails,
 } from "@/models/ClinicalReview/ClinicalReviewTask";
 
@@ -101,14 +101,14 @@ export default defineComponent({
         };
     },
     methods: {
-        taskSelected(execution_id: string, task: ClinicalReviewTask) {
+        taskSelected(execution_id: string, task: ClinicalReviewRecord) {
             this.currentTaskExecutionId = execution_id;
             this.currentTaskClinicalReviewMessage = task.clinical_review_message;
         },
         taskCountUpdated(count: number) {
             this.taskCount = count;
         },
-        studySelected(study: ClinicalReviewTaskDetail) {
+        studySelected(study: ClinicalReviewStudyDetails) {
             this.studyDate = study.study_date;
         },
         acceptTask() {

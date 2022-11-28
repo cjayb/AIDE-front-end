@@ -15,9 +15,11 @@
  */
 
 import {
-    ClinicalReviewTaskDetail,
+    ClinicalReviewRecord,
+    ClinicalReviewStudyDetails,
     PagedClinicalReviewList,
 } from "@/models/ClinicalReview/ClinicalReviewTask";
+import { getDefaultPagedResponse } from "@/models/common/IPagedResponse";
 import {
     createAxiosInstance,
     ErrorMessageMap,
@@ -39,8 +41,8 @@ interface CRTaskQueryParams {
     applicationName?: string;
 }
 
-export async function getStudy(taskExecutionId: string): Promise<ClinicalReviewTaskDetail> {
-    const response = await http.get<ClinicalReviewTaskDetail>(
+export async function getStudy(taskExecutionId: string): Promise<ClinicalReviewStudyDetails> {
+    const response = await http.get<ClinicalReviewStudyDetails>(
         `/clinical-review/${taskExecutionId}`,
     );
 
@@ -67,15 +69,8 @@ export async function getClinicalReviewTasks(
     });
 
     const response = await http.get<PagedClinicalReviewList>(`/clinical-review?${params}`);
-
-    return provideDefaultResult(response, {
-        pageNumber: 0,
-        pageSize: 0,
-        totalPages: 0,
-        totalRecords: 0,
-        data: [],
-        succeeded: false,
-    });
+    const defaultResponse = getDefaultPagedResponse<ClinicalReviewRecord>();
+    return provideDefaultResult(response, defaultResponse);
 }
 
 export async function updateClinicalReview(

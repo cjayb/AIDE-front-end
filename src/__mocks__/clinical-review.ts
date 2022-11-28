@@ -27,7 +27,7 @@ const clinicalReviewTasks: PagedClinicalReviewList = {
     totalRecords: 1,
     data: [
         {
-            _id: "678",
+            execution_id: "678",
             clinical_review_message: {
                 task_id: "",
                 reviewed_task_id: "cde",
@@ -50,11 +50,12 @@ const clinicalReviewTasks: PagedClinicalReviewList = {
                     application_mode: "CU",
                 },
             },
-            reviewed: false,
+            reviewed: "false",
+            ready: "false",
             received: new Date(),
         },
         {
-            _id: "678",
+            execution_id: "678",
             clinical_review_message: {
                 task_id: "",
                 reviewed_task_id: "cde",
@@ -77,13 +78,15 @@ const clinicalReviewTasks: PagedClinicalReviewList = {
                     application_mode: "CU",
                 },
             },
-            reviewed: false,
+            reviewed: "false",
+            ready: "false",
             received: new Date(),
         },
     ],
-    succeeded: true,
-    errors: null,
-    message: null,
+    firstPage: "",
+    lastPage: "",
+    nextPage: "",
+    previousPage: "",
 };
 
 export const clinicalReviewHandlers = [
