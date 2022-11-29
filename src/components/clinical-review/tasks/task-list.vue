@@ -88,24 +88,24 @@ import { defineComponent } from "vue";
 import { debounce } from "underscore";
 import TaskItem from "./task-item.vue";
 import { getClinicalReviewTasks } from "@/api/ClinicalReview/ClinicalReviewService";
-import { ClinicalReviewTask } from "@/models/ClinicalReview/ClinicalReviewTask";
+import { IClincalReviewTaskListData } from "@/models/ClinicalReview/ClinicalReviewTask";
 
 export default defineComponent({
     components: {
         TaskItem,
     },
-    data() {
+    data(): IClincalReviewTaskListData {
         return {
             search: "",
-            loading: false,
+            loading: true,
             currentTask: "",
             currentPage: 1,
             totalPages: 1,
             searchParameter: "patientId",
-            tasks: [] as ClinicalReviewTask[],
+            tasks: [],
         };
     },
-    emits: ["task-selected", "tasks-count-updated"],
+    emits: ["task-selected", "tasks-count-updated", "tasks-loading-changed"],
     watch: {
         search() {
             this.throttledFetchTasks();
@@ -123,6 +123,9 @@ export default defineComponent({
                 this.currentTask,
                 this.tasks.find((t) => t.clinical_review_message.execution_id === this.currentTask),
             );
+        },
+        loading() {
+            this.$emit("tasks-loading-changed", this.loading);
         },
     },
     methods: {

@@ -37,7 +37,10 @@ declare global {
 }
 
 Cypress.Commands.add("mount", (component, options) => {
-    return mount(component, { vuetify, ...options });
+    return mount(component, {
+        vuetify,
+        ...options,
+    });
 });
 
 Cypress.Commands.add("dataCy", Commands.dataCy);

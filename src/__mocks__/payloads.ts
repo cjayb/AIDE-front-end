@@ -14,7 +14,8 @@
  *  limitations under the License.
  */
 
-import { IPagedResponse, IPayload, WorkflowInstance } from "@/models/Admin/IPayload";
+import { IPayload, WorkflowInstance } from "@/models/Admin/IPayload";
+import { IPagedResponse } from "@/models/common/IPagedResponse";
 import { rest } from "msw";
 
 const payloads: IPagedResponse<IPayload> = {

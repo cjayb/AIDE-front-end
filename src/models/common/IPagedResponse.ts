@@ -14,22 +14,29 @@
  *  limitations under the License.
  */
 
-import {
-    ClinicalReviewSeries,
-    ClinicalReviewStudyDetails,
-} from "../../../src/models/ClinicalReview/ClinicalReviewTask";
-import ApiMocks from "../../fixtures/mockIndex";
+export interface IPagedResponse<T> {
+    pageNumber: number;
+    pageSize: number;
+    firstPage: string;
+    lastPage: string;
+    totalPages: number;
+    totalRecords: number;
+    nextPage: string;
+    previousPage: string;
+    data: T[];
+}
 
-export class StudyData implements ClinicalReviewStudyDetails {
-    study_date?: string;
-    study: ClinicalReviewSeries[];
-
-    constructor(studyData: ClinicalReviewStudyDetails) {
-        this.study_date = studyData.study_date;
-        this.study = studyData.study;
-    }
-
-    public static STUDY_DATA_2: StudyData = new StudyData(
-        <ClinicalReviewStudyDetails>ApiMocks.CLINICAL_REVIEW_EXECUTION_2,
-    );
+export function getDefaultPagedResponse<T>(): IPagedResponse<T> {
+    const data: T[] = [];
+    return {
+        pageNumber: 0,
+        pageSize: 0,
+        totalPages: 0,
+        totalRecords: 0,
+        data,
+        firstPage: "",
+        lastPage: "",
+        nextPage: "",
+        previousPage: "",
+    };
 }

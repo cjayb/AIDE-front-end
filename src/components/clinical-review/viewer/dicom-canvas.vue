@@ -108,7 +108,9 @@ export default defineComponent({
     watch: {
         imageIds: {
             handler() {
-                this.loadImages();
+                this.loadImages().then(() => {
+                    this.resetView();
+                });
             },
             deep: true,
         },

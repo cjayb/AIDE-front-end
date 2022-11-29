@@ -102,17 +102,10 @@ export default class AppHeader extends Vue {
                 break;
 
             case "ClinicalReview":
-                this.pageTitle = "Model outputs for clinical review";
-                break;
-
-            case "ClinicalReviewViewer":
-                this.pageTitle = "Model outputs for clinical review";
+                this.pageTitle = "Application outputs for clinical review";
                 break;
 
             case "ApplicationRepositoryList":
-                this.pageTitle = "Application Repository";
-                break;
-
             case "ApplicationRepositoryDetail":
                 this.pageTitle = "Application Repository";
                 break;
