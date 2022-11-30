@@ -41,8 +41,10 @@
             {{ studyDate | formatDateTime }}
         </v-col>
         <v-col data-cy="task-actions" class="task-actions">
-            <v-btn data-cy="accept-task" color="primary" @click="acceptTask">Accept</v-btn>
-            <v-btn data-cy="reject-task" @click="rejectTask">Reject</v-btn>
+            <v-btn data-cy="accept-task" color="primary" :disabled="!studyDate" @click="acceptTask">
+                Accept
+            </v-btn>
+            <v-btn data-cy="reject-task" :disabled="!studyDate" @click="rejectTask">Reject</v-btn>
         </v-col>
     </v-row>
 </template>
@@ -75,7 +77,10 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .patient-header {
+    color: #000;
+
     > div {
+        background-color: #fff;
         border-right: 1px solid rgba(0, 0, 0, 0.12);
 
         &:last-of-type {
@@ -102,7 +107,6 @@ export default defineComponent({
 }
 
 .header-label {
-    color: #424242;
     font-weight: bold;
     display: block;
 }

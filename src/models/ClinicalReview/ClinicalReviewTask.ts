@@ -16,24 +16,22 @@
 
 import { IPagedResponse } from "../common/IPagedResponse";
 
-export interface IClincalReviewTaskListData {
-    search: string;
-    loading: boolean;
-    currentTask: string;
-    currentPage: number;
-    totalPages: number;
-    searchParameter: string;
-    tasks: ClinicalReviewRecord[];
-}
-
 export type PagedClinicalReviewList = IPagedResponse<ClinicalReviewRecord>;
 
 export interface ClinicalReviewRecord {
     execution_id: string;
-    clinical_review_message: ClinicalReviewTaskDetails | never;
-    ready: string;
-    reviewed: string;
-    received: Date;
+    clinical_review_message: ClinicalReviewTaskDetails;
+    ready: boolean;
+
+    /**
+     * ISO Date Time of when the task was reviewed.
+     */
+    reviewed?: string;
+
+    /**
+     * ISO Date Time of when the task was received.
+     */
+    received: string;
 }
 
 export interface ClinicalReviewTaskDetails {

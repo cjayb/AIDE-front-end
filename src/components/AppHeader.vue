@@ -19,6 +19,7 @@
         <div class="ml-6 mr-5" data-cy="logo">
             <router-link :to="{ name: getDefaultDestinationForUser() }">
                 <v-img class="mx-auto" src="@/assets/NHSlogo.svg" height="33px" width="83px" />
+                <span class="d-sr-only">Home</span>
             </router-link>
         </div>
 
@@ -27,6 +28,7 @@
         <div class="mx-3" data-cy="logo">
             <router-link to="/">
                 <v-img class="mx-auto" src="@/assets/AIClogo.svg" height="64px" width="65px" />
+                <span class="d-sr-only">Home</span>
             </router-link>
         </div>
 

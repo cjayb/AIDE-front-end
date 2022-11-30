@@ -23,6 +23,7 @@
             onmousedown="return false"
             class="dicom-canvas"
             ref="dicomCanvas"
+            data-cy="dicom-canvas"
         />
 
         <slot
@@ -54,6 +55,8 @@
         >
             <v-progress-circular size="100" color="primary" indeterminate />
         </v-overlay>
+
+        <div data-cy="dicom-viewer-no-image" class="no-images" v-if="imageIds.length === 0"></div>
     </div>
 </template>
 
@@ -87,6 +90,8 @@ type ComponentData = {
     showMetadata: boolean;
     showSeries: boolean;
 };
+
+const viewportId = "dicom-viewport";
 
 export default defineComponent({
     data(): ComponentData {
@@ -176,16 +181,13 @@ export default defineComponent({
 
             this.tools = ToolGroupManager.createToolGroup("dicom-tools");
             this.renderer = new RenderingEngine("dicom-canvas");
-            this.renderer.enableElement({
-                viewportId: "dicom-viewport",
-                element: this.$refs.dicomCanvas as HTMLDivElement,
-                type: Enums.ViewportType.STACK,
-            });
 
-            this.viewport = this.renderer.getViewport("dicom-viewport") as IStackViewport;
+            this.enableViewport();
+
+            this.viewport = this.renderer.getViewport(viewportId) as IStackViewport;
 
             this.configureCornerstoneTools();
-            this.tools?.addViewport("dicom-viewport", "dicom-canvas");
+            this.tools?.addViewport(viewportId, "dicom-canvas");
             await this.loadImages();
         },
         configureCornerstoneTools() {
@@ -252,6 +254,10 @@ export default defineComponent({
             });
         },
         resetView() {
+            if (!this.imageIds.length) {
+                return;
+            }
+
             this.viewport?.resetCamera(true, true);
             this.viewport?.resetProperties();
             this.viewport?.render();
@@ -259,9 +265,12 @@ export default defineComponent({
         },
         async loadImages() {
             if (!this.imageIds.length) {
+                await this.renderer?.disableElement(viewportId);
                 this.loading = false;
                 return;
             }
+
+            this.enableViewport();
 
             this.loading = true;
             await this.viewport?.setStack(this.imageIds, 0);
@@ -278,12 +287,19 @@ export default defineComponent({
         toggleSeriesPanel() {
             this.showSeries = !this.showSeries;
         },
+        enableViewport() {
+            this.renderer?.enableElement({
+                viewportId: viewportId,
+                element: this.$refs.dicomCanvas as HTMLDivElement,
+                type: Enums.ViewportType.STACK,
+            });
+        },
     },
     mounted() {
         this.configureCornerstone();
     },
     beforeDestroy() {
-        this.renderer?.disableElement("dicom-viewport");
+        this.renderer?.disableElement(viewportId);
         this.renderer?.destroy();
         ToolGroupManager.destroy();
 
@@ -300,5 +316,19 @@ export default defineComponent({
     height: 100%;
     position: relative;
     overflow: hidden;
+}
+
+.no-images,
+.dicom-canvas-wrapper {
+    background-color: #000;
+}
+
+.no-images {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    z-index: 1;
 }
 </style>

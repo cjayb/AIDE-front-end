@@ -22,7 +22,7 @@
         </v-card-title>
         <v-divider />
         <div class="px-6 pt-3">
-            <v-alert dense type="info" data-cy="action-signing"
+            <v-alert dense type="info" color="blue darken-3" data-cy="action-signing"
                 >This action will be signed by you</v-alert
             >
 
@@ -170,5 +170,11 @@ export default defineComponent({
 
 .v-input--checkbox.error--text ::v-deep .v-messages {
     margin-left: 32px;
+}
+
+::v-deep .v-alert.info {
+    .v-alert__content {
+        font-weight: 500;
+    }
 }
 </style>

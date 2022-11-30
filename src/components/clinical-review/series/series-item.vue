@@ -15,7 +15,13 @@
   -->
 
 <template>
-    <v-list-item :value="series.series_uid" class="mb-2" data-cy="series-item" @click="selectItem">
+    <v-list-item
+        :value="series.series_uid"
+        class="mb-2"
+        data-cy="series-item"
+        @click="selectItem"
+        role="listitem"
+    >
         <v-list-item-content>
             <v-list-item-title data-cy="series-title" style="margin-bottom: 5px">
                 {{ series.modality }} ({{ series.files.length }})

@@ -27,7 +27,7 @@
         data-cy="series-list"
     >
         <v-list>
-            <v-list-item-group v-model="activeSeries" mandatory>
+            <v-list-item-group v-model="activeSeries" mandatory role="group">
                 <series-item
                     v-for="item of study"
                     :key="item.series_uid"
