@@ -192,12 +192,12 @@ export default class Workflows extends Vue {
         });
     }
 
-    navigateToWorkflowEditor(workflow_id: string, orignal_workflow_name: string) {
+    navigateToWorkflowEditor(workflow_id: string, original_workflow_name: string) {
         this.$router.push({
             name: "WorkflowEditor",
             params: {
                 workflow_id,
-                orignal_workflow_name,
+                original_workflow_name,
             },
         });
     }
