@@ -206,7 +206,7 @@ export default class Workflows extends AbstractPage {
     public returnEditError() {
         cy.intercept("PUT", `/workflows/12345-abcde`, {
             statusCode: 400,
-            body: ApiMocks.WORKFLOW_ERRORS,
+            body: { original_workflow_name: "somebody", workflow: ApiMocks.WORKFLOW_ERRORS },
         }).as("error");
         this.clickDataCy("workflow-edit-confirm-continue");
         cy.wait(["@error"]);
