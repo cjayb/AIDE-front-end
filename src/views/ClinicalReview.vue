@@ -59,7 +59,9 @@
                     class="no-tasks-left"
                 >
                     <v-icon x-large color="success">mdi-checkbox-marked-circle-outline</v-icon>
-                    <p class="mt-2">There are no application outputs left to review</p>
+                    <p class="mt-2" data-cy="no-tasks-message">
+                        There are no application outputs left to review
+                    </p>
                 </div>
             </v-col>
         </v-row>
@@ -110,6 +112,14 @@ export default defineComponent({
             actionModal: false,
             reject: false,
         };
+    },
+    mounted() {
+        const html = document.querySelector("html");
+        html!.style.overflow = "hidden";
+    },
+    beforeDestroy() {
+        const html = document.querySelector("html");
+        html!.style.overflow = "";
     },
     methods: {
         taskSelected(execution_id: string, task: ClinicalReviewRecord) {
@@ -181,7 +191,7 @@ export default defineComponent({
 }
 
 .patient-header {
-    background-color: #fbfbfb;
+    background-color: #fff;
     height: 80px;
 }
 

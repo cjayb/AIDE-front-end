@@ -43,7 +43,18 @@ describe("Clinical review page", () => {
         reviewPage.assertPatientDetails();
     });
 
-    it("Page refresh occurs without errors", () => {
-        reviewPage.assertPageRefresh();
+    it("Can accept and reject a task", () => {
+        reviewPage.assertAcceptRejectTask();
+    });
+    [400, 404, 500].forEach((error_code) => {
+        it(`Toast displayed on both accepting or rejecting a task if ${error_code} status is returned`, () => {
+            reviewPage.assertToastIfErrorOnReview(error_code);
+        });
+    });
+});
+
+describe("Clinical review page - No tasks", () => {
+    it("When there are no tasks to review, a message informing me of this is displayed", () => {
+        reviewPage.assertNoTasksMessage();
     });
 });

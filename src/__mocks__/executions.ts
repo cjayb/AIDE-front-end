@@ -15,14 +15,10 @@
  */
 
 import { rest } from "msw";
-import * as executionsListMock from "../../cypress/fixtures/clinical-review/allExecutionsForReview.json";
 import dicomFile from "!url-loader!./fixtures/report-dicom.dcm";
 import reportFile from "!url-loader!./fixtures/report-pdf.pdf";
 
 export const executionsHandlers = [
-    rest.get(`${window.FRONTEND_API_HOST}/pipeline/:correlation_id`, (_req, res, ctx) => {
-        return res(ctx.json(executionsListMock));
-    }),
     rest.get(
         `${window.FRONTEND_API_HOST}/executions/:workflowInstanceId/tasks/:executionId/artifacts`,
         (_req, res, ctx) => {

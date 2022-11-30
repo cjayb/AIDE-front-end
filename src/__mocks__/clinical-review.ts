@@ -45,9 +45,8 @@ const tasks = [
                 application_mode: "CU",
             },
         },
-        reviewed: "false",
-        ready: "false",
-        received: new Date(),
+        ready: true,
+        received: "2022-11-12T11:11:00",
     },
     {
         execution_id: "678",
@@ -73,9 +72,35 @@ const tasks = [
                 application_mode: "CU",
             },
         },
-        reviewed: "false",
-        ready: "false",
-        received: new Date(),
+        ready: true,
+        received: "2022-11-12T11:11:00",
+    },
+    {
+        execution_id: "679",
+        clinical_review_message: {
+            task_id: "",
+            reviewed_task_id: "cde",
+            execution_id: "679",
+            reviewed_execution_id: "abc",
+            correlation_id: "123",
+            workflow_name: "bobwf",
+            patient_metadata: {
+                patient_name: "Will E Rror",
+                patient_id: "1299-123-232-3555",
+                patient_sex: "M",
+                patient_dob: "2000-01-10T00:00:00",
+                patient_age: "23",
+            },
+            files: [],
+            reviewer_roles: ["admin", "clinician"],
+            application_metadata: {
+                application_name: "Application 1",
+                application_version: "1.1",
+                application_mode: "CU",
+            },
+        },
+        ready: true,
+        received: "2022-11-12T11:11:00",
     },
 ];
 
@@ -125,6 +150,10 @@ export const clinicalReviewHandlers = [
     }),
     rest.get(`${window.FRONTEND_API_HOST}/clinical-review/:taskExecutionId`, (req, res, ctx) => {
         const executionId = req.params.taskExecutionId as string;
+
+        if (executionId === "679") {
+            return res(ctx.status(400));
+        }
 
         const study = {
             study_date: "2021-11-11T10:00:00",

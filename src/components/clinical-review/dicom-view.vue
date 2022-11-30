@@ -124,6 +124,11 @@ export default defineComponent({
     },
     methods: {
         async getTaskDetails(taskExecutionId: string) {
+            this.study = [];
+            this.imageSlices = [];
+            this.currentSeries = undefined;
+            this.$emit("study-selected", { study_date: "" });
+
             const study = await getStudy(taskExecutionId);
 
             this.study = study.study;

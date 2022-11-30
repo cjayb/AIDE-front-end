@@ -37,6 +37,7 @@
                         <template v-slot:activator="{ on, attrs }">
                             <v-btn v-bind="attrs" v-on="on">
                                 <v-icon>{{ tool.icon }}</v-icon>
+                                <span class="d-sr-only">{{ tool.title }}</span>
                             </v-btn>
                         </template>
                         <span>{{ tool.title }}</span>
