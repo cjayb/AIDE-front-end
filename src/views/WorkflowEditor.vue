@@ -145,11 +145,12 @@ export default class WorkflowEditor extends Vue {
     workflowSpecUrl = process.env.VUE_APP_WORKFLOW_SPEC_URL;
 
     async mounted() {
-        const { workflow_id, workflow_name } = this.$route.params as Dictionary<string>;
+        const { workflow_id } = this.$route.params as Dictionary<string>;
+        const { original_workflow_name } = this.$route.query as Dictionary<string>;
 
-        if (workflow_id && workflow_name) {
+        if (workflow_id && original_workflow_name) {
             this.loading = true;
-            this.workflow = await getWorkflow(workflow_name);
+            this.workflow = await getWorkflow(workflow_id);
             this.loading = false;
         }
     }
@@ -170,7 +171,8 @@ export default class WorkflowEditor extends Vue {
     }
 
     async saveWorkflowChanges() {
-        const { workflow_id, original_workflow_name } = this.$route.params as Dictionary<string>;
+        const { workflow_id } = this.$route.params as Dictionary<string>;
+        const { original_workflow_name } = this.$route.query as Dictionary<string>;
 
         const workflowObject = { workflow: this.workflowToSave };
 

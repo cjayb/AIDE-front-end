@@ -197,6 +197,8 @@ export default class Workflows extends Vue {
             name: "WorkflowEditor",
             params: {
                 workflow_id,
+            },
+            query: {
                 original_workflow_name,
             },
         });
