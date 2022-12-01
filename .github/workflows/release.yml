@@ -96,6 +96,6 @@ jobs:
           OCTOPUS_SPACE: ${{ secrets.OCTOPUS_SPACE }}
         with:
           project: 'AIDE Frontend'
-          git_ref: 'master'
+          git_ref: 'main'
           release_number: "${{ env.BRANCH_NAME }}"
           package_version: "${{ env.BRANCH_NAME }}"
