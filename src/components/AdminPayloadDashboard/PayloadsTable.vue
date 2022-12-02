@@ -59,8 +59,9 @@
                         :options.sync="tableOptions"
                         show-expand
                         expand-icon="mdi-menu-down"
-                        single-expand
                         @item-expanded="onExpand"
+                        single-expand
+                        :expanded.sync="expanded"
                         item-key="payload_id"
                         class="elevation-1"
                         data-cy="payload"
@@ -94,7 +95,11 @@
                         </template>
                         <template v-slot:[`expanded-item`]="{ item }">
                             <td :colspan="5">
-                                <ExecutionTree :key="renderKey" :payload-id="item.payload_id" />
+                                <ExecutionTree
+                                    :key="renderKey"
+                                    :payload-id="item.payload_id"
+                                    :selectedExecutionId="selectedExecutionID"
+                                />
                             </td>
                         </template>
                     </v-data-table>
@@ -134,6 +139,9 @@ export default class PayloadsTable extends Vue {
         page: 1,
         itemsPerPage: 10,
     } as DataOptions;
+    selectedPayloadID = "";
+    selectedExecutionID = "";
+    expanded: unknown[] = [];
 
     headers = [
         { text: "Patient Name", value: "patient_name", sortable: false },
@@ -145,6 +153,11 @@ export default class PayloadsTable extends Vue {
 
     onExpand() {
         this.renderKey++;
+    }
+
+    mounted() {
+        this.selectedPayloadID = this.$route.query.payload_id as string;
+        this.selectedExecutionID = this.$route.query.execution_id as string;
     }
 
     private throttledGetPaginatedPayloads = throttle(() => {
@@ -175,6 +188,15 @@ export default class PayloadsTable extends Vue {
             ...this.tableOptions,
         });
         formatDateAndTimeOfArray(this.paginatedPayloads.data, "payload_received");
+
+        if (this.selectedPayloadID) {
+            this.paginatedPayloads.data.map((payload: IPayload) => {
+                if (payload.payload_id === this.selectedPayloadID) {
+                    return (this.expanded = [payload]);
+                }
+                return;
+            });
+        }
     }
 }
 </script>

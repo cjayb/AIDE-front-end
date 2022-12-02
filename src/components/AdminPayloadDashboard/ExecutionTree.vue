@@ -20,7 +20,7 @@
             <div style="width: 75%">
                 <vue-tree
                     ref="tree"
-                    style="width: 100%; height: 380px"
+                    style="width: 100%; height: 400px"
                     :dataset="payloadExecutions"
                     :config="treeConfig"
                     direction="horizontal"
@@ -43,7 +43,7 @@
                                         : `node-${node.name}`
                                 "
                             >
-                                <span class="tree-node-title mt-5">
+                                <span class="tree-node-title mt-3">
                                     <span
                                         :data-cy="`node-name-${node.workflow_name}`"
                                         v-if="node.id === 'workflow-instance'"
@@ -101,6 +101,7 @@ import { formatDateAndTimeOfString } from "@/utils/date-utilities";
 import ModelDetailsSection from "./ModelDetailsSection.vue";
 import { Prop } from "vue-property-decorator";
 import { mapToExecutionTree } from "@/utils/workflow-instance-mapper";
+import { TaskExecution, WorkflowInstance } from "@/models/Admin/IPayload";
 
 Vue.component("vue-tree", VueTree);
 
@@ -117,20 +118,36 @@ export default class ExecutionTree extends Vue {
     @Prop({ required: true })
     payloadId!: string;
 
+    @Prop()
+    selectedExecutionId?: string;
+
     loading = false;
     selectedNode: any = null;
     payloadExecutions: object = {};
-    treeConfig = { nodeWidth: 100, nodeHeight: 70, levelHeight: 200 };
+    workflowInstances: WorkflowInstance[] = [];
+    treeConfig = { nodeWidth: 115, nodeHeight: 70, levelHeight: 200 };
 
-    mounted() {
-        this.getPayloadExecutionsForTree();
+    async mounted() {
+        await this.getPayloadExecutionsForTree();
+
+        if (this.selectedExecutionId) {
+            this.workflowInstances.map((workflowInstance: WorkflowInstance, index) => {
+                this.workflowInstances[index].tasks.map((task: TaskExecution) => {
+                    if (task.execution_id === this.selectedExecutionId) {
+                        this.selectedNode = task;
+                        this.selectedNode.id = task.execution_id;
+                    }
+                    return;
+                });
+            });
+        }
     }
 
     async getPayloadExecutionsForTree(): Promise<void> {
         this.loading = true;
 
-        const workflowInstances = await getPayloadExecutions(this.payloadId);
-        this.payloadExecutions = mapToExecutionTree(workflowInstances);
+        this.workflowInstances = await getPayloadExecutions(this.payloadId);
+        this.payloadExecutions = mapToExecutionTree(this.workflowInstances);
 
         this.loading = false;
     }
