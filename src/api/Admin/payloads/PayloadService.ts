@@ -88,5 +88,7 @@ export async function getPayloadExecutionMetadata(
 export async function getPayloadExecutionOutput(
     objectKey: string,
 ): Promise<AxiosResponse<ArrayBuffer>> {
-    return await http.get<ArrayBuffer>(`/executions/artifact-download?key=${objectKey}`);
+    return await http.get<ArrayBuffer>(`/executions/artifact-download?key=${objectKey}`, {
+        responseType: "arraybuffer",
+    });
 }
