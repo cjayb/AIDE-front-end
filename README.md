@@ -101,6 +101,12 @@ To verify any changes you make haven't affected existing functionality, you can 
 # Run your unit tests
 $ npm run test:unit
 
+# Run your end-to-end tests in headless mode
+$ tests:ui_ci
+
+# Run your end-to-end tests in a browser
+$ tests:ui_browser
+
 # Lints and fixes files
 $ npm run lint
 ```
