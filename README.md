@@ -99,13 +99,13 @@ To verify any changes you make haven't affected existing functionality, you can 
 
 ```bash
 # Run your unit tests
-$ npm run test:unit
+$ npm run tests:unit
 
 # Run your end-to-end tests in headless mode
-$ tests:ui_ci
+$ npm run tests:ui_ci
 
 # Run your end-to-end tests in a browser
-$ tests:ui_browser
+$ npm run tests:ui_browser
 
 # Lints and fixes files
 $ npm run lint
