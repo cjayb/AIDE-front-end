@@ -189,6 +189,8 @@ export default class ModelDetailsSection extends Vue {
         link.setAttribute("download", file);
         document.body.appendChild(link);
         link.click();
+
+        setTimeout(() => URL.revokeObjectURL(url));
     }
 
     private createFilename(fileName: string, contentType?: string): string {
@@ -200,7 +202,7 @@ export default class ModelDetailsSection extends Vue {
         let ext = hasExt as string;
 
         if (!hasExt) {
-            const map: Record<string, string> = { "application/dicom": "dcm" };
+            const map: Record<string, string> = { "application/zip": "zip" };
 
             ext = map[contentType];
         }
